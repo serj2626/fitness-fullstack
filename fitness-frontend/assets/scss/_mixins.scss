@@ -1,0 +1,51 @@
+@use './_vars.scss' as *;
+
+@mixin mediaMobile() {
+  @media screen and (min-width: $mobile) {
+    @content;
+  }
+}
+
+@mixin mediaTablet() {
+  @media screen and (min-width: $tablet) {
+    @content;
+  }
+}
+@mixin mediaLaptop() {
+  @media screen and (min-width: $laptop) {
+    @content;
+  }
+}
+@mixin mediaDesktop() {
+  @media screen and (min-width: $desktop) {
+    @content;
+  }
+}
+
+// @mixin mediaDesktopWide() {
+//   @media screen and (min-width: $desctop_wide) {
+//     @content;
+//   }
+// }
+
+@mixin mediaCustom($width) {
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin txt_property($size: 16, $weight: 400, $height: 1.42857, $color: $txt) {
+  font-size: #{$size}px;
+  font-weight: $weight;
+  line-height: $height;
+  color: $color;
+}
+
+
+@mixin text_overflow($count) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $count;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

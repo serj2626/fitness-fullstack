@@ -1,0 +1,35 @@
+from rest_framework import serializers
+from .models import GymReviews, Service
+
+
+class GymReviewsSerializer(serializers.ModelSerializer):
+    time_age = serializers.SerializerMethodField()
+
+    class Meta:
+        model = GymReviews
+        fields = ("name", "email", "rating", "text", "verified", "time_age")
+
+    def get_time_age(self, obj):
+        return obj.time_age
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    alt = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Service
+        fields = (
+            "id",
+            "alt",
+            "type",
+            "slug",
+            "avatar",
+        )
+
+    def get_alt(self, obj):
+        return str(obj.get_type_display())
+
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     representation["avatar"] = instance.avatar.url
+    #     return representation
