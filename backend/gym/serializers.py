@@ -15,6 +15,7 @@ class GymReviewsSerializer(serializers.ModelSerializer):
 
 class ServiceSerializer(serializers.ModelSerializer):
     alt = serializers.SerializerMethodField()
+    img_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
@@ -24,10 +25,14 @@ class ServiceSerializer(serializers.ModelSerializer):
             "type",
             "slug",
             "avatar",
+            "img_url",
         )
 
     def get_alt(self, obj):
         return str(obj.get_type_display())
+    
+    def get_img_url(self, obj):
+        return str(obj.avatar.url)
 
     # def to_representation(self, instance):
     #     representation = super().to_representation(instance)

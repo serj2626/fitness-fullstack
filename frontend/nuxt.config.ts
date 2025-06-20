@@ -9,37 +9,9 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "nuxt-aos",
     "@pinia/nuxt",
-    "@sidebase/nuxt-auth",
     "nuxt-swiper",
     "vue-yandex-maps/nuxt",
   ],
-  auth: {
-    enableGlobalAppMiddleware: true,
-    strategies: {
-      "django-jwt": {
-        scheme: "refresh",
-        token: {
-          property: "access",
-          maxAge: 1800,
-        },
-        refreshToken: {
-          property: "refresh",
-          maxAge: 86400,
-        },
-        user: {
-          property: false,
-          autoFetch: true,
-        },
-        endpoints: {
-          login: { url: "token/", method: "post" },
-          refresh: { url: "token/refresh/", method: "post" },
-          user: { url: "user/", method: "get" },
-          logout: false, // если логаут не реализован
-        },
-      },
-    },
-  },
-
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,

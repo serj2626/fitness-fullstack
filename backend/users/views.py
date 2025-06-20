@@ -7,7 +7,7 @@ from .serializers import RegisterSerializer, UserDetailSerializer, UserInfoSeria
 from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from drf_spectacular.utils import extend_schema, OpenApiResponse
-
+from rest_framework.permissions import IsAuthenticated
 
 TAG = "Аутентификация и Пользователи"
 
@@ -22,12 +22,15 @@ class UserListView(ListAPIView):
 
 
 class UserDetailView(RetrieveAPIView):
-    queryset = User.objects.all()
     serializer_class = UserDetailSerializer
+    permission_classes = [IsAuthenticated]
 
-    @extend_schema(tags=[TAG], summary="Пользователь")
+    @extend_schema(tags=[TAG], summary="Текущий пользователь")
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
+
+    def get_object(self):
+        return self.request.user
 
 
 class RegisterView(generics.CreateAPIView):

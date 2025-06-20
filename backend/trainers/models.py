@@ -192,7 +192,7 @@ class TrainerReviews(BaseReview):
         Trainer,
         verbose_name="тренер",
         on_delete=models.CASCADE,
-        related_name="trainer_reviews",
+        related_name="reviews",
     )
 
     class Meta:

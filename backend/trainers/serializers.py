@@ -51,17 +51,14 @@ class TrainerImageSerializer(serializers.ModelSerializer):
         model = TrainerImage
         fields = ("id", "image")
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation["avatar"] = instance.image.url
-        return representation
-
 
 class TrainerSerializer(serializers.ModelSerializer):
     images = TrainerImageSerializer(many=True, read_only=True)
     position = serializers.SerializerMethodField()
     rates = TrainerRateSerializer(many=True, read_only=True)
     average_rating = serializers.SerializerMethodField()
+    reviews = TrainerReviewsSerializer(many=True, read_only=True)
+    photo = serializers.SerializerMethodField()
 
     class Meta:
         model = Trainer
@@ -71,4 +68,13 @@ class TrainerSerializer(serializers.ModelSerializer):
         return obj.get_position_display()
 
     def get_average_rating(self, obj):
-        return obj.trainer_reviews.aggregate(avg=Avg("rating"))["avg"] or 0
+        return obj.reviews.aggregate(avg=Avg("rating"))["avg"] or 0
+
+    def get_photo(self, obj):
+        if obj.avatar:
+            return {
+                "url_path": obj.avatar.url,
+                "name_path": obj.avatar.name,
+                "alt": f"Фото тренера {obj.first_name} {obj.last_name}",
+            }
+        return None
