@@ -1,12 +1,37 @@
 from django.contrib import admin
 
 from common.mixins import AdminLimitMixin, AdminShortDescriptionMixin
-from .models import Abonement, OrderAbonement, GymVisit
+from .models import Abonement, OrderAbonement, GymVisit, Discount, AbonementService
+
+
+class AbonementServiceLineAdmin(admin.TabularInline):
+    """
+    Админка для услуг абонемента
+    """
+
+    model = AbonementService
+    extra = 1
+
+
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    """
+    Админка для скидок
+    """
+
+    list_display = (
+        "abonement",
+        "percent",
+        "start_date",
+        "end_date",
+        "is_active",
+    )
 
 
 @admin.register(Abonement)
 class AbonementAdmin(AdminShortDescriptionMixin, AdminLimitMixin, admin.ModelAdmin):
-    """Admin View for Abonement"""
+    """Админка для абонементов"""
+
     singleton_limit = 3
 
     list_display = (
@@ -15,12 +40,15 @@ class AbonementAdmin(AdminShortDescriptionMixin, AdminLimitMixin, admin.ModelAdm
         "price",
         "number_of_months",
         "slug",
+        "is_popular",
     )
+
+    inlines = [AbonementServiceLineAdmin]
 
 
 @admin.register(OrderAbonement)
 class OrderAbonementAdmin(AdminShortDescriptionMixin, admin.ModelAdmin):
-    """Admin View for OrderAbonement"""
+    """Админка для забронированных абонементов"""
 
     list_display = (
         "user",
@@ -34,7 +62,7 @@ class OrderAbonementAdmin(AdminShortDescriptionMixin, admin.ModelAdmin):
 
 @admin.register(GymVisit)
 class GymVisitAdmin(AdminShortDescriptionMixin, admin.ModelAdmin):
-    """Admin View for GymVisit"""
+    """Админка для визитов в фитнес-клуб"""
 
     list_display = (
         "user",

@@ -4,7 +4,7 @@ from datetime import timedelta
 from common.models import BaseID, BaseDate
 from django.utils.text import slugify
 from django.forms import ValidationError
-
+from django.utils import timezone
 from common.types import ABONEMENT_TYPES, SERVICES_TYPE
 
 
@@ -20,12 +20,26 @@ class Abonement(models.Model):
     description = models.TextField("Описание", null=True, blank=True)
     price = models.PositiveSmallIntegerField("Цена", null=True, blank=True)
     number_of_months = models.SmallIntegerField("Количество месяцев")
+    is_popular = models.BooleanField("Популярный", default=False)
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def get_current_discount(self):
+        now = timezone.now()
+        return self.discounts.filter(
+            start_date__lte=now, end_date__gte=now, is_active=True
+        ).first()
+
+    @property
+    def final_price(self):
+        discount = self.get_current_discount()
+        if discount:
+            return self.price * (1 - discount.percent / 100)
+        return self.price
 
     class Meta:
         verbose_name = "Абонемент"
@@ -34,9 +48,13 @@ class Abonement(models.Model):
 
     def __str__(self):
         return f"{self.get_title_display()} - {self.price}₽"
-    
+
 
 class AbonementService(models.Model):
+    """
+    Услуга абонемента
+    """
+    
     title = models.CharField("Название", max_length=100, choices=SERVICES_TYPE)
     abonement = models.ForeignKey(
         Abonement,
@@ -51,6 +69,30 @@ class AbonementService(models.Model):
 
     def __str__(self):
         return f"{self.get_title_display()}"
+
+
+class Discount(models.Model):
+    """
+    Скидка
+    """
+    
+    abonement = models.ForeignKey(
+        Abonement,
+        on_delete=models.CASCADE,
+        related_name="discounts",
+        verbose_name="Абонемент",
+    )
+    percent = models.PositiveSmallIntegerField("Процент скидки")
+    start_date = models.DateTimeField("Начало действия")
+    end_date = models.DateTimeField("Конец действия")
+    is_active = models.BooleanField("Активна", default=True)
+
+    class Meta:
+        verbose_name = "Скидка"
+        verbose_name_plural = "Скидки"
+
+    def __str__(self):
+        return f"Скидка {self.percent}% на {self.abonement.title}"
 
 
 class OrderAbonement(BaseID, BaseDate):

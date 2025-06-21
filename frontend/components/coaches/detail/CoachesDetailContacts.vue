@@ -1,95 +1,164 @@
-<script lang="ts" setup>
-import { SocialIcons } from "~/assets/icons/types/social-icons";
-</script>
+<script setup lang="ts">
+import { SocialIcons } from '~/assets/icons/types/social-icons';</script>
 <template>
-  <div class="coaches-detail-contacts">
-    <ul class="coaches-detail-contacts__list">
-      <li class="coaches-detail-contacts__list-item">
-        <icon
-          class="coaches-detail-contacts__list-item-icon"
-          :name="SocialIcons.USER"
-        /><span class="coaches-detail-contacts__list-item-name"
-          >Анна Иванова</span
-        >
-      </li>
-      <li class="coaches-detail-contacts__list-item">
-        <icon
-          class="coaches-detail-contacts__list-item-icon"
-          :name="SocialIcons.WORK"
-        /><span class="coaches-detail-contacts__list-item-position"
-          >Инструктор тренажерного зала</span
-        >
-      </li>
-      <li class="coaches-detail-contacts__list-item">
-        <icon
-          class="coaches-detail-contacts__list-item-icon"
-          :name="SocialIcons.PHONE"
-        /><span class="coaches-detail-contacts__list-item-phone"
-          >8-800-555-35-35</span
-        >
-      </li>
-      <li class="coaches-detail-contacts__list-item">
-        <icon
-          class="coaches-detail-contacts__list-item-icon"
-          :name="SocialIcons.MAIL"
-        /><span class="coaches-detail-contacts__list-item-mail"
-          >bs-dev@bk.ru</span
-        >
-      </li>
-      <li class="coaches-detail-contacts__list-item" style="gap: 20px;">
-        <icon
-          class="coaches-detail-contacts__list-item-icon"
-          :name="SocialIcons.TELEGRAM"
-        />
-        <icon
-          class="coaches-detail-contacts__list-item-icon"
-          :name="SocialIcons.VK"
-        />
-        <icon
-          class="coaches-detail-contacts__list-item-icon"
-          :name="SocialIcons.WHATSAPP"
-        />
-      </li>
-    </ul>
-    <p class="coaches-detail-contacts__desc">
-      ОБРАЗОВАНИЕ: российский государственный университет физической культуры,
-      спорта, молодежи и туризма; Дополнительное образование: дипломы по
-      нутрициологии и фитнесу международного класса; СПЕЦИАЛИЗАЦИЯ: -
-      Диетология; - Разработка сплит-программ; - Жиросжигание; - Увеличение
-      мышечной массы; - Работа на рельеф; - Тренировка сердечно-сосудистой
-      системы; - Улучшение пропорций тела; - Реабилитация спины; - Составление
-      программ питания; - Подготовка к соревнованиям; СПОРТИВНЫЕ ДОСТИЖЕНИЯ: -
-      обладатель кубков чемпионата Европы по бодибилдингу и фитнесу - член
-      международной федерации бодибилдинга и фитнеса - судья федерации
-      бодибилдинга СПб - Опыт работы более 10 лет ТРЕНЕРСКИЙ СТАЖ: с 2011 года
-    </p>
+  <div class="coach-contacts">
+    <!-- Контактные данные -->
+    <div class="contact-cards">
+      <div class="contact-card">
+        <Icon :name="SocialIcons.USER" class="icon" />
+        <div>
+          <div class="label">Имя</div>
+          <div class="value">Анна Иванова</div>
+        </div>
+      </div>
+      
+      <div class="contact-card">
+        <Icon :name="SocialIcons.WORK" class="icon" />
+        <div>
+          <div class="label">Специализация</div>
+          <div class="value">Инструктор тренажерного зала</div>
+        </div>
+      </div>
+      
+      <div class="contact-card clickable">
+        <Icon :name="SocialIcons.PHONE" class="icon" />
+        <div>
+          <div class="label">Телефон</div>
+          <a href="tel:+78005553535" class="value">8-800-555-35-35</a>
+        </div>
+      </div>
+      
+      <div class="contact-card clickable">
+        <Icon :name="SocialIcons.MAIL" class="icon" />
+        <div>
+          <div class="label">Email</div>
+          <a href="mailto:bs-dev@bk.ru" class="value">bs-dev@bk.ru</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Соцсети -->
+    <div class="social-links">
+      <a href="#" class="social-link">
+        <Icon :name="SocialIcons.TELEGRAM" />
+      </a>
+      <a href="#" class="social-link">
+        <Icon :name="SocialIcons.VK" />
+      </a>
+      <a href="#" class="social-link">
+        <Icon :name="SocialIcons.WHATSAPP" />
+      </a>
+    </div>
+
+    <!-- Описание -->
+    <div class="coach-description">
+      <h3 class="section-title">О тренере</h3>
+      <div class="description-content">
+        <p><strong>Образование:</strong> Российский государственный университет физической культуры, спорта, молодежи и туризма</p>
+        <p><strong>Сертификаты:</strong> Дипломы по нутрициологии и фитнесу международного класса</p>
+        <p><strong>Опыт работы:</strong> Более 10 лет</p>
+      </div>
+    </div>
   </div>
 </template>
-<style scoped lang="scss">
-.coaches-detail-contacts {
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
 
-    &-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 17px;
-      font-weight: 500;
-      color: $white;
-      &-icon {
-        font-size: 22px;
-      }
-    }
+<style scoped lang="scss">
+.coach-contacts {
+  padding: 20px;
+  background: rgba($white, 0.05);
+  border-radius: 12px;
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.contact-card {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 15px;
+  background: rgba($white, 0.03);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &.clickable:hover {
+    background: rgba($accent, 0.1);
+    transform: translateY(-2px);
   }
-  &__desc {
-    padding-block: 20px;
-    line-height: 160%;
-    font-size: 17px;
+
+  .icon {
+    font-size: 24px;
+    color: $accent;
+    flex-shrink: 0;
+  }
+
+  .label {
+    font-size: 14px;
+    color: rgba($white, 0.7);
+    margin-bottom: 4px;
+  }
+
+  .value {
+    font-size: 16px;
     font-weight: 500;
     color: $white;
+  }
+
+  a.value:hover {
+    color: $accent;
+  }
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+
+  .social-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($white, 0.08);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: $accent;
+      color: $txt;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.coach-description {
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: $accent;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba($white, 0.1);
+  }
+
+  .description-content {
+    display: grid;
+    gap: 12px;
+
+    p {
+      line-height: 1.5;
+      color: rgba($white, 0.9);
+    }
+
+    strong {
+      color: $white;
+      font-weight: 500;
+    }
   }
 }
 </style>

@@ -59,6 +59,12 @@ class FooterLink(BaseTitle):
     """
 
     link = models.CharField("Ссылка", max_length=255)
+    footer = models.ForeignKey(
+        Footer,
+        on_delete=models.CASCADE,
+        related_name="links",
+        verbose_name="Футер",
+    )
 
     def __str__(self):
         return f"Ссылка в футере {self.title}"
@@ -77,6 +83,12 @@ class FooterIcon(models.Model):
         "Название", max_length=255, unique=True, choices=SOCIAL_ICON_TYPES
     )
     link = models.CharField("Ссылка", max_length=255)
+    footer = models.ForeignKey(
+        Footer,
+        on_delete=models.CASCADE,
+        related_name="icons",
+        verbose_name="Футер",
+    )
 
     def __str__(self):
         return f"Ссылка в футере {self.title}"

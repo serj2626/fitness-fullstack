@@ -129,7 +129,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-from backend.app.settings.ckeditor5 import *
+from .ckeditor5 import *
 
 
 # Настройки Celery

@@ -17,6 +17,6 @@ export const headerLinks = ref<{ name: string; link: string }[]>([
   },
   {
     name: "Мой профиль",
-    link: "/",
+    link: "/profile",
   },
 ]);

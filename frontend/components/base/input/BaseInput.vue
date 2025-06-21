@@ -65,9 +65,9 @@ const currentType = computed(() => {
       v-maska="maskOptions"
       :class="{ 'base-input__input_error': error }"
       :type="currentType"
+      class="base-input__input"
       @focus="handleFocus"
       @blur="handleBlur"
-      class="base-input__input"
     />
     <span v-if="!inputValue" class="base-input__placeholder">
       {{ placeholder }}</span
@@ -92,9 +92,9 @@ const currentType = computed(() => {
   justify-content: center;
   gap: 5px;
   background-color: #323232;
-  border: 1px solid #323232;
+  border: 1px solid #6e666688;
   border-radius: 10px;
-  transition: outline 1.1s ease-in;
+  transition: outline .6s ease-in;
   padding: 8px 30px;
 
   &_isfocused {
@@ -130,7 +130,7 @@ const currentType = computed(() => {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    background-color: $txt;
+    background-color: $white;
     opacity: 0.7;
     cursor: pointer;
   }

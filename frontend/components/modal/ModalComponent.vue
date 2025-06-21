@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { LazyModalPasswordRecovery } from '#components';
+
 const modalsStore = useModalsStore();
 const { activeModals, isAnyModalOpen } = storeToRefs(modalsStore);
 </script>
@@ -13,16 +15,21 @@ const { activeModals, isAnyModalOpen } = storeToRefs(modalsStore);
       v-if="activeModals.has('orderAbonement')"
       key="orderAbonement"
     />
+    <LazyModalPasswordRecovery
+      v-if="activeModals.has('passwordRecovery')"
+      key="orderAbonement"
+    />
     <LazyBaseFormOrderTraining
       v-if="activeModals.has('orderTraining')"
       key="orderTraining"
     />
-    <LazyBaseFormLogin v-if="activeModals.has('login')" key="login" />
+    <LazyModalLogin v-if="activeModals.has('login')" key="login" />
+    <LazyModalRegister v-if="activeModals.has('register')" key="register" />
     <LazyHeaderCatalogMenu
       v-if="activeModals.has('menu')"
       key="orderAbonement"
     />
-    <LazyCoachesReviewForm
+    <LazyModalCoachReview
       v-if="activeModals.has('reviewCoachForm')"
       key="orderAbonement"
     />
