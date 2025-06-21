@@ -36,7 +36,7 @@ class Service(BaseID):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'Услуга {self.get_type_display()}'
+        return f"Услуга {self.get_type_display()}"
 
 
 class GymReviews(BaseReview):
@@ -51,7 +51,3 @@ class GymReviews(BaseReview):
 
     def __str__(self):
         return f"Отзыв"
-
-    # @property
-    # def time_age(self):
-    #     return timesince(self.created_at)

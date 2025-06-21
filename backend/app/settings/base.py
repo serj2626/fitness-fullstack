@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -129,7 +129,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-from app.ckeditor5 import *
+from backend.app.settings.ckeditor5 import *
 
 
 # Настройки Celery

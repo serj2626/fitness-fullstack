@@ -1,27 +1,22 @@
 from django.db import models
-from common.models import BaseDate
-from common.types import CONTACTS_TYPE
+from common.models import BaseDate, BaseTitle
 
 
-class Contact(models.Model):
-    """
-    Модель контактов
-    """
+SOCIAL_ICON_TYPES = [
+    ("vk", "Вконтакте"),
+    ("tg", "Телеграм"),
+    ("whatsapp", "Ватсап"),
+    ("linkedin", "Linkedin"),
+]
 
-    type = models.CharField(
-        max_length=50,
-        choices=CONTACTS_TYPE,
-        default="phone",
-        verbose_name="Тип",
-    )
-    value = models.TextField(max_length=500, verbose_name="Значение")
-
-    class Meta:
-        verbose_name = "Контакт"
-        verbose_name_plural = "Контакты"
-
-    def __str__(self):
-        return f"Контакт {self.get_type_display()}"
+CONTACTS_TYPE = [
+    ("phone", "Телефон"),
+    ("mail", "Почта"),
+    ("address", "Адрес"),
+    ("mode", "Режим работы"),
+    ("latitude", "Широта"),
+    ("longitude", "Долгота"),
+]
 
 
 class Feedback(BaseDate):
@@ -56,3 +51,57 @@ class Footer(models.Model):
     class Meta:
         verbose_name = "Футер"
         verbose_name_plural = "Футер"
+
+
+class FooterLink(BaseTitle):
+    """
+    Модель ссылок для футера
+    """
+
+    link = models.CharField("Ссылка", max_length=255)
+
+    def __str__(self):
+        return f"Ссылка в футере {self.title}"
+
+    class Meta:
+        verbose_name = "Ссылка в футере"
+        verbose_name_plural = "Ссылки в футере"
+
+
+class FooterIcon(models.Model):
+    """
+    Модель иконок для футера
+    """
+
+    title = models.CharField(
+        "Название", max_length=255, unique=True, choices=SOCIAL_ICON_TYPES
+    )
+    link = models.CharField("Ссылка", max_length=255)
+
+    def __str__(self):
+        return f"Ссылка в футере {self.title}"
+
+    class Meta:
+        verbose_name = "Иконка в футере"
+        verbose_name_plural = "Иконки в футере"
+
+
+class Contact(models.Model):
+    """
+    Модель контактов
+    """
+
+    type = models.CharField(
+        max_length=50,
+        choices=CONTACTS_TYPE,
+        default="phone",
+        verbose_name="Тип",
+    )
+    value = models.TextField(max_length=500, verbose_name="Значение")
+
+    class Meta:
+        verbose_name = "Контакт"
+        verbose_name_plural = "Контакты"
+
+    def __str__(self):
+        return f"Контакт {self.get_type_display()}"

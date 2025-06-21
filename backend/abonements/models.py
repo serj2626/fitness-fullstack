@@ -5,7 +5,7 @@ from common.models import BaseID, BaseDate
 from django.utils.text import slugify
 from django.forms import ValidationError
 
-from common.types import ABONEMENT_TYPES
+from common.types import ABONEMENT_TYPES, SERVICES_TYPE
 
 
 User = get_user_model()
@@ -34,6 +34,23 @@ class Abonement(models.Model):
 
     def __str__(self):
         return f"{self.get_title_display()} - {self.price}₽"
+    
+
+class AbonementService(models.Model):
+    title = models.CharField("Название", max_length=100, choices=SERVICES_TYPE)
+    abonement = models.ForeignKey(
+        Abonement,
+        on_delete=models.CASCADE,
+        related_name="services",
+        verbose_name="Абонемент",
+    )
+
+    class Meta:
+        verbose_name = "Услуга абонемента"
+        verbose_name_plural = "Услуги абонементов"
+
+    def __str__(self):
+        return f"{self.get_title_display()}"
 
 
 class OrderAbonement(BaseID, BaseDate):
