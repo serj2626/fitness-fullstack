@@ -52,6 +52,16 @@ class TrainerImageSerializer(serializers.ModelSerializer):
         fields = ("id", "image")
 
 
+class TrainerListSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для списка тренеров
+    """
+
+    class Meta:
+        model = Trainer
+        fields = "__all__"
+
+
 class TrainerSerializer(serializers.ModelSerializer):
     images = TrainerImageSerializer(many=True, read_only=True)
     position = serializers.SerializerMethodField()

@@ -1,8 +1,20 @@
 from django.contrib import admin
 
 from common.mixins import AdminImagePreviewMixin
-from .models import Trainer, TrainerImage, TrainerReviews, TrainingSession, TrainerRate
+from .models import (
+    Trainer,
+    TrainerImage,
+    TrainerReviews,
+    TrainingSession,
+    TrainerRate,
+    TrainerSocialNetwork,
+)
 from django.utils.html import mark_safe
+
+
+class TrainingSessionInline(admin.TabularInline):
+    model = TrainingSession
+    extra = 1
 
 
 @admin.register(TrainerRate)
@@ -18,9 +30,7 @@ class TrainerRateAdmin(admin.ModelAdmin):
         "price",
         "description",
     )
-    list_display = (
-        "trainer",
-    )
+    list_display = ("trainer",)
 
 
 @admin.register(TrainerReviews)
@@ -47,7 +57,7 @@ class TrainerRateInline(admin.TabularInline):
 class TrainerImageInline(admin.TabularInline):
     model = TrainerImage
     extra = 1
-    fields = ("image",)
+    fields = ("image", "alt")
 
     # def get_image(self, obj):
     #     if obj.image and hasattr(obj.image, "url"):
@@ -65,7 +75,7 @@ class TrainerAdmin(admin.ModelAdmin):
     Админ-панель для модели Trainer
     """
 
-    inlines = [TrainerImageInline, TrainerRateInline]
+    inlines = [TrainerImageInline, TrainerRateInline, TrainingSessionInline]
 
     list_display = (
         "id",
@@ -75,6 +85,13 @@ class TrainerAdmin(admin.ModelAdmin):
         "email",
         "phone",
         "get_avatar",
+    )
+    fields = (
+        ("first_name", "last_name"),
+        ("email", "phone"),
+        ("position", "experience", "avatar"),
+        "keywords",
+        "content",
     )
     list_filter = ("position",)
     list_per_page = 5

@@ -1,7 +1,13 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from common.models import BaseContent, BaseID, BaseDate, BaseReview
-from common.types import POSITIONS_TYPE, SESSION_DURATION_CHOICES, TRAINERS_RATES_TYPE
+from common.types import (
+    POSITIONS_TYPE,
+    SESSION_DURATION_CHOICES,
+    TRAINERS_RATES_TYPE,
+    SOCIAL_NETWORKS_TYPE,
+    SERVICES_TYPE,
+)
 from datetime import timedelta
 from django.utils.timesince import timesince
 from common.upload import compress_image
@@ -25,6 +31,16 @@ class Trainer(BaseID, BaseContent):
     email = models.EmailField("Email", unique=True)
     phone = models.CharField(
         "Телефон", max_length=15, unique=True, validators=[validate_russian_phone]
+    )
+    keywords = models.TextField(
+        "Ключевые слова",
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="Через запятую",
+    )
+    experience = models.PositiveSmallIntegerField(
+        "Опыт работы", null=True, blank=True, default=0
     )
     avatar = models.ImageField(
         "Аватар",
@@ -61,6 +77,9 @@ class TrainerImage(BaseID, BaseDate):
         null=True,
         blank=True,
         validators=[validate_image_extension_and_format],
+    )
+    alt = models.CharField(
+        "Описание", max_length=255, blank=True, null=True, default="Описание"
     )
 
     def save(self, *args, **kwargs):
@@ -106,6 +125,52 @@ class TrainerRate(models.Model):
             f"Индивидуальное занятие на {self.count_minutes} минут - тариф {self.title}"
         )
 
+
+class TrainerSocialNetwork(models.Model):
+    """
+    Социальные сети тренера
+    """
+
+    trainer = models.ForeignKey(
+        Trainer,
+        on_delete=models.CASCADE,
+        related_name="social_networks",
+        verbose_name="тренер",
+    )
+    social_network = models.CharField(
+        "Социальная сеть", max_length=100, choices=SOCIAL_NETWORKS_TYPE
+    )
+    link = models.URLField("Ссылка")
+
+    class Meta:
+        verbose_name = "Социальная сеть тренера"
+        verbose_name_plural = "Социальные сети тренеров"
+        unique_together = ("trainer", "social_network")
+
+    def __str__(self):
+        return f"{self.trainer} - {self.social_network}"
+
+
+# class TrainerService(models.Model):
+#     """
+#     Услуги тренера
+#     """
+
+#     trainer = models.ForeignKey(
+#         Trainer,
+#         on_delete=models.CASCADE,
+#         related_name="services",
+#         verbose_name="тренер",
+#     )
+#     service = models.CharField("Услуга", max_length=100, choices=SERVICES_TYPE)
+
+#     class Meta:
+#         verbose_name = "Услуга тренера"
+#         verbose_name_plural = "Услуги тренеров"
+#         unique_together = ("trainer", "service")
+
+#     def __str__(self):
+#         return f"{self.trainer} - {self.service}"
 
 # class TrainerService(models.Model):
 #     """

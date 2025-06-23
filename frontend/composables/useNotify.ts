@@ -1,5 +1,3 @@
-import { useState } from '#imports'
-
 type NotificationType = 'success' | 'error' | 'warning' | 'info'
 
 interface Notification {

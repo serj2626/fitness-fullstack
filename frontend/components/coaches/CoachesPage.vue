@@ -1,283 +1,15 @@
-<!-- <script lang="ts" setup>
+<script setup lang="ts">
+import { api } from "~/api";
 import { coaches } from "~/assets/data/moke.data";
-</script>
+import type { ICoachesListResponse } from "~/types";
 
-<template>
-  <div class="coaches-page">
-    <div class="container">
-      <div class="coaches-page__search">
-        <p class="coaches-page__search-title">Найти своего тренера</p>
-        <form class="coaches-page__search-form">
-          <div class="coaches-page__search-form-group">
-            <label for="select">Выберите направление</label>
-            <select id="select">
-              <option value="">Все направления</option>
-              <option value="month">Фитнес тренер</option>
-              <option value="quarter">Инструктор по йоге</option>
-              <option value="year">Инструктор по плаванию</option>
-              <option value="year">Тренер по боксу</option>
-            </select>
-          </div>
-          <div class="coaches-page__search-form-actions">
-            <BaseButton
-              class="coaches-page__search-form-actions-submit"
-              size="md"
-              label="Найти"
-            />
-            <BaseButton size="md" label="Сбросить" />
-          </div>
-        </form>
-      </div>
-      <ul class="coaches-page__content-list">
-        <CoachesCard v-for="coach in coaches" :key="coach.id" :coach="coach" />
-      </ul>
-    </div>
-  </div>
-</template>
+const { $api } = useNuxtApp();
 
-<style lang="scss" scoped>
-.coaches-page {
-  padding-block: 100px;
+const { data: coachesData } = await useAsyncData<ICoachesListResponse>(
+  "coaches-list-page-info",
+  () => $api(api.coaches.list)
+);
 
-  &__search {
-    position: static;
-    top: 20px;
-    z-index: 90;
-
-    @include mediaLaptop {
-      position: sticky;
-    }
-
-    padding: 50px;
-    margin-block: 50px 100px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    border-radius: 15px;
-    background-color: $bg;
-    box-shadow: 0 0 10px white;
-
-    &-form {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: $white;
-
-      &-group {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      &-actions {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        &-submit {
-          background-color: $accent;
-          color: $txt;
-        }
-      }
-    }
-    &-title {
-      font-size: 35px;
-      color: $accent;
-      text-transform: uppercase;
-    }
-  }
-
-  &__title {
-    font-size: 50px;
-    color: $accent;
-    text-align: center;
-  }
-
-  &__content {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    gap: 30px; // расстояние между колонками
-    margin-top: 150px;
-
-    &-search {
-      position: sticky;
-      top: 100px;
-      align-self: start;
-      color: $white;
-      &-close {
-        position: relative;
-        margin-top: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        gap: 10px;
-        font-size: 17px;
-        font-weight: 500;
-
-        &::before {
-          content: "";
-          position: absolute;
-          bottom: -5px;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background-color: $white;
-        }
-      }
-      &-list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        & li {
-          padding: 10px 15px;
-          border-radius: 10px;
-          cursor: pointer;
-          background-color: rgb(101, 95, 95);
-          border: none;
-          transition: all 0.3s ease-in;
-
-          &:hover {
-            box-shadow: 0 0 10px #fdfdfd98;
-          }
-        }
-      }
-    }
-
-    &-list {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      @include mediaTablet{
-        grid-template-columns: repeat(2, 1fr);
-      }
-      @include mediaLaptop{
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-  }
-}
-
-.coaches-page__content-search-close:hover::before {
-  transition: all 0.3s ease-in;
-  width: 0;
-}
-</style> -->
-
-<template>
-  <div class="trainers-page">
-    <!-- Шапка -->
-    <section class="hero">
-      <div class="container">
-        <h1>НАШИ ТРЕНЕРЫ</h1>
-        <p>Профессионалы, которые выжмут из тебя все соки</p>
-      </div>
-    </section>
-
-    <!-- Основной контент -->
-    <main class="main-content">
-      <div class="container">
-        <!-- Фильтры -->
-        <div class="filters">
-          <button
-            v-for="category in categories"
-            :key="category.id"
-            @click="setActiveCategory(category.id)"
-            :class="{ active: activeCategory === category.id }"
-          >
-            {{ category.name }}
-          </button>
-        </div>
-
-        <!-- Сетка тренеров -->
-        <div class="trainers-grid">
-          <div
-            v-for="trainer in filteredTrainers"
-            :key="trainer.id"
-            class="trainer-card"
-            @click="openModal(trainer)"
-          >
-            <div class="trainer-image">
-              <img :src="trainer.photo" :alt="trainer.name" />
-              <span class="specialization">{{ trainer.specialization }}</span>
-            </div>
-            <div class="trainer-info">
-              <h3>{{ trainer.name }}</h3>
-              <p class="experience">{{ trainer.experience }} лет опыта</p>
-              <p class="bio">{{ trainer.short_bio }}</p>
-              <button
-                @click="$router.push(`/coaches/${trainer.id}`)"
-                class="btn-book"
-              >
-                Профиль
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- Модальное окно -->
-    <div v-if="selectedTrainer" class="modal" :class="{ active: isModalOpen }">
-      <div class="modal-overlay" @click="closeModal"></div>
-      <div class="modal-content">
-        <button class="modal-close" @click="closeModal">&times;</button>
-        <div class="modal-body">
-          <div class="modal-image">
-            <img :src="selectedTrainer.photo" :alt="selectedTrainer.name" />
-          </div>
-          <div class="modal-info">
-            <h2>{{ selectedTrainer.name }}</h2>
-            <p class="specialization">{{ selectedTrainer.specialization }}</p>
-
-            <div class="details">
-              <div class="detail-item">
-                <span class="detail-label">Опыт:</span>
-                <span class="detail-value"
-                  >{{ selectedTrainer.experience }} лет</span
-                >
-              </div>
-              <div class="detail-item">
-                <span class="detail-label">Направления:</span>
-                <span class="detail-value">{{
-                  selectedTrainer.directions.join(", ")
-                }}</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-label">Сертификаты:</span>
-                <span class="detail-value">{{
-                  selectedTrainer.certificates.join(", ")
-                }}</span>
-              </div>
-            </div>
-
-            <p class="full-bio">{{ selectedTrainer.full_bio }}</p>
-
-            <div class="modal-actions">
-              <button class="btn-primary">Записаться на тренировку</button>
-              <div class="social-links">
-                <a
-                  v-if="selectedTrainer.social_instagram"
-                  :href="selectedTrainer.social_instagram"
-                  target="_blank"
-                >
-                  <i class="icon-instagram"></i>
-                </a>
-                <a
-                  v-if="selectedTrainer.social_telegram"
-                  :href="selectedTrainer.social_telegram"
-                  target="_blank"
-                >
-                  <i class="icon-telegram"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script setup>
-// Имитация данных из API Django
 const trainers = ref([
   {
     id: 1,
@@ -345,24 +77,113 @@ const closeModal = () => {
   document.body.style.overflow = "auto";
 };
 </script>
+<template>
+  <div class="trainers-page">
+    <!-- Шапка -->
+    <section class="hero">
+      <div class="container">
+        <h1>НАШИ ТРЕНЕРЫ</h1>
+        <p>Профессионалы, которые выжмут из тебя все соки</p>
+      </div>
+    </section>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Фильтры -->
+        <div class="filters">
+          <button
+            v-for="category in categories"
+            :key="category.id"
+            @click="setActiveCategory(category.id)"
+            :class="{ active: activeCategory === category.id }"
+          >
+            {{ category.name }}
+          </button>
+        </div>
+
+        <!-- Сетка тренеров -->
+        <div class="trainers-grid">
+          <TrainerCard
+            v-for="trainer in coachesData?.results"
+            :key="trainer.id"
+            :trainer
+          />
+        </div>
+      </div>
+    </main>
+
+    <!-- Модальное окно -->
+    <div v-if="selectedTrainer" class="modal" :class="{ active: isModalOpen }">
+      <div class="modal-overlay" @click="closeModal"></div>
+      <div class="modal-content">
+        <button class="modal-close" @click="closeModal">&times;</button>
+        <div class="modal-body">
+          <div class="modal-image">
+            <img :src="selectedTrainer.photo" :alt="selectedTrainer.name" />
+          </div>
+          <div class="modal-info">
+            <h2>{{ selectedTrainer.name }}</h2>
+            <p class="specialization">{{ selectedTrainer.specialization }}</p>
+
+            <div class="details">
+              <div class="detail-item">
+                <span class="detail-label">Опыт:</span>
+                <span class="detail-value"
+                  >{{ selectedTrainer.experience }} лет</span
+                >
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Направления:</span>
+                <span class="detail-value">{{
+                  selectedTrainer.directions.join(", ")
+                }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Сертификаты:</span>
+                <span class="detail-value">{{
+                  selectedTrainer.certificates.join(", ")
+                }}</span>
+              </div>
+            </div>
+
+            <p class="full-bio">{{ selectedTrainer.full_bio }}</p>
+
+            <div class="modal-actions">
+              <button class="btn-primary">Записаться на тренировку</button>
+              <div class="social-links">
+                <a
+                  v-if="selectedTrainer.social_instagram"
+                  :href="selectedTrainer.social_instagram"
+                  target="_blank"
+                >
+                  <i class="icon-instagram"></i>
+                </a>
+                <a
+                  v-if="selectedTrainer.social_telegram"
+                  :href="selectedTrainer.social_telegram"
+                  target="_blank"
+                >
+                  <i class="icon-telegram"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .trainers-page {
-  font-family: "Roboto", sans-serif;
   color: $txt;
 }
 
-.container {
-  max-width: $desktop;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
 .hero {
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url("/images/trainers-bg.jpg") center/cover;
+  background-color: $txt;
   color: $white;
-  padding: 100px 0;
+  padding: 180px 0;
   text-align: center;
 
   h1 {
@@ -419,87 +240,6 @@ const closeModal = () => {
 
   @media (max-width: $mobile) {
     grid-template-columns: 1fr;
-  }
-}
-
-.trainer-card {
-  background: $white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(255, 243, 243, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-  }
-}
-
-.trainer-image {
-  position: relative;
-  height: 300px;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-  }
-
-  .specialization {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: $accent;
-    color: $txt;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-weight: 600;
-  }
-
-  &:hover img {
-    transform: scale(1.05);
-  }
-}
-
-.trainer-info {
-  padding: 20px;
-
-  h3 {
-    font-size: 1.4rem;
-    margin-bottom: 5px;
-  }
-
-  .experience {
-    color: $grey;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-  }
-
-  .bio {
-    color: $grey;
-    margin-bottom: 20px;
-    line-height: 1.5;
-  }
-}
-
-.btn-book {
-  width: 100%;
-  background: $accent;
-  color: $txt;
-  border: none;
-  padding: 12px;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-
-  &:hover {
-    background: darken($accent, 10%);
   }
 }
 

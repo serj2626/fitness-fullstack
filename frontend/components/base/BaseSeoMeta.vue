@@ -2,7 +2,7 @@
 
 </template>
 <script setup lang="ts">
-import { api } from '~/assets/api';
+import { api } from '~/api';
 
 const { $fetchApi } = useNuxtApp();
 const route = useRoute();

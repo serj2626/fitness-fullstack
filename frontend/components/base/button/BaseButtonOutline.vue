@@ -8,9 +8,9 @@ interface IBaseButton {
 }
 
 const {
-  color = "#ffc451",
+  color = "fff",
   size = "md",
-  radius = "5px",
+  radius = "10px",
   label,
 } = defineProps<IBaseButton>();
 </script>
@@ -18,16 +18,16 @@ const {
 <template>
   <button
     :class="[
-      'base-button',
-      `base-button__${size}`,
-      { 'base-button-fill_disabled': disabled },
+      'base-button-outline',
+      `base-button-outline__${size}`,
+      { 'base-button-outline-fill_disabled': disabled },
     ]"
   >
     {{ label }}
   </button>
 </template>
 <style scoped lang="scss">
-.base-button {
+.base-button-outline {
   background-color: v-bind(color);
   display: flex;
   justify-content: center;
@@ -37,16 +37,16 @@ const {
 
   user-select: none;
   border-radius: v-bind(radius);
-  border: 1px solid transparent;
+  border: 1px solid $accent;
   transition: all 0.3 ease-in-out;
   width: fit-content;
 
   cursor: pointer;
 
   &:hover {
-    opacity: 0.8;
+    border-color: $txt-dark;
+    color: $accent-dark;
   }
-
 
   &__xs {
     padding: 6px 9px;

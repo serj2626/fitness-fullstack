@@ -27,6 +27,11 @@ class UserManager(BaseUserManager):
 class User(BaseID, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, unique=True)
+    type = models.CharField("Тип",
+        max_length=20,
+        choices=[("client", "Клиент"), ("trainer", "Тренер"), ("admin", "Админ")],
+        default="client",
+    )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -42,3 +47,8 @@ class User(BaseID, AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
+
+    def save(self, *args, **kwargs):
+        if self.is_superuser:
+            self.type = "admin"
+        super().save(*args, **kwargs)

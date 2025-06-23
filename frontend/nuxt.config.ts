@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      api_url: process.env.API_URL,
       recaptchaPublicKey: process.env.GOOGLE_CAPTCHA_PUBLIC_KEY,
       tawkKey: process.env.TAWK_ID,
     },
@@ -100,18 +100,4 @@ export default defineNuxtConfig({
       },
     },
   },
-
-  // runtimeConfig: {
-  //   // The private keys which are only available within server-side
-  //   // apiSecret: "/nuxt", // reassign default nuxt api url
-  //   // ssrApiUrl: process.env.SSR_API_URL,
-  //   // Keys within public, will be also exposed to the client-side
-  //   public: {
-  //     // isDebug: process.env.DEBUG,
-  //     // apiBase: "/nuxt",
-  //     // apiUrl: process.env.API_URL,
-  //     // mediaUrl: process.env.MEDIA_URL,
-  //     yandexCaptchaPublicKey: process.env.YANDEX_CAPTCHA_PUBLIC_KEY,
-  //   },
-  // },
 });

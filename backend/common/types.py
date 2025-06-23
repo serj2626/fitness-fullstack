@@ -20,19 +20,6 @@ POST_STATUS = [
 ]
 
 
-# SERVICES_TYPE = [
-#     ("gym", "Безлимитные визиты"),
-#     ("unlimited_visits", "Безлимитные визиты"),
-#     ("pool", "Бассейн"),
-#     ("yoga", "Йога"),
-#     ("spa", "SPA"),
-#     ("cosmetology", "Косметология"),
-#     ("cycle", "Велотренажер"),
-#     ("water aerobics", "Водное аэробик"),
-#     ("dancing", "Танцы"),
-# ]
-
-
 SERVICES_TYPE = [
     ("gym", "Тренажерный зал"),
     ("pool", "Бассейн"),
@@ -42,6 +29,13 @@ SERVICES_TYPE = [
     ("cycle", "Велотренажер"),
     ("water aerobics", "Водное аэробик"),
     ("dancing", "Танцы"),
+]
+
+SOCIAL_NETWORKS_TYPE = [
+    ("vk", "VK"),
+    ("telegram", "Telegram"),
+    ("instagram", "Instagram"),
+    ("whatsapp", "WhatsApp"),
 ]
 
 

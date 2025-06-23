@@ -6,11 +6,11 @@ from .models import User
 @admin.register(User)
 class UserAdmin(UserAdmin):
     model = User
-    list_display = ("email", "phone", "is_staff", "is_superuser")
-    search_fields = ("email", "phone")
+    list_display = ("email", "phone", "is_staff", "is_superuser", "type")
+    search_fields = ("email", "phone", "type")
     ordering = ("email",)
     fieldsets = (
-        (None, {"fields": ("email", "phone", "password")}),
+        (None, {"fields": ("email", "phone", "password", "type")}),
         (
             "Permissions",
             {"fields": ("is_staff", "is_superuser", "groups", "user_permissions")},

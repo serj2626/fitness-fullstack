@@ -1,33 +1,20 @@
-export default defineNuxtPlugin(({ $config }) => {
-    const api = $fetch.create({
-      onRequest({ request, options }) {
-        request.baseURL = import.meta.server
-          ? $config.ssrApiUrl
-          : $config.public.apiBase;
-  
-        if (options.headers) {
-          options.headers = {
-            ...options.headers,
-            Accept: "application/json"
-          }
-        }
-      },
-      onRequestError({ request, options, error }) {
-        if ($config.public.isDebug) {
-          console.log("onRequestError: ", error);
-        }
-      },
-      onResponse({ request, options, response }) {},
-      onResponseError({ request, options, response }) {
-        if ($config.public.isDebug) {
-          console.log("onResponseError: ", response);
-        }
-      },
-    })
-    return {
-      provide: {
-        fetchApi: api
+export default defineNuxtPlugin(() => {
+  const config = useRuntimeConfig();
+  const apiFetch = $fetch.create({
+    baseURL: config.public.api_url,
+    onRequest({ request, options, response, error }) {
+      // options.baseURL = import.meta.server ? config.ssrApiUrl : config.public.browserApiUrl
+      if (config.public.debug) {
+        console.log("making req", options.baseURL, request.toString());
       }
-    }
-  })
-  
+    },
+    onResponse({ response }) {},
+    onResponseError({ response }) {},
+  });
+  // Expose to useNuxtApp().$apiFetch
+  return {
+    provide: {
+      api: apiFetch,
+    },
+  };
+});
