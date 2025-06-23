@@ -7,6 +7,9 @@ export const api = {
     list: "/trainings/trainers/",
     detail: (id: string) => `/trainings/trainers/${id}`,
   },
+  abonements: {
+    list: "/abonements/",
+  },
   legal: {
     policy: "/legal/policy/", //Получает политику
     oferta: "/legal/offerta/", //Получает оферту
