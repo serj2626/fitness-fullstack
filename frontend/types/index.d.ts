@@ -18,3 +18,16 @@ export interface ICoachesListResponse {
   count: number;
   results: ICoach[];
 }
+
+interface IFooterResponse {
+  site_name: string;
+  copyright: string;
+  links: {
+    title: "string";
+    link: "string";
+  }[];
+  icons: {
+    title: "vk";
+    link: "string";
+  }[];
+}

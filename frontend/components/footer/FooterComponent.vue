@@ -1,35 +1,41 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { api } from "~/api";
+import type { IFooterResponse } from "~/types";
+const { $api } = useNuxtApp();
+
+const { data: footerData } = await useAsyncData<IFooterResponse>(
+  "footer-info",
+  () => $api(api.contacts.footer)
+);
+
+function getIcon(title: string) {
+  return `ri:${title}-fill`;
+}
+</script>
 <template>
   <footer class="footer-component container">
     <div class="footer-component__content">
       <div class="footer-component__content-copyright">
-        <span>© 2025 Все права защищены</span>
+        <span>{{ footerData?.site_name }}{{ footerData?.copyright }}</span>
       </div>
       <div class="footer-component__content-links">
-        <NuxtLink class="footer-component__content-links-policy" to="/policy">
-          Политика конфиденциальности
-        </NuxtLink>
-        <NuxtLink class="footer-component__content-links-agreement" to="/policy">
-          Пользовательское соглашение
+        <NuxtLink
+          v-for="link in footerData?.links"
+          :key="link.title"
+          class="footer-component__content-links-policy"
+          :to="link.link"
+        >
+          {{ link.title }}
         </NuxtLink>
       </div>
     </div>
     <div class="footer-component__social">
       <Icon
+        v-for="icon in footerData?.icons"
+        :key="icon.title"
         class="footer-component__social-link"
-        name="ri:telegram-fill"
         size="30"
-      />
-      <Icon
-        class="footer-component__social-link"
-        name="ri:whatsapp-fill"
-        size="30"
-      />
-      <Icon class="footer-component__social-link" name="ri:vk-fill" size="30" />
-      <Icon
-        class="footer-component__social-link"
-        name="ri:linkedin-fill"
-        size="30"
+        :name="getIcon(icon.title)"
       />
     </div>
   </footer>
@@ -43,7 +49,7 @@
   gap: 30px;
   color: $white;
 
-  @include mediaTablet{
+  @include mediaTablet {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -67,15 +73,14 @@
       opacity: 0.8;
       cursor: pointer;
 
-      @include mediaCustom(600px){
+      @include mediaCustom(600px) {
         flex-direction: row;
         align-items: center;
         gap: 20px;
       }
 
-
-
-      &-policy, &-agreement {
+      &-policy,
+      &-agreement {
         color: $white;
         transition: all 0.3s ease-in;
         &:hover {

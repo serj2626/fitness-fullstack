@@ -4,7 +4,7 @@ from common.models import BaseDate, BaseTitle
 
 SOCIAL_ICON_TYPES = [
     ("vk", "Вконтакте"),
-    ("tg", "Телеграм"),
+    ("telegram", "Телеграм"),
     ("whatsapp", "Ватсап"),
     ("linkedin", "Linkedin"),
 ]

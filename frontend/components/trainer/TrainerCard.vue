@@ -26,9 +26,6 @@ defineProps<{ trainer: ICoach }>();
         v-html="trainer.content"
       />
 
-      <!-- <button @click="$router.push(`/coaches/${trainer.id}`)" class="btn-book">
-        Профиль
-      </button> -->
       <BaseButton
         label="Подробнее"
         size="lg"

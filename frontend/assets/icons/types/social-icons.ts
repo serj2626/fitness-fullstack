@@ -14,4 +14,7 @@ export const enum SocialIcons {
   tg = "ri:telegram-fill",
   whatsapp = "ri:whatsapp-fill",
   linkedin = "ri:linkedin-fill",
+  github = "ri:github-fill",
+  mail = "ri:mail-fill",
+  phone = "ri:phone-fill",
 }
