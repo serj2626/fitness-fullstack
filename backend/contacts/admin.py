@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import Contact, Feedback, Footer, FooterIcon, FooterLink
 
 
-
 class FooterLinkInline(admin.TabularInline):
     model = FooterLink
     extra = 1

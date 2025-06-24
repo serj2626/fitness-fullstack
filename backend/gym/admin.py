@@ -1,6 +1,17 @@
 from django.contrib import admin
-from .models import GymReviews, Service
+from .models import FAQ, GymReviews, Service
 from django.utils.html import mark_safe
+
+
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    '''
+    Admin View for FAQ
+    '''
+
+    list_display = ('question', 'answer')
+
 
 
 @admin.register(GymReviews)

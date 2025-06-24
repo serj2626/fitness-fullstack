@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import GymReviews, Service
+from .models import FAQ, GymReviews, Service
 
 
 class GymReviewsSerializer(serializers.ModelSerializer):
@@ -38,3 +38,14 @@ class ServiceSerializer(serializers.ModelSerializer):
     #     representation = super().to_representation(instance)
     #     representation["avatar"] = instance.avatar.url
     #     return representation
+
+
+
+class FAQSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для FAQ
+    """
+
+    class Meta:
+        model = FAQ
+        fields = "__all__"

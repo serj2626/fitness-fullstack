@@ -51,3 +51,23 @@ class GymReviews(BaseReview):
 
     def __str__(self):
         return f"Отзыв"
+
+
+class FAQ(models.Model):
+    """
+    Модель вопросов и ответов
+    """
+
+    question = models.TextField("Вопрос")
+    answer = models.TextField(
+        "Ответ",
+        default="Здравствуйте",
+        help_text="Максимум 1000 символов",
+    )
+
+    class Meta:
+        verbose_name = "Вопрос и ответ"
+        verbose_name_plural = "Вопросы и ответы"
+
+    def __str__(self):
+        return f"Вопрос {self.question}"
