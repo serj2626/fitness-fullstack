@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { api } from "~/api";
-import type { IMainAbonementAPIResponse } from "~/types";
+import type { IMainAbonementAPIResponse, IServicesResponse } from "~/types";
 const { $api } = useNuxtApp();
 
 const { data: abonementsInfo } = await useAsyncData(
@@ -17,13 +17,18 @@ const { data: abonementsInfo } = await useAsyncData(
     },
   }
 );
+
+const { data: servicesInfo } = await useAsyncData<IServicesResponse[]>(
+  "main-page-services-list-info",
+  () => $api(api.gym.services)
+);
 </script>
 <template>
   <div>
     <MainVideoSection />
     <MainAboutSection />
     <MainAbonementsSection v-if="abonementsInfo" :abonements="abonementsInfo" />
-    <MainServicesSection />
+    <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
     <MainPoolSection />
     <!-- <MainCoachesSection />
     <MainReviewsSection /> -->

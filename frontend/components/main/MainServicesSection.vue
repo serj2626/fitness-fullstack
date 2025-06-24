@@ -1,22 +1,25 @@
 <script lang="ts" setup>
-import { services } from "~/assets/data/moke.data";
+// import { services } from "~/assets/data/moke.data";
 import "swiper/css";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+import type { IServicesResponse } from "~/types";
+
+defineProps<{ services: IServicesResponse[] }>();
 </script>
 <template>
   <section id="main-services-section" class="main-services-section">
-    <BaseSwiper 
-      :desctop-between="0" 
+    <BaseSwiper
+      :desctop-between="0"
       :laptop-between="0"
       :tablet-between="0"
       :auto-delay="0"
     >
-      <swiper-slide v-for="(slide, idx) in services" :key="idx" class="slide">
-        <p class="slide__title">{{ slide.title }}</p>
+      <swiper-slide v-for="slide in services" :key="slide.id" class="slide">
+        <p class="slide__title">{{ slide.alt }}</p>
         <button class="slide__btn">
           <Icon class="slide__btn-icon" :name="HeroIcons.UP" />
         </button>
-        <NuxtImg :src="slide.img" :alt="slide.title" class="slide__img" />
+        <NuxtImg :src="slide.avatar" :alt="slide.alt" class="slide__img" />
       </swiper-slide>
     </BaseSwiper>
   </section>

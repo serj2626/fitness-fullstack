@@ -108,6 +108,7 @@ class Contact(models.Model):
         choices=CONTACTS_TYPE,
         default="phone",
         verbose_name="Тип",
+        unique=True,
     )
     value = models.TextField(max_length=500, verbose_name="Значение")
 

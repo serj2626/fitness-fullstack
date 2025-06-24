@@ -57,3 +57,26 @@ export interface IMainAbonementResponse {
   is_popular: boolean;
   slug: string;
 }
+
+export interface IServicesResponse {
+  id: string;
+  alt: string;
+  type: string;
+  slug: string;
+  avatar: string;
+  img_url: string;
+}
+
+// СТРАНИЦА КОНТАКТОВ
+
+type ContactType = "phone" | "mail" | "address" | "latitude" | "longitude";
+
+export interface IContactData<T extends ContactType = ContactType> {
+  type: T;
+  second_type: string;
+  value: string;
+}
+
+export interface IContactsResponse {
+  [key: string]: IContactData;
+}

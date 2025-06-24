@@ -70,6 +70,7 @@ defineProps({
           >
             <div class="base-map__map-marker">
               <Icon name="icon:marker" class="base-map__map-marker-icon" />
+              <div class="base-map__map-marker-effect" />
             </div>
           </YandexMapMarker>
         </YandexMapDefaultFeaturesLayer>
@@ -103,7 +104,6 @@ defineProps({
   }
 
   &__map {
-    // Убираем скругления углов карты
     border-radius: 0 !important;
     overflow: hidden;
 
@@ -112,6 +112,20 @@ defineProps({
       height: 50px;
       color: red;
       font-size: 54px;
+      position: relative;
+      &-effect {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #f25757;
+        border-radius: 50%;
+        opacity: 0.4;
+        transform: scale(0);
+        animation: pulse 2s ease-out infinite;
+        z-index: -1;
+      }
     }
   }
 }
@@ -119,5 +133,21 @@ defineProps({
 .base-map__map {
   border-radius: 0 !important; // Убираем скругления
   overflow: hidden;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(
+      0.8
+    ); /* Начинаем не с 0.5, а с 0.8 — меньше резкого скачка */
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.6; /* Плавное увеличение прозрачности в середине анимации */
+  }
+  100% {
+    transform: scale(1.8); /* Уменьшаем конечный масштаб (было 2) */
+    opacity: 0; /* Плавное затухание */
+  }
 }
 </style>
