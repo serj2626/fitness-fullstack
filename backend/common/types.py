@@ -32,10 +32,10 @@ SERVICES_TYPE = [
 ]
 
 SOCIAL_NETWORKS_TYPE = [
-    ("vk", "VK"),
-    ("telegram", "Telegram"),
-    ("instagram", "Instagram"),
-    ("whatsapp", "WhatsApp"),
+    ("vk", "Вконтакте"),
+    ("telegram", "Телеграм"),
+    ("whatsapp", "Ватсап"),
+    ("linkedin", "Linkedin"),
 ]
 
 

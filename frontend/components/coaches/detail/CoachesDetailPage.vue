@@ -67,6 +67,10 @@ const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
               :position="coachInfo?.position || 'Должность тренера'"
               :email="coachInfo?.email || 'Email тренера'"
               :phone="coachInfo?.phone || 'Телефон тренера'"
+              :socials="coachInfo?.socials || []"
+              :keywords="coachInfo?.keywords || ''"
+              :experience="coachInfo?.experience || 0"
+              :education="coachInfo?.education || ''"
             />
 
             <div v-if="activeTab === 'photos'" class="photo-grid">

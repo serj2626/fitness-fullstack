@@ -1,6 +1,19 @@
 from rest_framework import serializers
-from .models import Trainer, TrainerImage, TrainerRate, TrainerReviews, TrainingSession
+from .models import (
+    Trainer,
+    TrainerImage,
+    TrainerRate,
+    TrainerReviews,
+    TrainingSession,
+    TrainerSocialNetwork,
+)
 from django.db.models import Avg
+
+
+class TrainerSocialNetworkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainerSocialNetwork
+        fields = ("type", "link")
 
 
 class TrainerRateSerializer(serializers.ModelSerializer):
@@ -69,6 +82,7 @@ class TrainerSerializer(serializers.ModelSerializer):
     average_rating = serializers.SerializerMethodField()
     reviews = TrainerReviewsSerializer(many=True, read_only=True)
     photo = serializers.SerializerMethodField()
+    socials = TrainerSocialNetworkSerializer(many=True, read_only=True)
 
     class Meta:
         model = Trainer

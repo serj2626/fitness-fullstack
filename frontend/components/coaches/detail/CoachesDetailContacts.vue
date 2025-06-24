@@ -1,11 +1,29 @@
 <script setup lang="ts">
 import { SocialIcons } from "~/assets/icons/types/social-icons";
-defineProps<{
+const props = defineProps<{
   name: string;
   position: string;
   email: string;
   phone: string;
+  socials: { type: string; link: string }[];
+  keywords: string;
+  experience: number;
+  education: string;
 }>();
+
+function getIcon(title: string) {
+  return `ri:${title}-fill`;
+}
+
+const getListKeywords = computed(() => {
+  return props.keywords.split('');
+});
+const getExperience = computed(() => {
+  if (props.experience > 0) {
+    return `Более ${props.experience} лет`;
+  }
+  return "Не указан";
+});
 </script>
 <template>
   <div class="coach-detail-contacts">
@@ -18,6 +36,7 @@ defineProps<{
         <div>
           <div class="coach-detail-contacts__cards-item-label">Имя</div>
           <div class="coach-detail-contacts__cards-item-value">{{ name }}</div>
+          {{ getListKeywords.length }}
         </div>
       </div>
 
@@ -67,32 +86,43 @@ defineProps<{
       </div>
     </div>
 
-    <!-- Соцсети -->
-    <div class="social-links">
-      <a href="#" class="social-link">
-        <Icon :name="SocialIcons.TELEGRAM" />
-      </a>
-      <a href="#" class="social-link">
-        <Icon :name="SocialIcons.VK" />
-      </a>
-      <a href="#" class="social-link">
-        <Icon :name="SocialIcons.WHATSAPP" />
-      </a>
+    <div class="coach-detail-contacts__social-links">
+      <Icon
+        v-for="icon in socials"
+        :key="icon.type"
+        class="coach-detail-contacts__social-links-icon"
+        size="30"
+        :name="getIcon(icon.type)"
+      />
     </div>
 
-    <!-- Описание -->
-    <div class="coach-description">
-      <h3 class="section-title">О тренере</h3>
-      <div class="description-content">
+    <div class="coach-detail-contacts__description">
+      <h3 class="coach-detail-contacts__description-title">О тренере</h3>
+      <ul
+        v-if="getListKeywords.length > 0"
+        class="coach-detail-contacts__description-keywords"
+      >
+        <li
+          v-for="word in getListKeywords"
+          :key="word"
+          class="coach-detail-contacts__description-keywords-item"
+        >
+          {{ word }}
+        </li>
+      </ul>
+      <div class="coach-detail-contacts__description-content">
         <p>
-          <strong>Образование:</strong> Российский государственный университет
-          физической культуры, спорта, молодежи и туризма
+          <strong>Образование: </strong>
+          {{ education.length > 0 ? education : "Не указано" }}
         </p>
         <p>
-          <strong>Сертификаты:</strong> Дипломы по нутрициологии и фитнесу
+          <strong>Сертификаты: </strong> Дипломы по нутрициологии и фитнесу
           международного класса
         </p>
-        <p><strong>Опыт работы:</strong> Более 10 лет</p>
+        <p>
+          <strong>Опыт работы: </strong>
+          {{ getExperience }}
+        </p>
       </div>
     </div>
   </div>
@@ -146,53 +176,69 @@ defineProps<{
       }
     }
   }
-}
-
-.social-links {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
-
-  .social-link {
-    width: 40px;
-    height: 40px;
+  &__social-links {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba($white, 0.08);
-    border-radius: 50%;
-    transition: all 0.3s ease;
+    gap: 15px;
+    margin-bottom: 30px;
 
-    &:hover {
-      background: $accent;
-      color: $txt;
-      transform: translateY(-2px);
+    &-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: $white;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: $accent;
+        color: $txt;
+        transform: translateY(-2px);
+      }
     }
   }
-}
+  &__description {
+    &-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: $accent;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba($white, 0.1);
+    }
+    &-keywords {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-block: 10px 20px;
+      &-item {
+        border: 1px solid $accent;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: $accent;
+        font-size: 12px;
+        transition: all 0.3s ease;
+        user-select: none;
 
-.coach-description {
-  .section-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: $accent;
-    margin-bottom: 15px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba($white, 0.1);
-  }
-
-  .description-content {
-    display: grid;
-    gap: 12px;
-
-    p {
-      line-height: 1.5;
-      color: rgba($white, 0.9);
+        &:hover {
+          background-color: rgba($accent, 0.8);
+          color: $txt;
+        }
+      }
     }
 
-    strong {
-      color: $white;
-      font-weight: 500;
+    &-content {
+      display: grid;
+      gap: 12px;
+      p {
+        line-height: 1.5;
+        color: rgba($white, 0.9);
+      }
+
+      strong {
+        color: $white;
+        font-weight: 700;
+      }
     }
   }
 }

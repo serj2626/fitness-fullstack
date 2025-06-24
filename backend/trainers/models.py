@@ -32,6 +32,7 @@ class Trainer(BaseID, BaseContent):
     phone = models.CharField(
         "Телефон", max_length=15, unique=True, validators=[validate_russian_phone]
     )
+    education = models.TextField("Образование", null=True, blank=True)
     keywords = models.TextField(
         "Ключевые слова",
         max_length=255,
@@ -134,21 +135,21 @@ class TrainerSocialNetwork(models.Model):
     trainer = models.ForeignKey(
         Trainer,
         on_delete=models.CASCADE,
-        related_name="social_networks",
+        related_name="socials",
         verbose_name="тренер",
     )
-    social_network = models.CharField(
+    type = models.CharField(
         "Социальная сеть", max_length=100, choices=SOCIAL_NETWORKS_TYPE
     )
-    link = models.URLField("Ссылка")
+    link = models.CharField("Ссылка", max_length=56)
 
     class Meta:
         verbose_name = "Социальная сеть тренера"
         verbose_name_plural = "Социальные сети тренеров"
-        unique_together = ("trainer", "social_network")
+        unique_together = ("trainer", "type")
 
     def __str__(self):
-        return f"{self.trainer} - {self.social_network}"
+        return f"{self.trainer} - {self.type}"
 
 
 # class TrainerService(models.Model):

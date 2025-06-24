@@ -12,6 +12,11 @@ from .models import (
 from django.utils.html import mark_safe
 
 
+class TrainerSocialNetworkInline(admin.TabularInline):
+    model = TrainerSocialNetwork
+    extra = 1
+
+
 class TrainingSessionInline(admin.TabularInline):
     model = TrainingSession
     extra = 1
@@ -75,7 +80,12 @@ class TrainerAdmin(admin.ModelAdmin):
     Админ-панель для модели Trainer
     """
 
-    inlines = [TrainerImageInline, TrainerRateInline, TrainingSessionInline]
+    inlines = [
+        TrainerImageInline,
+        TrainerRateInline,
+        TrainingSessionInline,
+        TrainerSocialNetworkInline,
+    ]
 
     list_display = (
         "id",
@@ -89,7 +99,12 @@ class TrainerAdmin(admin.ModelAdmin):
     fields = (
         ("first_name", "last_name"),
         ("email", "phone"),
-        ("position", "experience", "avatar"),
+        (
+            "position",
+            "experience",
+        ),
+        "education",
+        "avatar",
         "keywords",
         "content",
     )

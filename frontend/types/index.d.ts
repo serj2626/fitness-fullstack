@@ -81,25 +81,7 @@ export interface IContactsResponse {
   [key: string]: IContactData;
 }
 
-
 // СТРАНИЦА ТРЕНЕРА ДЕТАЛЬНАЯ
-export interface ITrainerResponse {
-  id: string;
-  images: TrainerImage[];
-  position: string;
-  rates: TrainingRate[];
-  average_rating: string;
-  reviews: TrainerReview[];
-  photo: string;
-  content: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  keywords: string;
-  experience: number;
-  avatar: string;
-}
 
 interface TrainerImage {
   id: string;
@@ -121,4 +103,28 @@ interface TrainerReview {
   text: string; // Текст отзыва
   verified: boolean; // Подтвержденный отзыв
   time_age: string; // Время создания (лучше использовать Date или string в ISO формате)
+}
+
+export interface ITrainerSocial {
+  type: string;
+  link: string;
+}
+export interface ITrainerResponse {
+  id: string;
+  images: TrainerImage[];
+  position: string;
+  rates: TrainingRate[];
+  average_rating: string;
+  reviews: TrainerReview[];
+  socials: ITrainerSocial[];
+  photo: string;
+  content: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  keywords: string;
+  experience: number;
+  avatar: string;
+  education: string;
 }
