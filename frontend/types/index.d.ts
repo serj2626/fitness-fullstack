@@ -80,3 +80,45 @@ export interface IContactData<T extends ContactType = ContactType> {
 export interface IContactsResponse {
   [key: string]: IContactData;
 }
+
+
+// СТРАНИЦА ТРЕНЕРА ДЕТАЛЬНАЯ
+export interface ITrainerResponse {
+  id: string;
+  images: TrainerImage[];
+  position: string;
+  rates: TrainingRate[];
+  average_rating: string;
+  reviews: TrainerReview[];
+  photo: string;
+  content: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  keywords: string;
+  experience: number;
+  avatar: string;
+}
+
+interface TrainerImage {
+  id: string;
+  image: string; // URL изображения
+}
+
+interface TrainingRate {
+  id: number;
+  title: string; // Название тарифа
+  count_minutes: number; // Продолжительность в минутах
+  price: number; // Цена (лучше использовать number вместо bigint)
+  description: string; // Описание тарифа
+}
+
+interface TrainerReview {
+  name: string; // Имя автора отзыва
+  email: string; // Email автора
+  rating: number; // Оценка (1-5)
+  text: string; // Текст отзыва
+  verified: boolean; // Подтвержденный отзыв
+  time_age: string; // Время создания (лучше использовать Date или string в ISO формате)
+}
