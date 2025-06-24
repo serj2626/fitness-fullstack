@@ -31,3 +31,29 @@ interface IFooterResponse {
     link: "string";
   }[];
 }
+
+interface IServiceAbonemnet {
+  title: string;
+}
+
+export interface IMainAbonementAPIResponse {
+  id: number;
+  title: string;
+  services: IServiceAbonemnet[];
+  description: string;
+  price: number;
+  number_of_months: number;
+  is_popular: boolean;
+  slug: string;
+}
+
+export interface IMainAbonementResponse {
+  id: number;
+  title: string;
+  services: string[];
+  description: string;
+  price: number;
+  number_of_months: number;
+  is_popular: boolean;
+  slug: string;
+}

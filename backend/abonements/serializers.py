@@ -3,9 +3,15 @@ from .models import Abonement, GymVisit, AbonementService
 
 
 class AbonementServiceSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+
     class Meta:
         model = AbonementService
         fields = ("title",)
+
+    def get_title(self, obj):
+        return obj.get_title_display()
+
 
 class GymVisitSerializer(serializers.ModelSerializer):
     total_time = serializers.SerializerMethodField()

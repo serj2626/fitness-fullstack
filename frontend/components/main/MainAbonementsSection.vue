@@ -1,13 +1,7 @@
 <script lang="ts" setup>
-import { abonements } from "~/assets/data/moke.data";
+import type { IMainAbonementResponse } from "~/types";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-const priceAbon = (rub: number) => {
-  if (String(rub).length === 4) {
-    return String(rub).slice(0, 1) + " " + String(rub).slice(1);
-  } else {
-    return String(rub).slice(0, 2) + " " + String(rub).slice(2);
-  }
-};
+defineProps<{ abonements: IMainAbonementResponse[] }>();
 </script>
 <template>
   <section id="main-abonements-section" class="main-abonements-section">
@@ -22,6 +16,12 @@ const priceAbon = (rub: number) => {
           :key="abon.title"
           class="main-abonements-section__wraper-list-item"
         >
+          <p
+            v-if="abon.is_popular"
+            class="main-abonements-section__wraper-list-item-popular"
+          >
+            популярный
+          </p>
           <p class="main-abonements-section__wraper-list-item-top">
             {{ abon.title }}
           </p>
@@ -32,12 +32,12 @@ const priceAbon = (rub: number) => {
               <span
                 class="main-abonements-section__wraper-list-item-body-price"
               >
-                {{ priceAbon(abon.price) }} &nbsp;₽
+                {{ formatNumberCustom(abon.price) }} &nbsp;₽
               </span>
               <span
                 class="main-abonements-section__wraper-list-item-body-period"
               >
-                {{ abon.period }} месяцев
+                {{ abon.number_of_months }} месяцев
               </span>
             </p>
             <p class="main-abonements-section__wraper-list-item-body-desc">
@@ -55,19 +55,19 @@ const priceAbon = (rub: number) => {
               >
                 <Icon
                   class="main-abonements-section__wraper-list-item-footer-services-item-icon"
-                  :style="{ color: service.value ? '#ffc451' : 'red' }"
+                  :style="{ color: '#facc15' }"
                   :name="HeroIcons.CHECK"
                 />
                 <span
                   class="main-abonements-section__wraper-list-item-footer-services-item-text"
                 >
-                  {{ service.title }}
+                  {{ service }}
                 </span>
               </li>
             </ul>
           </div>
           <button class="main-abonements-section__wraper-list-item-btn">
-            Подробнее
+            Забронировать
           </button>
         </li>
       </ul>
@@ -109,6 +109,9 @@ const priceAbon = (rub: number) => {
     }
 
     &-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
       padding: 25px 32px;
       background-color: $bg;
       border-radius: 15px;
@@ -116,9 +119,20 @@ const priceAbon = (rub: number) => {
       color: $white;
       transition: all 0.35s ease-in;
 
+      &-popular {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 10px 15px;
+        background-color: $accent;
+        border-radius: 0 15px 0 15px;
+        color: $txt;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
       &:hover {
         box-shadow: 0 0 20px $accent;
-        // scale: 1.1;
       }
       &-top {
         text-transform: uppercase;
@@ -178,6 +192,7 @@ const priceAbon = (rub: number) => {
       }
 
       &-footer {
+        flex: 1;
         padding-top: 30px;
         &-services {
           padding-top: 30px;
