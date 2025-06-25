@@ -16,7 +16,7 @@ function getIcon(title: string) {
 }
 
 const getListKeywords = computed(() => {
-  return props.keywords.split('');
+  return props.keywords.split(',');
 });
 const getExperience = computed(() => {
   if (props.experience > 0) {
@@ -98,6 +98,9 @@ const getExperience = computed(() => {
 
     <div class="coach-detail-contacts__description">
       <h3 class="coach-detail-contacts__description-title">О тренере</h3>
+      <!-- <div style="color: aliceblue;">
+        {{ keywords.split(',') }}
+      </div> -->
       <ul
         v-if="getListKeywords.length > 0"
         class="coach-detail-contacts__description-keywords"

@@ -188,7 +188,7 @@ const validateForm = () => {
             size="lg"
             label="Записаться"
             :loading="isSubmitting"
-            class="submit-btn"
+            style="width: 100%;"
           />
         </form>
       </div>
@@ -340,18 +340,6 @@ const validateForm = () => {
     gap: 20px;
   }
 
-  .submit-btn {
-    margin-top: 10px;
-    background: $accent;
-    color: $txt;
-    font-weight: 600;
-    transition: all 0.3s;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba($accent, 0.3);
-    }
-  }
 
   &__success {
     text-align: center;
