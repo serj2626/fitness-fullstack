@@ -25,8 +25,8 @@ defineProps<{
 </template>
 <style scoped lang="scss">
 .base-bread {
-  padding-top: 50px;
-  margin-block: 50px;
+  padding-top: 10px;
+  margin-block: 10px;
   &__links {
     display: none;
     gap: 10px;

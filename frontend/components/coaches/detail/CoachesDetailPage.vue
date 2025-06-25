@@ -101,11 +101,11 @@ const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
 
 <style scoped lang="scss">
 .coaches-detail-page {
-  padding: 40px 0;
-  background: $bg;
+  padding-top: 100px;
 }
 
 .coach-layout {
+  margin-block: 50px;
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 40px;

@@ -25,13 +25,7 @@ const breadcrumbs = ref([
   padding-block: 150px 50px;
 
   &__title {
-    text-align: center;
-    font-weight: 700;
-    font-size: 36px;
-    color: $accent;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
+    @include title_by_page;
   }
 
   &__breadcrumbs {

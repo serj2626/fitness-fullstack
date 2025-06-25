@@ -12,6 +12,7 @@ export const api = {
   },
   gym: {
     services: "/gym/services/", //Получает информацию о услугах
+    faq: "/gym/faq/", //Получает вопросы и ответы
   },
   legal: {
     policy: "/legal/policy/", //Получает политику

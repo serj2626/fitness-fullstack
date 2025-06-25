@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { api } from "~/api";
+import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
 import { coaches } from "~/assets/data/moke.data";
 import type { ICoachesListResponse } from "~/types";
 
@@ -79,18 +80,13 @@ const closeModal = () => {
 </script>
 <template>
   <div class="trainers-page">
-    <!-- Шапка -->
-    <section class="hero">
-      <div class="container">
-        <h1>НАШИ ТРЕНЕРЫ</h1>
-        <p>Профессионалы, которые выжмут из тебя все соки</p>
-      </div>
-    </section>
-
-    <!-- Основной контент -->
-    <main class="main-content">
-      <div class="container">
-        <!-- Фильтры -->
+    <PagesTopSection
+      title="Наши тренеры"
+      description="Профессионалы, которые выжмут из тебя все соки"
+    />
+    <div class="container">
+      <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachesPage" />
+      <main class="main-content">
         <div class="filters">
           <button
             v-for="category in categories"
@@ -102,7 +98,6 @@ const closeModal = () => {
           </button>
         </div>
 
-        <!-- Сетка тренеров -->
         <div class="trainers-grid">
           <TrainerCard
             v-for="trainer in coachesData?.results"
@@ -110,8 +105,8 @@ const closeModal = () => {
             :trainer
           />
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
 
     <!-- Модальное окно -->
     <div v-if="selectedTrainer" class="modal" :class="{ active: isModalOpen }">
@@ -178,26 +173,6 @@ const closeModal = () => {
 <style scoped lang="scss">
 .trainers-page {
   color: $txt;
-}
-
-.hero {
-  background-color: $txt;
-  color: $white;
-  padding: 180px 0;
-  text-align: center;
-
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: $accent;
-  }
-
-  p {
-    font-size: 1.2rem;
-    opacity: 0.9;
-  }
 }
 
 .main-content {

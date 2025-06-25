@@ -128,3 +128,18 @@ export interface ITrainerResponse {
   avatar: string;
   education: string;
 }
+
+// СТРАНИЦА ВОПРОСЫ-ОТВЕТЫ
+
+export interface IQuestion {
+  id: number;
+  question: string;
+  answer: string;
+}
+export interface IFAQResponse {
+  current: number;
+  next: null | number;
+  previous: null | number;
+  count: number;
+  results: IQuestion[];
+}

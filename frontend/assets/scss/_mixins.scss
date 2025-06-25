@@ -1,4 +1,4 @@
-@use './_vars.scss' as *;
+@use "./_vars.scss" as *;
 
 @mixin mediaMobile() {
   @media screen and (min-width: $mobile) {
@@ -41,11 +41,20 @@
   color: $color;
 }
 
-
 @mixin text_overflow($count) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: $count;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@mixin title_by_page {
+  text-align: center;
+  font-weight: 700;
+  font-size: 36px;
+  color: $accent;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
 }
