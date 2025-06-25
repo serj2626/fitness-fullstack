@@ -20,6 +20,10 @@ export const useModalsStore = defineStore("modals-store", () => {
     }
   }
 
+  const getModalData = (modal: ModalItem) => {
+    return activeModals.value.get(modal);
+  };
+
   const openModal = (modal: ModalItem, props?: any) => {
     if (document) {
       document.documentElement.style.overflowY = "hidden";
@@ -58,5 +62,6 @@ export const useModalsStore = defineStore("modals-store", () => {
     closeAllModals,
     isAnyModalOpen,
     menuIsOpen,
+    getModalData,
   };
 });

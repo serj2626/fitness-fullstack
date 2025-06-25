@@ -1,18 +1,32 @@
 <script lang="ts" setup>
-import type { IMainAbonementResponse } from "~/types";
-
+import { api } from "~/api";
+import type { IMainAbonementAPIResponse, IMainAbonementResponse } from "~/types";
+const { $api } = useNuxtApp();
 const modalsStore = useModalsStore();
 
-const { data: abonements } = useNuxtData<IMainAbonementResponse[]>(
-  "main-page-abonements-list-info"
+
+const { data: abonements } = await useAsyncData(
+  "main-page-abonements-list-info",
+  () => $api<IMainAbonementAPIResponse[]>(api.abonements.list),
+  {
+    transform: (data) => {
+      return data.map((abonement) => {
+        return {
+          ...abonement,
+          services: abonement.services.map((service) => service.title),
+        };
+      });
+    },
+    getCachedData: (key) => {
+      const cachedData = useNuxtData<IMainAbonementResponse[]>(key).data.value;
+      return cachedData || undefined; // если `null` или `undefined`, будет новый запрос
+    },
+  }
 );
 
-// Состояния формы
 const isClosing = ref(false);
 const isSubmitting = ref(false);
-const submitSuccess = ref(false);
 
-// Закрытие формы с анимацией
 const closeForm = () => {
   if (isSubmitting.value) {
     useNotify().warning("Пожалуйста, дождитесь окончания бронирования");
@@ -21,7 +35,6 @@ const closeForm = () => {
   isClosing.value = true;
 };
 
-// Обработка окончания анимации
 const handleAnimationEnd = () => {
   if (isClosing.value) {
     modalsStore.closeModal("orderAbonement");
@@ -35,7 +48,6 @@ interface FormField<T> {
 }
 
 interface FeedbackForm {
-  message: FormField<string>;
   name: FormField<string>;
   email: FormField<string>;
   phone: FormField<string>;
@@ -47,7 +59,6 @@ const formData = reactive<FeedbackForm>({
   name: { value: "", error: "", required: true },
   phone: { value: "", error: "", required: true },
   email: { value: "", error: "", required: true },
-  message: { value: "", error: "", required: true },
   captcha: { value: "", error: "", required: true },
   abonement: { value: "", error: "", required: true },
 });
