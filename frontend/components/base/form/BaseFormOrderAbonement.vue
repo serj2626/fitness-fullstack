@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { api } from "~/api";
-import type { IMainAbonementAPIResponse, IMainAbonementResponse } from "~/types";
+import type {
+  IMainAbonementAPIResponse,
+  IMainAbonementResponse,
+} from "~/types";
 const { $api } = useNuxtApp();
 const modalsStore = useModalsStore();
-
 
 const { data: abonements } = await useAsyncData(
   "main-page-abonements-list-info",
@@ -95,14 +97,16 @@ const formData = reactive<FeedbackForm>({
 
         <form class="base-form-order-abonement__form">
           <BaseInput
-            v-model="formData.name.value"
+            v-model:input-value="formData.name.value"
+            v-model:error="formData.name.error"
             placeholder="Ваше имя"
             icon="user"
             required
           />
 
           <BaseInput
-            v-model="formData.phone.value"
+            v-model:input-value="formData.phone.value"
+            v-model:error="formData.phone.error"
             type="tel"
             placeholder="Телефон"
             icon="phone"
@@ -110,7 +114,8 @@ const formData = reactive<FeedbackForm>({
           />
 
           <BaseInput
-            v-model="formData.email.value"
+            v-model:input-value="formData.email.value"
+            v-model:error="formData.email.error"
             type="email"
             placeholder="Email"
             icon="email"

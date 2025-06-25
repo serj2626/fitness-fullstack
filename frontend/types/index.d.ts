@@ -143,3 +143,9 @@ export interface IFAQResponse {
   count: number;
   results: IQuestion[];
 }
+
+// СТРАНИЦЫ С ЮРИДИЧЕСКИМИ ДОКУМЕНТАМИ
+export interface ILegalResponse {
+  title: string;
+  content: string;
+}

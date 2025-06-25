@@ -1,5 +1,9 @@
 <script lang="ts" setup>
+import { api } from "~/api";
 import { policyHtml } from "~/assets/data/moke.data";
+import type { ILegalResponse } from "~/types";
+
+const { $api } = useNuxtApp();
 const breadcrumbs = ref([
   {
     title: "Главная",
@@ -10,13 +14,20 @@ const breadcrumbs = ref([
     url: "/policy",
   },
 ]);
+
+const { data: policyInfo } = await useAsyncData<ILegalResponse>(
+  "policy-page-info",
+  () => $api(api.legal.policy)
+);
 </script>
 <template>
   <div class="policy-page">
-    <h1 class="policy-page__title">Политика конфиденциальности</h1>
+    <h1 class="policy-page__title">
+      {{ policyInfo?.title || "Политика конфиденциальности" }}
+    </h1>
     <div class="container">
       <BaseBreadCrumbs class="policy-page__breadcrumbs" :breadcrumbs />
-      <BaseWysiwyg class="policy-page__wysiwyg" :html="policyHtml" />
+      <BaseWysiwyg v-if="policyInfo?.content" :html="policyInfo?.content" />
     </div>
   </div>
 </template>
@@ -30,9 +41,6 @@ const breadcrumbs = ref([
 
   &__breadcrumbs {
     margin-bottom: 50px;
-  }
-
-  &__wysiwyg {
   }
 }
 </style>

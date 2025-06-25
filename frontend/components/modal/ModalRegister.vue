@@ -108,8 +108,7 @@ const openLogin = () => {
         <BaseButton
           type="submit"
           size="lg"
-          :loading="isSubmitting"
-          class="modal-register__submit"
+          style="width: 100%;"
           label="Зарегистрироваться"
         />
 
@@ -134,19 +133,8 @@ const openLogin = () => {
     border-radius: 12px;
     padding: 40px 30px;
     width: 100%;
-    max-width: 450px;
+    max-width: 550px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  }
-
-  &__close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    color: $white;
-    cursor: pointer;
-    padding: 5px;
   }
 
   &__header {
@@ -179,7 +167,7 @@ const openLogin = () => {
     font-size: 0.85rem;
     line-height: 1.4;
     cursor: pointer;
-    margin-top: -10px;
+    margin-top: 10px;
 
     input {
       margin-top: 3px;

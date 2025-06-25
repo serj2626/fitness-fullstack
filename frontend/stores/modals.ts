@@ -8,7 +8,6 @@ export type ModalItem =
   | "login"
   | "orderAbonement"
   | "orderTraining"
-  | "coachInfo"
   | "passwordRecovery";
 
 export const useModalsStore = defineStore("modals-store", () => {

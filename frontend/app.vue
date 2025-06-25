@@ -1,5 +1,21 @@
 <script setup lang="ts">
-// const config = useRuntimeConfig();
+import { api } from "~/api";
+import type { IContactData } from "~/types";
+const { $api } = useNuxtApp();
+
+ await useAsyncData(
+  "all-contants-info",
+  () => $api<IContactData[]>(api.contacts.list),
+  {
+    transform: (data) => {
+      const res: Record<string, IContactData> = {};
+      for (const item of data) {
+        res[item.type] = item;
+      }
+      return res;
+    },
+  }
+);
 </script>
 
 <template>

@@ -26,8 +26,7 @@ function toggleAccordion(id: number): void {
             <div class="accordion__header">
               <p class="accordion__header-question">
                 <span class="accordion__header-question-number">
-                  {{ index < 10 ? `0${index + 1}` : `${index + 1}` }}
-                </span
+                  {{ index < 10 ? `0${index + 1}` : `${index + 1}` }} </span
                 >{{ faq.question }}
               </p>
               <button class="accordion__header-btn">
@@ -41,7 +40,9 @@ function toggleAccordion(id: number): void {
               </button>
             </div>
           </template>
-          <template #default><p class="accordion__content">{{ faq.answer }}</p></template>
+          <template #default
+            ><p class="accordion__content">{{ faq.answer }}</p></template
+          >
         </BaseAccordionComponent>
       </li>
     </ul>
@@ -51,7 +52,6 @@ function toggleAccordion(id: number): void {
 .faq-content {
   padding-block: 100px;
   &__list {
-    margin-top: 50px;
     max-width: 800px;
     margin-inline: auto;
     color: $white;
@@ -70,7 +70,7 @@ function toggleAccordion(id: number): void {
     display: flex;
     align-items: center;
     gap: 10px;
-    &-number{
+    &-number {
       font-weight: 700;
       font-size: 24px;
       transform: translateX(-20px) translateY(-10px);
@@ -83,7 +83,7 @@ function toggleAccordion(id: number): void {
     justify-content: space-between;
     padding: 6px;
     border-radius: 50%;
-    background-color: $grey;
+    background-color: $txt;
     transition: all 0.3s ease-in;
     &:hover {
       opacity: 0.6;
@@ -95,6 +95,7 @@ function toggleAccordion(id: number): void {
       transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       &_open {
         rotate: -45deg;
+        color: $accent;
       }
     }
   }
@@ -102,7 +103,7 @@ function toggleAccordion(id: number): void {
 
 .accordion__content {
   margin-top: 10px;
-  padding-left: 20px;
+  padding-left: 40px;
   color: $white;
 }
 </style>

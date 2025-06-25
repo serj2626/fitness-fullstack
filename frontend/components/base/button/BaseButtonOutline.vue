@@ -10,7 +10,7 @@ interface IBaseButton {
 const {
   color = "fff",
   size = "md",
-  radius = "10px",
+  radius = "8px",
   label,
 } = defineProps<IBaseButton>();
 </script>
@@ -20,7 +20,7 @@ const {
     :class="[
       'base-button-outline',
       `base-button-outline__${size}`,
-      { 'base-button-outline-fill_disabled': disabled },
+      { 'base-button-outline_disabled': disabled },
     ]"
   >
     {{ label }}
@@ -33,19 +33,16 @@ const {
   justify-content: center;
   align-items: center;
   gap: 5px;
-  color: $txt;
+  color: $accent;
 
-  user-select: none;
   border-radius: v-bind(radius);
   border: 1px solid $accent;
-  transition: all 0.3 ease-in-out;
-  width: fit-content;
-
+  transition: all .3s ease-in-out;
   cursor: pointer;
 
   &:hover {
-    border-color: $txt-dark;
-    color: $accent-dark;
+    background-color: $accent;
+    color: $txt;
   }
 
   &__xs {

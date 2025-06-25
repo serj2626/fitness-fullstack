@@ -38,7 +38,7 @@ const {
   user-select: none;
   border-radius: v-bind(radius);
   border: 1px solid transparent;
-  transition: all 0.3 ease-in-out;
+  transition: all 0.3s ease-in-out;
   width: fit-content;
 
   cursor: pointer;

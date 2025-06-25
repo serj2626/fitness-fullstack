@@ -1,5 +1,29 @@
 <script lang="ts" setup>
+const { tel = "8-999-999-99-99", address = "СПБ, улица Будапештская дом 89" } =
+  defineProps<{
+    address?: string;
+    tel?: string;
+  }>();
 
+interface FormField<T> {
+  value: T;
+  error: string;
+  required: boolean;
+}
+
+interface FeedbackForm {
+  name: FormField<string>;
+  phone: FormField<string>;
+  captcha: FormField<string>;
+  agree: FormField<boolean>;
+}
+
+const formFields = reactive<FeedbackForm>({
+  name: { value: "", error: "", required: true },
+  phone: { value: "", error: "", required: true },
+  captcha: { value: "", error: "", required: true },
+  agree: { value: false, error: "", required: true },
+});
 </script>
 <template>
   <section id="base-form-feedback" class="base-form-feedback">
@@ -10,21 +34,23 @@
       </p>
       <div class="base-form-feedback__wraper-content">
         <div class="base-form-feedback__wraper-content-info">
-          <a class="base-form-feedback__wraper-content-info-tel"
-            >8-999-999-99-99
-          </a>
-          <p class="base-form-feedback__wraper-content-info-adress">
-            СПБ, улица Будапештская дом 89
+          <a class="base-form-feedback__wraper-content-info-tel">{{ tel }} </a>
+          <p class="base-form-feedback__wraper-content-info-address">
+            {{ address }}
           </p>
         </div>
         <form class="base-form-feedback__wraper-content-form">
           <div class="base-form-feedback__wraper-content-form-input">
             <BaseInput
+              v-model:input-value="formFields.name.value"
+              v-model:error="formFields.name.error"
               type="text"
               placeholder="Ваше имя"
               class="base-form-feedback__wraper-content-form-input-phone"
             />
             <BaseInput
+              v-model:input-value="formFields.phone.value"
+              v-model:error="formFields.phone.error"
               type="tel"
               placeholder="+7 ( ___ ) ___ - __ - __"
               class="base-form-feedback__wraper-content-form-input-phone"
@@ -32,6 +58,7 @@
           </div>
           <label class="base-form-feedback__wraper-content-form-check">
             <input
+              v-model="formFields.agree.value"
               type="checkbox"
               class="base-form-feedback__wraper-content-form-check-input"
             />
@@ -98,7 +125,7 @@
           color: $accent;
           opacity: 0.8;
         }
-        &-adress {
+        &-address {
           color: $white;
         }
       }

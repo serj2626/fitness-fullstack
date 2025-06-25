@@ -30,8 +30,6 @@ const { data: servicesInfo } = await useAsyncData<IServicesResponse[]>(
     <MainAbonementsSection v-if="abonementsInfo" :abonements="abonementsInfo" />
     <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
     <MainPoolSection />
-    <!-- <MainCoachesSection />
-    <MainReviewsSection /> -->
     <BaseFormFeedback />
   </div>
 </template>

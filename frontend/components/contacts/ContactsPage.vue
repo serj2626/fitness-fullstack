@@ -1,26 +1,15 @@
 <script lang="ts" setup>
-import { api } from "~/api";
-import type { IContactData } from "~/types";
-const { $api } = useNuxtApp();
-
-const { data: contactsInfo } = await useAsyncData(
-  "contacts-page-info",
-  () => $api<IContactData[]>(api.contacts.list),
-  {
-    transform: (data) => {
-      const res: Record<string, IContactData> = {};
-      for (const item of data) {
-        res[item.type] = item;
-      }
-      return res;
-    },
-  }
-);
+import type { IContactsResponse } from "~/types";
+const { data: contactsInfo } =
+  useNuxtData<IContactsResponse>("all-contants-info");
 </script>
 <template>
   <div class="contacts-page">
     <div class="container">
-      <BaseFormFeedback />
+      <BaseFormFeedback
+        :address="contactsInfo?.address.value"
+        :tel="contactsInfo?.phone.value"
+      />
       <ContactsInfo v-if="contactsInfo" :contacts="contactsInfo" />
     </div>
     <BaseMap

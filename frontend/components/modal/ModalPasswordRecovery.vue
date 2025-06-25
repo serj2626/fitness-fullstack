@@ -45,14 +45,13 @@ const handleSubmit = async () => {
 </script>
 <template>
   <div class="password-modal">
-    <BaseButtonClose
-      top="10px"
-      right="10px"
-      :size="46"
-      @click="modalsStore.closeModal('passwordRecovery')"
-    />
-
     <div class="password-modal__content">
+      <BaseButtonClose
+        top="10px"
+        right="10px"
+        :size="26"
+        @click="modalsStore.closeModal('passwordRecovery')"
+      />
       <div class="password-modal__header">
         <h2 class="password-modal__title">Восстановление пароля</h2>
         <p class="password-modal__subtitle">
@@ -68,12 +67,11 @@ const handleSubmit = async () => {
           required
           class="password-modal__input"
         />
-
         <BaseButton
           type="submit"
           label="Отправить ссылку"
           size="lg"
-          class="password-modal__submit"
+          style="width: 100%"
         />
 
         <p v-if="errorMessage" class="password-modal__error">

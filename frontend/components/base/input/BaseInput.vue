@@ -45,6 +45,7 @@ interface IInputProps {
 }
 
 const inputValue = defineModel("inputValue");
+const errorValue = defineModel("error");
 
 const props = defineProps<IInputProps>();
 
@@ -95,7 +96,8 @@ const currentType = computed(() => {
   border: 1px solid #6e666688;
   border-radius: 10px;
   transition: outline .6s ease-in;
-  padding: 8px 30px;
+  // padding: 8px 30px;
+  padding-block: 8px;
 
   &_isfocused {
     outline: 1px solid $accent;
@@ -104,11 +106,11 @@ const currentType = computed(() => {
   &__placeholder {
     position: absolute;
     color: $white;
-    padding-left: 11px;
+    padding-left: 15px;
   }
 
   &__input {
-    padding: 9px 19px 9px 11px;
+    padding: 9px 19px 9px 15px;
     cursor: auto;
     border-radius: 5px;
     color: $white;

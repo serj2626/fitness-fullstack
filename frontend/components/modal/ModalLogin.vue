@@ -97,9 +97,8 @@ const openPasswordRecovery = () => {
         <BaseButton
           type="submit"
           size="lg"
-          :loading="isSubmitting"
-          class="auth-modal__submit"
           label="Войти"
+          style="width: 100%;"
         />
 
         <div class="auth-modal__footer">
@@ -125,19 +124,8 @@ const openPasswordRecovery = () => {
     border-radius: 12px;
     padding: 40px 30px;
     width: 100%;
-    max-width: 450px;
+    max-width: 650px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  }
-
-  &__close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    color: $white;
-    cursor: pointer;
-    padding: 5px;
   }
 
   &__header {

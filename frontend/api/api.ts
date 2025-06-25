@@ -18,7 +18,7 @@ export const api = {
     policy: "/legal/policy/", //Получает политику
     oferta: "/legal/offerta/", //Получает оферту
     aboutcompany: "/legal/about-company/", //Получает информацию о компании
-    cookiepolicy: "/legal/cookie-policy/", //Получает политику cookie
+    cookie: "/legal/cookie-policy/", //Получает политику cookie
     services: "/legal/services/", //Получает информацию о услугах
   },
   contacts: {

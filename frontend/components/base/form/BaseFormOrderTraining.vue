@@ -110,9 +110,9 @@ const submitForm = async () => {
       time: selectedTime.value,
       coach: selectedCoach.value,
       client: {
-        name: formFields.name.value,
-        phone: formFields.phone.value,
-        email: formFields.email.value,
+        name: formData.name.value,
+        phone: formData.phone.value,
+        email: formData.email.value,
       },
     };
 
@@ -130,7 +130,7 @@ const submitForm = async () => {
   }
 };
 
-// Форма с валидацией
+
 interface FormField<T> {
   value: T;
   error: string;
@@ -145,7 +145,7 @@ interface FeedbackForm {
   abonement: FormField<string>;
 }
 
-const formFields = reactive<FeedbackForm>({
+const formData = reactive<FeedbackForm>({
   name: { value: "", error: "", required: true },
   phone: { value: "", error: "", required: true },
   email: { value: "", error: "", required: true },
@@ -228,14 +228,16 @@ const formFields = reactive<FeedbackForm>({
             @submit.prevent="submitForm"
           >
             <BaseInput
-              v-model="formFields.name.value"
+              v-model:input-value="formData.name.value"
+              v-model:error="formData.name.error"
               placeholder="Ваше имя"
               icon="user"
               required
             />
 
             <BaseInput
-              v-model="formFields.phone.value"
+              v-model:input-value="formData.phone.value"
+              v-model:error="formData.phone.error"
               type="tel"
               placeholder="Телефон"
               icon="phone"
@@ -243,7 +245,8 @@ const formFields = reactive<FeedbackForm>({
             />
 
             <BaseInput
-              v-model="formFields.email.value"
+              v-model:input-value="formData.email.value"
+              v-model:error="formData.email.error"
               type="email"
               placeholder="Email"
               icon="email"
@@ -258,7 +261,7 @@ const formFields = reactive<FeedbackForm>({
               required
             />
 
-            <BaseRecaptcha v-model="formFields.captcha.value" />
+            <BaseRecaptcha v-model="formData.captcha.value" />
 
             <BaseButton
               type="submit"
