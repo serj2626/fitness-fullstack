@@ -43,7 +43,7 @@ const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachDetailPage" />
 
       <div class="coach-layout">
-        <CoachesDetailProfile
+        <CoachDetailProfile
           :avatar="coachInfo?.avatar"
           class="coach-layout__sidebar"
         />
@@ -61,7 +61,7 @@ const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
           </div>
 
           <div class="tab-content">
-            <CoachesDetailContacts
+            <CoachDetailContacts
               v-if="activeTab === 'contacts'"
               :name="coachInfo?.first_name + ' ' + coachInfo?.last_name"
               :position="coachInfo?.position || 'Должность тренера'"
@@ -84,14 +84,14 @@ const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
               </div>
             </div>
 
-            <CoachesDetailImages
+            <CoachDetailImages
               v-if="isOpen"
               :images
               :start-index
               @close="isOpen = false"
             />
 
-            <CoachesDetailReviews v-if="activeTab === 'reviews'" />
+            <CoachDetailReviews v-if="activeTab === 'reviews'" />
           </div>
         </div>
       </div>

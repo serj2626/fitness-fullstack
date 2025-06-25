@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import { coaches } from "~/assets/data/moke.data";
 import type { ICoachesListResponse } from "~/types";
 
 const { $api } = useNuxtApp();
