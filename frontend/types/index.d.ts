@@ -19,6 +19,8 @@ export interface ICoachesListResponse {
   results: ICoach[];
 }
 
+// ДЛЯ ФУТЕРА
+
 interface IFooterResponse {
   site_name: string;
   copyright: string;
