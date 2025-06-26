@@ -24,7 +24,7 @@ class Post(BaseTitle, BaseDate, BaseContent):
         ("news", "Новости клуба"),
         ("promo", "Акции"),
     ]
-    slug = models.SlugField("URL", max_length=200, unique=True)
+    slug = models.SlugField("URL", max_length=200, unique=True, blank=True, null=True)
     category = models.CharField("Категория", max_length=20, choices=POST_CATEGORIES)
     image = models.ImageField(
         "Изображение", upload_to="posts/previews/", blank=True, null=True

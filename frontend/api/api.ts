@@ -10,6 +10,11 @@ export const api = {
   abonements: {
     list: "/abonements/",
   },
+  posts: {
+    list: "/gym/posts/", //Получает посты
+    last: "/gym/posts/last/", //Получает последние посты
+    detail: (id: string) => `/gym/posts/${id}/`, //Получает детальную информацию о посте
+  },
   gym: {
     services: "/gym/services/", //Получает информацию о услугах
     faq: "/gym/faq/", //Получает вопросы и ответы

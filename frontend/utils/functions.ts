@@ -39,3 +39,11 @@ export const formatNumberCustom = (num: number, separator = " "): string => {
 export const goNextPage = (path: string) => {
   return window.open(path, "_blank");
 };
+
+export const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString("ru-RU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};

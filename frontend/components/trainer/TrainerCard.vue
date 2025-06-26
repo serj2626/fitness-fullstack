@@ -20,10 +20,7 @@ defineProps<{ trainer: ICoach }>();
       <p class="trainer-card__info-experience">
         {{ trainer.experience }} лет опыта
       </p>
-      <p
-        class="trainer-card__info-bio"
-        v-html="trainer.content"
-      />
+      <p class="trainer-card__info-bio">{{ trainer.content }}</p>
 
       <BaseButton
         label="Подробнее"

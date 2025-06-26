@@ -3,9 +3,14 @@ from .models import FAQ, GymReviews, Service, Post
 
 
 class PostSerializer(serializers.ModelSerializer):
+    category = serializers.SerializerMethodField()
+
     class Meta:
         model = Post
         fields = "__all__"
+
+    def get_category(self, obj):
+        return obj.get_category_display()
 
 
 class GymReviewsSerializer(serializers.ModelSerializer):

@@ -1,61 +1,10 @@
 <script setup lang="ts">
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+import type { IPost } from "~/types";
+
+defineProps<{ posts: IPost[] | null }>();
 
 // Моковые данные
-const posts = ref([
-  {
-    id: 1,
-    title: "Как правильно выполнять становую тягу",
-    slug: "deadlift-technique",
-    category: "workout",
-    content:
-      "Становая тяга - одно из ключевых упражнений в силовом тренинге. В этой статье мы разберем правильную технику выполнения...",
-    preview_image: "/services/gym.jpg",
-    created_at: "2023-05-15T10:30:00Z",
-    views: 1245,
-  },
-  {
-    id: 2,
-    title: "Питание для набора мышечной массы",
-    slug: "muscle-gain-nutrition",
-    category: "nutrition",
-    content:
-      "Чтобы эффективно набирать мышечную массу, важно не только тренироваться, но и правильно питаться...",
-    preview_image: "/services/pool.png",
-    created_at: "2023-05-10T14:15:00Z",
-    views: 982,
-  },
-  {
-    id: 3,
-    title: "Новый тренажерный зал в нашем клубе",
-    slug: "new-gym-equipment",
-    category: "news",
-    content:
-      "Мы рады сообщить о расширении нашего тренажерного зала! Теперь у нас появилось новое оборудование...",
-    preview_image: "/services/spa.jpg",
-    created_at: "2023-05-05T09:00:00Z",
-    views: 1567,
-  },
-]);
-
-const getCategoryName = (category) => {
-  const categories = {
-    workout: "Тренировки",
-    nutrition: "Питание",
-    news: "Новости",
-    promo: "Акции",
-  };
-  return categories[category] || category;
-};
-
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("ru-RU", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-};
 </script>
 <template>
   <section class="main-post-section">
@@ -70,33 +19,36 @@ const formatDate = (dateString) => {
           v-for="post in posts"
           :key="post.id"
           class="main-post-section__list-card"
-          :class="`main-post-section__list-card-category_${post.category}`"
         >
+          <button class="main-post-section__list-card-show">
+            <Icon
+              class="main-post-section__list-card-show-icon"
+              :name="HeroIcons.ARROW_RIGHT"
+              size="30"
+            />
+          </button>
           <NuxtLink
             :to="`/blog/${post.slug}`"
             class="main-post-section__list-card-link"
           >
             <div class="main-post-section__list-card-image-wrapper">
               <img
-                :src="post.preview_image"
+                :src="post.image"
                 :alt="post.title"
                 class="main-post-section__list-card-image"
               />
-              <span class="main-post-section__list-card-category">{{
-                getCategoryName(post.category)
-              }}</span>
+              <span class="main-post-section__list-card-category">
+                {{ post.category }}</span
+              >
             </div>
             <div class="main-post-section__list-card-content">
               <h3 class="main-post-section__list-card-content-title">
                 {{ post.title }}
               </h3>
-              <p class="main-post-section__list-card-content-excerpt">
-                {{ post.content.substring(0, 100) }}...
-              </p>
               <div class="main-post-section__list-card-content-meta">
-                <span class="main-post-section__list-card-content-date">{{
-                  formatDate(post.created_at)
-                }}</span>
+                <span class="main-post-section__list-card-content-date">
+                  {{ formatDate(post.created_at) }}
+                </span>
               </div>
             </div>
           </NuxtLink>
@@ -105,7 +57,7 @@ const formatDate = (dateString) => {
       <BaseButtonWithIcon
         label="Смотреть все статьи"
         :icon="HeroIcons.ARROW_RIGHT"
-        size="md"
+        size="lg"
         class="main-post-section__button"
       />
     </div>
@@ -136,6 +88,7 @@ const formatDate = (dateString) => {
     gap: 30px;
     margin-bottom: 40px;
     &-card {
+      position: relative;
       background: darken($bg, 3%);
       border-radius: 8px;
       overflow: hidden;
@@ -145,6 +98,27 @@ const formatDate = (dateString) => {
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       }
+      &-show {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: none;
+        background-color: $accent;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: $txt;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        &-icon {
+          color: wheat;
+        }
+        &:hover {
+          color: $white;
+        }
+      }
       &-link {
         text-decoration: none;
         color: inherit;
@@ -152,7 +126,7 @@ const formatDate = (dateString) => {
 
       &-image-wrapper {
         position: relative;
-        height: 200px;
+        height: 300px;
         overflow: hidden;
       }
       &-image {
@@ -163,6 +137,8 @@ const formatDate = (dateString) => {
       }
       &-category {
         position: absolute;
+        background-color: $accent;
+        color: $txt;
         top: 15px;
         right: 15px;
         padding: 5px 10px;
@@ -170,11 +146,6 @@ const formatDate = (dateString) => {
         font-size: 0.8rem;
         font-weight: bold;
         text-transform: uppercase;
-
-        & * {
-          background: rgba(#4caf50, 0.9);
-          color: $white;
-        }
       }
       &-content {
         padding: 20px;

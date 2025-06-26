@@ -1,24 +1,55 @@
+import type { ITokenResponse } from "~/types";
+import { api } from "~/api";
+
 export const useAuth = () => {
-  const { $api } = useNuxtApp();
-  const token = useCookie("auth_token");
-  const user = useState("user");
+  const { $auth , $api } = useNuxtApp();
+  const user = useState("user", () => null);
 
-  const login = async (credentials) => {
-    const { data } = await $api.post("/auth/login", credentials);
-    token.value = data.token;
-    await fetchUser();
-  };
+  // Логин
+  const login = async (credentials: { email: string; password: string }) => {
+    try {
+      const { access, refresh } = await $api<ITokenResponse>(
+       api.users.login,
+        {
+          method: "POST",
+          body: credentials,
+        }
+      );
 
-  const fetchUser = async () => {
-    if (token.value) {
-      user.value = await $api.get("/auth/user");
+      $auth.setTokens(access, refresh);
+      await fetchUser(); // Загружаем данные пользователя
+      return true;
+    } catch (error) {
+      return false;
     }
   };
 
-  const logout = () => {
-    token.value = null;
-    user.value = null;
+  // Загрузка данных пользователя
+  const fetchUser = async () => {
+    try {
+      user.value = await $api(api.users.info, {
+        headers: {
+          Authorization: `Bearer ${$auth.getAccessToken()}`,
+        },
+      });
+    } catch (error) {
+      console.log("error composable auth", error);
+      // Если токен просрочен, пробуем обновить
+      const newAccess = await $auth.refreshTokens();
+      if (newAccess) {
+        await fetchUser();
+      }
+    }
   };
 
-  return { token, user, login, logout, fetchUser };
+  // Проверка авторизации (для middleware)
+  const checkAuth = async () => {
+    if (!$auth.getAccessToken()) {
+      const newAccess = await $auth.refreshTokens();
+      return !!newAccess;
+    }
+    return true;
+  };
+
+  return { user, login, fetchUser, checkAuth };
 };

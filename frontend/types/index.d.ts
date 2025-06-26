@@ -152,7 +152,7 @@ export interface ILegalResponse {
 
 // СТРАНИЦЫ С ПОСТАМИ
 
-interface IPost {
+export interface IPost {
   id: number;
   content: string;
   title: string;
@@ -164,10 +164,17 @@ interface IPost {
   is_published: true;
 }
 
-interface IPostsResponse {
+export interface IPostsResponse {
   current: number;
   next: null | number;
   previous: null | number;
   count: number;
   results: IPost[];
+}
+
+
+// ТОКЕНЫ
+export interface ITokenResponse {
+  access: string;
+  refresh: string;
 }

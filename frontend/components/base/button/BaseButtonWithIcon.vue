@@ -35,7 +35,7 @@ const {
 .base-button-with-icon {
   background-color: v-bind(color);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 5px;
   color: $accent;
@@ -48,14 +48,16 @@ const {
   &:hover {
     background-color: $accent;
     color: $txt;
+    .base-button-with-icon__icon{
+        transform: translateX(5px);
+    }
   }
 
-  &__label {
-  }
 
   &__icon {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
+    transition: all 0.2s ease-in-out;
   }
 
   &__xs {

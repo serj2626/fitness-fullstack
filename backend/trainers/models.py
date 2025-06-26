@@ -20,11 +20,12 @@ from common.validators import (
 User = get_user_model()
 
 
-class Trainer(BaseID, BaseContent):
+class Trainer(BaseID):
     """
     Тренер
     """
 
+    content = models.TextField("Описание", null=True, blank=True)
     position = models.CharField("Должность", max_length=100, choices=POSITIONS_TYPE)
     first_name = models.CharField("Имя", max_length=100)
     last_name = models.CharField("Фамилия", max_length=100)
