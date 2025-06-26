@@ -2,6 +2,7 @@
 import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
 import type { ICoach, ICoachesListResponse } from "~/types";
+import CoachListContent from "./CoachListContent.vue";
 
 const { $api } = useNuxtApp();
 

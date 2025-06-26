@@ -87,9 +87,10 @@ const openPhotoViewer = (photos: string[], index: number) => {
       <h2 class="reviews-title">
         Отзывы <span class="reviews-count">{{ reviews.length }}</span>
       </h2>
-      <BaseButtonOutline
+      <BaseButton
         label="Оставить отзыв"
         size="md"
+        :outline="true"
         @click="modalsStore.openModal('reviewCoachForm')"
       />
     </div>

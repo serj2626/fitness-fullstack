@@ -57,9 +57,10 @@ onUnmounted(() => {
           Войти
         </a>
       </ul>
-      <BaseButtonOutline
+      <BaseButton
         size="md"
         label="Купить абонемент"
+        :outline="true"
         @click="modalsStore.openModal('orderAbonement')"
       />
       <button

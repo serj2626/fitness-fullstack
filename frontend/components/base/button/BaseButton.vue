@@ -5,6 +5,7 @@ interface IBaseButton {
   label: string;
   disabled?: boolean;
   radius?: string;
+  outline?: boolean;
 }
 
 const {
@@ -12,6 +13,7 @@ const {
   size = "md",
   radius = "5px",
   label,
+  outline = false,
 } = defineProps<IBaseButton>();
 </script>
 
@@ -20,7 +22,7 @@ const {
     :class="[
       'base-button',
       `base-button__${size}`,
-      { 'base-button-fill_disabled': disabled },
+      { 'base-button_disabled': disabled, 'base-button_outline': outline },
     ]"
   >
     {{ label }}
@@ -46,7 +48,16 @@ const {
   &:hover {
     opacity: 0.8;
   }
-
+  &_outline {
+    border: 1px solid v-bind(color);
+    color: v-bind(color);
+    transition: all 0.3s ease-in-out;
+    background-color: transparent;
+    &:hover {
+      background-color: $accent;
+      color: $txt;
+    }
+  }
 
   &__xs {
     padding: 6px 9px;

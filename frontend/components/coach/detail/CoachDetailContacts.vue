@@ -16,7 +16,7 @@ function getIcon(title: string) {
 }
 
 const getListKeywords = computed(() => {
-  return props.keywords.split(',');
+  return props.keywords.split(",");
 });
 const getExperience = computed(() => {
   if (props.experience > 0) {
@@ -105,13 +105,14 @@ const getExperience = computed(() => {
         v-if="getListKeywords.length > 0"
         class="coach-detail-contacts__description-keywords"
       >
-        <li
+        <BaseButton
           v-for="word in getListKeywords"
           :key="word"
+          :outline="true"
+          disabled
+          :label="word"
           class="coach-detail-contacts__description-keywords-item"
-        >
-          {{ word }}
-        </li>
+        />
       </ul>
       <div class="coach-detail-contacts__description-content">
         <p>

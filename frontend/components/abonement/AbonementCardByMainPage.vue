@@ -43,16 +43,16 @@ defineProps<{ plan: IMainAbonementResponse }>();
         </li>
       </ul>
     </div>
-    <BaseButtonOutline
+    <BaseButton
       class="abonement-card-by-home-page__btn"
       label="Забронировать"
       size="lg"
+      :outlined="true"
       @click="modalsStore.openModal('orderAbonement')"
     />
   </div>
 </template>
 <style scoped lang="scss">
-
 .abonement-card-by-home-page:hover {
   .abonement-card-by-home-page__btn {
     color: $txt;
@@ -63,10 +63,6 @@ defineProps<{ plan: IMainAbonementResponse }>();
     }
   }
 }
-
-
-
-
 
 .abonement-card-by-home-page {
   position: relative;

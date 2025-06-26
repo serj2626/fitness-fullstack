@@ -18,6 +18,26 @@ function handleAnimationEnd() {
     modalsStore.closeModal("reviewCoachForm");
   }
 }
+
+interface FormField<T> {
+  value: T;
+  error: string;
+  required: boolean;
+}
+
+interface FeedbackForm {
+  name: FormField<string>;
+  email: FormField<string>;
+  message: FormField<string>;
+  captcha: FormField<string>;
+}
+
+const formData = reactive<FeedbackForm>({
+  name: { value: "", error: "", required: true },
+  email: { value: "", error: "", required: true },
+  message: { value: "", error: "", required: true },
+  captcha: { value: "", error: "", required: true },
+});
 </script>
 
 <template>
@@ -40,11 +60,15 @@ function handleAnimationEnd() {
 
         <div class="modal-coach-review__form-grid">
           <BaseInput
+            v-model:input-value="formData.name.value"
+            v-model:error="formData.name.error"
             class="modal-coach-review__input"
             placeholder="Ваше имя"
             required
           />
           <BaseInput
+            v-model:input-value="formData.email.value"
+            v-model:error="formData.email.error"
             class="modal-coach-review__input"
             placeholder="Ваш email"
             type="email"
@@ -53,18 +77,24 @@ function handleAnimationEnd() {
         </div>
 
         <BaseInputTextArea
+          v-model:input-value="formData.message.value"
+          v-model:error-value="formData.message.error"
           class="modal-coach-review__textarea"
           placeholder="Расскажите о вашем опыте..."
           required
         />
 
-        <BaseRecaptcha class="modal-coach-review__recaptcha" />
+        <BaseRecaptcha
+          v-model:input-value="formData.captcha.value"
+          class="modal-coach-review__recaptcha"
+        />
 
         <BaseButton
           class="modal-coach-review__submit"
           type="submit"
           label="Отправить отзыв"
           size="lg"
+          style="width: 100%;"
         />
       </form>
     </div>
@@ -78,7 +108,7 @@ function handleAnimationEnd() {
     width: 100%;
     max-width: 600px;
     height: 100%;
-    max-height: 700px;
+    // max-height: 700px;
     margin-inline: auto;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     border-radius: 16px;
@@ -95,6 +125,12 @@ function handleAnimationEnd() {
       max-height: 100vh;
       border-radius: 0;
     }
+  }
+  &__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   &__title {
@@ -181,34 +217,6 @@ function handleAnimationEnd() {
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
     }
-  }
-
-  &__success {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 0;
-    text-align: center;
-  }
-
-  &__success-icon {
-    width: 80px;
-    height: 80px;
-    color: #10b981;
-    margin-bottom: 20px;
-    animation: checkmark 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-
-  &__success-title {
-    font-size: 28px;
-    color: white;
-    margin-bottom: 10px;
-  }
-
-  &__success-text {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.7);
   }
 }
 

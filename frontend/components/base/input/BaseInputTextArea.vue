@@ -1,10 +1,10 @@
 <script setup lang="ts">
 interface IInputProps {
   placeholder?: string;
-  error?: string;
 }
 
-const inputValue = defineModel<string | number>('inputValue');
+const inputValue = defineModel<string | number>("inputValue");
+const error = defineModel("errorValue");
 
 defineProps<IInputProps>();
 </script>
@@ -53,7 +53,7 @@ defineProps<IInputProps>();
     height: 200px;
     color: $white;
 
-    box-shadow: 10px 14px 20px  rgba(252, 252, 252, 0.469);
+    box-shadow: 10px 14px 20px rgba(252, 252, 252, 0.469);
     border-radius: 5px;
 
     &:focus {
