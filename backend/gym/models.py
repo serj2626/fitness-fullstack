@@ -1,5 +1,5 @@
 from django.db import models
-from common.models import BaseID, BaseReview
+from common.models import BaseContent, BaseDate, BaseID, BaseReview, BaseTitle
 from django.utils.text import slugify
 from common.types import SERVICES_TYPE
 from common.upload import compress_image
@@ -7,6 +7,44 @@ from common.upload_to import dynamic_upload_to
 from common.validators import (
     validate_image_extension_and_format,
 )
+from django.utils.text import slugify
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
+class Post(BaseTitle, BaseDate, BaseContent):
+    """
+    Пост
+    """
+
+    POST_CATEGORIES = [
+        ("workout", "Тренировки"),
+        ("nutrition", "Питание"),
+        ("news", "Новости клуба"),
+        ("promo", "Акции"),
+    ]
+    slug = models.SlugField("URL", max_length=200, unique=True)
+    category = models.CharField("Категория", max_length=20, choices=POST_CATEGORIES)
+    image = models.ImageField(
+        "Изображение", upload_to="posts/previews/", blank=True, null=True
+    )
+    is_published = models.BooleanField("Опубликовано", default=True)
+
+    class Meta:
+        verbose_name = "Пост"
+        verbose_name_plural = "Посты"
+        ordering = ["-created_at"]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
 
 
 class Service(BaseID):

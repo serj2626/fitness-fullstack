@@ -1,17 +1,28 @@
 <script lang="ts" setup>
+import { api } from "~/api";
 const modalsStore = useModalsStore();
 const isClosing = ref(false);
 const isSubmitting = ref(false);
 
-const formData = reactive({
-  email: "",
-  password: "",
-  remember: false,
-});
+const { $api } = useNuxtApp();
 
-const closeModal = () => {
-  isClosing.value = true;
-};
+interface FormField<T> {
+  value: T;
+  error: string;
+  required: boolean;
+}
+
+interface FeedbackForm {
+  email: FormField<string>;
+  password: FormField<string>;
+  remember: FormField<boolean>;
+}
+
+const formData = reactive<FeedbackForm>({
+  email: { value: "", error: "", required: true },
+  password: { value: "", error: "", required: true },
+  remember: { value: false, error: "", required: false },
+});
 
 const handleAnimationEnd = () => {
   if (isClosing.value) {
@@ -19,17 +30,34 @@ const handleAnimationEnd = () => {
   }
 };
 
+// const submitForm = async () => {
+//   isSubmitting.value = true;
+//   try {
+//     // Логика входа
+//     await new Promise((resolve) => setTimeout(resolve, 1500));
+//     modalsStore.closeModal("login");
+//     useNotify().success("Вход выполнен успешно!");
+//   } catch (error) {
+//     useNotify().error("Ошибка входа. Проверьте данные");
+//   } finally {
+//     isSubmitting.value = false;
+//   }
+// };
+
 const submitForm = async () => {
-  isSubmitting.value = true;
+  console.log("submitForm", formData);
+
   try {
-    // Логика входа
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    modalsStore.closeModal("login");
-    useNotify().success("Вход выполнен успешно!");
+    const res = await $api(api.users.login, {
+      method: "POST",
+      body: {
+        email: formData.email.value,
+        password: formData.password.value,
+      },
+    });
+    console.log(res);
   } catch (error) {
-    useNotify().error("Ошибка входа. Проверьте данные");
-  } finally {
-    isSubmitting.value = false;
+    console.log(error);
   }
 };
 
@@ -46,11 +74,11 @@ const openPasswordRecovery = () => {
 
 <template>
   <div
-    class="auth-modal"
-    :class="{ 'auth-modal_close': isClosing }"
+    class="modal-login"
+    :class="{ 'modal-login_close': isClosing }"
     @animationend="handleAnimationEnd"
   >
-    <div class="auth-modal__wrapper">
+    <div class="modal-login__wrapper">
       <BaseButtonClose
         top="10px"
         right="10px"
@@ -58,14 +86,15 @@ const openPasswordRecovery = () => {
         @click="modalsStore.closeModal('login')"
       />
 
-      <div class="auth-modal__header">
+      <div class="modal-login__header">
         <h3>Вход в аккаунт</h3>
         <p>Введите ваши данные для входа</p>
       </div>
 
-      <form class="auth-modal__form" @submit.prevent="submitForm">
+      <form class="modal-login__form" @submit.prevent="submitForm">
         <BaseInput
-          v-model="formData.email"
+          v-model:input-value="formData.email.value"
+          v-model:error="formData.email.error"
           type="email"
           placeholder="Email"
           icon="email"
@@ -73,39 +102,41 @@ const openPasswordRecovery = () => {
         />
 
         <BaseInput
-          v-model="formData.password"
+          v-model:input-value="formData.password.value"
+          v-model:error="formData.password.error"
           type="password"
           placeholder="Пароль"
           icon="lock"
           required
         />
 
-        <div class="auth-modal__options">
-          <label class="auth-modal__remember">
-            <input v-model="formData.remember" type="checkbox" />
+        <div class="modal-login__options">
+          <!-- <label class="modal-login__remember">
+            <input v-model="formData.remember.value" type="checkbox" />
             <span>Запомнить меня</span>
-          </label>
+          </label> -->
+          <BaseInputCheckbox
+            v-model:agree-value="formData.remember.value"
+            v-model:agree-error="formData.remember.error"
+          >
+           <span>Запомнить меня</span>
+          </BaseInputCheckbox>
           <button
             type="button"
-            class="auth-modal__forgot"
+            class="modal-login__forgot"
             @click="openPasswordRecovery"
           >
             Забыли пароль?
           </button>
         </div>
 
-        <BaseButton
-          type="submit"
-          size="lg"
-          label="Войти"
-          style="width: 100%;"
-        />
+        <BaseButton type="submit" size="lg" label="Войти" style="width: 100%" />
 
-        <div class="auth-modal__footer">
+        <div class="modal-login__footer">
           <span>Ещё нет аккаунта?</span>
-          <button type="button" @click="openRegister">
+          <NuxtLink class="modal-login__footer-link" @click="openRegister">
             Зарегистрироваться
-          </button>
+          </NuxtLink>
         </div>
       </form>
     </div>
@@ -113,11 +144,12 @@ const openPasswordRecovery = () => {
 </template>
 
 <style scoped lang="scss">
-.auth-modal {
+.modal-login {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
   &__wrapper {
     position: relative;
     background: $bg;
@@ -125,7 +157,7 @@ const openPasswordRecovery = () => {
     padding: 40px 30px;
     width: 100%;
     max-width: 650px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px #fff;
   }
 
   &__header {
@@ -191,6 +223,10 @@ const openPasswordRecovery = () => {
     margin-top: 20px;
     color: rgba($white, 0.7);
     font-size: 0.9rem;
+    &-link {
+      color: $accent;
+      cursor: pointer;
+    }
 
     button {
       background: none;

@@ -7,24 +7,26 @@ import type {
 const { $api } = useNuxtApp();
 const modalsStore = useModalsStore();
 
-const { data: abonements } = await useAsyncData(
-  "main-page-abonements-list-info",
-  () => $api<IMainAbonementAPIResponse[]>(api.abonements.list),
-  {
-    transform: (data) => {
-      return data.map((abonement) => {
-        return {
-          ...abonement,
-          services: abonement.services.map((service) => service.title),
-        };
-      });
-    },
-    getCachedData: (key) => {
-      const cachedData = useNuxtData<IMainAbonementResponse[]>(key).data.value;
-      return cachedData || undefined; // если `null` или `undefined`, будет новый запрос
-    },
-  }
-);
+// const { data: abonements } = await useAsyncData(
+//   "main-page-abonements-list-info",
+//   () => $api<IMainAbonementAPIResponse[]>(api.abonements.list),
+//   {
+//     transform: (data) => {
+//       return data.map((abonement) => {
+//         return {
+//           ...abonement,
+//           services: abonement.services.map((service) => service.title),
+//         };
+//       });
+//     },
+//     getCachedData: (key) => {
+//       const cachedData = useNuxtData<IMainAbonementResponse[]>(key).data.value;
+//       return cachedData || undefined; // если `null` или `undefined`, будет новый запрос
+//     },
+//   }
+// );
+
+const { data: abonements } = useAbonements();
 
 const isClosing = ref(false);
 const isSubmitting = ref(false);

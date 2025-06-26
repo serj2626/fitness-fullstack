@@ -1,20 +1,17 @@
 <script lang="ts" setup>
-defineProps<{
-  label: string;
-}>();
-
 const agreeValue = defineModel("agreeValue");
+const agreeError = defineModel("agreeError");
 </script>
 <template>
   <div class="base-input-checkbox">
     <input
-      type="checkbox"
-      class="base-input-checkbox__element"
       id="check"
       v-model="agreeValue"
+      type="checkbox"
+      class="base-input-checkbox__element"
     />
     <label for="check" class="base-input-checkbox__label">
-      {{ label }}
+      <slot />
     </label>
   </div>
 </template>

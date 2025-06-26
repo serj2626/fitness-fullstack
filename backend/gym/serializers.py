@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from .models import FAQ, GymReviews, Service
+from .models import FAQ, GymReviews, Service, Post
+
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = "__all__"
 
 
 class GymReviewsSerializer(serializers.ModelSerializer):
@@ -30,7 +36,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     def get_alt(self, obj):
         return str(obj.get_type_display())
-    
+
     def get_img_url(self, obj):
         return str(obj.avatar.url)
 
@@ -38,7 +44,6 @@ class ServiceSerializer(serializers.ModelSerializer):
     #     representation = super().to_representation(instance)
     #     representation["avatar"] = instance.avatar.url
     #     return representation
-
 
 
 class FAQSerializer(serializers.ModelSerializer):

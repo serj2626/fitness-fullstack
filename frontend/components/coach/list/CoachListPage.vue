@@ -7,7 +7,7 @@ const { $api } = useNuxtApp();
 
 const { data: coachesData } = await useAsyncData<ICoachesListResponse>(
   "coaches-list-page-info",
-  () => $api(api.coaches.list)
+  () => $api(api.coaches.list),
 );
 
 const trainers = ref([

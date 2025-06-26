@@ -149,3 +149,25 @@ export interface ILegalResponse {
   title: string;
   content: string;
 }
+
+// СТРАНИЦЫ С ПОСТАМИ
+
+interface IPost {
+  id: number;
+  content: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  slug: string;
+  category: string;
+  image: string;
+  is_published: true;
+}
+
+interface IPostsResponse {
+  current: number;
+  next: null | number;
+  previous: null | number;
+  count: number;
+  results: IPost[];
+}

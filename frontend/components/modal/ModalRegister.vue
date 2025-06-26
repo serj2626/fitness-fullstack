@@ -1,19 +1,32 @@
 <script lang="ts" setup>
+import { api } from "~/api";
 const modalsStore = useModalsStore();
 const isClosing = ref(false);
 const isSubmitting = ref(false);
 
-const formData = reactive({
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-  agree: false,
-});
+const { $api } = useNuxtApp();
 
-const closeModal = () => {
-  isClosing.value = true;
-};
+interface FormField<T> {
+  value: T;
+  error: string;
+  required: boolean;
+}
+
+interface FeedbackForm {
+  email: FormField<string>;
+  phone: FormField<string>;
+  password: FormField<string>;
+  password2: FormField<string>;
+  agree: FormField<boolean>;
+}
+
+const formData = reactive<FeedbackForm>({
+  email: { value: "", error: "", required: true },
+  phone: { value: "", error: "", required: true },
+  password: { value: "", error: "", required: true },
+  password2: { value: "", error: "", required: true },
+  agree: { value: false, error: "", required: true },
+});
 
 const handleAnimationEnd = () => {
   if (isClosing.value) {
@@ -21,22 +34,41 @@ const handleAnimationEnd = () => {
   }
 };
 
-const submitForm = async () => {
-  if (formData.password !== formData.confirmPassword) {
-    useNotify().error("Пароли не совпадают");
-    return;
-  }
+// const submitForm = async () => {
+//   if (formData.password !== formData.confirmPassword) {
+//     useNotify().error("Пароли не совпадают");
+//     return;
+//   }
 
-  isSubmitting.value = true;
+//   isSubmitting.value = true;
+//   try {
+//     // Логика регистрации
+//     await new Promise((resolve) => setTimeout(resolve, 1500));
+//     modalsStore.closeModal("register");
+//     useNotify().success("Регистрация прошла успешно!");
+//   } catch (error) {
+//     useNotify().error("Ошибка регистрации");
+//   } finally {
+//     isSubmitting.value = false;
+//   }
+// };
+
+const submitForm = async () => {
+  console.log("submitForm", formData);
+
   try {
-    // Логика регистрации
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    modalsStore.closeModal("register");
-    useNotify().success("Регистрация прошла успешно!");
+    const res = await $api(api.users.register, {
+      method: "POST",
+      body: {
+        email: formData.email.value,
+        phone: formData.phone.value,
+        password: formData.password.value,
+        password2: formData.password2.value,
+      },
+    });
+    console.log(res);
   } catch (error) {
-    useNotify().error("Ошибка регистрации");
-  } finally {
-    isSubmitting.value = false;
+    console.log(error);
   }
 };
 
@@ -67,22 +99,24 @@ const openLogin = () => {
 
       <form class="modal-register__form" @submit.prevent="submitForm">
         <BaseInput
-          v-model="formData.name"
-          placeholder="Ваше имя"
-          icon="user"
-          required
-        />
-
-        <BaseInput
-          v-model="formData.email"
+          v-model:input-value="formData.email.value"
+          v-model:error="formData.email.error"
           type="email"
           placeholder="Email"
           icon="email"
           required
         />
+        <BaseInput
+          v-model:input-value="formData.phone.value"
+          v-model:error="formData.phone.error"
+          placeholder="Ваш телефон"
+          icon="user"
+          required
+        />
 
         <BaseInput
-          v-model="formData.password"
+          v-model:input-value="formData.password.value"
+          v-model:error="formData.password.error"
           type="password"
           placeholder="Пароль"
           icon="lock"
@@ -90,25 +124,35 @@ const openLogin = () => {
         />
 
         <BaseInput
-          v-model="formData.confirmPassword"
+          v-model:input-value="formData.password2.value"
+          v-model:error="formData.password2.error"
           type="password"
           placeholder="Повторите пароль"
           icon="lock"
           required
         />
-
+<!-- 
         <label class="modal-register__agree">
-          <input v-model="formData.agree" type="checkbox" />
+          <input v-model="formData.agree.value" type="checkbox" />
           <span
             >Я согласен с <a href="#">правилами</a> и
-            <a href="#">политикой конфиденциальности</a></span
+            <NuxtLink to="/policy">политикой конфиденциальности</NuxtLink></span
           >
-        </label>
+        </label> -->
+        <BaseInputCheckbox
+          v-model:agree-value="formData.agree.value"
+          v-model:agree-error="formData.agree.error"
+        >
+          <span @click.stop
+            >Я согласен с <a href="#">правилами</a> и
+            <NuxtLink to="/policy">политикой конфиденциальности</NuxtLink></span
+          >
+        </BaseInputCheckbox>
 
         <BaseButton
           type="submit"
           size="lg"
-          style="width: 100%;"
+          style="width: 100%"
           label="Зарегистрироваться"
         />
 
@@ -134,7 +178,7 @@ const openLogin = () => {
     padding: 40px 30px;
     width: 100%;
     max-width: 550px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px #fff;
   }
 
   &__header {

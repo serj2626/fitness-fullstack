@@ -57,8 +57,8 @@ onUnmounted(() => {
           Войти
         </a>
       </ul>
-      <BaseButton
-        class="header-component__wraper-buy"
+      <BaseButtonOutline
+        size="md"
         label="Купить абонемент"
         @click="modalsStore.openModal('orderAbonement')"
       />

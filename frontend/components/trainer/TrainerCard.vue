@@ -21,7 +21,6 @@ defineProps<{ trainer: ICoach }>();
         {{ trainer.experience }} лет опыта
       </p>
       <p
-        v-if="trainer.content.length > 0"
         class="trainer-card__info-bio"
         v-html="trainer.content"
       />

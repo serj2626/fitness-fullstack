@@ -44,28 +44,28 @@ const handleSubmit = async () => {
 };
 </script>
 <template>
-  <div class="password-modal">
-    <div class="password-modal__content">
+  <div class="modal-password-recovery">
+    <div class="modal-password-recovery__content">
       <BaseButtonClose
         top="10px"
         right="10px"
         :size="26"
         @click="modalsStore.closeModal('passwordRecovery')"
       />
-      <div class="password-modal__header">
-        <h2 class="password-modal__title">Восстановление пароля</h2>
-        <p class="password-modal__subtitle">
+      <div class="modal-password-recovery__header">
+        <h2 class="modal-password-recovery__title">Восстановление пароля</h2>
+        <p class="modal-password-recovery__subtitle">
           Укажите email, который вы использовали при регистрации
         </p>
       </div>
 
-      <form class="password-modal__form" @submit.prevent="handleSubmit">
+      <form class="modal-password-recovery__form" @submit.prevent="handleSubmit">
         <BaseInput
           v-model="email"
           type="email"
           placeholder="Ваш email"
           required
-          class="password-modal__input"
+          class="modal-password-recovery__input"
         />
         <BaseButton
           type="submit"
@@ -74,11 +74,11 @@ const handleSubmit = async () => {
           style="width: 100%"
         />
 
-        <p v-if="errorMessage" class="password-modal__error">
+        <p v-if="errorMessage" class="modal-password-recovery__error">
           {{ errorMessage }}
         </p>
 
-        <p v-if="successMessage" class="password-modal__success">
+        <p v-if="successMessage" class="modal-password-recovery__success">
           {{ successMessage }}
         </p>
       </form>
@@ -86,7 +86,7 @@ const handleSubmit = async () => {
   </div>
 </template>
 <style scoped lang="scss">
-.password-modal {
+.modal-password-recovery {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -99,7 +99,7 @@ const handleSubmit = async () => {
     background: $bg;
     border-radius: 12px;
     padding: 40px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px #fff;
     z-index: 2;
     border: 1px solid rgba($accent, 0.3);
 

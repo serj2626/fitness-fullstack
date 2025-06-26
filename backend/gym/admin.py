@@ -1,22 +1,33 @@
 from django.contrib import admin
-from .models import FAQ, GymReviews, Service
+from .models import FAQ, GymReviews, Service, Post
 from django.utils.html import mark_safe
 
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    """Админка постов"""
+
+    list_display = (
+        "title",
+        "category",
+        "image",
+        "is_published",
+        "slug",
+    )
 
 
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
-    '''
-    Admin View for FAQ
-    '''
+    """
+    Админка вопросов и ответов
+    """
 
-    list_display = ('question', 'answer')
-
+    list_display = ("question", "answer")
 
 
 @admin.register(GymReviews)
 class GymReviewsAdmin(admin.ModelAdmin):
-    """Admin View for GymReviews"""
+    """Админка отзывов"""
 
     list_display = ("name", "email", "rating", "get_text", "verified")
 
@@ -28,6 +39,10 @@ class GymReviewsAdmin(admin.ModelAdmin):
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
+    """
+    Админка услуг
+    """
+
     list_display = ("type", "slug", "get_image")
 
     def get_image(self, obj):

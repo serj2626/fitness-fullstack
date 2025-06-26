@@ -1,5 +1,6 @@
 export const enum HeroIcons {
   ARROW_UP = "i-heroicons-arrow-up",
+  ARROW_RIGHT = "i-heroicons-arrow-right",
   BURGER_MENU = "i-heroicons-bars-3",
   CHAT = "i-heroicons-chat-bubble-left-ellipsis",
   CHECK = "i-heroicons-check",

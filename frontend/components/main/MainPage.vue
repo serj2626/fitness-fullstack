@@ -3,20 +3,22 @@ import { api } from "~/api";
 import type { IMainAbonementAPIResponse, IServicesResponse } from "~/types";
 const { $api } = useNuxtApp();
 
-const { data: abonementsInfo } = await useAsyncData(
-  "main-page-abonements-list-info",
-  () => $api<IMainAbonementAPIResponse[]>(api.abonements.list),
-  {
-    transform: (data) => {
-      return data.map((abonement) => {
-        return {
-          ...abonement,
-          services: abonement.services.map((service) => service.title),
-        };
-      });
-    },
-  }
-);
+// const { data: abonementsInfo } = await useAsyncData(
+//   "main-page-abonements-list-info",
+//   () => $api<IMainAbonementAPIResponse[]>(api.abonements.list),
+//   {
+//     transform: (data) => {
+//       return data.map((abonement) => {
+//         return {
+//           ...abonement,
+//           services: abonement.services.map((service) => service.title),
+//         };
+//       });
+//     },
+//   }
+// );
+
+const { data: abonementsInfo } = useAbonements();
 
 const { data: servicesInfo } = await useAsyncData<IServicesResponse[]>(
   "main-page-services-list-info",
@@ -29,6 +31,7 @@ const { data: servicesInfo } = await useAsyncData<IServicesResponse[]>(
     <MainAboutSection />
     <MainAbonementsSection v-if="abonementsInfo" :abonements="abonementsInfo" />
     <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
+    <MainPostSection />
     <MainPoolSection />
     <BaseFormFeedback />
   </div>

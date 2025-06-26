@@ -26,6 +26,12 @@ export const api = {
     feedback: "/contacts/feedback/", //Запрос на создание обратной связи
     footer: "/contacts/footer/", //Запрос на получение данных для футера
   },
+  users: {
+    login: "/users/login/", //Запрос на авторизацию
+    register: "/users/register/", //Запрос на регистрацию
+    refresh: "/users/token/refresh/", //Запрос на обновление токена
+    info: "/users/detail/info/", //Запрос на получение информации о пользователе
+  },
   seo: {
     url: (url: string = "") => `/seo/${url}`, //Возвращает сео для конкретной страницы
   },
