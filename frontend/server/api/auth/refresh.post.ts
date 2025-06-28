@@ -1,17 +1,19 @@
 import type { ITokenResponse } from "~/types";
 import { api } from "~/api";
+import { setServerTokens } from "~/server/composables/useSetTokens";
 
 export default defineEventHandler(async (event) => {
   const refresh = getCookie(event, "refresh_token");
+  const config = useRuntimeConfig();
 
   if (!refresh) {
-    throw createError({ statusCode: 401, statusMessage: "No refresh token" });
+    throw createError({ statusCode: 401, statusMessage: "Не авторизован" });
   }
 
   try {
     // Запрос к Django для получения новых токенов
     const { access, refresh: newRefresh } = await $fetch<ITokenResponse>(
-      api.users.refresh,
+      `${config.public.api_url}${api.users.refresh}`,
       {
         method: "POST",
         body: { refresh },
@@ -19,25 +21,20 @@ export default defineEventHandler(async (event) => {
     );
 
     // Обновляем куки
-    setCookie(event, "access_token", access, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-      maxAge: 60 * 5,
-    });
-
-    setCookie(event, "refresh_token", newRefresh, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 7,
-    });
+    setServerTokens(event, access, newRefresh);
 
     return { success: true };
   } catch (error) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Invalid refresh token",
-    });
+    if (error instanceof Error) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: error.message,
+      });
+    } else {
+      throw createError({
+        statusCode: 401,
+        statusMessage: "Неизвестная ошибка",
+      });
+    }
   }
 });

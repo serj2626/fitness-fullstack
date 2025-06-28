@@ -1,9 +1,14 @@
-// export default defineNuxtRouteMiddleware(async (to) => {
-//   const { $auth } = useNuxtApp();
-//   const { checkAuth } = useAuth();
+// export default defineNuxtRouteMiddleware(async (to, from) => {
+//   const access = useCookie("access_token").value;
 
-//   if (to.meta.requiresAuth && !await checkAuth()) {
-//     return navigateTo('/login');
+//   if (!access) {
+//     try {
+//       // Попробовать обновить токен
+//       await $fetch("/api/auth/refresh", { method: "POST" });
+//     } catch (error) {
+//       // Если и refresh не сработал — разлогинить
+//       return navigateTo("/login");
+//     }
 //   }
 // });
 

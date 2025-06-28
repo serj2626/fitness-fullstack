@@ -98,12 +98,15 @@ const currentType = computed(() => {
   border: 1px solid #6e666688;
   border-radius: 10px;
   transition: outline 0.6s ease-in;
-  // padding: 8px 30px;
 
   &_isfocused {
     outline: 1px solid $accent;
+    .base-input__placeholder {
+      opacity: 0;
+      scale: 0.1;
+    }
   }
-   &_error {
+  &_error {
     outline: 1px solid $red;
   }
 
@@ -111,6 +114,7 @@ const currentType = computed(() => {
     position: absolute;
     color: $white;
     padding-left: 15px;
+    transition: all 0.5s ease-in-out;
   }
   &__error {
     position: absolute;
@@ -131,7 +135,6 @@ const currentType = computed(() => {
     //     outline: 1px solid $accent;
     //   }
     // }
-
   }
 
   &__icon {

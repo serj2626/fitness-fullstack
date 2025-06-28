@@ -1,4 +1,11 @@
 import type { IUser } from "~/types";
+import { api } from "~/api";
+
+interface IErrorData {
+  data: {
+    detail: string;
+  };
+}
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<IUser | null>(null);
@@ -19,7 +26,7 @@ export const useAuthStore = defineStore("auth", () => {
 
       await fetchUser();
       return true;
-    } catch (err: any) {
+    } catch (err) {
       error.value = extractError(err);
       return false;
     } finally {
@@ -30,7 +37,7 @@ export const useAuthStore = defineStore("auth", () => {
   const fetchUser = async () => {
     try {
       const { $api } = useNuxtApp();
-      user.value = await $api<IUser>("/users/me/");
+      user.value = await $api<IUser>(api.users.info);
     } catch (err) {
       console.error("Ошибка загрузки пользователя", err);
       user.value = null;
@@ -44,9 +51,9 @@ export const useAuthStore = defineStore("auth", () => {
     // await navigateTo("/login");
   };
 
-  function extractError(err: any): string {
+  function extractError(err: unknown): string {
     if (err?.data?.detail) return err.data.detail;
-    if (err?.message) return err.message;
+    if (err instanceof Error && err?.message) return err.message;
     return "Неизвестная ошибка";
   }
 

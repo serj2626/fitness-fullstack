@@ -1,12 +1,14 @@
 import type { ITokenResponse } from "~/types";
 import { api } from "~/api";
+import { setServerTokens } from "~/server/composables/useSetTokens";
 
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
   const body = await readBody(event);
 
   // Запрос к Django
   const response: ITokenResponse = await $fetch(
-    api.users.login,
+    `${config.public.api_url}${api.users.login}`,
     {
       method: "POST",
       body,
@@ -14,19 +16,6 @@ export default defineEventHandler(async (event) => {
   );
 
   // Установка токенов на сервере
-  setCookie(event, "access_token", response.access, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "strict",
-    maxAge: 60 * 5,
-  });
-
-  setCookie(event, "refresh_token", response.refresh, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "strict",
-    maxAge: 60 * 60 * 24 * 7,
-  });
-
+  setServerTokens(event, response.access, response.refresh);
   return { success: true };
 });

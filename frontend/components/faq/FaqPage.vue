@@ -49,7 +49,6 @@ const loadMore = async () => {
   <div class="faq-page">
     <PagesTopSection
       title="Вопросы и ответы"
-      description="Профессионалы, которые выжмут из тебя все соки"
     />
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsFAQDetailPage" />

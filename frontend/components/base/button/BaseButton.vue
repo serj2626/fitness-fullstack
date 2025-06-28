@@ -48,6 +48,10 @@ const {
   &:hover {
     opacity: 0.8;
   }
+  &_disabled {
+    opacity: 0.8;
+    pointer-events: none;
+  }
   &_outline {
     border: 1px solid v-bind(color);
     color: v-bind(color);

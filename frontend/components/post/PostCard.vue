@@ -2,6 +2,7 @@
 import { NuxtImg } from "#components";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { IPost } from "~/types";
+
 defineProps<{ post: IPost | null }>();
 </script>
 <template>
@@ -20,7 +21,12 @@ defineProps<{ post: IPost | null }>();
         lazy="loading"
         class="post-card__image"
       />
-      <span class="post-card__category"> {{ post?.category }}</span>
+      <BaseButton
+        v-if="post?.category"
+        class="post-card__category"
+        :label="post?.category"
+        :disabled="true"
+      />
     </div>
     <div class="post-card__content">
       <h3 class="post-card__content-title">
