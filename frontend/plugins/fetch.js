@@ -11,7 +11,6 @@ export default defineNuxtPlugin(() => {
     onResponse({ response }) {},
     onResponseError({ response }) {},
   });
-  // Expose to useNuxtApp().$apiFetch
   return {
     provide: {
       api: apiFetch,

@@ -112,7 +112,7 @@ class TrainerRate(models.Model):
     count_minutes = models.SmallIntegerField(
         "Количество минут",
         choices=SESSION_DURATION_CHOICES,
-        default=60,  # по умолчанию 60 минут
+        default=60,
     )
     price = models.SmallIntegerField("Цена", default=1000)
     description = models.TextField("Описание тарифа", blank=True)

@@ -174,9 +174,14 @@ export interface IPostsResponse {
   results: IPost[];
 }
 
-
 // ТОКЕНЫ
 export interface ITokenResponse {
   access: string;
   refresh: string;
+}
+
+interface IUser {
+  id: string;
+  email: string;
+  phone: string;
 }

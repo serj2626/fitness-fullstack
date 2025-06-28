@@ -20,7 +20,7 @@ interface FeedbackForm {
 
 const formData = reactive<FeedbackForm>({
   name: { value: "", error: "", required: true },
-  phone: { value: "", error: "", required: true },
+  phone: { value: "", error: "Неправильная почта", required: true },
   captcha: { value: "", error: "", required: true },
   agree: { value: false, error: "", required: true },
 });

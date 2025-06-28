@@ -42,10 +42,10 @@ const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachDetailPage" />
 
-      <div class="coach-layout">
+      <div class="coaches-detail-page__layout">
         <CoachDetailProfile
           :avatar="coachInfo?.avatar"
-          class="coach-layout__sidebar"
+          class="coaches-detail-page__sidebar"
         />
 
         <div class="coach-layout__main">
@@ -102,21 +102,21 @@ const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
 <style scoped lang="scss">
 .coaches-detail-page {
   padding-top: 100px;
-}
 
-.coach-layout {
-  margin-block: 50px;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 40px;
+  &__layout {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
 
-  @media (max-width: $tablet) {
-    grid-template-columns: 1fr;
+    @media (max-width: $tablet) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__sidebar {
     position: sticky;
-    top: 20px;
+    top: 50px;
     align-self: start;
   }
 }

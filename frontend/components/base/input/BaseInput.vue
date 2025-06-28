@@ -59,18 +59,20 @@ const currentType = computed(() => {
 });
 </script>
 <template>
-  <label class="base-input" :class="{ 'base-input_isfocused': isFocused }">
+  <label
+    class="base-input"
+    :class="{ 'base-input_isfocused': isFocused, 'base-input_error': error }"
+  >
     <input
       ref="inputRef"
       v-model="inputValue"
       v-maska="maskOptions"
-      :class="{ 'base-input__input_error': error }"
       :type="currentType"
       class="base-input__input"
       @focus="handleFocus"
       @blur="handleBlur"
     />
-    <span v-if="!inputValue" class="base-input__placeholder">
+    <span v-if="!inputValue && !error" class="base-input__placeholder">
       {{ placeholder }}</span
     >
     <small v-if="error" class="base-input__error">
@@ -95,12 +97,14 @@ const currentType = computed(() => {
   background-color: #323232;
   border: 1px solid #6e666688;
   border-radius: 10px;
-  transition: outline .6s ease-in;
+  transition: outline 0.6s ease-in;
   // padding: 8px 30px;
-  padding-block: 8px;
 
   &_isfocused {
     outline: 1px solid $accent;
+  }
+   &_error {
+    outline: 1px solid $red;
   }
 
   &__placeholder {
@@ -108,23 +112,26 @@ const currentType = computed(() => {
     color: $white;
     padding-left: 15px;
   }
+  &__error {
+    position: absolute;
+    color: $red;
+    padding-left: 15px;
+    font-size: 16px;
+  }
 
   &__input {
-    padding: 9px 19px 9px 15px;
+    padding: 15px 19px 15px 15px;
     cursor: auto;
     border-radius: 5px;
     color: $white;
     transition: outline $desctop_wide;
 
-    &:focus {
-      .base-input {
-        outline: 1px solid $accent;
-      }
-    }
+    // &:focus {
+    //   .base-input {
+    //     outline: 1px solid $accent;
+    //   }
+    // }
 
-    &_error {
-      border-bottom: 1px solid $error;
-    }
   }
 
   &__icon {
@@ -135,10 +142,6 @@ const currentType = computed(() => {
     background-color: $white;
     opacity: 0.7;
     cursor: pointer;
-  }
-
-  &__error {
-    color: $error;
   }
 }
 </style>

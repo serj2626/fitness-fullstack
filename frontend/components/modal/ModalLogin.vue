@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { api } from "~/api";
 const modalsStore = useModalsStore();
 const isClosing = ref(false);
-const isSubmitting = ref(false);
 
-const { $api } = useNuxtApp();
+
+const authStore = useAuthStore();
 
 interface FormField<T> {
   value: T;
@@ -24,7 +23,8 @@ const formData = reactive<FeedbackForm>({
   remember: { value: false, error: "", required: false },
 });
 
-const handleAnimationEnd = () => {
+const handleAnimationEnd = (e: Event) => {
+  console.log("handleAnimationEnd", e);
   if (isClosing.value) {
     modalsStore.closeModal("login");
   }
@@ -48,14 +48,11 @@ const submitForm = async () => {
   console.log("submitForm", formData);
 
   try {
-    const res = await $api(api.users.login, {
-      method: "POST",
-      body: {
-        email: formData.email.value,
-        password: formData.password.value,
-      },
+    const success = await authStore.login({
+      email: formData.email.value,
+      password: formData.password.value,
     });
-    console.log(res);
+    console.log("success", success);
   } catch (error) {
     console.log(error);
   }
@@ -97,7 +94,6 @@ const openPasswordRecovery = () => {
           v-model:error="formData.email.error"
           type="email"
           placeholder="Email"
-          icon="email"
           required
         />
 
@@ -106,21 +102,20 @@ const openPasswordRecovery = () => {
           v-model:error="formData.password.error"
           type="password"
           placeholder="Пароль"
-          icon="lock"
           required
         />
 
         <div class="modal-login__options">
-          <!-- <label class="modal-login__remember">
+          <label class="modal-login__remember">
             <input v-model="formData.remember.value" type="checkbox" />
             <span>Запомнить меня</span>
-          </label> -->
-          <BaseInputCheckbox
+          </label>
+          <!--    <BaseInputCheckbox
             v-model:agree-value="formData.remember.value"
             v-model:agree-error="formData.remember.error"
           >
-           <span>Запомнить меня</span>
-          </BaseInputCheckbox>
+            <span>Запомнить меня</span>
+          </BaseInputCheckbox>-->
           <button
             type="button"
             class="modal-login__forgot"
