@@ -45,6 +45,14 @@ const handleAnimationEnd = () => {
   }
 };
 
+const selectAbonement = (id: number) => {
+  if (formData.abonement.value === id) {
+    formData.abonement.value = null;
+  } else {
+    formData.abonement.value = id;
+  }
+};
+
 interface FormField<T> {
   value: T;
   error: string;
@@ -56,7 +64,7 @@ interface FeedbackForm {
   email: FormField<string>;
   phone: FormField<string>;
   captcha: FormField<string>;
-  abonement: FormField<string>;
+  abonement: FormField<number | null>;
 }
 
 const formData = reactive<FeedbackForm>({
@@ -64,7 +72,7 @@ const formData = reactive<FeedbackForm>({
   phone: { value: "", error: "", required: true },
   email: { value: "", error: "", required: true },
   captcha: { value: "", error: "", required: true },
-  abonement: { value: "", error: "", required: true },
+  abonement: { value: null, error: "", required: true },
 });
 </script>
 
@@ -94,6 +102,8 @@ const formData = reactive<FeedbackForm>({
             v-for="plan in abonements"
             :key="plan.id"
             :plan="plan"
+            :is-active="plan.id === formData.abonement.value"
+            @click="selectAbonement(plan.id)"
           />
         </div>
 

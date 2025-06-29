@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { IMainAbonementResponse } from "~/types";
 
-defineProps<{ plan: IMainAbonementResponse }>();
+defineProps<{ plan: IMainAbonementResponse; isActive: boolean }>();
 </script>
 <template>
-  <div class="abonement-card-by-form">
+  <div
+    class="abonement-card-by-form"
+    :class="{ 'abonement-card-by-form_active': isActive }"
+  >
     <h3 class="abonement-card-by-form__title">{{ plan.title }}</h3>
     <p class="abonement-card-by-form__price">
       {{ formatNumberCustom(plan.price) }} ₽
@@ -36,7 +39,7 @@ defineProps<{ plan: IMainAbonementResponse }>();
     border-color: $accent;
   }
 
-  &.active {
+  &_active {
     border-color: $accent;
     box-shadow: 0 0 0 2px $accent;
   }

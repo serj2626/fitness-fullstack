@@ -1,6 +1,10 @@
 import type { H3Event } from "h3";
 
-export function setServerTokens(event: H3Event, access: string, refresh: string) {
+export function setServerTokens(
+  event: H3Event,
+  access: string,
+  refresh: string
+) {
   setCookie(event, "access_token", access, {
     httpOnly: true,
     secure: true,

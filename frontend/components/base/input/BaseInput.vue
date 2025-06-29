@@ -120,7 +120,8 @@ const currentType = computed(() => {
     position: absolute;
     color: $red;
     padding-left: 15px;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 600;
   }
 
   &__input {

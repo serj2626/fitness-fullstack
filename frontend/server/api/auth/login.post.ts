@@ -1,6 +1,6 @@
 import type { ITokenResponse } from "~/types";
 import { api } from "~/api";
-import { setServerTokens } from "~/server/composables/useSetTokens";
+import { setServerTokens } from "~/server/utils/useSetTokens";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();

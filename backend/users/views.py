@@ -5,7 +5,11 @@ from rest_framework import generics
 from .models import User
 from .serializers import RegisterSerializer, UserDetailSerializer, UserInfoSerializer
 from rest_framework.generics import RetrieveAPIView, ListAPIView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework.permissions import IsAuthenticated
 
@@ -74,4 +78,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     },
 )
 class CustomTokenRefreshView(TokenRefreshView):
+    pass
+
+
+@extend_schema(tags=[TAG], summary="Проверка токена")
+class CustomTokenVerifyView(TokenVerifyView):
     pass

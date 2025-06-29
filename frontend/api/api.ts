@@ -35,7 +35,8 @@ export const api = {
     login: "/users/login/", //Запрос на авторизацию
     register: "/users/register/", //Запрос на регистрацию
     refresh: "/users/token/refresh/", //Запрос на обновление токена
-    info: "/users/detail/info/", //Запрос на получение информации о пользователе
+    verify: "/users/token/verify/", //Запрос на проверку токена
+    me: "/users/me/", //Запрос на получение информации о пользователе
   },
   seo: {
     url: (url: string = "") => `/seo/${url}`, //Возвращает сео для конкретной страницы

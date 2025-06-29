@@ -37,7 +37,7 @@ export const useAuthStore = defineStore("auth", () => {
   const fetchUser = async () => {
     try {
       const { $api } = useNuxtApp();
-      user.value = await $api<IUser>(api.users.info);
+      user.value = await $api<IUser>(api.users.me);
     } catch (err) {
       console.error("Ошибка загрузки пользователя", err);
       user.value = null;
