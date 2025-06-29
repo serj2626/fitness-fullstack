@@ -1,30 +1,19 @@
 <script lang="ts" setup>
-import { api } from "~/api";
-import type {
-  IMainAbonementAPIResponse,
-  IMainAbonementResponse,
-} from "~/types";
-const { $api } = useNuxtApp();
+const selectedDate = ref<Date | null>(null);
 const modalsStore = useModalsStore();
-
-// const { data: abonements } = await useAsyncData(
-//   "main-page-abonements-list-info",
-//   () => $api<IMainAbonementAPIResponse[]>(api.abonements.list),
-//   {
-//     transform: (data) => {
-//       return data.map((abonement) => {
-//         return {
-//           ...abonement,
-//           services: abonement.services.map((service) => service.title),
-//         };
-//       });
-//     },
-//     getCachedData: (key) => {
-//       const cachedData = useNuxtData<IMainAbonementResponse[]>(key).data.value;
-//       return cachedData || undefined; // если `null` или `undefined`, будет новый запрос
-//     },
-//   }
-// );
+const busyDates = ["2025-05-04", "2025-05-07", "2025-05-10"];
+const attributes = [
+  {
+    key: "busy",
+    highlight: { backgroundColor: "$red", borderColor: "$error" },
+    dates: busyDates,
+  },
+  {
+    key: "today",
+    highlight: { backgroundColor: "$accent", borderColor: "$accent" },
+    dates: [new Date()],
+  },
+];
 
 const { data: abonements } = useAbonements();
 
@@ -106,6 +95,16 @@ const formData = reactive<FeedbackForm>({
             @click="selectAbonement(plan.id)"
           />
         </div>
+
+        <VDatePicker
+          v-model="selectedDate"
+          :attributes="attributes"
+          :min-date="new Date()"
+          color="orange"
+          is-dark
+          title-position="left"
+          trim-weeks
+        />
 
         <form class="base-form-order-abonement__form">
           <BaseInput
