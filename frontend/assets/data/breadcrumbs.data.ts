@@ -23,6 +23,7 @@ export const breadcrumbsFAQDetailPage = ref([
     url: "/faq",
   },
 ]);
+
 export const breadcrumbsCoachesPage = ref([
   {
     title: "Главная",
@@ -30,6 +31,17 @@ export const breadcrumbsCoachesPage = ref([
   },
   {
     title: "Тренеры",
+    url: "/",
+  },
+]);
+
+export const breadcrumbsPostsPage = ref([
+  {
+    title: "Главная",
+    url: "/",
+  },
+  {
+    title: "Новости",
     url: "/",
   },
 ]);

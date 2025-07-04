@@ -5,6 +5,7 @@ from .views import (
     GymReviewsListView,
     PostLastView,
     PostListView,
+    PostDetailView,
 )
 
 
@@ -13,5 +14,6 @@ urlpatterns = [
     path("reviews/", GymReviewsListView.as_view(), name="reviews"),
     path("faq/", FAQListView.as_view(), name="faq-list"),
     path("posts/", PostListView.as_view(), name="post-list"),
+    path("posts/<slug:slug>/", PostDetailView.as_view(), name="post-detail"),
     path("posts/last/", PostLastView.as_view(), name="post-last"),
 ]

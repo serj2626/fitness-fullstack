@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
@@ -11,7 +10,12 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "nuxt-swiper",
     "vue-yandex-maps/nuxt",
+    "@nuxtjs/robots",
+    "@nuxtjs/sitemap",
   ],
+  sitemap: {
+    sources: ["/api/__sitemap__/coaches", "/api/__sitemap__/posts"],
+  },
   runtimeConfig: {
     public: {
       api_url: process.env.API_URL,

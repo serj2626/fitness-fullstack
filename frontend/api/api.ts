@@ -13,7 +13,7 @@ export const api = {
   posts: {
     list: "/gym/posts/", //Получает посты
     last: "/gym/posts/last/", //Получает последние посты
-    detail: (id: string) => `/gym/posts/${id}/`, //Получает детальную информацию о посте
+    detail: (slug: string) => `/gym/posts/${slug}/`, //Получает детальную информацию о посте
   },
   gym: {
     services: "/gym/services/", //Получает информацию о услугах

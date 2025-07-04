@@ -2,7 +2,6 @@
 const modalsStore = useModalsStore();
 const isClosing = ref(false);
 
-
 const authStore = useAuthStore();
 
 interface FormField<T> {
@@ -144,14 +143,14 @@ const openPasswordRecovery = () => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 450px;
 
   &__wrapper {
     position: relative;
     background: $bg;
     border-radius: 12px;
     padding: 40px 30px;
-    width: 100%;
-    max-width: 650px;
     box-shadow: 0 0 20px #fff;
   }
 
