@@ -1,31 +1,62 @@
-<script lang="ts" setup>
-const agreeValue = defineModel("agreeValue");
-const agreeError = defineModel("agreeError");
+<script setup lang="ts">
+defineProps<{
+  error?: string;
+  text?: string;
+}>();
+
+const agree = defineModel<boolean>("agreeValue");
+
+// const emit = defineEmits(["update:modelValue"]);
 </script>
+
 <template>
-  <div class="base-input-checkbox">
+  <label class="base-input-checkbox">
     <input
-      id="check"
-      v-model="agreeValue"
       type="checkbox"
-      class="base-input-checkbox__element"
+      class="base-input-checkbox__input"
+      :checked="agree"
+      @change="agree = $event.target.checked"
     />
-    <label for="check" class="base-input-checkbox__label">
-      <slot />
-    </label>
-  </div>
+
+    <p  class="base-input-checkbox__text">
+      Согласен на
+      <NuxtLink class="base-input-checkbox__link">
+        обработку своих персональных данных
+      </NuxtLink>
+    </p>
+
+    <div v-if="error && !agree" class="base-input-checkbox__error">
+      {{ error }}
+    </div>
+  </label>
 </template>
-<style lang="scss" scoped>
+
+<style scoped lang="scss">
 .base-input-checkbox {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  margin-bottom: 10px;
-  gap: 8px;
-  font-weight: 400;
-  font-size: 15px;
-  &__element {
+  gap: 10px;
+  margin-bottom: 20px;
+
+  &__input {
+    flex-shrink: 0;
   }
-  &__label {
+
+  &__text {
+    color: white;
+
+    & .base-input-checkbox__link {
+      color: #ffc551c4;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+
+  &__error {
+    color: red;
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
   }
 }
 </style>

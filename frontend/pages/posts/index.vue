@@ -25,7 +25,7 @@ const filteredPosts = computed(() => {
 </script>
 <template>
   <section class="posts-page">
-    <PagesTopSection title="Фитнес-статьи" />
+    <PagesTopSection title="Новости и статьи" />
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsPostsPage" />
       <div class="posts-page__filter">

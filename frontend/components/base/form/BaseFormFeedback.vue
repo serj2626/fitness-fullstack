@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+import BaseCaptchaZ from "../BaseCaptchaZ.vue";
 const { tel = "8-999-999-99-99", address = "СПБ, улица Будапештская дом 89" } =
   defineProps<{
     address?: string;
     tel?: string;
   }>();
+
+const captchaInst = ref<InstanceType<typeof BaseCaptchaZ> | null>(null);
 
 interface FormField<T> {
   value: T;
@@ -20,10 +23,74 @@ interface FeedbackForm {
 
 const formData = reactive<FeedbackForm>({
   name: { value: "", error: "", required: true },
-  phone: { value: "", error: "Неправильная почта", required: true },
+  phone: { value: "", error: "", required: true },
   captcha: { value: "", error: "", required: true },
   agree: { value: false, error: "", required: true },
 });
+
+// function onCaptchaSuccess(token: string) {
+//   formData.captcha.value = token;
+//   formData.captcha.error = "";
+// }
+
+// function onCaptchaError(err: any) {
+//   formData.captcha.value = "";
+//   formData.captcha.error = "Ошибка проверки капчи";
+// }
+
+function captchaHandler(val, eventName) {
+  if (eventName === "success") {
+    formData.captcha.value = val;
+    formData.captcha.error = "";
+  } else if (eventName === "error" || eventName === "expired") {
+    formData.captcha.value = "";
+    formData.captcha.error = "Ошибка проверки капчи";
+  } else if (eventName === "inited" && typeof val === "object") {
+    captchaInst.value = val;
+  }
+}
+
+function validateForm(): boolean {
+  let valid = true;
+
+  if (!formData.name.value.trim()) {
+    formData.name.error = "Введите имя";
+    valid = false;
+  }
+
+  if (!formData.phone.value.trim()) {
+    formData.phone.error = "Введите телефон";
+    valid = false;
+  }
+
+  if (!formData.agree.value) {
+    formData.agree.error = "Необходимо согласие";
+    valid = false;
+  }
+
+  if (!formData.captcha.value) {
+    formData.captcha.error = "Подтвердите, что вы не робот";
+    valid = false;
+  }
+  console.log(formData);
+  return valid;
+}
+
+function submitForm() {
+  if (!validateForm()) {
+    return;
+  }
+
+  const payload = {
+    name: formData.name.value,
+    phone: formData.phone.value,
+    captcha: formData.captcha.value,
+  };
+
+  console.log("Данные к отправке:", payload);
+  clearFormAuth(formData);
+  captchaInst.value?.reset();
+}
 </script>
 <template>
   <section id="base-form-feedback" class="base-form-feedback">
@@ -39,7 +106,10 @@ const formData = reactive<FeedbackForm>({
             {{ address }}
           </p>
         </div>
-        <form class="base-form-feedback__wraper-content-form">
+        <form
+          class="base-form-feedback__wraper-content-form"
+          @submit.prevent="submitForm"
+        >
           <div class="base-form-feedback__wraper-content-form-input">
             <BaseInput
               v-model:input-value="formData.name.value"
@@ -56,7 +126,15 @@ const formData = reactive<FeedbackForm>({
               class="base-form-feedback__wraper-content-form-input-phone"
             />
           </div>
-          <label class="base-form-feedback__wraper-content-form-check">
+          <BaseCaptchaZ
+            ref="captchaInst"
+            :error="formData.captcha.error"
+            @success="(val) => captchaHandler(val, 'success')"
+            @error="(val) => captchaHandler(val, 'error')"
+            @expired="(val) => captchaHandler(val, 'expired')"
+            @inited="(val) => captchaHandler(val, 'inited')"
+          />
+          <!-- <label class="base-form-feedback__wraper-content-form-check">
             <input
               v-model="formData.agree.value"
               type="checkbox"
@@ -69,12 +147,13 @@ const formData = reactive<FeedbackForm>({
                 >обработку своих персональных данных</NuxtLink
               >
             </p>
-          </label>
-          <BaseButton
-            label="Отправить заявку"
-            size="lg"
-            style="width: 100%;"
+          </label> -->
+          <BaseInputCheckbox
+            v-model:agree-value="formData.agree.value"
+            :error="formData.agree.error"
+            class="base-form-feedback__wraper-content-form-check"
           />
+          <BaseButton label="Отправить заявку" size="lg" style="width: 100%" />
         </form>
       </div>
     </div>
@@ -110,7 +189,7 @@ const formData = reactive<FeedbackForm>({
       display: grid;
       grid-template-columns: 1fr;
       gap: 50px;
-      @include mediaCustom(1100px) {
+      @include mediaCustom(800px) {
         grid-template-columns: repeat(2, 1fr);
       }
 
@@ -143,21 +222,24 @@ const formData = reactive<FeedbackForm>({
             width: 100%;
           }
         }
+        // &-check {
+        //   display: flex;
+        //   align-items: center;
+        //   gap: 10px;
+        //   margin-bottom: 20px;
+        //   // &-input{
+        //   //   padding: 10px;
+        //   // }
+        //   &-text {
+        //     color: $white;
+        //     &-link {
+        //       color: #ffc551c4;
+        //       cursor: pointer;
+        //     }
+        //   }
+        // }
         &-check {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 20px;
-          // &-input{
-          //   padding: 10px;
-          // }
-          &-text {
-            color: $white;
-            &-link {
-              color: #ffc551c4;
-              cursor: pointer;
-            }
-          }
+          margin-block: 20px;
         }
 
         &-btn {

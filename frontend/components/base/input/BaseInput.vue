@@ -39,13 +39,12 @@ type TInputTypes =
 
 interface IInputProps {
   placeholder?: string;
-  error?: string;
   maskOptions?: MaskInputOptions;
   type?: TInputTypes;
 }
 
-const inputValue = defineModel("inputValue");
-const errorValue = defineModel("error");
+const inputValue = defineModel<string>("inputValue");
+const error = defineModel<string>("error");
 
 const props = defineProps<IInputProps>();
 
@@ -61,7 +60,7 @@ const currentType = computed(() => {
 <template>
   <label
     class="base-input"
-    :class="{ 'base-input_isfocused': isFocused, 'base-input_error': error }"
+    :class="{ 'base-input_isfocused': isFocused, 'base-input_error': error && !inputValue }"
   >
     <input
       ref="inputRef"
@@ -75,7 +74,7 @@ const currentType = computed(() => {
     <span v-if="!inputValue && !error" class="base-input__placeholder">
       {{ placeholder }}</span
     >
-    <small v-if="error" class="base-input__error">
+    <small v-if="error && !inputValue" class="base-input__error">
       {{ error }}
     </small>
     <Icon

@@ -20,6 +20,7 @@ defineProps<{ posts: IPost[] | null }>();
         :icon="HeroIcons.ARROW_RIGHT"
         size="lg"
         class="main-post-section__button"
+        @click="$router.push('/posts')"
       />
     </div>
   </section>
