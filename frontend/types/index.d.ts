@@ -1,3 +1,4 @@
+import { IPost } from './index.d';
 export interface ICoach {
   id: string;
   content: string;
@@ -184,4 +185,9 @@ interface IUser {
   id: string;
   email: string;
   phone: string;
+}
+
+
+declare global {
+  interface IPost
 }

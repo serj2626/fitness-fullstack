@@ -25,8 +25,7 @@ const { data: post } = await useAsyncData<IPost>(
       <!-- Изображение -->
       <NuxtImg :src="post.image" :alt="post.title" class="post-image" />
 
-      <!-- Контент -->
-      <div class="post-content" v-html="post.content"></div>
+      <BaseWysiwyg v-if="post.content" :html="post.content" />
     </div>
   </div>
 </template>
@@ -62,27 +61,6 @@ const { data: post } = await useAsyncData<IPost>(
   border-radius: 8px;
   margin-bottom: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.post-content {
-  line-height: 1.7;
-  font-size: 1.1rem;
-
-  :deep(h2) {
-    color: $accent;
-    margin: 30px 0 15px;
-    font-size: 1.6rem;
-  }
-
-  :deep(p) {
-    margin-bottom: 20px;
-  }
-
-  :deep(img) {
-    max-width: 100%;
-    border-radius: 6px;
-    margin: 20px 0;
-  }
 }
 
 @media (max-width: $tablet) {

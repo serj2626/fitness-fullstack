@@ -12,9 +12,7 @@ defineProps<{ posts: IPost[] | null }>();
         Полезные материалы от наших тренеров
       </p>
 
-      <div class="main-post-section__list">
-        <PostCard v-for="post in posts" :key="post.id" :post />
-      </div>
+      <PostSwiper :posts="posts" />
       <BaseButtonWithIcon
         label="Смотреть все статьи"
         :icon="HeroIcons.ARROW_RIGHT"
@@ -44,12 +42,6 @@ defineProps<{ posts: IPost[] | null }>();
     color: $header_link;
   }
 
-  &__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
-    margin-bottom: 40px;
-  }
   &__button {
     margin-inline: auto;
   }

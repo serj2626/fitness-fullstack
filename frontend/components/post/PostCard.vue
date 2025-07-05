@@ -6,7 +6,7 @@ import type { IPost } from "~/types";
 defineProps<{ post: IPost | null }>();
 </script>
 <template>
-  <article class="post-card">
+  <article class="post-card" @click="$router.push(`/posts/${post?.slug}`)">
     <button class="post-card__show">
       <Icon
         class="post-card-show__icon"
@@ -46,12 +46,16 @@ defineProps<{ post: IPost | null }>();
   background: darken($bg, 3%);
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background 0.3s ease-in-out;
 
   &:hover {
+    background: darken($bg, 22%);
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
+
   &__show {
     position: absolute;
     top: 50%;
@@ -108,6 +112,11 @@ defineProps<{ post: IPost | null }>();
       font-size: 1.3rem;
       margin-bottom: 10px;
       color: $white;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
     &-excerpt {
       color: $header_link;

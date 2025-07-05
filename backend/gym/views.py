@@ -27,7 +27,7 @@ class PostLastView(generics.ListAPIView):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        return Post.objects.all().order_by("-created_at")[:3]
+        return Post.objects.all().order_by("-created_at")[:5]
 
     @extend_schema(tags=['Посты'], summary="Последние новости")
     def get(self, request, *args, **kwargs):
