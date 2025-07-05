@@ -187,7 +187,7 @@ interface IUser {
   phone: string;
 }
 
-
-declare global {
-  interface IPost
+export interface ILinkBreadcrumb {
+  title: string;
+  url: string;
 }

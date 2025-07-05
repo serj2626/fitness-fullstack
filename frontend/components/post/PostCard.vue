@@ -46,6 +46,7 @@ defineProps<{ post: IPost | null }>();
   background: darken($bg, 3%);
   border-radius: 8px;
   overflow: hidden;
+  cursor: pointer;
   height: 100%;
   transition: transform 0.3s ease, box-shadow 0.3s ease,
     background 0.3s ease-in-out;

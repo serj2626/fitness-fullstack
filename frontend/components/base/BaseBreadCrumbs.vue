@@ -1,26 +1,29 @@
 <script lang="ts" setup>
-interface ILink {
-  title: string;
-  url: string;
-}
+import type { ILinkBreadcrumb } from '~/types';
 
-defineProps<{
-  breadcrumbs?: ILink[];
+const props = defineProps<{
+  breadcrumbs?: ILinkBreadcrumb[];
+  currentPage?: ILinkBreadcrumb;
 }>();
+
+const breadcrumbsAll = computed(() => {
+  const base = props.breadcrumbs ?? [];
+  return props.currentPage ? [...base, props.currentPage] : base;
+});
 </script>
 <template>
   <div class="base-bread">
-      <ul class="base-bread__links">
-        <NuxtLink class="base-bread__links-back" to="/">Назад</NuxtLink>
-        <NuxtLink
-          v-for="(link, indx) in breadcrumbs"
-          :key="indx"
-          :to="link.url"
-          class="base-bread__links-item"
-        >
-          {{ link.title }}
-        </NuxtLink>
-      </ul>
+    <ul class="base-bread__links">
+      <NuxtLink class="base-bread__links-back" to="/">Назад</NuxtLink>
+      <NuxtLink
+        v-for="(link, indx) in breadcrumbsAll"
+        :key="indx"
+        :to="link.url"
+        class="base-bread__links-item"
+      >
+        {{ link.title }}
+      </NuxtLink>
+    </ul>
   </div>
 </template>
 <style scoped lang="scss">
