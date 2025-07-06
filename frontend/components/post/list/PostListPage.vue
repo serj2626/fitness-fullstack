@@ -1,47 +1,35 @@
 <script setup lang="ts">
-import { api } from "~/api";
 import { breadcrumbsPostsPage } from "~/assets/data/breadcrumbs.data";
-import type { IPost } from "~/types";
-const { $api } = useNuxtApp();
 
-const { data: posts } = await useAsyncData<IPost[]>("post-list-page-info", () =>
-  $api(api.posts.list)
-);
+const postsStore = usePostsStore();
+const { loading, filterPosts } = storeToRefs(postsStore);
 
-// const categories = computed(() => {
-//   if (!posts.value) return [];
-//   const allCategories = posts.value.map((post) => post.category);
-//   return Array.from(new Set(allCategories));
-// });
-
-// const activeCategory = ref<string | null>(null);
-
-// const filteredPosts = computed(() => {
-//   if (!posts.value) return [];
-//   if (!activeCategory.value) return posts.value;
-//   return posts.value.filter((post) => post.category === activeCategory.value);
-// });
+await useAsyncData("posts", async () => {
+  await postsStore.getAllPosts();
+  return postsStore.posts;
+});
 </script>
 <template>
   <section class="post-list-page">
     <PagesTopSection title="Новости и статьи" />
-    <div class="container">
+    <div class="container post-list-page__content">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsPostsPage" />
       <PostListFilter />
-      <div class="post-list-page__articles">
+      <BaseLoader v-if="loading" />
+
+      <div v-else-if="filterPosts.length > 0" class="post-list-page__articles">
         <PostCard
-          v-for="post in posts"
+          v-for="post in filterPosts"
           :key="post.id"
           :post="post"
           class="apost-list-page__article-card"
         />
       </div>
 
-      <!-- <div v-if="filteredPosts.length === 0" class="post-list-page__empty-state">
+      <div v-else class="post-list-page__empty-state">
         <Icon name="heroicons:book-open" size="60" />
         <p>Статьи не найдены</p>
-        <BaseButton label="Сбросить фильтры" @click="activeCategory = null" />
-      </div> -->
+      </div>
     </div>
   </section>
 </template>
@@ -75,6 +63,9 @@ const { data: posts } = await useAsyncData<IPost[]>("post-list-page-info", () =>
       font-size: 1.2rem;
       margin-bottom: 20px;
     }
+  }
+  &__content {
+    min-height: calc(100vh - 550px);
   }
 }
 </style>
