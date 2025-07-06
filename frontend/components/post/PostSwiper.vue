@@ -2,22 +2,24 @@
 import type { IPost } from "~/types";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
+import type { Swiper as SwiperClass } from "swiper/types";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+
 defineProps<{ posts: IPost[] | null }>();
 
-const swiperRef = ref(null);
-const prevPostEl = ref(null);
-const nextPostEl = ref(null);
-const swiperInstance = ref(null);
-const currentSlideIndex = ref(0);
+const swiperRef = ref<InstanceType<typeof Swiper> | null>(null);
+const prevPostEl = ref<HTMLElement | null>(null);
+const nextPostEl = ref<HTMLElement | null>(null);
+const swiperInstance = ref<SwiperClass | null>(null);
+const currentSlideIndex = ref<number>(0);
 
-const onSwiper = (swiper) => {
+const onSwiper = (swiper: SwiperClass): void => {
   swiperInstance.value = swiper;
 };
 
-const onSlideChange = () => {
+const onSlideChange = (): void => {
   if (swiperInstance.value) {
     currentSlideIndex.value = swiperInstance.value.activeIndex;
   }

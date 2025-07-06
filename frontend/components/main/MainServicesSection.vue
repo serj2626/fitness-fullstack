@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// import { services } from "~/assets/data/moke.data";
 import "swiper/css";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { IServicesResponse } from "~/types";
