@@ -1,19 +1,5 @@
 <script lang="ts" setup>
-const selectedDate = ref<Date | null>(null);
 const modalsStore = useModalsStore();
-const busyDates = ["2025-05-04", "2025-05-07", "2025-05-10"];
-const attributes = [
-  {
-    key: "busy",
-    highlight: { backgroundColor: "$red", borderColor: "$error" },
-    dates: busyDates,
-  },
-  {
-    key: "today",
-    highlight: { backgroundColor: "$accent", borderColor: "$accent" },
-    dates: [new Date()],
-  },
-];
 
 const { data: abonements } = useAbonements();
 
@@ -54,6 +40,7 @@ interface FeedbackForm {
   phone: FormField<string>;
   captcha: FormField<string>;
   abonement: FormField<number | null>;
+  date: FormField<Date | null>;
 }
 
 const formData = reactive<FeedbackForm>({
@@ -62,6 +49,7 @@ const formData = reactive<FeedbackForm>({
   email: { value: "", error: "", required: true },
   captcha: { value: "", error: "", required: true },
   abonement: { value: null, error: "", required: true },
+  date: { value: null, error: "", required: true },
 });
 </script>
 
@@ -96,7 +84,7 @@ const formData = reactive<FeedbackForm>({
           />
         </div>
 
-        <VDatePicker
+        <!-- <VDatePicker
           v-model="selectedDate"
           :attributes="attributes"
           :min-date="new Date()"
@@ -104,7 +92,7 @@ const formData = reactive<FeedbackForm>({
           is-dark
           title-position="left"
           trim-weeks
-        />
+        /> -->
 
         <form class="base-form-order-abonement__form">
           <BaseInput
@@ -128,10 +116,15 @@ const formData = reactive<FeedbackForm>({
             v-model:input-value="formData.email.value"
             v-model:error="formData.email.error"
             type="email"
-            placeholder="Email"
+            placeholder="Почта"
             icon="email"
           />
-
+          <VDatePicker
+            v-model="formData.date.value"
+            color="orange"
+            title-position="left"
+            trim-weeks
+          />
           <BaseRecaptcha v-model="formData.captcha.value" />
 
           <BaseButton
@@ -143,23 +136,6 @@ const formData = reactive<FeedbackForm>({
           />
         </form>
       </div>
-
-      <!-- Сообщение об успехе -->
-      <!-- <div v-else class="base-form-order-abonement__success">
-        <div class="success-icon">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
-              fill="$accent"
-            />
-          </svg>
-        </div>
-        <h3>Спасибо за заявку!</h3>
-        <p>Мы свяжемся с вами для подтверждения брони</p>
-        <p class="success-plan" v-if="formData.plan">
-          Выбранный абонемент: <strong>{{ formData.plan.name }}</strong>
-        </p>
-      </div> -->
     </div>
     <BaseButtonClose
       color="#ffc451"
@@ -235,6 +211,14 @@ const formData = reactive<FeedbackForm>({
     display: flex;
     flex-direction: column;
     gap: 20px;
+    &-date {
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid $accent;
+      color: $white;
+      background: transparent;
+      font-size: 1rem;
+    }
   }
 
   &__success {

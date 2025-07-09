@@ -17,7 +17,7 @@
   width: 40px;
   height: 40px;
   border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top-color: $accent; // замените на вашу SCSS переменную, или хардкодьте цвет
+  border-top-color: $accent;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
