@@ -2,8 +2,6 @@ from rest_framework.generics import RetrieveAPIView
 from .models import SEO
 from .serializers import SEOSerializer
 from drf_spectacular.utils import extend_schema
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 
 
 TAG = "Настройки SEO и Конфигурация"

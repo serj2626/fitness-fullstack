@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from common.mixins import AdminLimitMixin, AdminShortDescriptionMixin
+from common.admin import AdminLimitMixin, AdminShortDescriptionMixin
 from .models import Abonement, OrderAbonement, GymVisit, Discount, AbonementService
 
 

@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import SEO
-from common.mixins import AdminShortDescriptionMixin
 
 
 class SEOSerializer(serializers.ModelSerializer):

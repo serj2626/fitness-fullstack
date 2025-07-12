@@ -68,9 +68,6 @@ const onSlideChange = (): void => {
   margin-block: 50px;
   position: relative;
 }
-.swiper-slide {
-  cursor: pointer;
-}
 
 .swiper-btns {
   position: absolute;

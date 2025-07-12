@@ -13,3 +13,4 @@ def compress_image(image_field):
     image.save(buffer, format="webp", quality=90)
     image_field.save("image.webp", ContentFile(buffer.getvalue()), save=False)
     return image_field
+

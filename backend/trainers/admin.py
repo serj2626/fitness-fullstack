@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from common.mixins import AdminImagePreviewMixin
+from common.admin import AdminImagePreviewMixin
 from .models import (
     Trainer,
     TrainerImage,
@@ -63,15 +63,6 @@ class TrainerImageInline(admin.TabularInline):
     model = TrainerImage
     extra = 1
     fields = ("image", "alt")
-
-    # def get_image(self, obj):
-    #     if obj.image and hasattr(obj.image, "url"):
-    #         return mark_safe(
-    #             f'<img src="{obj.image.url}" style="border-radius: 50%;" width="50" height="50">'
-    #         )
-    #     return "Нет изображения"
-
-    # get_image.short_description = "Фото"
 
 
 @admin.register(Trainer)
