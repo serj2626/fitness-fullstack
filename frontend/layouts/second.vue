@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="second-layout">
     <HeaderComponent />
     <slot />
     <BaseButtonScrollToTop />
@@ -8,6 +8,8 @@
   </div>
 </template>
 <style lang="scss">
-.app {
+.second-layout {
+  min-height: 100vh;
+  height: 100%;
 }
 </style>

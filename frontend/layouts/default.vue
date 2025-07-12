@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="layout-default">
     <HeaderComponent />
     <slot />
     <FooterComponent />
@@ -9,11 +9,8 @@
   </div>
 </template>
 <style lang="scss">
-.app {
-  // display: flex;
-  // flex-direction: column;
-  // min-height: 100vh;
-  // height: 100%;
-  // justify-content: space-between;
+.ayout-default {
+  min-height: 100vh;
+  height: 100%;
 }
 </style>

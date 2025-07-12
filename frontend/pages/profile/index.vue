@@ -97,7 +97,6 @@ const cancelEditing = () => {
           </div>
 
           <div class="stat-card">
-            <FiUser class="stat-icon" />
             <div>
               <p class="stat-value">{{ user.stats.weight }} кг</p>
               <p class="stat-label">Вес</p>
@@ -105,7 +104,6 @@ const cancelEditing = () => {
           </div>
 
           <div class="stat-card">
-            <FiHeart class="stat-icon" />
             <div>
               <p class="stat-value">{{ user.stats.height }} см</p>
               <p class="stat-label">Рост</p>

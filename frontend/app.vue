@@ -3,7 +3,7 @@ import { api } from "~/api";
 import type { IContactData } from "~/types";
 const { $api } = useNuxtApp();
 
- await useAsyncData(
+await useAsyncData(
   "all-contants-info",
   () => $api<IContactData[]>(api.contacts.list),
   {
@@ -20,7 +20,8 @@ const { $api } = useNuxtApp();
 
 <template>
   <div>
-    <NuxtLayout>
+    <NuxtLayout :key="$route.meta.layout || $route.name">
+      <NuxtLoadingIndicator />
       <NuxtPage />
     </NuxtLayout>
   </div>
