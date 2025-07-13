@@ -71,7 +71,10 @@ class Post(BaseID, BaseTitle, BaseContent, BaseDate):
     """
 
     category = models.CharField(
-        "Категория", max_length=100, choices=POST_CATEGORY_TYPES, default="hands"
+        "Категория",
+        max_length=100,
+        choices=POST_CATEGORY_TYPES,
+        default="hands",
     )
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
 

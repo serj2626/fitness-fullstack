@@ -31,7 +31,11 @@ class User(BaseID, AbstractBaseUser, PermissionsMixin):
     type = models.CharField(
         "Тип",
         max_length=20,
-        choices=[("client", "Клиент"), ("trainer", "Тренер"), ("admin", "Админ")],
+        choices=[
+            ("client", "Клиент"),
+            ("trainer", "Тренер"),
+            ("admin", "Админ"),
+        ],
         default="client",
     )
     is_active = models.BooleanField(default=True)

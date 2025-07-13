@@ -54,7 +54,7 @@ class TrainerReviewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TrainerReviews
-        fields = ("name", "email", "rating", "text", "verified", "time_age")
+        fields = ("first_name", "last_name", "email", "rating", "text", "verified", "time_age")
 
     def get_time_age(self, obj):
         return obj.time_age

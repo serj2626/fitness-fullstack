@@ -19,7 +19,7 @@ await useAsyncData(
 </script>
 
 <template>
-  <div>
+  <div> <BaseButtonScrollToTop />
     <NuxtLayout :key="$route.meta.layout || $route.name">
       <NuxtLoadingIndicator />
       <NuxtPage />

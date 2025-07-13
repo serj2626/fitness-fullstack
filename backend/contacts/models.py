@@ -36,7 +36,9 @@ class Footer(models.Model):
         max_length=100, default="AlfaSms", verbose_name="Название сайта"
     )
     copyright = models.CharField(
-        "Копирайт", max_length=255, default="© 2025 DVFitness. All rights reserved."
+        "Копирайт",
+        max_length=255,
+        default="© 2025 DVFitness. All rights reserved.",
     )
 
     def __str__(self):

@@ -43,7 +43,10 @@ class Payment(models.Model):
         "Статус", max_length=20, choices=STATUS_CHOICES, default=STATUS_PENDING
     )
     payment_method = models.CharField(
-        "Способ оплаты", max_length=20, choices=METHOD_CHOICES, default=METHOD_CARD
+        "Способ оплаты",
+        max_length=20,
+        choices=METHOD_CHOICES,
+        default=METHOD_CARD,
     )
     created_at = models.DateTimeField("Дата создания", default=timezone.now)
     updated_at = models.DateTimeField("Дата обновления", auto_now=True)

@@ -30,7 +30,7 @@ class FAQAdmin(admin.ModelAdmin):
 class GymReviewsAdmin(admin.ModelAdmin):
     """Админка отзывов"""
 
-    list_display = ("name", "email", "rating", "get_text", "verified")
+    list_display = ("first_name", "last_name", "email", "rating", "get_text", "verified")
 
     def get_text(self, obj):
         return f"{(str(obj.text))[0:26]}..."

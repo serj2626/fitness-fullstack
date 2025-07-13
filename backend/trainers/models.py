@@ -30,12 +30,17 @@ class Trainer(BaseID):
     """
 
     content = models.TextField("Описание", null=True, blank=True)
-    position = models.CharField("Должность", max_length=100, choices=POSITIONS_TYPE)
+    position = models.CharField(
+        "Должность", max_length=100, choices=POSITIONS_TYPE
+    )
     first_name = models.CharField("Имя", max_length=100)
     last_name = models.CharField("Фамилия", max_length=100)
     email = models.EmailField("Email", unique=True)
     phone = models.CharField(
-        "Телефон", max_length=15, unique=True, validators=[validate_russian_phone]
+        "Телефон",
+        max_length=15,
+        unique=True,
+        validators=[validate_russian_phone],
     )
     education = models.TextField("Образование", null=True, blank=True)
     keywords = models.TextField(
@@ -55,7 +60,9 @@ class Trainer(BaseID):
         null=True,
         validators=[validate_image_extension_and_format],
     )
-    services = models.ManyToManyField(Service, blank=True, verbose_name="Все услуги")
+    services = models.ManyToManyField(
+        Service, blank=True, verbose_name="Все услуги"
+    )
 
     class Meta:
         verbose_name = "Тренер"
@@ -83,7 +90,10 @@ class TrainerImage(BaseID, BaseDate):
     """
 
     trainer = models.ForeignKey(
-        Trainer, on_delete=models.CASCADE, verbose_name="тренер", related_name="images"
+        Trainer,
+        on_delete=models.CASCADE,
+        verbose_name="тренер",
+        related_name="images",
     )
     image = models.ImageField(
         "Фото",
@@ -93,7 +103,11 @@ class TrainerImage(BaseID, BaseDate):
         validators=[validate_image_extension_and_format],
     )
     alt = models.CharField(
-        "Описание к фото", max_length=255, blank=True, null=True, default="Описание"
+        "Описание к фото",
+        max_length=255,
+        blank=True,
+        null=True,
+        default="Описание",
     )
 
     def save(self, *args, **kwargs):
@@ -115,11 +129,17 @@ class TrainerRate(models.Model):
     """
 
     title = models.CharField(
-        "Название тарифа", max_length=100, choices=TRAINERS_RATES_TYPE, default="basic"
+        "Название тарифа",
+        max_length=100,
+        choices=TRAINERS_RATES_TYPE,
+        default="basic",
     )
 
     trainer = models.ForeignKey(
-        Trainer, on_delete=models.CASCADE, related_name="rates", verbose_name="тренер"
+        Trainer,
+        on_delete=models.CASCADE,
+        related_name="rates",
+        verbose_name="тренер",
     )
     count_minutes = models.SmallIntegerField(
         "Количество минут",
@@ -136,9 +156,7 @@ class TrainerRate(models.Model):
         unique_together = ("trainer", "title")
 
     def __str__(self):
-        return (
-            f"Индивидуальное занятие на {self.count_minutes} минут - тариф {self.title}"
-        )
+        return f"Индивидуальное занятие на {self.count_minutes} минут - тариф {self.title}"
 
 
 class TrainerSocialNetwork(models.Model):
@@ -180,7 +198,11 @@ class TrainingSession(BaseID, BaseDate):
         verbose_name="Тренер",
     )
     client = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True, related_name="trainings"
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="trainings",
     )
     rate = models.ForeignKey(
         TrainerRate,
@@ -269,7 +291,9 @@ class Slot(BaseDate):
     def clean(self):
         # Проверка: конец позже начала
         if self.end <= self.start:
-            raise ValidationError("Время окончания должно быть позже времени начала.")
+            raise ValidationError(
+                "Время окончания должно быть позже времени начала."
+            )
 
         # Проверка: дата не в прошлом
         today = timezone.now().date()
@@ -285,7 +309,9 @@ class Slot(BaseDate):
         ).exclude(pk=self.pk)
 
         if overlapping_slots.exists():
-            raise ValidationError("У тренера уже есть слот, пересекающийся по времени.")
+            raise ValidationError(
+                "У тренера уже есть слот, пересекающийся по времени."
+            )
 
     def save(self, *args, **kwargs):
         self.full_clean()  # вызывает clean() + проверяет поля

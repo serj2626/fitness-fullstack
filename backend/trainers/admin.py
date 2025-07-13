@@ -45,7 +45,15 @@ class TrainerReviewsAdmin(admin.ModelAdmin):
     Админ-панель для модели TrainerReviews
     """
 
-    list_display = ("trainer", "name", "email", "rating", "get_text", "verified")
+    list_display = (
+        "trainer",
+        "first_name",
+        "last_name",
+        "email",
+        "rating",
+        "get_text",
+        "verified",
+    )
     list_filter = ("trainer", "rating")
     search_fields = ("trainer", "rating")
 

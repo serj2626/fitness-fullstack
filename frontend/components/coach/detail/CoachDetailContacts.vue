@@ -36,7 +36,6 @@ const getExperience = computed(() => {
         <div>
           <div class="coach-detail-contacts__cards-item-label">Имя</div>
           <div class="coach-detail-contacts__cards-item-value">{{ name }}</div>
-          {{ getListKeywords.length }}
         </div>
       </div>
 

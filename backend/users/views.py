@@ -10,7 +10,11 @@ from rest_framework_simplejwt.views import (
 )
 
 from .models import User
-from .serializers import RegisterSerializer, UserDetailSerializer, UserInfoSerializer
+from .serializers import (
+    RegisterSerializer,
+    UserDetailSerializer,
+    UserInfoSerializer,
+)
 
 TAG = "Аутентификация и Пользователи"
 

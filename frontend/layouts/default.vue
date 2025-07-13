@@ -1,19 +1,22 @@
 <template>
   <div class="layout-default">
     <HeaderComponent />
-    <slot />
+    <main>
+        <slot />
+    </main>
     <FooterComponent v-if="!$route.meta.hideFooter" />
-    <BaseButtonScrollToTop />
     <ModalComponent />
   </div>
 </template>
 <style lang="scss">
-.ayout-default {
+.layout-default {
   min-height: 100vh;
   height: 100%;
-  padding-top: 70px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+main {
+  flex-grow: 1;
 }
 </style>

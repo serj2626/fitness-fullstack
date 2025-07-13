@@ -43,17 +43,23 @@ class RegisterSerializer(ModelSerializer):
 
         # Проверяем длину номера (для России обычно 11 цифр, включая код страны)
         if len(cleaned_phone) not in (10, 11):
-            raise ValidationError("Номер телефона должен содержать 10 или 11 цифр")
+            raise ValidationError(
+                "Номер телефона должен содержать 10 или 11 цифр"
+            )
 
         # Проверяем, что номер начинается правильно (для России)
         if not re.match(r"^[78]?\d{10}$", cleaned_phone):
-            raise ValidationError("Введите корректный российский номер телефона")
+            raise ValidationError(
+                "Введите корректный российский номер телефона"
+            )
 
         # Форматируем номер в единый формат (7XXXXXXXXXX)
         formatted_phone = f"+7{cleaned_phone[-10:]}"
 
         if User.objects.filter(phone=formatted_phone).exists():
-            raise ValidationError("Пользователь с таким телефоном уже существует")
+            raise ValidationError(
+                "Пользователь с таким телефоном уже существует"
+            )
 
         return formatted_phone
 

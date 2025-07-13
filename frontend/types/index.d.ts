@@ -1,4 +1,3 @@
-import { IPost } from './index.d';
 export interface ICoach {
   id: string;
   content: string;
@@ -99,8 +98,9 @@ interface TrainingRate {
   description: string; // Описание тарифа
 }
 
-interface TrainerReview {
-  name: string; // Имя автора отзыва
+interface IReview {
+  first_name: string; // Имя автора отзыва
+  last_name: string;
   email: string; // Email автора
   rating: number; // Оценка (1-5)
   text: string; // Текст отзыва
@@ -118,7 +118,7 @@ export interface ITrainerResponse {
   position: string;
   rates: TrainingRate[];
   average_rating: string;
-  reviews: TrainerReview[];
+  reviews: IReview[];
   socials: ITrainerSocial[];
   photo: string;
   content: string;

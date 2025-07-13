@@ -4,7 +4,11 @@ from rest_framework import generics, response, status
 from common.mixins import BaseSectionViewMixin
 
 from .models import Contact, Feedback, Footer
-from .serializers import ContactSerializer, FeedbackSerializer, FooterSerializer
+from .serializers import (
+    ContactSerializer,
+    FeedbackSerializer,
+    FooterSerializer,
+)
 
 TAG = "Контакты"
 
