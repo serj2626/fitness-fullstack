@@ -102,7 +102,10 @@ class OrderAbonement(BaseID, BaseDate):
     """
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="abonements", verbose_name="Клиент"
+        User,
+        on_delete=models.CASCADE,
+        related_name="abonements",
+        verbose_name="Клиент",
     )
     abonement = models.ForeignKey(
         Abonement,
@@ -177,7 +180,9 @@ class GymVisit(BaseID):
     def clean(self):
         """Проверка, что visit_end не раньше visit_start"""
         if self.visit_end and self.visit_end < self.visit_start:
-            raise ValidationError("Дата окончания не может быть раньше даты начала!")
+            raise ValidationError(
+                "Дата окончания не может быть раньше даты начала!"
+            )
 
     def save(self, *args, **kwargs):
         self.full_clean()

@@ -2,7 +2,13 @@ from django.contrib import admin
 
 from common.admin import AdminLimitMixin, AdminShortDescriptionMixin
 
-from .models import Abonement, AbonementService, Discount, GymVisit, OrderAbonement
+from .models import (
+    Abonement,
+    AbonementService,
+    Discount,
+    GymVisit,
+    OrderAbonement,
+)
 
 
 class AbonementServiceLineAdmin(admin.TabularInline):
@@ -30,7 +36,9 @@ class DiscountAdmin(admin.ModelAdmin):
 
 
 @admin.register(Abonement)
-class AbonementAdmin(AdminShortDescriptionMixin, AdminLimitMixin, admin.ModelAdmin):
+class AbonementAdmin(
+    AdminShortDescriptionMixin, AdminLimitMixin, admin.ModelAdmin
+):
     """Админка для абонементов"""
 
     singleton_limit = 3
