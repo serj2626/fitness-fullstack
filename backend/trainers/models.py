@@ -1,7 +1,9 @@
 from datetime import timedelta
 
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.timesince import timesince
 
 from common.models import BaseDate, BaseID, BaseReview
@@ -131,6 +133,7 @@ class TrainerRate(models.Model):
         verbose_name = "Тариф тренера"
         verbose_name_plural = "Тарифы тренеров"
         ordering = ["-price"]
+        unique_together = ("trainer", "title")
 
     def __str__(self):
         return (
@@ -236,3 +239,54 @@ class TrainerReviews(BaseReview):
     # @property
     # def time_age(self):
     #     return timesince(self.created_at)
+
+
+class Slot(BaseDate):
+    """
+    Слоты тренера
+    """
+
+    date = models.DateField(verbose_name="Дата")
+    start = models.TimeField(verbose_name="Начало")
+    end = models.TimeField(verbose_name="Конец")
+    free = models.BooleanField(default=True, verbose_name="Свободен")
+    trainer = models.ForeignKey(
+        Trainer,
+        on_delete=models.CASCADE,
+        related_name="slots",
+        verbose_name="тренер",
+    )
+
+    class Meta:
+        verbose_name = "Слот"
+        verbose_name_plural = "Слоты"
+        ordering = ["date", "start"]
+        unique_together = ("trainer", "date", "start")
+
+    def __str__(self):
+        return f"{self.date} | {self.start.strftime('%H:%M')}–{self.end.strftime('%H:%M')} | {self.trainer}"
+
+    def clean(self):
+        # Проверка: конец позже начала
+        if self.end <= self.start:
+            raise ValidationError("Время окончания должно быть позже времени начала.")
+
+        # Проверка: дата не в прошлом
+        today = timezone.now().date()
+        if self.date < today:
+            raise ValidationError("Нельзя создавать слот на прошедшую дату.")
+
+        # Проверка на пересечение слотов для того же тренера
+        overlapping_slots = Slot.objects.filter(
+            trainer=self.trainer,
+            date=self.date,
+            start__lt=self.end,
+            end__gt=self.start,
+        ).exclude(pk=self.pk)
+
+        if overlapping_slots.exists():
+            raise ValidationError("У тренера уже есть слот, пересекающийся по времени.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()  # вызывает clean() + проверяет поля
+        super().save(*args, **kwargs)

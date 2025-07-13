@@ -7,12 +7,17 @@ class AdminImagePreviewMixin:
     """
 
     image_field_name = "image"
+    image_preview_width = 50
+    image_preview_height = 50
+    image_style = "border-radius: 50%;"
 
     def get_image(self, obj):
         image_field = getattr(obj, self.image_field_name, None)
         if image_field and hasattr(image_field, "url"):
             return mark_safe(
-                f'<img src="{image_field.url}" style="border-radius: 50%;" width="50" height="50">'
+                f'<img src="{image_field.url}" '
+                f'style="{self.image_style}" '
+                f'width="{self.image_preview_width}" height="{self.image_preview_height}">'
             )
         return "Нет изображения"
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.utils.html import mark_safe
 
+from common.admin import AdminImagePreviewMixin
 
 from .models import (
     Trainer,
@@ -15,6 +15,7 @@ from .models import (
 class TrainerSocialNetworkInline(admin.TabularInline):
     model = TrainerSocialNetwork
     extra = 1
+    max_num = 4
 
 
 class TrainingSessionInline(admin.TabularInline):
@@ -57,6 +58,7 @@ class TrainerReviewsAdmin(admin.ModelAdmin):
 class TrainerRateInline(admin.TabularInline):
     model = TrainerRate
     extra = 1
+    max_num = 3
 
 
 class TrainerImageInline(admin.TabularInline):
@@ -66,10 +68,14 @@ class TrainerImageInline(admin.TabularInline):
 
 
 @admin.register(Trainer)
-class TrainerAdmin(admin.ModelAdmin):
+class TrainerAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     """
     Админ-панель для модели Trainer
     """
+
+    image_field_name = "avatar"
+    image_preview_width = 80
+    image_preview_height = 80
 
     inlines = [
         TrainerImageInline,
@@ -84,7 +90,7 @@ class TrainerAdmin(admin.ModelAdmin):
         "get_full_name",
         "email",
         "phone",
-        "get_avatar",
+        "get_image",
     )
     fields = (
         ("first_name", "last_name"),
@@ -94,11 +100,12 @@ class TrainerAdmin(admin.ModelAdmin):
             "experience",
         ),
         "education",
-        "avatar",
         (
-            "keywords",
-            "content",
+            "avatar",
+            "get_image",
         ),
+        "keywords",
+        "content",
         "services",
     )
     list_filter = ("position",)
@@ -107,20 +114,13 @@ class TrainerAdmin(admin.ModelAdmin):
     search_fields = ("first_name", "last_name", "email", "phone")
 
     filter_horizontal = ("services",)
+    readonly_fields = ("get_image",)
 
     def get_full_name(self, obj):
         if obj.first_name and obj.last_name:
             return f"{obj.first_name} {obj.last_name}"
         return obj.email
 
-    def get_avatar(self, obj):
-        if obj.avatar and hasattr(obj.avatar, "url"):
-            return mark_safe(
-                f'<img src="{obj.avatar.url}" style="border-radius: 50%;" width="50" height="50">'
-            )
-        return "Нет изображения"
-
-    get_avatar.short_description = "Фото"
     get_full_name.short_description = "Имя"
 
 

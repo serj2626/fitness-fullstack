@@ -39,7 +39,7 @@ def dynamic_path_by_img(path: str | None = None) -> callable:
     def wrapper(instance, filename):
         folder = path.lower() if path else "uploads"
         ext = filename.split(".")[-1]
-        filename = f"{uuid4().hex}.{ext.lower()}"
+        filename = f"{instance.pk}.{ext.lower()}"
         return f"{folder}/{instance.__class__.__name__.lower()}/{filename}"
 
     return wrapper
