@@ -1,8 +1,10 @@
-from common.pagination import ListResultsSetPagination
-from .serializers import TrainerListSerializer, TrainerSerializer
-from rest_framework import generics
-from .models import Trainer
 from drf_spectacular.utils import extend_schema
+from rest_framework import generics
+
+from common.pagination import ListResultsSetPagination
+
+from .models import Trainer
+from .serializers import TrainerListSerializer, TrainerSerializer
 
 TAG = "Тренеры"
 

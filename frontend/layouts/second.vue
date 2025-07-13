@@ -4,7 +4,6 @@
     <slot />
     <BaseButtonScrollToTop />
     <ModalComponent />
-    <LazyBaseAlertBaseAlerCookie />
   </div>
 </template>
 <style lang="scss">

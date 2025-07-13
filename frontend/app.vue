@@ -24,6 +24,7 @@ await useAsyncData(
       <NuxtLoadingIndicator />
       <NuxtPage />
     </NuxtLayout>
+     <LazyBaseAlertCookie />
   </div>
 </template>
 <style lang="scss">

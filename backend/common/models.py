@@ -1,11 +1,16 @@
-from django.db import models
 import uuid
-from django_ckeditor_5.fields import CKEditor5Field
-from django.core.validators import MinValueValidator, MaxValueValidator
+
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.utils.timesince import timesince
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class BaseID(models.Model):
+    """
+    Базовая модель для всех моделей с идентификатором
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     class Meta:
@@ -13,6 +18,10 @@ class BaseID(models.Model):
 
 
 class BaseContent(models.Model):
+    """
+    Базовая модель для всех моделей с контентом
+    """
+
     content = CKEditor5Field(blank=True, verbose_name="Описание", config_name="extends")
 
     class Meta:
@@ -20,6 +29,10 @@ class BaseContent(models.Model):
 
 
 class BaseTitle(models.Model):
+    """
+    Базовая модель для всех моделей с заголовком
+    """
+
     title = models.CharField(max_length=255, verbose_name="Заголовок")
 
     class Meta:
@@ -27,6 +40,10 @@ class BaseTitle(models.Model):
 
 
 class BaseDate(models.Model):
+    """
+    Базовая модель для всех моделей с датой
+    """
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
@@ -35,6 +52,10 @@ class BaseDate(models.Model):
 
 
 class BaseReview(BaseID, BaseDate):
+    """
+    Базовая модель для всех моделей с отзывами
+    """
+
     name = models.CharField("Имя", max_length=100, null=True, blank=True)
     email = models.EmailField("Email", null=True, blank=True)
     rating = models.SmallIntegerField(

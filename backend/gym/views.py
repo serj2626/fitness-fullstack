@@ -1,14 +1,15 @@
 from drf_spectacular.utils import extend_schema
+from rest_framework import generics
 
 from common.pagination import ListResultsSetPagination
-from .models import FAQ, GymReviews, Service, Post
+
+from .models import FAQ, GymReviews, Post, Service
 from .serializers import (
     FAQSerializer,
     GymReviewsSerializer,
-    ServiceSerializer,
     PostSerializer,
+    ServiceSerializer,
 )
-from rest_framework import generics
 
 TAG = "Тренажерный зал"
 
@@ -18,7 +19,7 @@ class PostDetailView(generics.RetrieveAPIView):
     serializer_class = PostSerializer
     lookup_field = "slug"
 
-    @extend_schema(tags=['Посты'], summary="Детальное отображение новости")
+    @extend_schema(tags=["Посты"], summary="Детальное отображение новости")
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -29,7 +30,7 @@ class PostLastView(generics.ListAPIView):
     def get_queryset(self):
         return Post.objects.all().order_by("-created_at")[:5]
 
-    @extend_schema(tags=['Посты'], summary="Последние новости")
+    @extend_schema(tags=["Посты"], summary="Последние новости")
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -38,7 +39,7 @@ class PostListView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    @extend_schema(tags=['Посты'], summary="Список новостей")
+    @extend_schema(tags=["Посты"], summary="Список новостей")
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 

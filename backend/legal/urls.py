@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import CookiePolicyView, AboutView, OffertaView, PolicyView
 
+from .views import AboutView, CookiePolicyView, OffertaView, PolicyView
 
 urlpatterns = [
     path("cookie-policy/", CookiePolicyView.as_view(), name="cookie-policy"),

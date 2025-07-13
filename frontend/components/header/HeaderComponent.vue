@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import { headerLinks } from "~/assets/data/header-links";
+
+
 const modalsStore = useModalsStore();
 
-const isHidden = ref(false);
+const isHidden = ref<boolean>(false);
 const lastScrollY = ref<number>(0);
 
 const handleScroll = () => {
@@ -86,14 +88,14 @@ onUnmounted(() => {
   background-color: transparent;
   padding-block: 10px;
   &_opacity {
-    display: none;
+    // display: none;
     background-color: rgba(0, 0, 0, 0.7);
     @include mediaLaptop {
       display: block;
     }
   }
   &_hidden {
-    display: none;
+    // display: none;
     transition: transform 0.5s ease-in-out;
     transform: translateY(-100%);
     @include mediaLaptop {

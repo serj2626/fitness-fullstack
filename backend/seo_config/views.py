@@ -1,8 +1,8 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework.generics import RetrieveAPIView
+
 from .models import SEO
 from .serializers import SEOSerializer
-from drf_spectacular.utils import extend_schema
-
 
 TAG = "Настройки SEO и Конфигурация"
 

@@ -8,21 +8,19 @@ const showAlert = ref(!cookieConsent.value);
 
 function hideAlert() {
   cookieConsent.value = true;
-  showAlert.value = false;
+  showAlert.value = false;  
 }
 </script>
 <template>
-  <div v-if="showAlert" class="alert-cookie container">
-    <p class="alert-cookie__text">
+  <div v-if="showAlert" class="base-alert-cookie container">
+    <p class="base-alert-cookie__text">
       DV Fitness использует файлы cookie для улучшения взаимодействия с сайтом.
       Продолжая просмотр страниц сайта, вы соглашаетесь с использованием файлов
       cookie.
-      <NuxtLink to="/" class="alert-cookie__text-link">
-        Подробнее
-      </NuxtLink>
+      <NuxtLink to="/" class="base-alert-cookie__text-link"> Подробнее </NuxtLink>
     </p>
     <BaseButton
-      class="alert-cookie__btn"
+      class="base-alert-cookie__btn"
       size="md"
       label="Понятно"
       @click="hideAlert"
@@ -30,7 +28,7 @@ function hideAlert() {
   </div>
 </template>
 <style scoped lang="scss">
-.alert-cookie {
+.base-alert-cookie {
   position: fixed;
   bottom: 20px;
   left: 50%;

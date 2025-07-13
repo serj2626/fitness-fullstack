@@ -1,9 +1,9 @@
 import re
+
 from django.core.exceptions import ValidationError
-from PIL import Image
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
-
+from PIL import Image
 
 phone_regex = re.compile(r"^\+?7?\d{10}$")
 
@@ -16,13 +16,15 @@ phone_validator = RegexValidator(
 
 def validate_russian_phone(value):
     # Удаляем пробелы, дефисы, скобки
-    cleaned = re.sub(r'[^\d+]', '', value)
+    cleaned = re.sub(r"[^\d+]", "", value)
 
     # Проверка на соответствие формату +7XXXXXXXXXX или 8XXXXXXXXXX
-    if re.fullmatch(r'(\+7|8)\d{10}', cleaned) is None:
+    if re.fullmatch(r"(\+7|8)\d{10}", cleaned) is None:
         raise ValidationError(
-            _('Введите корректный российский номер телефона в формате +7XXXXXXXXXX или 8XXXXXXXXXX'),
-            params={'value': value},
+            _(
+                "Введите корректный российский номер телефона в формате +7XXXXXXXXXX или 8XXXXXXXXXX"
+            ),
+            params={"value": value},
         )
 
 

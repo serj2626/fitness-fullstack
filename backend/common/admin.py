@@ -30,8 +30,6 @@ class AdminLimitMixin:
         return self.model.objects.count() < self.singleton_limit
 
 
-
-
 class AdminShortDescriptionMixin:
     """
     Миксин для отображения короткого описания в админке

@@ -1,15 +1,16 @@
 from django.contrib import admin
+from django.utils.html import mark_safe
 
 from common.admin import AdminImagePreviewMixin
+
 from .models import (
     Trainer,
     TrainerImage,
-    TrainerReviews,
-    TrainingSession,
     TrainerRate,
+    TrainerReviews,
     TrainerSocialNetwork,
+    TrainingSession,
 )
-from django.utils.html import mark_safe
 
 
 class TrainerSocialNetworkInline(admin.TabularInline):
@@ -81,8 +82,7 @@ class TrainerAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "position",
-        "first_name",
-        "last_name",
+        "get_full_name",
         "email",
         "phone",
         "get_avatar",
@@ -96,13 +96,23 @@ class TrainerAdmin(admin.ModelAdmin):
         ),
         "education",
         "avatar",
-        "keywords",
-        "content",
+        (
+            "keywords",
+            "content",
+        ),
+        "services",
     )
     list_filter = ("position",)
     list_per_page = 5
     save_on_top = True
     search_fields = ("first_name", "last_name", "email", "phone")
+
+    filter_horizontal = ("services",)
+
+    def get_full_name(self, obj):
+        if obj.first_name and obj.last_name:
+            return f"{obj.first_name} {obj.last_name}"
+        return obj.email
 
     def get_avatar(self, obj):
         if obj.avatar and hasattr(obj.avatar, "url"):
@@ -112,6 +122,7 @@ class TrainerAdmin(admin.ModelAdmin):
         return "Нет изображения"
 
     get_avatar.short_description = "Фото"
+    get_full_name.short_description = "Имя"
 
 
 @admin.register(TrainingSession)

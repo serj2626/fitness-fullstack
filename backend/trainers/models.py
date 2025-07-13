@@ -1,21 +1,24 @@
-from django.db import models
+from datetime import timedelta
+
 from django.contrib.auth import get_user_model
-from common.models import BaseContent, BaseID, BaseDate, BaseReview
+from django.db import models
+from django.utils.timesince import timesince
+
+from common.models import BaseDate, BaseID, BaseReview
 from common.types import (
     POSITIONS_TYPE,
-    SESSION_DURATION_CHOICES,
-    TRAINERS_RATES_TYPE,
-    SOCIAL_NETWORKS_TYPE,
     SERVICES_TYPE,
+    SESSION_DURATION_CHOICES,
+    SOCIAL_NETWORKS_TYPE,
+    TRAINERS_RATES_TYPE,
 )
-from datetime import timedelta
-from django.utils.timesince import timesince
 from common.upload import compress_image
 from common.upload_to import dynamic_upload_to
 from common.validators import (
     validate_image_extension_and_format,
     validate_russian_phone,
 )
+from gym.models import Service
 
 User = get_user_model()
 
@@ -51,6 +54,7 @@ class Trainer(BaseID):
         null=True,
         validators=[validate_image_extension_and_format],
     )
+    services = models.ManyToManyField(Service, blank=True, verbose_name="Все услуги")
 
     class Meta:
         verbose_name = "Тренер"
@@ -60,6 +64,13 @@ class Trainer(BaseID):
         return f"{self.first_name} {self.last_name} - {self.get_position_display()}"
 
     def save(self, *args, **kwargs):
+        if self.keywords:
+            self.keywords = (
+                str(self.keywords)
+                .replace(",   ", ",")
+                .replace(",  ", ",")
+                .replace(", ", ",")
+            )
         if self.avatar:
             self.avatar = compress_image(self.avatar)
         super().save(*args, **kwargs)
@@ -81,7 +92,7 @@ class TrainerImage(BaseID, BaseDate):
         validators=[validate_image_extension_and_format],
     )
     alt = models.CharField(
-        "Описание", max_length=255, blank=True, null=True, default="Описание"
+        "Описание к фото", max_length=255, blank=True, null=True, default="Описание"
     )
 
     def save(self, *args, **kwargs):
@@ -151,53 +162,6 @@ class TrainerSocialNetwork(models.Model):
 
     def __str__(self):
         return f"{self.trainer} - {self.type}"
-
-
-# class TrainerService(models.Model):
-#     """
-#     Услуги тренера
-#     """
-
-#     trainer = models.ForeignKey(
-#         Trainer,
-#         on_delete=models.CASCADE,
-#         related_name="services",
-#         verbose_name="тренер",
-#     )
-#     service = models.CharField("Услуга", max_length=100, choices=SERVICES_TYPE)
-
-#     class Meta:
-#         verbose_name = "Услуга тренера"
-#         verbose_name_plural = "Услуги тренеров"
-#         unique_together = ("trainer", "service")
-
-#     def __str__(self):
-#         return f"{self.trainer} - {self.service}"
-
-# class TrainerService(models.Model):
-#     """
-#     Услуги тренера
-#     """
-
-#     trainer = models.ForeignKey(
-#         Trainer,
-#         on_delete=models.CASCADE,
-#         related_name="services",
-#         verbose_name="тренер",
-#     )
-#     service = models.ForeignKey(
-#         Service,
-#         on_delete=models.CASCADE,
-#         related_name="trainers",
-#         verbose_name="услуга",
-#     )
-
-#     class Meta:
-#         verbose_name = "Услуга тренера"
-#         verbose_name_plural = "Услуги тренеров"
-
-#     def __str__(self):
-#         return f"{self.trainer} - {self.service}"
 
 
 class TrainingSession(BaseID, BaseDate):

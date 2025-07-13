@@ -1,8 +1,8 @@
+from drf_spectacular.utils import extend_schema
+from rest_framework import generics
+
 from .models import Abonement, GymVisit
 from .serializers import AbonementSerializer, GymVisitSerializer
-from rest_framework import generics
-from drf_spectacular.utils import extend_schema
-
 
 TAG = "Абонементы"
 

@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 from common.mixins import SingletonAdminInfoMixin
-from .models import About, Offerta, Policy, CookiePolicy
+
+from .models import About, CookiePolicy, Offerta, Policy
 
 
 @admin.register(About)

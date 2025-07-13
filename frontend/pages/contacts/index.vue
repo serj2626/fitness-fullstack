@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'second', 
+  hideFooter: true
 });
 </script>
 <template>

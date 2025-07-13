@@ -1,9 +1,10 @@
-from django.db import models
 import os
-from django.core.exceptions import ValidationError
 from io import BytesIO
-from PIL import Image
+
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
+from django.db import models
+from PIL import Image
 
 
 def validate_image_extension(value):

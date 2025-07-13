@@ -1,5 +1,5 @@
-from datetime import datetime
 import os
+from datetime import datetime
 from uuid import uuid4
 
 
@@ -15,6 +15,10 @@ def dynamic_upload_to(instance, filename):
 
 
 def dynamic_path_by_img_with_date(path: str) -> str:
+    """
+    Возвращает путь к загруженному файлу с учетом даты
+    """
+
     def wrapper(instance, filename):
         folder = path.lower()
         ext = filename.split(".")[-1]
@@ -28,6 +32,10 @@ def dynamic_path_by_img_with_date(path: str) -> str:
 
 
 def dynamic_path_by_img(path: str | None = None) -> callable:
+    """
+    Возвращает путь к загруженному файлу
+    """
+
     def wrapper(instance, filename):
         folder = path.lower() if path else "uploads"
         ext = filename.split(".")[-1]

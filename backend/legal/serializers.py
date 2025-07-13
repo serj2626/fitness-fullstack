@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import CookiePolicy, Offerta, Policy, About
+
+from .models import About, CookiePolicy, Offerta, Policy
 
 
 class AboutSerializer(serializers.ModelSerializer):

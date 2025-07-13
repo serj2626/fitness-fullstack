@@ -1,14 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from common.models import BaseContent, BaseDate, BaseID, BaseReview, BaseTitle
 from django.utils.text import slugify
+
+from common.models import BaseContent, BaseDate, BaseID, BaseReview, BaseTitle
 from common.types import SERVICES_TYPE
 from common.upload import compress_image
 from common.upload_to import dynamic_upload_to
-from common.validators import (
-    validate_image_extension_and_format,
-)
-from django.utils.text import slugify
-from django.contrib.auth import get_user_model
+from common.validators import validate_image_extension_and_format
 
 User = get_user_model()
 

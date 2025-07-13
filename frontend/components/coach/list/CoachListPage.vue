@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import type { ICoach, ICoachesListResponse } from "~/types";
+import type { ICoachesListResponse } from "~/types";
 import CoachListContent from "./CoachListContent.vue";
 
 const { $api } = useNuxtApp();
 
-const { data: coachesData } = await useAsyncData<ICoachesListResponse>(
+const { data: coachesData } = useAsyncData<ICoachesListResponse>(
   "coaches-list-page-info",
   () => $api(api.coaches.list)
 );
@@ -19,7 +19,10 @@ const { data: coachesData } = await useAsyncData<ICoachesListResponse>(
     />
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachesPage" />
-      <CoachListContent :coaches="coachesData?.results as ICoach[]" />
+      <CoachListContent
+        v-if="coachesData?.results"
+        :coaches="coachesData.results"
+      />
     </div>
   </div>
 </template>

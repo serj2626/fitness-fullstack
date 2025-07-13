@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Abonement, GymVisit, AbonementService
+
+from .models import Abonement, AbonementService, GymVisit
 
 
 class AbonementServiceSerializer(serializers.ModelSerializer):

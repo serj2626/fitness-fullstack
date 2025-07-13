@@ -1,4 +1,9 @@
+from drf_spectacular.utils import extend_schema
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.response import Response
+
 from common.mixins import BaseSectionViewMixin
+
 from .models import About, CookiePolicy, Offerta, Policy
 from .serializers import (
     AboutSerializer,
@@ -6,10 +11,6 @@ from .serializers import (
     OffertaSerializer,
     PolicySerializer,
 )
-from drf_spectacular.utils import extend_schema
-from rest_framework.generics import RetrieveAPIView
-from rest_framework.response import Response
-
 
 TAG = "Юридическая информация"
 

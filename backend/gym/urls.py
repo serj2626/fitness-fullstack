@@ -1,13 +1,13 @@
 from django.urls import path
+
 from .views import (
     FAQListView,
-    ServiceListView,
     GymReviewsListView,
+    PostDetailView,
     PostLastView,
     PostListView,
-    PostDetailView,
+    ServiceListView,
 )
-
 
 urlpatterns = [
     path("services/", ServiceListView.as_view(), name="services"),

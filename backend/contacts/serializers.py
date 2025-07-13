@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Feedback, Contact, Footer, FooterLink, FooterIcon
+
+from .models import Contact, Feedback, Footer, FooterIcon, FooterLink
 
 
 class FooterLinkSerializer(serializers.ModelSerializer):
@@ -58,4 +59,3 @@ class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
         fields = "__all__"
-

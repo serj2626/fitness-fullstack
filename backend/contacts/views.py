@@ -1,19 +1,12 @@
-from rest_framework import generics, status, response
+from drf_spectacular.utils import extend_schema
+from rest_framework import generics, response, status
 
 from common.mixins import BaseSectionViewMixin
 
 from .models import Contact, Feedback, Footer
-from .serializers import (
-    ContactSerializer,
-    FeedbackSerializer,
-    FooterSerializer,
-)
-from drf_spectacular.utils import extend_schema
-
+from .serializers import ContactSerializer, FeedbackSerializer, FooterSerializer
 
 TAG = "Контакты"
-
-
 
 
 class FooterView(BaseSectionViewMixin):

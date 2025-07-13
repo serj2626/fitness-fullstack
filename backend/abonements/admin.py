@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 from common.admin import AdminLimitMixin, AdminShortDescriptionMixin
-from .models import Abonement, OrderAbonement, GymVisit, Discount, AbonementService
+
+from .models import Abonement, AbonementService, Discount, GymVisit, OrderAbonement
 
 
 class AbonementServiceLineAdmin(admin.TabularInline):

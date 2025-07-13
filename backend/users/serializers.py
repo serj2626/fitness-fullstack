@@ -1,17 +1,17 @@
+import re
+
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.validators import validate_email
 from rest_framework.serializers import (
-    ModelSerializer,
     CharField,
     EmailField,
+    ModelSerializer,
     ValidationError,
 )
-import re
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError as DjangoValidationError
 
-from abonements.serializers import GymVisitSerializer
 from abonements.models import GymVisit
-
+from abonements.serializers import GymVisitSerializer
 from trainers.serializers import TrainingSessionSerializer
 
 User = get_user_model()

@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.utils import timezone
+
 from common.models import BaseID
 
 
@@ -27,7 +28,8 @@ class UserManager(BaseUserManager):
 class User(BaseID, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, unique=True)
-    type = models.CharField("Тип",
+    type = models.CharField(
+        "Тип",
         max_length=20,
         choices=[("client", "Клиент"), ("trainer", "Тренер"), ("admin", "Админ")],
         default="client",

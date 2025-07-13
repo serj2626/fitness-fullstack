@@ -1,12 +1,13 @@
-from django.db import models
-from django.contrib.auth import get_user_model
 from datetime import timedelta
-from common.models import BaseID, BaseDate
-from django.utils.text import slugify
+
+from django.contrib.auth import get_user_model
+from django.db import models
 from django.forms import ValidationError
 from django.utils import timezone
-from common.types import ABONEMENT_TYPES, SERVICES_TYPE
+from django.utils.text import slugify
 
+from common.models import BaseDate, BaseID
+from common.types import ABONEMENT_TYPES, SERVICES_TYPE
 
 User = get_user_model()
 
@@ -54,7 +55,7 @@ class AbonementService(models.Model):
     """
     Услуга абонемента
     """
-    
+
     title = models.CharField("Название", max_length=100, choices=SERVICES_TYPE)
     abonement = models.ForeignKey(
         Abonement,
@@ -75,7 +76,7 @@ class Discount(models.Model):
     """
     Скидка
     """
-    
+
     abonement = models.ForeignKey(
         Abonement,
         on_delete=models.CASCADE,

@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import FAQ, GymReviews, Service, Post
 from django.utils.html import mark_safe
+
+from .models import FAQ, GymReviews, Post, Service
 
 
 @admin.register(Post)

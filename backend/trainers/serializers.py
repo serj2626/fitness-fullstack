@@ -1,13 +1,14 @@
+from django.db.models import Avg
 from rest_framework import serializers
+
 from .models import (
     Trainer,
     TrainerImage,
     TrainerRate,
     TrainerReviews,
-    TrainingSession,
     TrainerSocialNetwork,
+    TrainingSession,
 )
-from django.db.models import Avg
 
 
 class TrainerSocialNetworkSerializer(serializers.ModelSerializer):

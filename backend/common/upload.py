@@ -1,6 +1,7 @@
-from PIL import Image
 from io import BytesIO
+
 from django.core.files.base import ContentFile
+from PIL import Image
 
 
 def compress_image(image_field):
@@ -13,4 +14,3 @@ def compress_image(image_field):
     image.save(buffer, format="webp", quality=90)
     image_field.save("image.webp", ContentFile(buffer.getvalue()), save=False)
     return image_field
-

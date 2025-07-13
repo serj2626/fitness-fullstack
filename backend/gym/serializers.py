@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import FAQ, GymReviews, Service, Post
+
+from .models import FAQ, GymReviews, Post, Service
 
 
 class PostSerializer(serializers.ModelSerializer):

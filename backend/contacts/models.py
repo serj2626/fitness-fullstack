@@ -1,13 +1,7 @@
 from django.db import models
+
 from common.models import BaseDate, BaseTitle
-
-
-SOCIAL_ICON_TYPES = [
-    ("vk", "Вконтакте"),
-    ("telegram", "Телеграм"),
-    ("whatsapp", "Ватсап"),
-    ("linkedin", "Linkedin"),
-]
+from common.types import SOCIAL_NETWORKS_TYPE
 
 CONTACTS_TYPE = [
     ("phone", "Телефон"),
@@ -80,7 +74,7 @@ class FooterIcon(models.Model):
     """
 
     title = models.CharField(
-        "Название", max_length=255, unique=True, choices=SOCIAL_ICON_TYPES
+        "Название", max_length=255, unique=True, choices=SOCIAL_NETWORKS_TYPE
     )
     link = models.CharField("Ссылка", max_length=255)
     footer = models.ForeignKey(
@@ -118,4 +112,3 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"Контакт {self.get_type_display()}"
-
