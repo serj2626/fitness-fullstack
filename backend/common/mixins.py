@@ -2,7 +2,6 @@ import io
 
 from django.core.exceptions import MultipleObjectsReturned
 from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 from PIL import Image
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response

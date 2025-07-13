@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
 
-from common.admin import AdminImagePreviewMixin
 
 from .models import (
     Trainer,

@@ -10,7 +10,6 @@ from rest_framework.serializers import (
     ValidationError,
 )
 
-from abonements.models import GymVisit
 from abonements.serializers import GymVisitSerializer
 from trainers.serializers import TrainingSessionSerializer
 

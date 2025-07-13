@@ -7,7 +7,6 @@ from django.utils.timesince import timesince
 from common.models import BaseDate, BaseID, BaseReview
 from common.types import (
     POSITIONS_TYPE,
-    SERVICES_TYPE,
     SESSION_DURATION_CHOICES,
     SOCIAL_NETWORKS_TYPE,
     TRAINERS_RATES_TYPE,
