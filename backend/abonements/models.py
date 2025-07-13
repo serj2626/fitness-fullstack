@@ -22,6 +22,10 @@ class Abonement(models.Model):
     price = models.PositiveSmallIntegerField("Цена", null=True, blank=True)
     number_of_months = models.SmallIntegerField("Количество месяцев")
     is_popular = models.BooleanField("Популярный", default=False)
+    sale = models.BooleanField("Акция", default=False)
+    freeze_days = models.PositiveSmallIntegerField(
+        "Заморозка дней", null=True, blank=True, default=0
+    )
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -67,6 +71,7 @@ class AbonementService(models.Model):
     class Meta:
         verbose_name = "Услуга абонемента"
         verbose_name_plural = "Услуги абонементов"
+        unique_together = ("abonement", "title")
 
     def __str__(self):
         return f"{self.get_title_display()}"
@@ -130,6 +135,38 @@ class OrderAbonement(BaseID, BaseDate):
 
     def __str__(self):
         return f"Order - {self.abonement} - {self.user.email}"
+
+
+class FreezeAbonement(BaseID):
+    """
+    Заморозить абонемент
+    """
+
+    my_abonement = models.ForeignKey(
+        OrderAbonement,
+        on_delete=models.CASCADE,
+        related_name="freezes",
+        verbose_name="Абонемент",
+    )
+    start = models.DateField("Начало заморозки")
+    end = models.DateField("Конец заморозки")
+
+    class Meta:
+        verbose_name = "Замороженный абонемент"
+        verbose_name_plural = "Замороженные абонементы"
+
+    def clean(self):
+        if self.start > self.end:
+            raise ValidationError("Дата начала заморозки должна быть раньше даты окончания")
+        if self.start < timezone.now().date():
+            raise ValidationError("Нельзя заморозить абонемент в прошлом")
+        if self.start == timezone.now().date():
+            raise ValidationError("Нельзя заморозить абонемент на сегодня")
+        if self.end < timezone.now().date():
+            raise ValidationError("Нельзя заморозить абонемент в прошлом")
+
+    def __str__(self):
+        return f"Freeze - {self.abonement} - {self.start} - {self.end}"
 
 
 class GymVisit(BaseID):
