@@ -19,6 +19,7 @@ const { data: postsLast } = await useAsyncData(
   <div>
     <MainVideoSection />
     <MainAboutSection />
+    <MainAdvantagesSection />
     <MainAbonementsSection v-if="abonementsInfo" :abonements="abonementsInfo" />
     <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
     <MainPostSection :posts="postsLast as IPost[]" />

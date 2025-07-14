@@ -163,7 +163,7 @@ function submitForm() {
 <style lang="scss" scoped>
 .base-form-feedback {
   padding-block: 100px;
-
+  background-color: $bg;
   &__wraper {
     &-title {
       font-weight: 600;

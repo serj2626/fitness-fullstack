@@ -24,6 +24,7 @@ defineProps<{ abonements: IMainAbonementResponse[] }>();
 .main-abonements-section {
   padding-block: 100px;
   padding-inline: 10px;
+  background-color: $bg_block;
   @include mediaMobile {
     padding-inline: 20px;
   }

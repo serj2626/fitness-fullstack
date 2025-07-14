@@ -25,8 +25,8 @@ defineProps<{ posts: IPost[] | null }>();
 </template>
 <style scoped lang="scss">
 .main-post-section {
+  background-color: $bg_block;
   padding: 80px 0;
-  background-color: $bg;
   color: $white;
 
   &__title {

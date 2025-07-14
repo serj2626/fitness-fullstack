@@ -23,8 +23,8 @@
 </template>
 <style lang="scss" scoped>
 .main-about-section {
-  // min-height: 600px;
   padding-block: 100px 30px;
+  background-color: $bg_block;
   &__img {
     position: absolute;
     left: 50%;
