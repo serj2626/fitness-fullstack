@@ -19,12 +19,13 @@ await useAsyncData(
 </script>
 
 <template>
-  <div> <BaseButtonScrollToTop />
+  <div>
+    <BaseButtonScrollToTop />
     <NuxtLayout :key="$route.meta.layout || $route.name">
       <NuxtLoadingIndicator />
       <NuxtPage />
     </NuxtLayout>
-     <LazyBaseAlertCookie />
+    <LazyBaseAlertCookie />
   </div>
 </template>
 <style lang="scss">

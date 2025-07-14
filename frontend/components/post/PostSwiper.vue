@@ -6,6 +6,7 @@ import type { Swiper as SwiperClass } from "swiper/types";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { HeroIcons } from "~/assets/icons/types/hero-icons";
 
 defineProps<{ posts: IPost[] | null }>();
 
@@ -52,8 +53,12 @@ const onSlideChange = (): void => {
     </Swiper>
 
     <div class="swiper-btns">
-      <div ref="prevPostEl" class="swiper-button-prev"></div>
-      <div ref="nextPostEl" class="swiper-button-next"></div>
+      <button ref="prevPostEl" class="button-prev">
+        <Icon :name="HeroIcons.CHEVRON_LEFT" size="22" />
+      </button>
+      <button ref="nextPostEl" class="button-next">
+        <Icon :name="HeroIcons.CHEVRON_RIGHT" size="22" />
+      </button>
     </div>
   </div>
 </template>
@@ -79,8 +84,8 @@ const onSlideChange = (): void => {
   gap: 10px;
   padding: 10px;
 }
-.swiper-button-next,
-.swiper-button-prev {
+.button-next,
+.button-prev {
   position: static !important;
   width: 50px;
   height: 50px;
@@ -91,17 +96,21 @@ const onSlideChange = (): void => {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease-in;
+
+  span{
+    color: $txt;
+  }
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
+.button-next::after,
+.button-prev::after {
   font-size: 16px;
   font-weight: 600;
   color: $txt;
 }
 
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
+.button-next:hover,
+.button-prev:hover {
   opacity: 0.7;
 }
 </style>
