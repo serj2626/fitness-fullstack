@@ -150,17 +150,6 @@ const openPhotoViewer = (photos: string[], index: number) => {
 
         <div class="review-content">
           <p class="review-text">{{ review.text }}</p>
-
-          <!-- Фото отзыва -->
-          <div v-if="review.photos.length" class="review-photos">
-            <NuxtImg
-              v-for="(photo, index) in review.photos"
-              :key="index"
-              :src="photo"
-              class="review-photo"
-              @click="openPhotoViewer(review.photos, index)"
-            />
-          </div>
         </div>
       </div>
     </div>
@@ -311,11 +300,7 @@ const openPhotoViewer = (photos: string[], index: number) => {
   margin-bottom: 15px;
 }
 
-.review-photos {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
+
 
 .review-photo {
   width: 80px;

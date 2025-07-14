@@ -7,8 +7,8 @@
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       viewBox="0 0 24 24"
-      width="30"
-      height="30"
+      width="20"
+      height="20"
     >
       <path
         fill-rule="evenodd"
@@ -21,8 +21,8 @@
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       viewBox="0 0 24 24"
-      width="30"
-      height="30"
+      width="20"
+      height="20"
     >
       <path
         fill-rule="evenodd"
@@ -35,8 +35,8 @@
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       viewBox="0 0 24 24"
-      width="30"
-      height="30"
+      width="20"
+      height="20"
     >
       <path
         fill-rule="evenodd"
@@ -49,8 +49,8 @@
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       viewBox="0 0 24 24"
-      width="30"
-      height="30"
+      width="20"
+      height="20"
     >
       <path
         fill-rule="evenodd"
@@ -63,8 +63,8 @@
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       viewBox="0 0 24 24"
-      width="30"
-      height="30"
+      width="20"
+      height="20"
     >
       <path
         fill-rule="evenodd"
@@ -83,7 +83,7 @@
   gap: 4px;
 
   &__star {
-    font-size: 24px;
+    font-size: 20px;
     color: #d1d5db; // серый цвет для неактивной звезды
 
     &--active {

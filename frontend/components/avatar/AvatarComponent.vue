@@ -1,12 +1,20 @@
 <script setup lang="ts">
-const props = defineProps<{
-  firstName?: string;
-  lastName?: string;
-}>();
+const { firstName, lastName, width, height } = withDefaults(
+  defineProps<{
+    firstName: string;
+    lastName: string;
+    width?: string;
+    height?: string;
+  }>(),
+  {
+    width: "50px",
+    height: "50px",
+  }
+);
 
 const fullName = computed(() => {
-  const f = props.firstName?.[0] ?? "М";
-  const l = props.lastName?.[0] ?? "И";
+  const f = firstName?.[0] ?? "М";
+  const l = lastName?.[0] ?? "И";
   return `${f}${l}`;
 });
 </script>
@@ -19,8 +27,8 @@ const fullName = computed(() => {
 </template>
 <style scoped lang="scss">
 .avatar-component {
-  width: 50px;
-  height: 50px;
+  width: v-bind(width);
+  height: v-bind(height);
   border-radius: 50%;
   outline: 2px solid $accent;
   background-color: $bg;

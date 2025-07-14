@@ -3,7 +3,8 @@ import { api } from "~/api";
 import { breadcrumbsCoachDetailPage } from "~/assets/data/breadcrumbs.data";
 import { coaches } from "~/assets/data/moke.data";
 import type { ITrainerResponse } from "~/types";
-const activeTab = ref("contacts");
+
+const activeTab = ref((useRoute().query.tab as string) || "contacts");
 const { $api } = useNuxtApp();
 
 const { id } = useRoute().params;
@@ -22,7 +23,7 @@ const images = computed(() => {
   return listImages;
 });
 
-const tabs = [
+const tabs: { id: string; label: string }[] = [
   { id: "contacts", label: "Контакты" },
   { id: "photos", label: "Фотографии" },
   { id: "reviews", label: "Отзывы" },
@@ -35,6 +36,10 @@ const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
     watch: [() => coachID],
   }
 );
+
+watch(activeTab, (newTab) => {
+  useRouter().replace({ query: { ...useRoute().query, tab: newTab } });
+});
 </script>
 
 <template>
@@ -83,14 +88,12 @@ const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
                 <NuxtImg :src="photo" class="photo-img" alt="Фото тренера" />
               </div>
             </div>
-
             <CoachDetailImages
               v-if="isOpen"
               :images
               :start-index
               @close="isOpen = false"
             />
-
             <CoachDetailReviews v-if="activeTab === 'reviews'" />
           </div>
         </div>

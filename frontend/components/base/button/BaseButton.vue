@@ -58,7 +58,7 @@ const {
     transition: all 0.3s ease-in-out;
     background-color: transparent;
     &:hover {
-      background-color: $accent;
+      background-color: v-bind(color);
       color: $txt;
     }
   }
