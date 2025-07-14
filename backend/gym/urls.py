@@ -1,14 +1,14 @@
 from django.urls import path
 
 from .views import (
+    AdvantageListView,
+    EquipmentListView,
     FAQListView,
     GymReviewsListView,
     PostDetailView,
     PostLastView,
     PostListView,
     ServiceListView,
-    AdvantageListView,
-    EquipmentListView,
 )
 
 urlpatterns = [

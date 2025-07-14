@@ -13,7 +13,7 @@ from common.models import (
 )
 from common.types import SERVICES_TYPE
 from common.upload import compress_image
-from common.upload_to import dynamic_path_by_img, dynamic_upload_to
+from common.upload_to import dynamic_upload_to
 from common.validators import validate_image_extension_and_format, validate_svg
 
 User = get_user_model()
@@ -149,7 +149,9 @@ class Equipment(WebpImageMixin, BaseTitle, BaseDescription):
     Оборудование
     """
 
-    image = models.ImageField("Изображение", blank=True, null=True, upload_to="equipment/")
+    image = models.ImageField(
+        "Изображение", blank=True, null=True, upload_to="equipment/"
+    )
     services = models.TextField(
         "услуги",
         max_length=255,

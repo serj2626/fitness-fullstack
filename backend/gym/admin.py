@@ -1,8 +1,9 @@
 from django.contrib import admin
-from django.utils.html import mark_safe
-from django.utils.html import format_html
-from .models import FAQ, GymReviews, Post, Service, Advantage, Equipment
-from common.admin import AdminShortDescriptionMixin, AdminImagePreviewMixin
+from django.utils.html import format_html, mark_safe
+
+from common.admin import AdminImagePreviewMixin, AdminShortDescriptionMixin
+
+from .models import FAQ, Advantage, Equipment, GymReviews, Post, Service
 
 
 @admin.register(Equipment)

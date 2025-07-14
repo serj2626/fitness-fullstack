@@ -157,7 +157,9 @@ class FreezeAbonement(BaseID):
 
     def clean(self):
         if self.start > self.end:
-            raise ValidationError("Дата начала заморозки должна быть раньше даты окончания")
+            raise ValidationError(
+                "Дата начала заморозки должна быть раньше даты окончания"
+            )
         if self.start < timezone.now().date():
             raise ValidationError("Нельзя заморозить абонемент в прошлом")
         if self.start == timezone.now().date():

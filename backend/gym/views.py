@@ -1,17 +1,18 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 
 from common.pagination import ListResultsSetPagination
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from .models import FAQ, GymReviews, Post, Service, Advantage, Equipment
+
+from .models import FAQ, Advantage, Equipment, GymReviews, Post, Service
 from .serializers import (
+    AdvantageSerializer,
+    EquipmentSerializer,
     FAQSerializer,
     GymReviewsSerializer,
     PostSerializer,
     ServiceSerializer,
-    AdvantageSerializer,
-    EquipmentSerializer,
 )
 
 TAG = "Тренажерный зал"

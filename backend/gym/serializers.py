@@ -1,10 +1,11 @@
 from rest_framework import serializers
 
-from .models import FAQ, GymReviews, Post, Service, Advantage, Equipment
+from .models import FAQ, Advantage, Equipment, GymReviews, Post, Service
 
 
 class EquipmentSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(use_url=True)
+
     class Meta:
         model = Equipment
         fields = "__all__"
@@ -32,7 +33,15 @@ class GymReviewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GymReviews
-        fields = ("first_name", "last_name", "email", "rating", "text", "verified", "time_age")
+        fields = (
+            "first_name",
+            "last_name",
+            "email",
+            "rating",
+            "text",
+            "verified",
+            "time_age",
+        )
 
     def get_time_age(self, obj):
         return obj.time_age

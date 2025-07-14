@@ -11,7 +11,9 @@ def dynamic_upload_to(instance, filename):
     folder = instance.__class__.__name__.lower()
     ext = filename.split(".")[-1]
     filename = f"{uuid4().hex}.{ext}"
-    return os.path.join("uploads", folder, datetime.now().strftime("%Y/%m"), filename)
+    return os.path.join(
+        "uploads", folder, datetime.now().strftime("%Y/%m"), filename
+    )
 
 
 def dynamic_path_by_img_with_date(path: str) -> str:
