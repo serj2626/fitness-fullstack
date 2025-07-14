@@ -58,6 +58,7 @@ export interface IMainAbonementResponse {
   number_of_months: number;
   is_popular: boolean;
   slug: string;
+  freeze_days: number;
 }
 
 export interface IServicesResponse {

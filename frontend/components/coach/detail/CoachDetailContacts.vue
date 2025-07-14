@@ -134,7 +134,7 @@ const getExperience = computed(() => {
 <style scoped lang="scss">
 .coach-detail-contacts {
   padding: 20px;
-  background: rgba($white, 0.05);
+  background: $bg_block;
   border-radius: 12px;
 
   &__cards {

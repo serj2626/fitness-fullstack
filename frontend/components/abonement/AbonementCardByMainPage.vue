@@ -24,6 +24,13 @@ defineProps<{ plan: IMainAbonementResponse }>();
       <p class="abonement-card-by-home-page__body-desc">
         {{ plan.description }}
       </p>
+      <p class="abonement-card-by-home-page__body-freeze">
+        {{
+          plan.freeze_days > 0
+            ? `${plan.freeze_days} замороженных дней`
+            : "без замарозки"
+        }}
+      </p>
     </div>
     <div class="abonement-card-by-home-page__footer">
       <ul class="abonement-card-by-home-page__footer-services">
@@ -99,6 +106,11 @@ defineProps<{ plan: IMainAbonementResponse }>();
   &__body {
     padding-top: 30px;
     &-desc {
+      color: $white;
+      font-weight: 350;
+      margin-top: 20px;
+    }
+    &-freeze {
       color: $white;
       font-weight: 350;
       margin-top: 20px;

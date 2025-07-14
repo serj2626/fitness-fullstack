@@ -135,7 +135,11 @@ const openPhotoViewer = (photos: string[], index: number) => {
       <div v-for="review in sortedReviews" :key="review.id" class="review-card">
         <div class="review-header">
           <div class="review-author">
-            <NuxtImg :src="review.avatar" class="review-avatar" alt="Аватар" />
+            <!-- <NuxtImg :src="review.avatar" class="review-avatar" alt="Аватар" /> -->
+            <AvatarComponent
+              :first-name="review.name"
+              :last-name="review.name"
+            />
             <div class="author-info">
               <h3 class="author-name">{{ review.name }}</h3>
               <div class="review-date">{{ review.date }}</div>
@@ -175,12 +179,12 @@ const openPhotoViewer = (photos: string[], index: number) => {
 <style scoped lang="scss">
 .coach-detail-reviews {
   padding: 20px;
-  background: rgba($white, 0.03);
+  background-color: $bg_block;
   border-radius: 12px;
   position: relative;
   &__top {
     position: sticky;
-    top: 50px;
+    top: 75px;
     z-index: 10;
     transition: all 0.5s ease-in;
     &_scrolled {
