@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from .models import FAQ, GymReviews, Post, Service
+from .models import FAQ, GymReviews, Post, Service, Advantage
+
+
+class AdvantageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Advantage
+        fields = "__all__"
 
 
 class PostSerializer(serializers.ModelSerializer):

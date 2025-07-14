@@ -51,3 +51,22 @@ def validate_image_extension_and_format(image):
         raise ValidationError(
             "Не удалось открыть изображение. Убедитесь, что файл — это допустимое изображение."
         )
+
+
+def validate_svg(file):
+    valid_extensions = ['.svg']
+    name = file.name.lower()
+
+    if not any(name.endswith(ext) for ext in valid_extensions):
+        raise ValidationError("Файл должен быть в формате SVG.")
+
+    # Проверим содержимое (начало файла)
+    try:
+        content = file.read().decode("utf-8")
+        if '<svg' not in content:
+            raise ValidationError("Файл не является допустимым SVG.")
+    except Exception:
+        raise ValidationError("Ошибка при чтении SVG файла.")
+
+    # Важно: вернем указатель в начало
+    file.seek(0)

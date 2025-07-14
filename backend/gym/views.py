@@ -2,16 +2,28 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 
 from common.pagination import ListResultsSetPagination
-
-from .models import FAQ, GymReviews, Post, Service
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from .models import FAQ, GymReviews, Post, Service, Advantage
 from .serializers import (
     FAQSerializer,
     GymReviewsSerializer,
     PostSerializer,
     ServiceSerializer,
+    AdvantageSerializer,
 )
 
 TAG = "Тренажерный зал"
+
+
+class AdvantageListView(generics.ListAPIView):
+    queryset = Advantage.objects.all()
+    serializer_class = AdvantageSerializer
+
+    @method_decorator(cache_page(60 * 60))
+    @extend_schema(tags=[TAG], summary="Преимущества")
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 class PostDetailView(generics.RetrieveAPIView):

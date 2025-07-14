@@ -6,7 +6,7 @@ from common.models import BaseContent, BaseDate, BaseID, BaseReview, BaseTitle
 from common.types import SERVICES_TYPE
 from common.upload import compress_image
 from common.upload_to import dynamic_upload_to
-from common.validators import validate_image_extension_and_format
+from common.validators import validate_image_extension_and_format, validate_svg
 
 User = get_user_model()
 
@@ -113,3 +113,24 @@ class FAQ(models.Model):
 
     def __str__(self):
         return f"Вопрос {self.question}"
+
+
+class Advantage(BaseTitle, BaseDate):
+    """
+    Преимущество
+    """
+
+    description = models.TextField("Описание")
+    icon = models.FileField(
+        "Иконка",
+        upload_to="advantages/icons/",
+        validators=[validate_svg],
+    )
+    alt = models.CharField("Описание к иконке", max_length=255)
+
+    class Meta:
+        verbose_name = "Преимущество"
+        verbose_name_plural = "Преимущества"
+
+    def __str__(self):
+        return f'Преимущество "{self.title}"'
