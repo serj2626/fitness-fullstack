@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import { api } from "~/api";
-import type { IPost, IServicesResponse, IAdvantageResponse } from "~/types";
+import type {
+  IPost,
+  IServicesResponse,
+  IAdvantageResponse,
+  IEequipmentResponse,
+} from "~/types";
 const { $api } = useNuxtApp();
 
 const { data: abonementsInfo } = useAbonements();
@@ -19,6 +24,11 @@ const { data: advantagesInfo } = await useAsyncData<IAdvantageResponse[]>(
   "main-page-advantages-list-info",
   () => $api(api.gym.advantages)
 );
+
+const { data: equipmentList } = useAsyncData<IEequipmentResponse[]>(
+  "main-page-equipment-list",
+  () => $api(api.gym.equipment)
+);
 </script>
 <template>
   <div>
@@ -28,6 +38,7 @@ const { data: advantagesInfo } = await useAsyncData<IAdvantageResponse[]>(
     <MainAbonementsSection v-if="abonementsInfo" :abonements="abonementsInfo" />
     <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
     <MainPostSection :posts="postsLast as IPost[]" />
+    <MainEquipmentSection v-if="equipmentList" :equipments="equipmentList" />
     <MainPoolSection />
     <BaseFormFeedback />
   </div>

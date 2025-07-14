@@ -6,11 +6,13 @@ from PIL import Image
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import os
+from django.core.files.base import ContentFile
 
 
 class WebpImageMixin:
     """
-    Миксин для сжатия изображений
+    Миксин для автосжатия и конвертации изображений в WebP
     """
 
     def save(self, *args, **kwargs):
@@ -18,7 +20,14 @@ class WebpImageMixin:
             img = Image.open(self.image)
             buffer = io.BytesIO()
             img.save(buffer, format="webp", quality=90)
-            self.image.save("image.webp", buffer, save=False)
+            buffer.seek(0)
+
+            # Формируем имя файла
+            filename = os.path.splitext(self.image.name)[0] + ".webp"
+
+            # Сохраняем обратно в поле image
+            self.image.save(filename, ContentFile(buffer.read()), save=False)
+
         super().save(*args, **kwargs)
 
 

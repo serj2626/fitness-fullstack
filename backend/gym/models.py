@@ -2,10 +2,18 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.text import slugify
 
-from common.models import BaseContent, BaseDate, BaseID, BaseReview, BaseTitle
+from common.mixins import WebpImageMixin
+from common.models import (
+    BaseContent,
+    BaseDate,
+    BaseDescription,
+    BaseID,
+    BaseReview,
+    BaseTitle,
+)
 from common.types import SERVICES_TYPE
 from common.upload import compress_image
-from common.upload_to import dynamic_upload_to
+from common.upload_to import dynamic_path_by_img, dynamic_upload_to
 from common.validators import validate_image_extension_and_format, validate_svg
 
 User = get_user_model()
@@ -134,3 +142,36 @@ class Advantage(BaseTitle, BaseDate):
 
     def __str__(self):
         return f'Преимущество "{self.title}"'
+
+
+class Equipment(WebpImageMixin, BaseTitle, BaseDescription):
+    """
+    Оборудование
+    """
+
+    image = models.ImageField("Изображение", blank=True, null=True, upload_to="equipment/")
+    services = models.TextField(
+        "услуги",
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="Через запятую",
+    )
+
+    class Meta:
+        verbose_name = "Наши залы и оборудование"
+        verbose_name_plural = "Наши залы и оборудование"
+
+    def save(self, *args, **kwargs):
+        WebpImageMixin.save(self, *args, **kwargs)
+        if self.services:
+            self.services = (
+                str(self.services)
+                .replace(",   ", ",")
+                .replace(",  ", ",")
+                .replace(", ", ",")
+            )
+        super(Equipment, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Оборудование {self.title}"

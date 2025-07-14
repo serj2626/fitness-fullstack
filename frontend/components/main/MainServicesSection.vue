@@ -7,6 +7,9 @@ defineProps<{ services: IServicesResponse[] }>();
 </script>
 <template>
   <section id="main-services-section" class="main-services-section">
+    <div class="container">
+      <h2 class="main-services-section__title">Наши услуги</h2>
+    </div>
     <BaseSwiper
       :desctop-between="0"
       :laptop-between="0"
@@ -26,6 +29,13 @@ defineProps<{ services: IServicesResponse[] }>();
 <style lang="scss" scoped>
 .main-services-section {
   padding-block: 100px;
+
+  &__title {
+    color: $accent;
+    font-size: 2rem;
+    margin-bottom: 5rem;
+    text-align: center;
+  }
 }
 .slide {
   display: flex;

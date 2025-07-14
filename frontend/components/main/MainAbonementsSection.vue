@@ -5,18 +5,21 @@ defineProps<{ abonements: IMainAbonementResponse[] }>();
 </script>
 <template>
   <section id="main-abonements-section" class="main-abonements-section">
-    <div
-      class="main-abonement-section__wraper container"
-      data-aos="fade-up"
-      data-aos-duration="1000"
-    >
-      <ul class="main-abonements-section__wraper-list">
-        <AbonementCardByMainPage
-          v-for="abon in abonements"
-          :key="abon.title"
-          :plan="abon"
-        />
-      </ul>
+    <div class="container">
+      <h2 class="main-abonements-section__title">Наши абонементы</h2>
+      <div
+        class="main-abonement-section__wraper"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+      >
+        <ul class="main-abonements-section__wraper-list">
+          <AbonementCardByMainPage
+            v-for="abon in abonements"
+            :key="abon.title"
+            :plan="abon"
+          />
+        </ul>
+      </div>
     </div>
   </section>
 </template>
@@ -30,6 +33,13 @@ defineProps<{ abonements: IMainAbonementResponse[] }>();
   }
   @include mediaTablet {
     padding-inline: 0px;
+  }
+
+  &__title {
+    color: $accent;
+    font-size: 2rem;
+    margin-bottom: 4rem;
+    text-align: center;
   }
   &__wraper-list {
     display: grid;

@@ -1,8 +1,16 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
 from django.utils.html import format_html
-from .models import FAQ, GymReviews, Post, Service, Advantage
-from common.admin import AdminShortDescriptionMixin
+from .models import FAQ, GymReviews, Post, Service, Advantage, Equipment
+from common.admin import AdminShortDescriptionMixin, AdminImagePreviewMixin
+
+
+@admin.register(Equipment)
+class InlineAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
+    '''Admin View for Equipment'''
+
+    list_display = ('title', "get_image")
+
 
 @admin.register(Advantage)
 class AdvantageAdmin(AdminShortDescriptionMixin, admin.ModelAdmin):

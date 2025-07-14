@@ -16,7 +16,7 @@
         <span>ЭНЕРГИЯ:</span>
         Йога, аэройога, пилатес, сайкл-студия, antiage, здоровая спина, aqua
         all, aqua mix, aqua tabata, йога для лица, йога нидра, aero yoga
-        <NuxtImg src="/woman.png" width="400" class="main-about-section__img"/>
+        <NuxtImg src="/woman.png" format="webp" width="400" alt="woman" class="main-about-section__img"/>
       </div>
     </div>
   </section>

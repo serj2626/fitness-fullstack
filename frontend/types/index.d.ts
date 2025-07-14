@@ -203,3 +203,11 @@ export interface IAdvantageResponse {
   icon: string;
   alt: string;
 }
+
+export interface IEequipmentResponse {
+  id: number;
+  image: string | null;
+  title: string;
+  description: string;
+  services: string;
+}

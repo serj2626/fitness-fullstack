@@ -18,6 +18,7 @@ export const api = {
   gym: {
     services: "/gym/services/", //Получает информацию о услугах
     advantages: "/gym/advantages/", //Получает преимущества
+    equipment: "/gym/equipments/", //Получает информацию об оборудовании
     faq: "/gym/faq/", //Получает вопросы и ответы
   },
   legal: {

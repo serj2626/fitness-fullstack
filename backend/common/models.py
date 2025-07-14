@@ -22,7 +22,9 @@ class BaseContent(models.Model):
     Базовая модель для всех моделей с контентом
     """
 
-    content = CKEditor5Field(blank=True, verbose_name="Описание", config_name="extends")
+    content = CKEditor5Field(
+        blank=True, verbose_name="Описание", config_name="extends"
+    )
 
     class Meta:
         abstract = True
@@ -39,13 +41,28 @@ class BaseTitle(models.Model):
         abstract = True
 
 
+class BaseDescription(models.Model):
+    """
+    Базовая модель для всех моделей с описанием
+    """
+
+    description = models.TextField(max_length=1000, verbose_name="Описание")
+
+    class Meta:
+        abstract = True
+
+
 class BaseDate(models.Model):
     """
     Базовая модель для всех моделей с датой
     """
 
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Дата обновления"
+    )
 
     class Meta:
         abstract = True
@@ -57,12 +74,18 @@ class BaseReview(BaseID, BaseDate):
     """
 
     first_name = models.CharField("Имя", max_length=100, null=True, blank=True)
-    last_name = models.CharField("Фамилия", max_length=100, null=True, blank=True)
+    last_name = models.CharField(
+        "Фамилия", max_length=100, null=True, blank=True
+    )
     email = models.EmailField("Email", null=True, blank=True)
     rating = models.SmallIntegerField(
-        "Рейтинг", default=5, validators=[MinValueValidator(1), MaxValueValidator(5)]
+        "Рейтинг",
+        default=5,
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
     )
-    text = models.TextField("Текст отзыва", max_length=5000, null=True, blank=True)
+    text = models.TextField(
+        "Текст отзыва", max_length=5000, null=True, blank=True
+    )
     verified = models.BooleanField("Проверен", default=False)
 
     @property

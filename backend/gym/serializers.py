@@ -1,6 +1,13 @@
 from rest_framework import serializers
 
-from .models import FAQ, GymReviews, Post, Service, Advantage
+from .models import FAQ, GymReviews, Post, Service, Advantage, Equipment
+
+
+class EquipmentSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(use_url=True)
+    class Meta:
+        model = Equipment
+        fields = "__all__"
 
 
 class AdvantageSerializer(serializers.ModelSerializer):
