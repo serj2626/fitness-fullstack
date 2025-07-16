@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import type { ICoachesListResponse } from "~/types";
 import CoachListContent from "./CoachListContent.vue";
 
-const { $api } = useNuxtApp();
+const coachesStore = useCoachesStore();
+const { coaches, filterCoaches } = storeToRefs(coachesStore);
 
-const { data: coachesData } = useAsyncData<ICoachesListResponse>(
-  "coaches-list-page-info",
-  () => $api(api.coaches.list)
-);
+const { pending } = await useAsyncData("coaches-list-init", async () => {
+  await coachesStore.fetchAllCoaches();
+  return true;
+});
 </script>
 <template>
   <div class="trainers-page">
@@ -19,10 +18,8 @@ const { data: coachesData } = useAsyncData<ICoachesListResponse>(
     />
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachesPage" />
-      <CoachListContent
-        v-if="coachesData?.results"
-        :coaches="coachesData.results"
-      />
+      <BaseLoader v-if="pending" />
+      <CoachListContent v-if="coaches" :coaches="filterCoaches" />
     </div>
   </div>
 </template>

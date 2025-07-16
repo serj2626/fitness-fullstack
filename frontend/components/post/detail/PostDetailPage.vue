@@ -41,6 +41,7 @@ const currentPage: ILinkBreadcrumb = {
 .post-detail-page {
   margin: 0 auto;
   color: $white;
+  padding-bottom: 50px;
 }
 
 .post-header {

@@ -47,7 +47,6 @@ defineProps<{ equipment: IEequipmentResponse }>();
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  cursor: pointer;
   border-radius: 4px;
   transition: all 0.3s ease;
   position: relative;

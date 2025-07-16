@@ -1,3 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+  layout: "second",
+});
+</script>
 <template><FaqPage /></template>
-<style scoped lang="scss"></style>

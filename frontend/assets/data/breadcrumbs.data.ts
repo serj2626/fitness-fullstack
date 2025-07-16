@@ -56,3 +56,14 @@ export const breadcrumbsPostDetailPage = ref([
     url: "/posts",
   },
 ]);
+
+export const breadcrumbsProfilePage = ref([
+  {
+    title: "Главная",
+    url: "/",
+  },
+  {
+    title: "Профиль",
+    url: "/profile",
+  },
+]);

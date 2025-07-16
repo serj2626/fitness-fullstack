@@ -1,6 +1,8 @@
 from django.db.models import Avg
 from rest_framework import serializers
 
+from gym.serializers import ServiceSerializer
+
 from .models import (
     Trainer,
     TrainerImage,
@@ -92,6 +94,7 @@ class TrainerSerializer(serializers.ModelSerializer):
     reviews = TrainerReviewsSerializer(many=True, read_only=True)
     photo = serializers.SerializerMethodField()
     socials = TrainerSocialNetworkSerializer(many=True, read_only=True)
+    services = ServiceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Trainer

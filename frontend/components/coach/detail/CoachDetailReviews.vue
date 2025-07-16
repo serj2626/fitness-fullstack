@@ -88,10 +88,10 @@ const sortedReviews = computed(() => {
 const shownReviews = ref(3);
 
 // Просмотр фото
-const openPhotoViewer = (photos: string[], index: number) => {
-  // Здесь можно реализовать открытие полноэкранного просмотрщика
-  console.log("Открыть фото:", photos[index]);
-};
+// const openPhotoViewer = (photos: string[], index: number) => {
+//   // Здесь можно реализовать открытие полноэкранного просмотрщика
+//   console.log("Открыть фото:", photos[index]);
+// };
 </script>
 <template>
   <div class="coach-detail-reviews">
@@ -109,7 +109,8 @@ const openPhotoViewer = (photos: string[], index: number) => {
         <BaseButton
           label="Оставить отзыв"
           size="md"
-          :outline="true"
+          color="#1a8f1a"
+          style="color: white;"
           @click="modalsStore.openModal('reviewCoachForm')"
         />
       </div>

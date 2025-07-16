@@ -1,4 +1,5 @@
-<script setup>
+<script setup lang="ts">
+import { breadcrumbsProfilePage } from '~/assets/data/breadcrumbs.data';
 // Состояние активной вкладки
 const activeTab = ref("visits");
 
@@ -228,6 +229,7 @@ onMounted(() => {
 <template>
   <div class="user-profile">
     <div class="container">
+      <BaseBreadCrumbs :breadcrumbs="breadcrumbsProfilePage" />
       <!-- Шапка профиля -->
       <header class="user-profile__header">
         <h1 class="user-profile__title">Личный кабинет</h1>
@@ -239,6 +241,8 @@ onMounted(() => {
         <!-- Боковая панель -->
         <aside class="user-sidebar">
           <AvatarComponent
+            first-name="Иван"
+            last-name="Петров"
             :width="'100px'"
             :height="'100px'"
             class="user-sidebar__avatar"
@@ -589,17 +593,11 @@ onMounted(() => {
   color: $white;
   min-height: 100vh;
 
-  &__container {
-    max-width: $desktop;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2.5rem;
+    margin-block: 2.5rem;
     flex-wrap: wrap;
     gap: 1rem;
   }
