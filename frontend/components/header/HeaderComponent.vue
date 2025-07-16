@@ -2,6 +2,14 @@
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import { headerLinks } from "~/assets/data/header-links";
 
+const route = useRoute();
+
+const getCurrentRouteName = computed(() => {
+  return route.name;
+});
+
+console.log("route", route);
+
 const modalsStore = useModalsStore();
 
 const isHidden = ref<boolean>(false);
@@ -47,6 +55,10 @@ onUnmounted(() => {
             v-for="item in headerLinks"
             :key="item.name"
             class="header-component__wraper-list-item"
+            :class="{
+              'header-component__wraper-list-item_active':
+                getCurrentRouteName === item.value,
+            }"
             :to="item.link"
           >
             {{ item.name }}
@@ -130,7 +142,7 @@ onUnmounted(() => {
         @include mediaDesktop {
           font-size: 16px;
         }
-        &:hover {
+        &_active {
           color: $accent;
         }
       }

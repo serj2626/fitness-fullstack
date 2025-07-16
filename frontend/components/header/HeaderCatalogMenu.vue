@@ -65,11 +65,11 @@ onUnmounted(() => {
           </span>
         </a>
       </nav>
-      <BaseButton
+      <!-- <BaseButton
         size="lg"
         label="Записаться"
         class="header-catalog-menu__wraper-button"
-      />
+      /> -->
     </div>
   </div>
 </template>
