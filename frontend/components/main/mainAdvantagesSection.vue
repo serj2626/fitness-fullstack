@@ -15,7 +15,7 @@ defineProps<{
           :key="advantage.id"
           class="main-advantages-section__list-card"
           data-aos="fade-up"
-          :data-aos-duration="1000 * (idx * 1000)"
+          :data-aos-delay="idx * 200"
         >
           <img
             class="main-advantages-section__list-card-icon"

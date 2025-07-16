@@ -25,20 +25,50 @@ const { data: advantagesInfo } = await useAsyncData<IAdvantageResponse[]>(
   () => $api(api.gym.advantages)
 );
 
-const { data: equipmentList } = useAsyncData<IEequipmentResponse[]>(
+const { data: equipmentList } = useAsyncData(
   "main-page-equipment-list",
-  () => $api(api.gym.equipment)
+  () => $api<IEequipmentResponse[]>(api.gym.equipment),
+  {
+    transform: (data: IEequipmentResponse[]) => {
+      const res: Record<string, IEequipmentResponse> = {};
+      for (const item of data) {
+        res[item.title] = item;
+      }
+      return res;
+    },
+  }
 );
 </script>
 <template>
   <div>
     <MainVideoSection />
     <MainAboutSection />
-    <MainAdvantagesSection v-if="advantagesInfo" :advantages="advantagesInfo" />
-    <MainAbonementsSection v-if="abonementsInfo" :abonements="abonementsInfo" />
-    <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
-    <MainPostSection :posts="postsLast as IPost[]" />
-    <MainEquipmentSection v-if="equipmentList" :equipments="equipmentList" />
+
+    <ClientOnly hydrate-on-visible>
+      <MainAdvantagesSection
+        v-if="advantagesInfo"
+        :advantages="advantagesInfo"
+      />
+    </ClientOnly>
+
+    <ClientOnly hydrate-on-visible>
+      <MainAbonementsSection
+        v-if="abonementsInfo"
+        :abonements="abonementsInfo"
+      />
+    </ClientOnly>
+
+    <ClientOnly hydrate-on-visible>
+      <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
+    </ClientOnly>
+    <ClientOnly hydrate-on-visible>
+      <MainPostSection :posts="postsLast as IPost[]" />
+    </ClientOnly>
+
+    <ClientOnly hydrate-on-visible>
+      <MainEquipmentSection v-if="equipmentList" :data="equipmentList" />
+    </ClientOnly>
+
     <MainPoolSection />
     <BaseFormFeedback />
   </div>

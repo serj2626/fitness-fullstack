@@ -22,7 +22,7 @@ class EquipmentListView(generics.ListAPIView):
     queryset = Equipment.objects.all()
     serializer_class = EquipmentSerializer
 
-    @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(60 * 60 * 3))
     @extend_schema(tags=[TAG], summary="Оборудование")
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -32,7 +32,7 @@ class AdvantageListView(generics.ListAPIView):
     queryset = Advantage.objects.all()
     serializer_class = AdvantageSerializer
 
-    @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(60 * 60 * 3))
     @extend_schema(tags=[TAG], summary="Преимущества")
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -82,6 +82,7 @@ class ServiceListView(generics.ListAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
 
+    @method_decorator(cache_page(60 * 60 * 3))
     @extend_schema(tags=[TAG], summary="Услуги")
     def get(self, request):
         return super().list(request)

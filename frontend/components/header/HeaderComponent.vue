@@ -2,7 +2,6 @@
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import { headerLinks } from "~/assets/data/header-links";
 
-
 const modalsStore = useModalsStore();
 
 const isHidden = ref<boolean>(false);
@@ -36,45 +35,47 @@ onUnmounted(() => {
       'header-component_opacity': !isHidden && lastScrollY > 0,
     }"
   >
-    <nav class="header-component__wraper container">
-      <NuxtLink class="header-component__wraper-logo" to="/">
-        <span class="header-component__wraper-logo-title">DV</span>
-        <span class="header-component__wraper-logo-text">Fitness</span>
-        <BaseDot />
-      </NuxtLink>
-      <ul class="header-component__wraper-list">
-        <NuxtLink
-          v-for="item in headerLinks"
-          :key="item.name"
-          class="header-component__wraper-list-item"
-          :to="item.link"
-        >
-          {{ item.name }}
+    <div class="container">
+      <nav class="header-component__wraper">
+        <NuxtLink class="header-component__wraper-logo" to="/">
+          <span class="header-component__wraper-logo-title">DV</span>
+          <span class="header-component__wraper-logo-text">Fitness</span>
+          <BaseDot />
         </NuxtLink>
-        <a
-          class="header-component__wraper-list-item"
-          to="/"
-          @click="modalsStore.openModal('login')"
-        >
-          Войти
-        </a>
-      </ul>
-      <BaseButton
-        size="md"
-        label="Купить абонемент"
-        :outline="true"
-        @click="modalsStore.openModal('orderAbonement')"
-      />
-      <button
-        class="header-component__wraper-burger"
-        @click="modalsStore.openModal('menu')"
-      >
-        <Icon
-          class="header-component__wraper-burger-icon"
-          :name="HeroIcons.BURGER_MENU"
+        <ul class="header-component__wraper-list">
+          <NuxtLink
+            v-for="item in headerLinks"
+            :key="item.name"
+            class="header-component__wraper-list-item"
+            :to="item.link"
+          >
+            {{ item.name }}
+          </NuxtLink>
+          <a
+            class="header-component__wraper-list-item"
+            to="/"
+            @click="modalsStore.openModal('login')"
+          >
+            Войти
+          </a>
+        </ul>
+        <BaseButton
+          size="md"
+          label="Купить абонемент"
+          :outline="true"
+          @click="modalsStore.openModal('orderAbonement')"
         />
-      </button>
-    </nav>
+        <button
+          class="header-component__wraper-burger"
+          @click="modalsStore.openModal('menu')"
+        >
+          <Icon
+            class="header-component__wraper-burger-icon"
+            :name="HeroIcons.BURGER_MENU"
+          />
+        </button>
+      </nav>
+    </div>
   </header>
 </template>
 <style lang="scss">
@@ -83,6 +84,7 @@ onUnmounted(() => {
   width: 100%;
   top: 0;
   left: 0;
+  right: 0;
   z-index: 100;
   transition: all 0.5s ease-in-out;
   background-color: transparent;
@@ -103,7 +105,7 @@ onUnmounted(() => {
     }
   }
   &__wraper {
-    padding-inline: 12px;
+    // padding-inline: 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -114,6 +116,8 @@ onUnmounted(() => {
       gap: 15px;
       @include mediaLaptop {
         display: flex;
+        margin-left: auto;
+        margin-right: auto;
       }
       @include mediaDesktop {
         gap: 30px;
