@@ -74,7 +74,7 @@ const sortedReviews = computed(() => {
   const sorted = [...reviews.value];
   switch (sortBy.value) {
     case "newest":
-      return sorted.sort((a, b) => new Date() - new Date(a.date));
+      return reviews.value;
     case "highest":
       return sorted.sort((a, b) => b.rating - a.rating);
     case "lowest":
