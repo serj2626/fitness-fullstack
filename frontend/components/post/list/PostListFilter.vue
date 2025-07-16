@@ -10,6 +10,7 @@ const { selectCategory } = postsStore;
       :key="category.label"
       :label="category.label"
       :outline="activeCategory !== category.label"
+      :class="{ active: activeCategory === category.label }"
       @click="selectCategory(category.label)"
     />
   </div>
@@ -21,18 +22,29 @@ const { selectCategory } = postsStore;
   gap: 10px;
   justify-content: center;
   margin-top: 30px;
-  // :deep(.base-button) {
-  //   background: transparent;
-  //   color: $header_link;
-  //   border: 1px solid $grey;
-  //   transition: all 0.3s ease;
+  :deep(.base-button) {
+    background: transparent;
+    color: $white;
+    border: none;
+    border-radius: 0;
+    width: max-content;
+    transition: all 0.3s ease;
 
-  //   &:hover,
-  //   &.active {
-  //     background: $accent;
-  //     color: $txt;
-  //     border-color: $accent;
-  //     transform: translateY(-2px);
-  //   }
+    &.active {
+      position: relative;
+      color: $accent;
+      transform: translateY(-2px);
+      &::after{
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 2px;
+        background-color: $accent;
+      }
+    }
+  }
 }
 </style>
