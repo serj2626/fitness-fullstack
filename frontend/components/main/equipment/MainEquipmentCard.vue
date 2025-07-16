@@ -115,7 +115,7 @@ defineProps<{ equipment: IEequipmentResponse }>();
       height: 100%;
       object-fit: cover;
       transition: transform 0.5s ease;
-      filter: grayscale(70%);
+      filter: brightness(70%);
 
       &:hover {
         transform: scale(1.05);
