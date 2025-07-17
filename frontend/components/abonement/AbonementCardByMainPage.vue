@@ -172,9 +172,7 @@ defineProps<{ plan: IMainAbonementResponse }>();
         align-items: center;
         gap: 10px;
         &-icon {
-          // #ffc451
-          // color: $accent;
-          font-size: 26px;
+          font-size: 18px;
         }
       }
     }

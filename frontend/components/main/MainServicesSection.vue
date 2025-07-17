@@ -8,7 +8,13 @@ defineProps<{ services: IServicesResponse[] }>();
 <template>
   <section id="main-services-section" class="main-services-section">
     <div class="container">
-      <h2 class="main-services-section__title">Наши услуги</h2>
+      <h2
+        class="main-services-section__title"
+        data-aos="zoom-in"
+        data-aos-duration="1000"
+      >
+        Наши услуги <BaseDot />
+      </h2>
     </div>
     <BaseSwiper
       :desctop-between="0"

@@ -47,10 +47,10 @@ const submitForm = async () => {
   console.log("submitForm", formData);
 
   try {
-    const success = await authStore.login({
-      email: formData.email.value,
-      password: formData.password.value,
-    });
+    const success = await authStore.login(
+      formData.email.value,
+      formData.password.value
+    );
     console.log("success", success);
   } catch (error) {
     console.log(error);

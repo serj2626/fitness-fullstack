@@ -32,33 +32,22 @@ const setActiveCategory = (cat: string) => {
 .coach-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 30px;
   margin-bottom: 60px;
   justify-content: center;
 
   &__btn {
+    position: relative;
+    font-size: 14px;
     border-radius: 0;
     border: none;
-    background-color: transparent;
+    background-color: rgba(66, 62, 62, 0.847);
+    border-radius: 10px;
     color: $white;
     transition: all 0.3s ease-in;
     &.active {
       position: relative;
       color: $accent;
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 50%;
-        height: 1px;
-        background-color: $accent;
-        transition: all 0.9s ease-in;
-      }
-    }
-    &:hover {
-      background-color: transparent;
     }
   }
 }

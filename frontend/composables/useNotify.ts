@@ -30,5 +30,6 @@ export default function useNotify() {
     info: (msg: string, timeout?: number) => addNotification('info', msg, timeout),
     notifications,
     removeNotification,
+    
   }
 }

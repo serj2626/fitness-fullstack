@@ -6,17 +6,21 @@ defineProps<{ abonements: IMainAbonementResponse[] }>();
 <template>
   <section id="main-abonements-section" class="main-abonements-section">
     <div class="container">
-      <h2 class="main-abonements-section__title">Наши абонементы</h2>
-      <div
-        class="main-abonement-section__wraper"
-        data-aos="fade-up"
+      <h2
+        class="main-abonements-section__title"
+        data-aos="zoom-in"
         data-aos-duration="1000"
       >
+        Наши абонементы <BaseDot />
+      </h2>
+      <div class="main-abonement-section__wraper">
         <ul class="main-abonements-section__wraper-list">
           <AbonementCardByMainPage
-            v-for="abon in abonements"
+            v-for="(abon, idx) in abonements"
             :key="abon.title"
             :plan="abon"
+            data-aos="fade-up"
+            :data-aos-delay="idx * 200"
           />
         </ul>
       </div>

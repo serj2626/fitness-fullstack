@@ -1,36 +1,65 @@
-import type { IUser } from "~/types";
+import type { ITokenResponse, IUser } from "~/types";
+
 import { api } from "~/api";
 
-interface IErrorData {
-  data: {
-    detail: string;
-  };
-}
+const { success, removeNotification } = useNotify();
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<IUser | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
-  const isAuthenticated = computed(() => !!user.value);
+  const token = reactive<ITokenResponse>({
+    access: "",
+    refresh: "",
+  });
 
-  const login = async (credentials: { email: string; password: string }) => {
+  const isAuthenticated = computed(() => !!user.value);
+  const isGetToken = computed(() => !!token.access);
+
+  const login = async (email: string, password: string) => {
+    const { $api } = useNuxtApp();
     isLoading.value = true;
     error.value = null;
 
     try {
-      await $fetch("/api/auth/login", {
+      const res: ITokenResponse = await $api(api.users.login, {
         method: "POST",
-        body: credentials,
+        body: { email, password },
       });
 
-      await fetchUser();
+      token.access = res.access;
+      token.refresh = res.refresh;
+      useCookie("access_token").value = res.access;
+      useCookie("refresh_token").value = res.refresh;
+
+      success("Вы успешно авторизовались", 3000);
+
+      // await fetchUser();
       return true;
     } catch (err) {
       error.value = extractError(err);
       return false;
     } finally {
       isLoading.value = false;
+    }
+  };
+
+  const refreshToken = async () => {
+    try {
+      const { $api } = useNuxtApp();
+      const res: ITokenResponse = await $api(api.users.refresh, {
+        method: "POST",
+        body: { refresh: token.refresh },
+      });
+      token.access = res.access;
+      token.refresh = res.refresh;
+      useCookie("access_token").value = res.access;
+      useCookie("refresh_token").value = res.refresh;
+      return true;
+    } catch (err) {
+      error.value = extractError(err);
+      return false;
     }
   };
 
@@ -53,11 +82,9 @@ export const useAuthStore = defineStore("auth", () => {
     useCookie("access_token").value = null;
     useCookie("refresh_token").value = null;
     user.value = null;
-    // await navigateTo("/login");
   };
 
   function extractError(err: unknown): string {
-    if (err?.data?.detail) return err.data.detail;
     if (err instanceof Error && err?.message) return err.message;
     return "Неизвестная ошибка";
   }
@@ -68,7 +95,7 @@ export const useAuthStore = defineStore("auth", () => {
     isLoading,
     error,
     login,
-    fetchUser,
+    // fetchUser,
     logout,
   };
 });

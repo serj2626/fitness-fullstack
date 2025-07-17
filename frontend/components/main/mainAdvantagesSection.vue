@@ -8,7 +8,13 @@ defineProps<{
 <template>
   <section class="main-advantages-section">
     <div class="container">
-      <h2 class="main-advantages-section__title">Наши преимущества</h2>
+      <h2
+        class="main-advantages-section__title"
+        data-aos="zoom-in"
+        data-aos-duration="1000"
+      >
+        Наши преимущества <BaseDot />
+      </h2>
       <div class="main-advantages-section__list">
         <div
           v-for="(advantage, idx) in advantages"
