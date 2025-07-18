@@ -4,6 +4,8 @@ const isClosing = ref(false);
 
 const authStore = useAuthStore();
 
+const { success, removeNotification } = useNotify();
+
 interface FormField<T> {
   value: T;
   error: string;
@@ -47,11 +49,9 @@ const submitForm = async () => {
   console.log("submitForm", formData);
 
   try {
-    const success = await authStore.login(
-      formData.email.value,
-      formData.password.value
-    );
-    console.log("success", success);
+    await authStore.login(formData.email.value, formData.password.value);
+    modalsStore.closeModal("login");
+    success("Вы успешно авторизовались", 3000);
   } catch (error) {
     console.log(error);
   }

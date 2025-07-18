@@ -2,8 +2,6 @@ import type { ITokenResponse, IUser } from "~/types";
 
 import { api } from "~/api";
 
-const { success, removeNotification } = useNotify();
-
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<IUser | null>(null);
   const isLoading = ref(false);
@@ -32,8 +30,6 @@ export const useAuthStore = defineStore("auth", () => {
       token.refresh = res.refresh;
       useCookie("access_token").value = res.access;
       useCookie("refresh_token").value = res.refresh;
-
-      success("Вы успешно авторизовались", 3000);
 
       // await fetchUser();
       return true;

@@ -27,7 +27,25 @@ const onSlideChange = (): void => {
 };
 </script>
 <template>
-  <div class="swiper-container">
+  <div class="post-swiper-container">
+    <div class="post-swiper-container__header">
+      <div class="post-swiper-container__header-wrapper">
+        <h2 class="post-swiper-container__header-wrapper-title">
+          Последние статьи
+        </h2>
+        <p class="post-swiper-container__header-wrapper-subtitle">
+          Полезные материалы от наших тренеров
+        </p>
+      </div>
+      <div class="post-swiper-container__header-btns">
+        <button ref="prevPostEl" class="button-prev">
+          <Icon :name="HeroIcons.CHEVRON_LEFT" size="22" />
+        </button>
+        <button ref="nextPostEl" class="button-next">
+          <Icon :name="HeroIcons.CHEVRON_RIGHT" size="22" />
+        </button>
+      </div>
+    </div>
     <Swiper
       ref="swiperRef"
       :modules="[Pagination, Navigation]"
@@ -51,15 +69,6 @@ const onSlideChange = (): void => {
         <PostCard :post />
       </SwiperSlide>
     </Swiper>
-
-    <div class="swiper-btns">
-      <button ref="prevPostEl" class="button-prev">
-        <Icon :name="HeroIcons.CHEVRON_LEFT" size="22" />
-      </button>
-      <button ref="nextPostEl" class="button-next">
-        <Icon :name="HeroIcons.CHEVRON_RIGHT" size="22" />
-      </button>
-    </div>
   </div>
 </template>
 
@@ -67,23 +76,56 @@ const onSlideChange = (): void => {
 .swiper {
   width: 100%;
 }
-.swiper-container {
+.post-swiper-container {
   width: 100%;
   overflow: visible;
   margin-block: 50px;
   position: relative;
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include mediaTablet {
+      flex-direction: row;
+      align-items: start;
+      justify-content: center;
+    }
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+
+      @include mediaTablet {
+        flex: 1;
+      }
+      &-title {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        color: $accent;
+        text-align: center;
+      }
+      &-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        text-align: center;
+        color: $header_link;
+        @include mediaTablet {
+          margin-bottom: 40px;
+        }
+      }
+    }
+    &-btns {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+
+      @include mediaTablet {
+        margin-left: auto;
+      }
+    }
+  }
 }
 
-.swiper-btns {
-  position: absolute;
-  top: -100px;
-  right: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-}
 .button-next,
 .button-prev {
   position: static !important;
@@ -97,7 +139,7 @@ const onSlideChange = (): void => {
   justify-content: center;
   transition: all 0.3s ease-in;
 
-  span{
+  span {
     color: $txt;
   }
 }

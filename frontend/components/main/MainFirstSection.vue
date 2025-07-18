@@ -91,7 +91,14 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .main-first-section {
   width: 100%;
-  height: 100vh;
+  height: 400px;
+  @include mediaMobile {
+    height: 600px;
+  }
+  @include mediaTablet {
+    width: 100%;
+    height: 100vh;
+  }
 
   &__swiper-container {
     width: 100%;
@@ -104,8 +111,17 @@ onBeforeUnmount(() => {
       bottom: 0;
       transform: translateX(-50%);
       z-index: 10;
-      height: 600px;
-      pointer-events: none; // Добавлено
+      display: none;
+      pointer-events: none;
+
+      @include mediaCustom(500px) {
+        display: block;
+        height: 400px;
+      }
+
+      @include mediaTablet {
+        height: 600px;
+      }
     }
   }
 }
