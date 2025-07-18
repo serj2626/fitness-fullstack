@@ -80,7 +80,7 @@ class TrainerListSerializer(serializers.ModelSerializer):
     """
     Сериализатор для списка тренеров
     """
-
+    services = ServiceSerializer(many=True, read_only=True)
     class Meta:
         model = Trainer
         fields = "__all__"

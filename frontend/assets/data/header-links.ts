@@ -11,6 +11,11 @@ export const headerLinks = ref<{ name: string; link: string; value: string }[]>(
       value: "coaches",
     },
     {
+      name: "Расписание",
+      link: "/",
+      value: "schedule",
+    },
+    {
       name: "Контакты",
       link: "/contacts",
       value: "contacts",

@@ -41,7 +41,8 @@ const { data: equipmentList } = useAsyncData(
 </script>
 <template>
   <div>
-    <MainVideoSection />
+    <MainFirstSection />
+    <!-- <MainVideoSection /> -->
     <MainAboutSection />
 
     <ClientOnly hydrate-on-visible>

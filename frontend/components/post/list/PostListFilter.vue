@@ -10,6 +10,7 @@ const { selectCategory } = postsStore;
       :key="category.label"
       :label="category.label"
       :outline="activeCategory !== category.label"
+      class="post-list-filter__btn"
       :class="{ active: activeCategory === category.label }"
       @click="selectCategory(category.label)"
     />
@@ -22,19 +23,23 @@ const { selectCategory } = postsStore;
   gap: 10px;
   justify-content: center;
   margin-top: 30px;
-  :deep(.base-button) {
+  &__btn {
     background: transparent;
     color: $white;
     border: none;
     border-radius: 0;
     width: max-content;
     transition: all 0.3s ease;
+    &:hover {
+      background-color: transparent;
+      color: $white;
+    }
 
     &.active {
       position: relative;
       color: $accent;
       transform: translateY(-2px);
-      &::after{
+      &::after {
         content: "";
         position: absolute;
         bottom: -6px;

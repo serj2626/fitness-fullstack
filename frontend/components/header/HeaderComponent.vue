@@ -45,11 +45,7 @@ onUnmounted(() => {
   >
     <div class="container">
       <nav class="header-component__wraper">
-        <NuxtLink class="header-component__wraper-logo" to="/">
-          <span class="header-component__wraper-logo-title">DV</span>
-          <span class="header-component__wraper-logo-text">Fitness</span>
-          <BaseDot />
-        </NuxtLink>
+        <HeaderLogoComponent />
         <ul class="header-component__wraper-list">
           <NuxtLink
             v-for="item in headerLinks"
@@ -147,21 +143,7 @@ onUnmounted(() => {
         }
       }
     }
-    &-logo {
-      color: #fff;
-      font-size: 24px;
-      font-weight: 600;
-      &-title {
-        text-shadow: 0 0 14px #ffc451;
-        margin-right: 5px;
-      }
-      &-text {
-        font-size: 15px;
-        text-transform: lowercase;
-        font-weight: 500;
-        opacity: 0.8;
-      }
-    }
+
     &-buy {
       display: none;
       @include mediaLaptop {

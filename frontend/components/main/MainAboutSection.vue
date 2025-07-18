@@ -16,21 +16,15 @@
         <span>ЭНЕРГИЯ:</span>
         Йога, аэройога, пилатес, сайкл-студия, antiage, здоровая спина, aqua
         all, aqua mix, aqua tabata, йога для лица, йога нидра, aero yoga
-        <NuxtImg src="/woman.png" format="webp" width="400" alt="woman" class="main-about-section__img"/>
       </div>
     </div>
   </section>
 </template>
 <style lang="scss" scoped>
 .main-about-section {
-  padding-block: 100px 30px;
+  padding-block: 100px;
   background-color: $bg_block;
-  &__img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
+
   &__text {
     position: relative;
     text-transform: uppercase;

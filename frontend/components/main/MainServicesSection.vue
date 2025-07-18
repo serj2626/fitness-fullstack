@@ -5,6 +5,7 @@ import type { IServicesResponse } from "~/types";
 
 defineProps<{ services: IServicesResponse[] }>();
 </script>
+
 <template>
   <section id="main-services-section" class="main-services-section">
     <div class="container">
@@ -32,6 +33,7 @@ defineProps<{ services: IServicesResponse[] }>();
     </BaseSwiper>
   </section>
 </template>
+
 <style lang="scss" scoped>
 .main-services-section {
   padding-block: 100px;
@@ -43,6 +45,7 @@ defineProps<{ services: IServicesResponse[] }>();
     text-align: center;
   }
 }
+
 .slide {
   display: flex;
   justify-content: center;
@@ -57,50 +60,36 @@ defineProps<{ services: IServicesResponse[] }>();
     position: absolute;
     top: 5%;
     left: 10%;
-    transform: translate(-10%, -5%);
     z-index: 100;
     color: $white;
-    text-align: center;
     font-weight: 600;
     font-size: 22px;
     text-transform: uppercase;
     transition: all 0.5s ease-in-out;
   }
 
-  &:hover {
-    .slide__title {
-      transform: translate(-10px, 100%);
-      opacity: 0;
-    }
-    .slide__btn {
-      opacity: 1;
-      scale: 1;
-      // transform: translate(-50%, -50%) scale(1.2);
-    }
-  }
-
   &__btn {
-    content: "";
-    pointer-events: none;
-    display: block;
-
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0);
     z-index: 100;
-
     width: 120px;
     height: 120px;
     border-radius: 50%;
-
-    background-color: #ffc5519a;
-
+    background-color: rgba(255, 197, 81, 0.6);
     opacity: 0;
-    scale: 0;
-    transition: opacity 0.3s ease-in-out;
+    transition: all 0.6s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    will-change: transform, opacity;
+
     &-icon {
-      rotate: 90deg;
+      transform: rotate(90deg);
       font-size: 40px;
       color: $white;
     }
@@ -112,10 +101,22 @@ defineProps<{ services: IServicesResponse[] }>();
     object-fit: cover;
     filter: brightness(0.8);
     transition: filter 0.3s ease-in, transform 6s ease-in-out;
+  }
 
-    &:hover {
+  &:hover {
+    .slide__title {
+      transform: translate(-10px, 100%);
+      opacity: 0;
+    }
+
+    .slide__btn {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .slide__img {
       filter: brightness(1);
-      transform: scale(2);
+      transform: scale(1.1);
     }
   }
 }
