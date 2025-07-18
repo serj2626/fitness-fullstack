@@ -1,3 +1,71 @@
+<script setup lang="ts">
+
+
+const activeDay = ref(0);
+const selectedWorkout = ref<IWorkout | null>(null);
+
+const days = [
+  { label: "Пн", value: "monday" },
+  { label: "Вт", value: "tuesday" },
+  { label: "Ср", value: "wednesday" },
+  { label: "Чт", value: "thursday" },
+  { label: "Пт", value: "friday" },
+  { label: "Сб", value: "saturday" },
+  { label: "Вс", value: "sunday" },
+];
+
+const times = [
+  "07:00",
+  "08:00",
+  "09:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00",
+  "19:00",
+  "20:00",
+  "21:00",
+];
+
+const workouts = ref<IWorkout[]>([
+  {
+    id: 1,
+    name: "Йога",
+    type: "yoga",
+    trainer: "Анна Петрова",
+    time: "09:00 - 10:00",
+    day: "monday",
+    capacity: "8/12",
+    isPopular: true,
+    description: "Утренняя йога для пробуждения тела и разума",
+  },
+  // Другие тренировки...
+]);
+
+const filteredWorkouts = (day: string) => {
+  return workouts.value.filter((w) => w.day === day);
+};
+
+const getWorkoutColor = (type: string) => {
+  const colors: Record<string, string> = {
+    yoga: "#4CAF50",
+    crossfit: "#F44336",
+    pilates: "#9C27B0",
+    swimming: "#2196F3",
+    cycling: "#FF9800",
+  };
+  return colors[type] || $accent;
+};
+
+const openModal = (workout: IWorkout) => {
+  selectedWorkout.value = workout;
+};
+</script>
 <template>
   <section class="schedule-section">
     <div class="container">
@@ -67,76 +135,6 @@
     </Teleport>
   </section>
 </template>
-
-<script setup lang="ts">
-
-
-const activeDay = ref(0);
-const selectedWorkout = ref<IWorkout | null>(null);
-
-const days = [
-  { label: "Пн", value: "monday" },
-  { label: "Вт", value: "tuesday" },
-  { label: "Ср", value: "wednesday" },
-  { label: "Чт", value: "thursday" },
-  { label: "Пт", value: "friday" },
-  { label: "Сб", value: "saturday" },
-  { label: "Вс", value: "sunday" },
-];
-
-const times = [
-  "07:00",
-  "08:00",
-  "09:00",
-  "10:00",
-  "11:00",
-  "12:00",
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00",
-  "17:00",
-  "18:00",
-  "19:00",
-  "20:00",
-  "21:00",
-];
-
-const workouts = ref<IWorkout[]>([
-  {
-    id: 1,
-    name: "Йога",
-    type: "yoga",
-    trainer: "Анна Петрова",
-    time: "09:00 - 10:00",
-    day: "monday",
-    capacity: "8/12",
-    isPopular: true,
-    description: "Утренняя йога для пробуждения тела и разума",
-  },
-  // Другие тренировки...
-]);
-
-const filteredWorkouts = (day: string) => {
-  return workouts.value.filter((w) => w.day === day);
-};
-
-const getWorkoutColor = (type: string) => {
-  const colors: Record<string, string> = {
-    yoga: "#4CAF50",
-    crossfit: "#F44336",
-    pilates: "#9C27B0",
-    swimming: "#2196F3",
-    cycling: "#FF9800",
-  };
-  return colors[type] || $accent;
-};
-
-const openModal = (workout: IWorkout) => {
-  selectedWorkout.value = workout;
-};
-</script>
-
 <style lang="scss">
 .schedule-section {
   padding: 80px 0;

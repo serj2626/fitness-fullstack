@@ -16,6 +16,7 @@ from common.upload import compress_image
 from common.upload_to import dynamic_upload_to
 from common.validators import validate_image_extension_and_format, validate_svg
 
+
 User = get_user_model()
 
 
@@ -177,3 +178,36 @@ class Equipment(WebpImageMixin, BaseTitle, BaseDescription):
 
     def __str__(self):
         return f"Оборудование {self.title}"
+
+
+class Schedule(BaseDate):
+    """
+    Расписание
+    """
+
+    trainer = models.ForeignKey(
+        "trainers.Trainer",
+        verbose_name="Тренер",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="schedules",
+    )
+    service = models.ForeignKey(
+        Service,
+        verbose_name="Услуга",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    date = models.DateField("Дата")
+    start = models.TimeField("Время начала")
+    end = models.TimeField("Время окончания")
+    status = models.BooleanField("Активно", default=True)
+
+    class Meta:
+        verbose_name = "Расписание"
+        verbose_name_plural = "Расписание"
+
+    def __str__(self):
+        return f"Расписание {self.title}"

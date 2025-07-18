@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const cookieConsent = useCookie<boolean>("dvCookie", {
   default: () => false,
-  maxAge: 60 * 120,
+  maxAge: 60 * 60 * 24,
 });
 
 const showAlert = ref(!cookieConsent.value);

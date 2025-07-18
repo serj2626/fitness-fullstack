@@ -4,7 +4,7 @@ const isClosing = ref(false);
 
 const authStore = useAuthStore();
 
-const { success, removeNotification } = useNotify();
+const { success } = useNotify();
 
 interface FormField<T> {
   value: T;
@@ -31,27 +31,15 @@ const handleAnimationEnd = (e: Event) => {
   }
 };
 
-// const submitForm = async () => {
-//   isSubmitting.value = true;
-//   try {
-//     // Логика входа
-//     await new Promise((resolve) => setTimeout(resolve, 1500));
-//     modalsStore.closeModal("login");
-//     useNotify().success("Вход выполнен успешно!");
-//   } catch (error) {
-//     useNotify().error("Ошибка входа. Проверьте данные");
-//   } finally {
-//     isSubmitting.value = false;
-//   }
-// };
-
 const submitForm = async () => {
   console.log("submitForm", formData);
 
   try {
     await authStore.login(formData.email.value, formData.password.value);
     modalsStore.closeModal("login");
-    success("Вы успешно авторизовались", 3000);
+    setTimeout(() => {
+      success("Вы успешно авторизовались", 3000);
+    }, 500);
   } catch (error) {
     console.log(error);
   }

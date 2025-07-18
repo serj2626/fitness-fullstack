@@ -29,6 +29,7 @@ SERVICES_TYPE = [
     ("cycle", "Велотренажер"),
     ("water aerobics", "Водное аэробик"),
     ("dancing", "Танцы"),
+    ("group", "Групповые занятия"),
 ]
 
 SOCIAL_NETWORKS_TYPE = [

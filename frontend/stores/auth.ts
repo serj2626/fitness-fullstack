@@ -4,34 +4,28 @@ import { api } from "~/api";
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<IUser | null>(null);
-  const isLoading = ref(false);
+  const isLoading = ref<boolean>(false);
   const error = ref<string | null>(null);
-
-  const token = reactive<ITokenResponse>({
-    access: "",
-    refresh: "",
-  });
+  const accessToken = useCookie("access_fitness_token");
+  const refreshToken = useCookie("refresh_fitness_token");
 
   const isAuthenticated = computed(() => !!user.value);
-  const isGetToken = computed(() => !!token.access);
+  const currentToken = computed(() => accessToken.value);
 
   const login = async (email: string, password: string) => {
-    const { $api } = useNuxtApp();
     isLoading.value = true;
     error.value = null;
 
     try {
-      const res: ITokenResponse = await $api(api.users.login, {
+      const { $api } = useNuxtApp();
+      const tokens = await $api<ITokenResponse>(api.users.login, {
         method: "POST",
         body: { email, password },
       });
 
-      token.access = res.access;
-      token.refresh = res.refresh;
-      useCookie("access_token").value = res.access;
-      useCookie("refresh_token").value = res.refresh;
+      setTokens(tokens);
+      await fetchUser();
 
-      // await fetchUser();
       return true;
     } catch (err) {
       error.value = extractError(err);
@@ -41,57 +35,47 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
-  const refreshToken = async () => {
-    try {
-      const { $api } = useNuxtApp();
-      const res: ITokenResponse = await $api(api.users.refresh, {
-        method: "POST",
-        body: { refresh: token.refresh },
-      });
-      token.access = res.access;
-      token.refresh = res.refresh;
-      useCookie("access_token").value = res.access;
-      useCookie("refresh_token").value = res.refresh;
-      return true;
-    } catch (err) {
-      error.value = extractError(err);
-      return false;
-    }
-  };
-
   const fetchUser = async () => {
     try {
       const { $api } = useNuxtApp();
       user.value = await $api<IUser>(api.users.me, {
-        method: "GET",
         headers: {
-          Authorization: `Bearer ${useCookie("access_token").value}`,
+          Authorization: `Bearer ${accessToken.value}`,
         },
       });
     } catch (err) {
       console.error("Ошибка загрузки пользователя", err);
       user.value = null;
+      throw err;
     }
   };
 
-  const logout = async () => {
-    useCookie("access_token").value = null;
-    useCookie("refresh_token").value = null;
+  const logout = () => {
+    accessToken.value = null;
+    refreshToken.value = null;
     user.value = null;
   };
 
-  function extractError(err: unknown): string {
-    if (err instanceof Error && err?.message) return err.message;
+
+  const setTokens = (tokens: ITokenResponse) => {
+    accessToken.value = tokens.access;
+    refreshToken.value = tokens.refresh;
+  };
+
+  const extractError = (err: unknown): string => {
+    if (err instanceof Error) return err.message;
+    if (typeof err === "string") return err;
     return "Неизвестная ошибка";
-  }
+  };
 
   return {
     user,
     isAuthenticated,
+    currentToken,
     isLoading,
     error,
     login,
-    // fetchUser,
+    fetchUser,
     logout,
   };
 });

@@ -3,7 +3,29 @@ from django.utils.html import format_html, mark_safe
 
 from common.admin import AdminImagePreviewMixin, AdminShortDescriptionMixin
 
-from .models import FAQ, Advantage, Equipment, GymReviews, Post, Service
+from .models import (
+    FAQ,
+    Advantage,
+    Equipment,
+    GymReviews,
+    Post,
+    Service,
+    Schedule,
+)
+
+
+@admin.register(Schedule)
+class ScheduleAdmin(admin.ModelAdmin):
+    '''Admin View for Schedule'''
+
+    list_display = (
+        'trainer',
+        'service',
+        'date',
+        'start',
+        'end',
+        'status',
+    )
 
 
 @admin.register(Equipment)
