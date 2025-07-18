@@ -11,7 +11,11 @@ const tabs = computed(() => {
 </script>
 
 <template>
-  <section class="main-equipment-section">
+  <section
+    class="main-equipment-section"
+    data-aos="fade-up"
+    data-aos-duration="1000"
+  >
     <div class="container">
       <h2 class="main-equipment-section__title">Наши залы и оборудование</h2>
       <div class="main-equipment-section__tabs">

@@ -5,7 +5,11 @@ import type { IPost } from "~/types";
 defineProps<{ posts: IPost[] | null }>();
 </script>
 <template>
-  <section class="main-post-section">
+  <section
+    class="main-post-section"
+    data-aos="fade-up"
+    data-aos-duration="2000"
+  >
     <div class="container">
       <h2 class="main-post-section__title">Последние статьи</h2>
       <p class="main-post-section__subtitle">
