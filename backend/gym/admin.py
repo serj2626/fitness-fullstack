@@ -11,7 +11,15 @@ from .models import (
     Post,
     Service,
     Schedule,
+    RecordOnSchedule,
 )
+
+
+@admin.register(RecordOnSchedule)
+class AdminRecordOnSchedule(admin.ModelAdmin):
+    '''Admin View for RecordOnSchedule'''
+
+    list_display = ('user', "schedule")
 
 
 @admin.register(Schedule)
@@ -26,6 +34,25 @@ class ScheduleAdmin(admin.ModelAdmin):
         'end',
         'status',
     )
+
+    fields = (
+        ('trainer', 'service'),
+        ('start', 'end'),
+        'date',
+        'status',
+        "avatar_preview",
+    )
+
+    readonly_fields = ('avatar_preview',)
+
+    def avatar_preview(self, obj):
+        if obj.trainer.avatar and hasattr(obj.trainer.avatar, "url"):
+            return format_html(
+                f'<img src="{obj.trainer.avatar.url}" width="260" height="260" style="object-fit:contain;" />'
+            )
+        return "—"
+
+    avatar_preview.short_description = "Аватар тренера"
 
 
 @admin.register(Equipment)
