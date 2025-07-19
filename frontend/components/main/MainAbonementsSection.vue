@@ -54,7 +54,7 @@ defineProps<{ abonements: IMainAbonementResponse[] }>();
       grid-template-columns: repeat(2, 1fr);
       gap: 50px;
     }
-    @include mediaLaptop {
+    @include mediaCustom(1280px) {
       grid-template-columns: repeat(3, 1fr);
     }
   }

@@ -8,9 +8,8 @@ const getCurrentRouteName = computed(() => {
   return route.name;
 });
 
-console.log("route", route);
-
 const modalsStore = useModalsStore();
+const authStore = useAuthStore();
 
 const isHidden = ref<boolean>(false);
 const lastScrollY = ref<number>(0);
@@ -26,6 +25,16 @@ const handleScroll = () => {
 
   lastScrollY.value = currentScroll;
 };
+
+const getRoutes = computed(() => {
+  return headerLinks.value.filter((item) => {
+    if (item.value != "profile") {
+      return item;
+    } else if (item.value === "profile" && authStore.isAuthenticated) {
+      return item;
+    }
+  });
+});
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
@@ -48,7 +57,7 @@ onUnmounted(() => {
         <HeaderLogoComponent />
         <ul class="header-component__wraper-list">
           <NuxtLink
-            v-for="item in headerLinks"
+            v-for="item in getRoutes"
             :key="item.name"
             class="header-component__wraper-list-item"
             :class="{
@@ -60,6 +69,7 @@ onUnmounted(() => {
             {{ item.name }}
           </NuxtLink>
           <a
+            v-if="!authStore.isAuthenticated"
             class="header-component__wraper-list-item"
             to="/"
             @click="modalsStore.openModal('login')"

@@ -1,5 +1,17 @@
 <script setup lang="ts">
+import { breadcrumbsSchedulePage } from "~/assets/data/breadcrumbs.data";
 
+interface IWorkout {
+  id: number;
+  name: string;
+  type: string;
+  trainer: string;
+  time: string;
+  day: string;
+  capacity: string;
+  isPopular: boolean;
+  description: string;
+}
 
 const activeDay = ref(0);
 const selectedWorkout = ref<IWorkout | null>(null);
@@ -59,7 +71,7 @@ const getWorkoutColor = (type: string) => {
     swimming: "#2196F3",
     cycling: "#FF9800",
   };
-  return colors[type] || $accent;
+  return colors[type] || "#2196F3";
 };
 
 const openModal = (workout: IWorkout) => {
@@ -67,13 +79,12 @@ const openModal = (workout: IWorkout) => {
 };
 </script>
 <template>
-  <section class="schedule-section">
-    <div class="container">
-      <h2 class="section-title">
-        Расписание занятий <BaseDot color="accent" />
-      </h2>
+  <section class="schedule-page">
+    <PagesTopSection title="Расписание тренировок" />
 
-      <div class="schedule-tabs">
+    <div class="schedule-page__content container">
+      <BaseBreadCrumbs :breadcrumbs="breadcrumbsSchedulePage" />
+      <div class="schedule-page__days">
         <button
           v-for="(day, index) in days"
           :key="day.value"
@@ -84,7 +95,7 @@ const openModal = (workout: IWorkout) => {
         </button>
       </div>
 
-      <div class="schedule-container">
+      <div class="schedule-page__container">
         <div class="schedule-sidebar">
           <div class="time-slots">
             <div v-for="time in times" :key="time" class="time-slot">
@@ -136,58 +147,43 @@ const openModal = (workout: IWorkout) => {
   </section>
 </template>
 <style lang="scss">
-.schedule-section {
-  padding: 80px 0;
-  background-color: $bg;
-  color: $white;
-}
-
-.section-title {
-  font-size: 2.5rem;
-  text-align: center;
+.schedule-page {
   margin-bottom: 50px;
-  color: $accent;
-  position: relative;
-  display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
-}
+  &__days {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-block: 30px;
 
-.schedule-tabs {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 30px;
+    button {
+      padding: 12px 20px;
+      background: $bg_block;
+      border: none;
+      border-radius: 30px;
+      color: $header_link;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
 
-  button {
-    padding: 12px 20px;
-    background: $bg_block;
-    border: none;
-    border-radius: 30px;
-    color: $header_link;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+      &.active {
+        background: $accent;
+        color: $txt;
+      }
 
-    &.active {
-      background: $accent;
-      color: $txt;
-    }
-
-    &:hover {
-      transform: translateY(-2px);
+      &:hover {
+        transform: translateY(-2px);
+      }
     }
   }
-}
-
-.schedule-container {
-  display: flex;
-  max-width: 1200px;
-  margin: 0 auto;
-  background: rgba($white, 0.05);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  &__container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba($white, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .schedule-sidebar {

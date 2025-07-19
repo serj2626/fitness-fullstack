@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
+
 import CoachListContent from "./CoachListContent.vue";
 
 const coachesStore = useCoachesStore();
-const { coaches, filterCoaches } = storeToRefs(coachesStore);
+const { coaches, loading, error, activeCategory } = storeToRefs(coachesStore);
+
+// Получаем filterCoaches напрямую из store, а не через storeToRefs
+const filterCoaches = computed(() => coachesStore.filterCoaches);
 
 const { pending } = await useAsyncData("coaches-list-init", async () => {
   await coachesStore.fetchAllCoaches();

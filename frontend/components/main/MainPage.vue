@@ -71,6 +71,6 @@ const { data: equipmentList } = useAsyncData(
     </ClientOnly>
 
     <MainPoolSection />
-    <BaseFormFeedback data-aos="fade-up" data-aos-duration="2000" />
+    <BaseFormFeedback />
   </div>
 </template>
