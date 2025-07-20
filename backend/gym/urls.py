@@ -9,6 +9,7 @@ from .views import (
     PostLastView,
     PostListView,
     ServiceListView,
+    ScheduleListView,
 )
 
 urlpatterns = [
@@ -20,4 +21,5 @@ urlpatterns = [
     path("posts/", PostListView.as_view(), name="post-list"),
     path("posts/last/", PostLastView.as_view(), name="post-last"),
     path("posts/<slug:slug>/", PostDetailView.as_view(), name="post-detail"),
+    path("schedule/", ScheduleListView.as_view(), name="schedule-list"),
 ]

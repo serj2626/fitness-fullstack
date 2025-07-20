@@ -1,6 +1,54 @@
 from rest_framework import serializers
 
-from .models import FAQ, Advantage, Equipment, GymReviews, Post, Service
+from .models import (
+    FAQ,
+    Advantage,
+    Equipment,
+    GymReviews,
+    Post,
+    Service,
+    Schedule,
+)
+from django.utils.timesince import timesince
+
+
+class ScheduleSerializer(serializers.ModelSerializer):
+    service = serializers.CharField(
+        source='service.get_type_display', read_only=True
+    )
+    trainer = serializers.SerializerMethodField()
+    time_age = serializers.SerializerMethodField()
+    # duration = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Schedule
+        fields = (
+            'trainer',
+            'service',
+            'date',
+            'start',
+            'end',
+            # 'duration',
+            'max_participants',
+            'current_participants',
+            'status',
+            "time_age",
+            "created_at",
+            "updated_at",
+        )
+
+    def get_trainer(self, obj):
+        return {
+            "id": obj.trainer.id,
+            "full_name": f"{obj.trainer.first_name} {obj.trainer.last_name}",
+            "position": obj.trainer.get_position_display(),
+        }
+
+    def get_time_age(self, obj):
+        return timesince(obj.date) + " назад"
+    
+    # def get_duration(self, obj):
+    #     return obj.end - obj.start
 
 
 class EquipmentSerializer(serializers.ModelSerializer):

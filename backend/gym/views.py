@@ -5,7 +5,15 @@ from rest_framework import generics
 
 from common.pagination import ListResultsSetPagination
 
-from .models import FAQ, Advantage, Equipment, GymReviews, Post, Service
+from .models import (
+    FAQ,
+    Advantage,
+    Equipment,
+    GymReviews,
+    Post,
+    Service,
+    Schedule,
+)
 from .serializers import (
     AdvantageSerializer,
     EquipmentSerializer,
@@ -13,9 +21,20 @@ from .serializers import (
     GymReviewsSerializer,
     PostSerializer,
     ServiceSerializer,
+    ScheduleSerializer,
 )
 
 TAG = "Тренажерный зал"
+
+
+class ScheduleListView(generics.ListAPIView):
+    queryset = Schedule.objects.all()
+    serializer_class = ScheduleSerializer
+
+    @method_decorator(cache_page(60 * 60 * 1))
+    @extend_schema(tags=[TAG], summary="Расписание занятий зала")
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 class EquipmentListView(generics.ListAPIView):
