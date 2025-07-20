@@ -1,4 +1,4 @@
-export const enum SocialIcons {
+export enum SocialIcons {
   GITHUB = "fa6-brands:github",
   LINKEDIN = "fa6-brands:linkedin",
   TELEGRAM = "fa6-brands:telegram",
@@ -7,14 +7,20 @@ export const enum SocialIcons {
   PHONE = "fa6-solid:phone",
   VK = "fa6-brands:vk",
   GOOGLE = "fa6-brands:google",
-  YANDDEX = "fa6-brands:yandex",
+  YANDEX = "fa6-brands:yandex",
   USER = "fa6-solid:user",
   WORK = "fa6-solid:building",
-  vk = "ri:vk-fill",
-  tg = "ri:telegram-fill",
-  whatsapp = "ri:whatsapp-fill",
-  linkedin = "ri:linkedin-fill",
-  github = "ri:github-fill",
-  mail = "ri:mail-fill",
-  phone = "ri:phone-fill",
+  VK_RI = "ri:vk-fill",
+  TG_RI = "ri:telegram-fill",
+  WHATSAPP_RI = "ri:whatsapp-fill",
+  LINKEDIN_RI = "ri:linkedin-fill",
+  GITHUB_RI = "ri:github-fill",
+  MAIL_RI = "ri:mail-fill",
+  PHONE_RI = "ri:phone-fill",
 }
+
+// Тип для TypeScript
+export type SocialIcon = keyof typeof SocialIcons;
+
+// Вспомогательная функция
+export const getSocialIcon = (icon: SocialIcon): string => SocialIcons[icon];
