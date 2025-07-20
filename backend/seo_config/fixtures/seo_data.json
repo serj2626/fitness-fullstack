@@ -63,8 +63,8 @@
     "model": "seo_config.seo",
     "pk": 6,
     "fields": {
-      "slug": "tarifs",
-      "title": "Тарифы Email-рассылок",
+      "slug": "coaches",
+      "title": "Тренеры",
       "description": "Узнайте о наших тарифах.",
       "keywords": "контакты, sms, email, рассылка, тарифы",
       "og_title": "Контакты",
