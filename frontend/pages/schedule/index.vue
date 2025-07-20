@@ -106,9 +106,9 @@ const openModal = (workout: IWorkout) => {
 
         <div class="schedule-main">
           <div
-            class="schedule-day"
             v-for="(day, dayIndex) in days"
             :key="day.value"
+            class="schedule-day"
             :class="{ active: activeDay === dayIndex }"
           >
             <div
@@ -137,13 +137,13 @@ const openModal = (workout: IWorkout) => {
       </div>
     </div>
 
-    <Teleport to="body">
+    <!-- <Teleport to="body">
       <WorkoutModal
         v-if="selectedWorkout"
         :workout="selectedWorkout"
         @close="selectedWorkout = null"
       />
-    </Teleport>
+    </Teleport> -->
   </section>
 </template>
 <style lang="scss">

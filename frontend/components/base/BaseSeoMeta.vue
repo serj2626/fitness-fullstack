@@ -1,17 +1,15 @@
-<template>
-
-</template>
+<template></template>
 <script setup lang="ts">
-import { api } from '~/api';
+import { api } from "~/api";
+const { $api } = useNuxtApp();
 
-const { $fetchApi } = useNuxtApp();
 const route = useRoute();
 const mediaUrl = useRuntimeConfig().public.mediaUrl + "/media/";
 
 export interface ISeoMeta {
   og_image: string;
-  seo_title: string;
-  seo_description: string;
+  title: string;
+  description: string;
   og_title: string;
   og_description: string;
   canonical: string;
@@ -19,18 +17,17 @@ export interface ISeoMeta {
   is_no_follow: boolean;
 }
 
-
 const { data } = await useAsyncData<ISeoMeta>(
   "seo",
-  () => $fetchApi(api.seo.url(route.path.slice(1))),
+  () => $api(api.seo.url(route.path.slice(1) ? route.path.slice(1) : "home")),
   {
     watch: [() => route.path],
   }
 );
 
 const title = computed(() => {
-  return data.value?.seo_title ? data.value?.seo_title + " - PAVEL POLA" : "PAVEL POLA"
-})
+  return data.value?.title ? `${data.value?.title} / DVFitness` : "DVFitness";
+});
 
 const robotsContent = computed(() => {
   const robotsContent: string[] = [];
@@ -40,8 +37,8 @@ const robotsContent = computed(() => {
   return robotsContent.join(", ");
 });
 useSeoMeta({
-  title: () => data.value?.seo_title || title.value,
-  description: () => data.value?.seo_description || "",
+  title: () => title.value,
+  description: () => data.value?.description || "",
   ogTitle: () => data.value?.og_title || title.value,
   ogDescription: () => data.value?.og_description || "",
   ogImage: () => (data.value?.og_image ? mediaUrl + data.value?.og_image : ""),

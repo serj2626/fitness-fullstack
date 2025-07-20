@@ -41,9 +41,10 @@ const { data: equipmentList } = useAsyncData(
 </script>
 <template>
   <div>
-    <MainFirstSection />
-    <!-- <MainVideoSection /> -->
+    <MainVideoSection />
     <MainAboutSection />
+    <MainFirstSection />
+    
 
     <ClientOnly hydrate-on-visible>
       <MainAdvantagesSection
