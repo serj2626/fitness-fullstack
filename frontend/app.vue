@@ -27,6 +27,7 @@ await useAsyncData(
     </NuxtLayout>
     <LazyBaseAlertCookie />
     <LazyBaseNotifications />
+    <BaseSeoMeta />
   </div>
 </template>
 <style lang="scss">

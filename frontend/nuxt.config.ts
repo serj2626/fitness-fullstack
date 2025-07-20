@@ -41,7 +41,6 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: "Фитнес-клуб DV Fitness",
       htmlAttrs: {
         lang: "ru",
       },
