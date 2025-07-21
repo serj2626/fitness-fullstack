@@ -10,9 +10,14 @@ TAG = "Тренеры"
 
 
 class TrainerListView(generics.ListAPIView):
-    queryset = Trainer.objects.all()
     serializer_class = TrainerListSerializer
     pagination_class = ListResultsSetPagination
+
+
+    def get_queryset(self):
+        return Trainer.objects.only(
+            "id", "position", "first_name", "last_name", "experience", "avatar"
+        )
 
     @extend_schema(tags=[TAG], summary="Список тренеров")
     def get(self, request, *args, **kwargs):

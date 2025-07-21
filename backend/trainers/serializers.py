@@ -80,10 +80,21 @@ class TrainerListSerializer(serializers.ModelSerializer):
     """
     Сериализатор для списка тренеров
     """
-    services = ServiceSerializer(many=True, read_only=True)
+
+    position = serializers.SerializerMethodField()
     class Meta:
         model = Trainer
-        fields = "__all__"
+        fields = (
+            "id",
+            "position",
+            "first_name",
+            "last_name",
+            "experience",
+            "avatar",
+        )
+
+    def get_position(self, obj):
+        return obj.get_position_display()
 
 
 class TrainerSerializer(serializers.ModelSerializer):

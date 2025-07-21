@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ICoach } from "~/types";
-import CoachFilters from "../CoachFilters.vue";
 
 defineProps<{
   coaches: ICoach[] | null;
@@ -8,7 +7,7 @@ defineProps<{
 </script>
 <template>
   <div class="coach-list-content">
-    <CoachFilters class="coach-list-content__filters" />
+    <!-- <CoachFilters class="coach-list-content__filters" /> -->
     <div class="coach-list-content__trainers">
       <TrainerCard v-for="trainer in coaches" :key="trainer.id" :trainer />
     </div>

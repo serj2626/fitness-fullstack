@@ -16,6 +16,10 @@ export default defineNuxtConfig({
   sitemap: {
     sources: ["/api/__sitemap__/coaches", "/api/__sitemap__/posts"],
   },
+  pinia: {
+    storesDirs: ["./stores/**"],
+  },
+
   runtimeConfig: {
     public: {
       api_url: process.env.API_URL,

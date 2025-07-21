@@ -1,12 +1,12 @@
 export interface ICoach {
   id: string;
-  content: string;
+  content?: string;
   position: string;
   first_name: string;
   last_name: string;
-  email: string;
-  phone: string;
-  keywords: null;
+  email?: string;
+  phone?: string;
+  keywords?: null;
   experience: number;
   avatar: string;
 }
@@ -16,6 +16,7 @@ export interface ICoachesListResponse {
   next: number | null;
   previous: number | null;
   count: number;
+  total_pages: number;
   results: ICoach[];
 }
 

@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-
-import CoachListContent from "./CoachListContent.vue";
+import { useCoachesStore } from "~/stores/coaches";
+import { useIntersectionObserver } from "@vueuse/core";
 
 const coachesStore = useCoachesStore();
-const { coaches, loading, error, activeCategory } = storeToRefs(coachesStore);
+const { coaches, loading, next } = storeToRefs(coachesStore);
 
-// Получаем filterCoaches напрямую из store, а не через storeToRefs
-const filterCoaches = computed(() => coachesStore.filterCoaches);
+const { pending } = await useAsyncData("coaches", () => coachesStore.fetchAllCoaches());
 
-const { pending } = await useAsyncData("coaches-list-init", async () => {
-  await coachesStore.fetchAllCoaches();
-  return true;
+
+const observerTarget = ref<HTMLElement | null>(null);
+
+useIntersectionObserver(observerTarget, async ([entry]) => {
+  if (entry.isIntersecting && next.value && !loading.value) {
+    await coachesStore.fetchAllCoaches(next.value);
+  }
 });
 </script>
 <template>
@@ -23,7 +26,12 @@ const { pending } = await useAsyncData("coaches-list-init", async () => {
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachesPage" />
       <BaseLoader v-if="pending" />
-      <CoachListContent v-if="coaches" :coaches="filterCoaches" />
+      <CoachListContent v-if="coaches" :coaches="coaches" />
+      <div
+        ref="observerTarget"
+        class="observer-trigger"
+        style="height: 1px; margin-top: 40px"
+      />
     </div>
   </div>
 </template>

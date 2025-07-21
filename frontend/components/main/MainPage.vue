@@ -64,7 +64,7 @@ const { data: equipmentList } = useAsyncData(
       <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
     </ClientOnly>
     <ClientOnly hydrate-on-visible>
-      <MainPostSection :posts="postsLast as IPost[]" />
+      <MainPostSection v-if="postsLast" :posts="postsLast as IPost[]" />
     </ClientOnly>
 
     <ClientOnly hydrate-on-visible>
