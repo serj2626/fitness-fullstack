@@ -1,10 +1,6 @@
 <script setup lang="ts">
-// definePageMeta({
-//   requiresAuth: true, // Только для авторизованных
-//   guestOnly: true, // Только для гостей
-// });
 definePageMeta({
-  middleware: ["auth"],
+  middleware: ["profile"],
 });
 </script>
 <template>

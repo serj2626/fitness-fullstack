@@ -6,6 +6,8 @@ export const api = {
   coaches: {
     list: "/trainings/trainers/",
     detail: (id: string) => `/trainings/trainers/${id}`,
+    reviews: (id: string) => `/trainings/trainers/${id}/reviews/`,
+    reviewsCreate: (id: string) => `/trainings/trainers/${id}/reviews/create/`,
   },
   abonements: {
     list: "/abonements/",

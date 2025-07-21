@@ -6,6 +6,7 @@ export const useAuthStore = defineStore("auth", () => {
   const user = ref<IUser | null>(null);
   const isLoading = ref<boolean>(false);
   const error = ref<string | null>(null);
+  
   const accessToken = useCookie("access_fitness_token");
   const refreshToken = useCookie("refresh_fitness_token");
 

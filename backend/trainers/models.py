@@ -256,7 +256,7 @@ class TrainerReviews(BaseReview):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"Отзыв от {self.name}"
+        return f"Отзыв от {self.email}"
 
     # @property
     # def time_age(self):

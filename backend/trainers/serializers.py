@@ -65,6 +65,10 @@ class TrainerReviewsSerializer(serializers.ModelSerializer):
             "verified",
             "time_age",
         )
+        extra_kwargs = {
+            "time_age": {"read_only": True},
+            "verified": {"read_only": True},
+        }
 
     def get_time_age(self, obj):
         return obj.time_age
@@ -82,6 +86,7 @@ class TrainerListSerializer(serializers.ModelSerializer):
     """
 
     position = serializers.SerializerMethodField()
+
     class Meta:
         model = Trainer
         fields = (
@@ -97,12 +102,11 @@ class TrainerListSerializer(serializers.ModelSerializer):
         return obj.get_position_display()
 
 
-class TrainerSerializer(serializers.ModelSerializer):
+class TrainerDetailSerializer(serializers.ModelSerializer):
     images = TrainerImageSerializer(many=True, read_only=True)
     position = serializers.SerializerMethodField()
     rates = TrainerRateSerializer(many=True, read_only=True)
     average_rating = serializers.SerializerMethodField()
-    reviews = TrainerReviewsSerializer(many=True, read_only=True)
     photo = serializers.SerializerMethodField()
     socials = TrainerSocialNetworkSerializer(many=True, read_only=True)
     services = ServiceSerializer(many=True, read_only=True)

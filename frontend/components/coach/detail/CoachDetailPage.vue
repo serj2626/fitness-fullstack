@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { api } from "~/api";
 import { breadcrumbsCoachDetailPage } from "~/assets/data/breadcrumbs.data";
 import { coaches } from "~/assets/data/moke.data";
-import type { ITrainerResponse } from "~/types";
 
+const trainerStore = useTrainerStore();
+const { trainer } = storeToRefs(trainerStore);
 const activeTab = ref((useRoute().query.tab as string) || "contacts");
-const { $api } = useNuxtApp();
 
 const { id } = useRoute().params;
 const coachID = Array.isArray(id) ? id[0] : id;
@@ -23,22 +22,23 @@ const images = computed(() => {
   return listImages;
 });
 
-const tabs: { id: string; label: string }[] = [
-  { id: "contacts", label: "Контакты" },
-  { id: "photos", label: "Фотографии" },
-  { id: "reviews", label: "Отзывы" },
-];
-
-const { data: coachInfo } = await useAsyncData<ITrainerResponse>(
-  "coaches-detail-page-info",
-  () => $api(api.coaches.detail(coachID)),
-  {
-    watch: [() => coachID],
-  }
+await useAsyncData(`trainer-${coachID}`, () =>
+  trainerStore.fetchTrainer(coachID)
 );
 
+const loadReviews = () => {
+  if (!trainerStore.reviews.length) {
+    trainerStore.fetchReviews(coachID);
+  }
+};
+
 watch(activeTab, (newTab) => {
+  if (newTab === "reviews") loadReviews();
   useRouter().replace({ query: { ...useRoute().query, tab: newTab } });
+});
+
+onUnmounted(() => {
+  trainerStore.reset();
 });
 </script>
 
@@ -49,33 +49,27 @@ watch(activeTab, (newTab) => {
 
       <div class="coaches-detail-page__layout">
         <CoachDetailProfile
-          :avatar="coachInfo?.avatar"
+          :avatar="trainer?.avatar"
           class="coaches-detail-page__sidebar"
         />
 
         <div class="coach-layout__main">
-          <div class="tab-buttons">
-            <button
-              v-for="tab in tabs"
-              :key="tab.id"
-              :class="{ active: activeTab === tab.id }"
-              @click="activeTab = tab.id"
-            >
-              {{ tab.label }}
-            </button>
-          </div>
+          <CoachDetailTabs
+            :active-tab="activeTab"
+            @update:active-tab="activeTab = $event"
+          />
 
           <div class="tab-content">
             <CoachDetailContacts
               v-if="activeTab === 'contacts'"
-              :name="coachInfo?.first_name + ' ' + coachInfo?.last_name"
-              :position="coachInfo?.position || 'Должность тренера'"
-              :email="coachInfo?.email || 'Email тренера'"
-              :phone="coachInfo?.phone || 'Телефон тренера'"
-              :socials="coachInfo?.socials || []"
-              :keywords="coachInfo?.keywords || ''"
-              :experience="coachInfo?.experience || 0"
-              :education="coachInfo?.education || ''"
+              :name="trainer?.first_name + ' ' + trainer?.last_name"
+              :position="trainer?.position || 'Должность тренера'"
+              :email="trainer?.email || 'Email тренера'"
+              :phone="trainer?.phone || 'Телефон тренера'"
+              :socials="trainer?.socials || []"
+              :keywords="trainer?.keywords || ''"
+              :experience="trainer?.experience || 0"
+              :education="trainer?.education || ''"
             />
 
             <div v-if="activeTab === 'photos'" class="photo-grid">
@@ -104,7 +98,7 @@ watch(activeTab, (newTab) => {
 
 <style scoped lang="scss">
 .coaches-detail-page {
-  padding-top: 100px;
+  padding-block: 100px;
 
   &__layout {
     margin-top: 50px;
@@ -121,33 +115,6 @@ watch(activeTab, (newTab) => {
     position: sticky;
     top: 50px;
     align-self: start;
-  }
-}
-
-.tab-buttons {
-  display: flex;
-  border-bottom: 1px solid rgba($white, 0.1);
-  margin-bottom: 30px;
-
-  button {
-    padding: 12px 25px;
-    color: rgba($white, 0.7);
-    position: relative;
-    font-weight: 500;
-
-    &.active {
-      color: $accent;
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: $accent;
-      }
-    }
   }
 }
 

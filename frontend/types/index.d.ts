@@ -9,6 +9,8 @@ export interface ICoach {
   keywords?: null;
   experience: number;
   avatar: string;
+  education?: string;
+  socials?: { type: string; link: string }[];
 }
 
 export interface ICoachesListResponse {
