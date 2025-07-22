@@ -9,7 +9,7 @@ const { data: footerData } = await useAsyncData<IFooterResponse>(
 );
 
 function getIcon(title: string) {
-  return `ri:${title}-fill`;
+  return `mdi:${title}`;
 }
 </script>
 <template>

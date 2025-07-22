@@ -18,7 +18,8 @@ defineProps<{ trainer: ICoach }>();
         {{ trainer.first_name }} {{ trainer.last_name }}
       </h3>
       <p class="card__experience">
-        🏆 Стаж: <strong>{{ trainer.experience }} лет</strong>
+        🏆 Стаж:
+        <strong>{{ getExperience(trainer.experience) }} </strong>
       </p>
       <p class="card__bio">
         {{ trainer.content }}

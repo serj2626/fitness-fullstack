@@ -15,15 +15,19 @@ function getIcon(title: string) {
   return `ri:${title}-fill`;
 }
 
+function openLink(link: string) {
+  window.open(link, "_blank");
+}
+
 const getListKeywords = computed(() => {
   return props.keywords.split(",");
 });
-const getExperience = computed(() => {
-  if (props.experience > 0) {
-    return `Более ${props.experience} лет`;
-  }
-  return "Не указан";
-});
+// const getExperience = computed(() => {
+//   if (props.experience > 0) {
+//     return `Более ${props.experience} лет`;
+//   }
+//   return "Не указан";
+// });
 </script>
 <template>
   <div class="coach-detail-contacts">
@@ -86,20 +90,22 @@ const getExperience = computed(() => {
     </div>
 
     <div class="coach-detail-contacts__social-links">
-      <Icon
+      <a
         v-for="icon in socials"
         :key="icon.type"
-        class="coach-detail-contacts__social-links-icon"
-        size="30"
-        :name="getIcon(icon.type)"
-      />
+        :href="icon.link"
+        target="_blank"
+      >
+        <Icon
+          class="coach-detail-contacts__social-links-icon"
+          size="30"
+          :name="getIcon(icon.type)"
+        />
+      </a>
     </div>
 
     <div class="coach-detail-contacts__description">
       <h3 class="coach-detail-contacts__description-title">О тренере</h3>
-      <!-- <div style="color: aliceblue;">
-        {{ keywords.split(',') }}
-      </div> -->
       <ul
         v-if="getListKeywords.length > 0"
         class="coach-detail-contacts__description-keywords"
@@ -124,7 +130,7 @@ const getExperience = computed(() => {
         </p>
         <p>
           <strong>Опыт работы: </strong>
-          {{ getExperience }}
+          {{ getExperience(experience) }}
         </p>
       </div>
     </div>
@@ -191,6 +197,7 @@ const getExperience = computed(() => {
       background: $white;
       border-radius: 50%;
       transition: all 0.3s ease;
+      cursor: pointer;
 
       &:hover {
         background: $accent;

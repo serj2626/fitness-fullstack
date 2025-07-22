@@ -1,6 +1,6 @@
 export enum SocialIcons {
   GITHUB = "fa6-brands:github",
-  LINKEDIN = "fa6-brands:linkedin",
+  LINKEDIN = "mdi:linkedin",
   TELEGRAM = "fa6-brands:telegram",
   WHATSAPP = "fa6-brands:whatsapp",
   MAIL = "fa6-solid:envelope",
@@ -13,7 +13,6 @@ export enum SocialIcons {
   VK_RI = "ri:vk-fill",
   TG_RI = "ri:telegram-fill",
   WHATSAPP_RI = "ri:whatsapp-fill",
-  LINKEDIN_RI = "ri:linkedin-fill",
   GITHUB_RI = "ri:github-fill",
   MAIL_RI = "ri:mail-fill",
   PHONE_RI = "ri:phone-fill",

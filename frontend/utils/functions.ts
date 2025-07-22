@@ -69,3 +69,10 @@ export const extractError = (err: unknown): string => {
   if (typeof err === "string") return err;
   return "Неизвестная ошибка";
 };
+
+export const getExperience = (count: number): string => {
+  // Функция для получения стажа
+  if (count === 0) return "не указан";
+  if (count === 1) return "более года";
+  return `более ${count} лет`;
+};
