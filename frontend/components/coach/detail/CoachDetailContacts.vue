@@ -15,19 +15,9 @@ function getIcon(title: string) {
   return `ri:${title}-fill`;
 }
 
-function openLink(link: string) {
-  window.open(link, "_blank");
-}
-
 const getListKeywords = computed(() => {
   return props.keywords.split(",");
 });
-// const getExperience = computed(() => {
-//   if (props.experience > 0) {
-//     return `Более ${props.experience} лет`;
-//   }
-//   return "Не указан";
-// });
 </script>
 <template>
   <div class="coach-detail-contacts">
