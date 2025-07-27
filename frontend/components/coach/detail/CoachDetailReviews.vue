@@ -92,6 +92,7 @@ const shownReviews = ref(3);
 //   // Здесь можно реализовать открытие полноэкранного просмотрщика
 //   console.log("Открыть фото:", photos[index]);
 // };
+
 </script>
 <template>
   <div class="coach-detail-reviews">
@@ -110,7 +111,7 @@ const shownReviews = ref(3);
           label="Оставить отзыв"
           size="md"
           color="#1a8f1a"
-          style="color: white;"
+          style="color: white"
           @click="modalsStore.openModal('reviewCoachForm')"
         />
       </div>
@@ -130,7 +131,6 @@ const shownReviews = ref(3);
         </button>
       </div>
     </div>
-
     <!-- Список отзывов -->
     <div class="coach-detail-reviews__list">
       <div v-for="review in sortedReviews" :key="review.id" class="review-card">
@@ -166,12 +166,52 @@ const shownReviews = ref(3);
     />
   </div>
 </template>
-<style scoped lang="scss">
+<style lang="scss">
 .coach-detail-reviews {
   padding: 20px;
   background-color: $bg_block;
   border-radius: 12px;
   position: relative;
+
+  &:deep(.p-editor-container) {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+
+    .p-editor-toolbar {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      button {
+        color: white;
+        &:hover {
+          background-color: rgba(
+            26,
+            143,
+            26,
+            0.2
+          ); // можно заменить на переменную
+        }
+      }
+    }
+
+    .p-editor-content {
+      background-color: transparent;
+      color: white;
+      min-height: 200px;
+      padding: 16px;
+
+      p {
+        margin: 0 0 10px;
+      }
+
+      strong {
+        color: #1a8f1a;
+      }
+    }
+  }
+
   &__top {
     position: sticky;
     top: 75px;
@@ -300,8 +340,6 @@ const shownReviews = ref(3);
   color: rgba($white, 0.9);
   margin-bottom: 15px;
 }
-
-
 
 .review-photo {
   width: 80px;

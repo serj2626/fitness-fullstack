@@ -88,7 +88,7 @@ onUnmounted(() => {
               :start-index
               @close="isOpen = false"
             />
-            <CoachDetailReviews v-if="activeTab === 'reviews'" />
+            <LazyCoachDetailReviews v-if="activeTab === 'reviews'" />
           </div>
         </div>
       </div>
