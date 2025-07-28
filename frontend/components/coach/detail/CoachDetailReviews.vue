@@ -96,7 +96,7 @@ const shownReviews = ref(3);
       </div>
     </div>
     <!-- Список отзывов -->
-    <div class="coach-detail-reviews__list">
+    <div v-if="reviews.length > 0" class="coach-detail-reviews__list">
       <div v-for="review in reviews" :key="review.id" class="review-card">
         <div class="review-header">
           <div class="review-author">
@@ -120,6 +120,7 @@ const shownReviews = ref(3);
         </div>
       </div>
     </div>
+    <BaseEmpty v-else text="Отзывов нет" />
 
     <!-- Кнопка "Показать еще" -->
     <BaseButton

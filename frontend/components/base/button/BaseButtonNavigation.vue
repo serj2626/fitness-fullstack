@@ -19,6 +19,8 @@ const { type = "prev", size = 20 } = defineProps<{
 </template>
 <style scoped lang="scss">
 .base-button-navigation {
+  background-color: $accent;
+  color: $txt;
   &__next {
     transform: rotate(180deg);
   }

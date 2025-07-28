@@ -23,6 +23,7 @@ const {
     :class="[
       'base-button-with-icon',
       `base-button-with-icon__${size}`,
+      { 'base-button-with-icon__reverse': reverse },
       { 'base-button-with-icon_disabled': disabled },
     ]"
   >
@@ -48,11 +49,15 @@ const {
   &:hover {
     background-color: $accent;
     color: $txt;
-    .base-button-with-icon__icon{
-        transform: translateX(5px);
+    .base-button-with-icon__icon {
+      transform: translateX(5px);
+      transition: all 0.5s ease-in-out;
     }
   }
 
+  &_reverse {
+    flex-direction: row-reverse;
+  }
 
   &__icon {
     width: 24px;
