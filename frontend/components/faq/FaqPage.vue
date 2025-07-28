@@ -2,58 +2,54 @@
 import { api } from "~/api";
 import { breadcrumbsFAQDetailPage } from "~/assets/data/breadcrumbs.data";
 import type { IFAQResponse } from "~/types";
+import { useIntersectionObserver } from "@vueuse/core";
 
 const { $api } = useNuxtApp();
-const isLoading = ref(false);
 const currentPage = ref(1);
-const faqItems = ref<IFAQResponse['results']>([]);
+const faqItems = ref<IFAQResponse["results"]>([]);
 const hasMore = ref(true);
 
 // Первоначальная загрузка
-const { data: faqInfo } = await useAsyncData<IFAQResponse>(
+const { data: initialData } = await useAsyncData<IFAQResponse>(
   "faq-page-info",
   () => $api(api.gym.faq, { params: { page: currentPage.value } })
 );
 
-// Сохраняем первые результаты
-if (faqInfo.value) {
-  faqItems.value = faqInfo.value.results;
-  hasMore.value = !!faqInfo.value.next; // Проверяем, есть ли еще страницы
+if (initialData.value) {
+  faqItems.value = initialData.value.results;
+  hasMore.value = !!initialData.value.next;
 }
 
-// Функция для подгрузки новых данных
-const loadMore = async () => {
-  if (isLoading.value || !hasMore.value) return;
+const observerTarget = ref<HTMLElement | null>(null);
 
-  isLoading.value = true;
-  currentPage.value += 1;
-
-  try {
-    const response = await $api<IFAQResponse>(api.gym.faq, { 
-      params: { page: currentPage.value } 
-    });
-
-    if (response) {
-      faqItems.value = [...faqItems.value, ...response.results];
-      hasMore.value = !!response.next; // Обновляем флаг наличия данных
+useIntersectionObserver(observerTarget, async ([entry]) => {
+  if (entry.isIntersecting && hasMore.value) {
+    currentPage.value += 1;
+    
+    const { data: newData } = await useAsyncData<IFAQResponse>(
+      `faq-page-info-${currentPage.value}`,
+      () => $api(api.gym.faq, { params: { page: currentPage.value } })
+    );
+    
+    if (newData.value) {
+      faqItems.value = [...faqItems.value, ...newData.value.results];
+      hasMore.value = !!newData.value.next;
     }
-  } catch (error) {
-    console.error('Ошибка при загрузке:', error);
-  } finally {
-    isLoading.value = false;
   }
-};
+});
 </script>
 
 <template>
   <div class="faq-page">
-    <PagesTopSection
-      title="Вопросы и ответы"
-    />
+    <PagesTopSection title="Вопросы и ответы" />
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsFAQDetailPage" />
-      <FaqContent v-if="faqItems.length" :faq-info="faqItems" />
-      <LoadMoreObserver v-if="hasMore" @intersect="loadMore" />
+      <FaqContent :faq-info="faqItems" />
+      <div
+        ref="observerTarget"
+        class="observer-trigger"
+        style="height: 1px; margin-top: 40px"
+      />
     </div>
   </div>
 </template>

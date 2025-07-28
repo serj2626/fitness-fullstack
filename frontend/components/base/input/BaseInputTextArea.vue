@@ -1,12 +1,15 @@
 <script setup lang="ts">
 interface IInputProps {
   placeholder?: string;
+  maxLength?: number;
 }
+
+const props = defineProps<IInputProps>();
 
 const inputValue = defineModel<string | number>("inputValue");
 const error = defineModel("errorValue");
 
-defineProps<IInputProps>();
+// defineProps<IInputProps>();
 </script>
 <template>
   <label class="base-input-text-area">
