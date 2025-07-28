@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useModalsStore } from "~/stores/modals";
+import type { IReview } from "~/types";
+
+defineProps<{
+  reviews: IReview[];
+}>();
 
 const modalsStore = useModalsStore();
 
@@ -22,46 +27,6 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-// Моковые данные
-const reviews = ref([
-  {
-    id: 1,
-    name: "Михаил Смирнов",
-    avatar: "/coaches/seventeen.webp",
-    rating: 5,
-    date: "15 мая 2023",
-    text: "Анна - профессионал высшего класса! За 3 месяца тренировок полностью изменил своё тело. Индивидуальный подход и внимание к деталям. Рекомендую всем, кто серьёзно настроен на результат!",
-    photos: ["/reviews/1-1.jpg", "/reviews/1-2.jpg"],
-  },
-  {
-    id: 2,
-    name: "Екатерина Волкова",
-    avatar: "/coaches/fourteen.webp",
-    rating: 4,
-    date: "2 апреля 2023",
-    text: "Очень довольна тренировками. Анна подобрала программу с учётом моих проблем со спиной. Через месяц уже почувствовала значительные улучшения. Единственное - иногда задерживается на предыдущих тренировках.",
-    photos: [],
-  },
-  {
-    id: 3,
-    name: "Артём Козлов",
-    avatar: "/coaches/nine.jpeg",
-    rating: 5,
-    date: "20 марта 2023",
-    text: "Лучший тренер в клубе! Мотивирует, поддерживает и даёт реально рабочие советы по питанию. За 2 месяца -8 кг и +5 кг мышечной массы. Продолжаю заниматься!",
-    photos: ["/coaches/one.webp"],
-  },
-  {
-    id: 4,
-    name: "Ольга Новикова",
-    avatar: "/coaches/four.jpeg",
-    rating: 5,
-    date: "5 марта 2023",
-    text: "Занимаюсь с Анной уже год. Ни разу не пожалела о выборе. Всегда находит правильные слова, когда нет настроения тренироваться. Тело полностью преобразилось!",
-    photos: [],
-  },
-]);
-
 // Сортировка
 const sortBy = ref("newest");
 const sortOptions = [
@@ -70,19 +35,19 @@ const sortOptions = [
   { value: "lowest", label: "Низкий рейтинг" },
 ];
 
-const sortedReviews = computed(() => {
-  const sorted = [...reviews.value];
-  switch (sortBy.value) {
-    case "newest":
-      return reviews.value;
-    case "highest":
-      return sorted.sort((a, b) => b.rating - a.rating);
-    case "lowest":
-      return sorted.sort((a, b) => a.rating - b.rating);
-    default:
-      return sorted;
-  }
-});
+// const sortedReviews = computed(() => {
+//   const sorted = [...reviews.value];
+//   switch (sortBy.value) {
+//     case "newest":
+//       return reviews.value;
+//     case "highest":
+//       return sorted.sort((a, b) => b.rating - a.rating);
+//     case "lowest":
+//       return sorted.sort((a, b) => a.rating - b.rating);
+//     default:
+//       return sorted;
+//   }
+// });
 
 // Пагинация
 const shownReviews = ref(3);
@@ -92,7 +57,6 @@ const shownReviews = ref(3);
 //   // Здесь можно реализовать открытие полноэкранного просмотрщика
 //   console.log("Открыть фото:", photos[index]);
 // };
-
 </script>
 <template>
   <div class="coach-detail-reviews">
@@ -133,17 +97,19 @@ const shownReviews = ref(3);
     </div>
     <!-- Список отзывов -->
     <div class="coach-detail-reviews__list">
-      <div v-for="review in sortedReviews" :key="review.id" class="review-card">
+      <div v-for="review in reviews" :key="review.id" class="review-card">
         <div class="review-header">
           <div class="review-author">
             <!-- <NuxtImg :src="review.avatar" class="review-avatar" alt="Аватар" /> -->
             <AvatarComponent
-              :first-name="review.name"
-              :last-name="review.name"
+              :first-name="review.first_name"
+              :last-name="review.last_name"
             />
             <div class="author-info">
-              <h3 class="author-name">{{ review.name }}</h3>
-              <div class="review-date">{{ review.date }}</div>
+              <h3 class="author-name">
+                {{ review.first_name }} {{ review.last_name }}
+              </h3>
+              <div class="review-date">{{ review.time_age }}</div>
             </div>
           </div>
           <RatingComponent :rating="review.rating" :size="20" readonly />

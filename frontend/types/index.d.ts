@@ -104,6 +104,7 @@ interface TrainingRate {
 }
 
 interface IReview {
+  id: string;
   first_name: string; // Имя автора отзыва
   last_name: string;
   email: string; // Email автора

@@ -57,6 +57,7 @@ class TrainerReviewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrainerReviews
         fields = (
+            "id",
             "first_name",
             "last_name",
             "email",

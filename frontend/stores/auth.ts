@@ -6,7 +6,7 @@ export const useAuthStore = defineStore("auth", () => {
   const user = ref<IUser | null>(null);
   const isLoading = ref<boolean>(false);
   const error = ref<string | null>(null);
-  
+
   const accessToken = useCookie("access_fitness_token");
   const refreshToken = useCookie("refresh_fitness_token");
 
@@ -57,16 +57,9 @@ export const useAuthStore = defineStore("auth", () => {
     user.value = null;
   };
 
-
   const setTokens = (tokens: ITokenResponse) => {
     accessToken.value = tokens.access;
     refreshToken.value = tokens.refresh;
-  };
-
-  const extractError = (err: unknown): string => {
-    if (err instanceof Error) return err.message;
-    if (typeof err === "string") return err;
-    return "Неизвестная ошибка";
   };
 
   return {
