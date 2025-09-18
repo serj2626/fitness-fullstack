@@ -34,12 +34,12 @@ urlpatterns = [
     path("api/v1/gym/", include("gym.urls")),
     path("api/v1/trainings/", include("trainers.urls")),
     path("api/v1/abonements/", include("abonements.urls")),
-    path(
-        "sitemap.xml",
-        sitemap,
-        {"sitemaps": sitemaps},
-        name="django.contrib.sitemaps.views.sitemap",
-    ),
+    # path(
+    #     "sitemap.xml",
+    #     sitemap,
+    #     {"sitemaps": sitemaps},
+    #     name="django.contrib.sitemaps.views.sitemap",
+    # ),
 ]
 
 if settings.DEBUG:

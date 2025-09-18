@@ -1,0 +1,68 @@
+name: dvfitness_dev
+
+networks:
+  dvfitness_dev_network:
+    driver: bridge
+
+volumes:
+  dvfitness_dev_postgres_data:
+  dvfitness_dev_redis_data:
+  certbot_conf:
+  certbot_www:
+
+services:
+  db_dev:
+    image: postgres:17-alpine
+    container_name: dvfitness_db
+    env_file: ./backend/.env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - dvfitness_dev_postgres_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - dvfitness_dev_network
+
+  redis_dev:
+    image: redis:7-alpine
+    container_name: dvfitness_dev_redis_container
+    restart: always
+    networks:
+      - dvfitness_dev_network
+    volumes:
+      - dvfitness_dev_redis_data:/data
+
+  backend_dev:
+    build: ./backend
+    container_name: dvfitness_dev_backend_container
+    image: stal_backend_image
+    restart: always
+    env_file: ./backend/.env
+    command: "python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app/backend
+    networks:
+      - dvfitness_dev_network
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+      - redis
+
+  frontend_dev:
+    build: ./frontend
+    container_name: dvfitness_dev_frontend_container
+    image: stal_frontend_image
+    env_file: ./frontend/.env
+    networks:
+      - dvfitness_dev_network
+    restart: always
+    volumes:
+      - ./frontend/public:/app/public
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+
