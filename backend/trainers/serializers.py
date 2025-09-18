@@ -65,6 +65,7 @@ class TrainerReviewsSerializer(serializers.ModelSerializer):
             "text",
             "verified",
             "time_age",
+            "trainer",
         )
         extra_kwargs = {
             "time_age": {"read_only": True},

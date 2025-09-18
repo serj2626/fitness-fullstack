@@ -22,6 +22,7 @@ defineProps<{
           class="main-advantages-section__list-card"
           data-aos="fade-up"
           :data-aos-delay="idx * 200"
+          data-aos-once="true"
         >
           <img
             class="main-advantages-section__list-card-icon"
@@ -60,7 +61,8 @@ defineProps<{
       padding: 2rem;
       border-radius: 8px;
       text-align: center;
-      transition: transform 0.3s ease, border-bottom-color 0.1s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, border-bottom-color 0.1s ease,
+        box-shadow 0.3s ease;
       border-bottom: 3px solid transparent;
 
       &:hover {

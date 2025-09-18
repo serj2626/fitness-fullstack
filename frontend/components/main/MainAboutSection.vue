@@ -37,7 +37,7 @@
       &::after {
         content: " ";
         display: inline-block;
-        width: 0.6em; // или любая подходящая ширина
+        width: 0.6em;
       }
     }
   }

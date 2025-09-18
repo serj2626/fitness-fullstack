@@ -1,6 +1,8 @@
 from drf_spectacular.utils import extend_schema
-
-from common.mixins import BaseSectionViewMixin
+from rest_framework.generics import RetrieveAPIView
+from common.utils import get_cache_ttl
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from .models import About, CookiePolicy, Offerta, Policy
 from .serializers import (
@@ -13,37 +15,41 @@ from .serializers import (
 TAG = "Юридическая информация"
 
 
-class AboutView(BaseSectionViewMixin):
-    model = About
+@extend_schema(tags=[TAG], summary="О нас")
+@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
+class AboutView(RetrieveAPIView):
+    queryset = About.objects.all()
     serializer_class = AboutSerializer
 
-    @extend_schema(tags=[TAG], summary="О компании")
-    def get(self, request):
-        return super().get(request)
+    def get_object(self):
+        return self.queryset.first()
 
 
-class OffertaView(BaseSectionViewMixin):
-    model = Offerta
+@extend_schema(tags=[TAG], summary="Оферта")
+@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
+class OffertaView(RetrieveAPIView):
+    queryset = Offerta.objects.all()
     serializer_class = OffertaSerializer
 
-    @extend_schema(tags=[TAG], summary="Оферта")
-    def get(self, request):
-        return super().get(request)
+    def get_object(self):
+        return self.queryset.first()
 
 
-class PolicyView(BaseSectionViewMixin):
-    model = Policy
+@extend_schema(tags=[TAG], summary="Политика конфиденциальности")
+@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
+class PolicyView(RetrieveAPIView):
+    queryset = Policy.objects.all()
     serializer_class = PolicySerializer
 
-    @extend_schema(tags=[TAG], summary="Политика конфиденциальности")
-    def get(self, request):
-        return super().get(request)
+    def get_object(self):
+        return self.queryset.first()
 
 
-class CookiePolicyView(BaseSectionViewMixin):
-    model = CookiePolicy
+@extend_schema(tags=[TAG], summary="Политика cookie")
+@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
+class CookiePolicyView(RetrieveAPIView):
+    queryset = CookiePolicy.objects.all()
     serializer_class = CookiePolicySerializer
 
-    @extend_schema(tags=[TAG], summary="Политика cookie")
-    def get(self, request):
-        return super().get(request)
+    def get_object(self):
+        return self.queryset.first()

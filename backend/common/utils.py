@@ -1,5 +1,5 @@
 from io import BytesIO
-
+from rest_framework import serializers
 from django.core.files.base import ContentFile
 from PIL import Image
 
@@ -49,3 +49,18 @@ def resize_variants(image_field):
     large = resize(1024)
 
     return small, medium, large
+
+
+class RelativeOnlyImageField(serializers.ImageField):
+    """
+    Поле для изображений, которое сохраняет только имя файла
+    """
+
+    def to_representation(self, value):
+        if not value:
+            return None
+        return value.name
+
+
+def get_cache_ttl(minutes: int = 5):
+    return minutes * 60

@@ -2,7 +2,8 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 
 from common.pagination import ListResultsSetPagination
-
+from rest_framework.pagination import PageNumberPagination
+from django.db.models import Q
 from .models import Trainer, TrainerReviews
 from .serializers import (
     TrainerListSerializer,
@@ -17,14 +18,42 @@ from rest_framework import status
 TAG = "Тренеры"
 
 
+class CustomPagination(PageNumberPagination):
+    page_size = 5
+
+    def get_paginated_response(self, data):
+        return Response(
+            {
+                "total_reviews": self.page.paginator.count,
+                "next": self.get_next_link(),
+                "previous": self.get_previous_link(),
+                "results": data,
+            }
+        )
+
+
 @extend_schema(tags=[TAG], summary="Список отзывов о тренере")
 @api_view(["GET"])
 def get_all_comments_by_coach_id(request, coach_id):
     try:
         coach = Trainer.objects.get(pk=coach_id)
-        reviews = coach.reviews.all()
-        serializer = TrainerReviewsSerializer(reviews, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        reviews = coach.reviews.filter(verified=True)
+
+        # Сортировка
+        sort_by = request.query_params.get("sort", "newest")
+        if sort_by == "highest":
+            reviews = reviews.order_by("-rating", "-created_at")
+        elif sort_by == "lowest":
+            reviews = reviews.order_by("rating", "-created_at")
+        else:  # newest
+            reviews = reviews.order_by("-created_at")
+
+        # Пагинация
+        paginator = CustomPagination()
+        result_page = paginator.paginate_queryset(reviews, request)
+        serializer = TrainerReviewsSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
     except Trainer.DoesNotExist:
         return Response(
             data="Тренер не найден", status=status.HTTP_404_NOT_FOUND
