@@ -6,6 +6,12 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from django.contrib.sitemaps.views import sitemap
+from .sitemap import SEOSitemap
+
+sitemaps = {
+    "seo": SEOSitemap,
+}
 
 urlpatterns = [
     path("ckeditor5/", include("django_ckeditor_5.urls")),
@@ -28,9 +34,17 @@ urlpatterns = [
     path("api/v1/gym/", include("gym.urls")),
     path("api/v1/trainings/", include("trainers.urls")),
     path("api/v1/abonements/", include("abonements.urls")),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
 ]
 
 if settings.DEBUG:
     from django.conf.urls.static import static
 
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )
