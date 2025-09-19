@@ -1,41 +1,46 @@
 <script setup lang="ts">
-import type { IContactsResponse } from "~/types";
+import type { IContact } from "~/types";
 
-defineProps<{ contacts: IContactsResponse }>();
+defineProps<{
+  mail: IContact;
+  phone: IContact;
+  mode: IContact;
+  address: IContact;
+}>();
 </script>
 <template>
   <div class="contacts-info">
     <div class="contacts-info__list">
       <div class="contacts-info__list-mail">
         <div class="contacts-info__list-mail-title">
-          {{ contacts.mail.second_type }}
+          {{ mail.type_display || "Почта" }}
         </div>
         <div class="contacts-info__list-mail-value">
-          {{ contacts.mail.value }}
+          {{ mail.value || "bs-dev@bk.ru" }}
         </div>
       </div>
       <div class="contacts-info__list-phone">
         <div class="contacts-info__list-phone-title">
-          {{ contacts.phone.second_type }}
+          {{ phone.type_display || "Телефон" }}
         </div>
         <div class="contacts-info__list-phone-value">
-          {{ contacts.phone.value }}
+          {{ phone.value || "+7 (999) 999-99-99" }}
         </div>
       </div>
       <div class="contacts-info__list-mode">
         <div class="contacts-info__list-mode-title">
-          {{ contacts.mode.second_type }}
+          {{ mode.type_display || "Режим работы" }}
         </div>
         <div class="contacts-info__list-mode-value">
-          {{ contacts.mode.value }}
+          {{ mode.value || "Пн-Пт: 9:00 - 18:00" }}
         </div>
       </div>
       <div class="contacts-info__list-address">
         <div class="contacts-info__list-address-title">
-          {{ contacts.address.second_type }}
+          {{ address.type_display || "Адрес" }}
         </div>
         <div class="contacts-info__list-address-value">
-          {{ contacts.address.value }}
+          {{ address.value || "СПБ, улица Будапештская дом 89" }}
         </div>
       </div>
     </div>

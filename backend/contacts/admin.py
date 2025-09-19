@@ -1,17 +1,18 @@
 from django.contrib import admin
 
-from .models import Contact, Feedback, Footer, Navigation
+from .models import CONTACTS_TYPE, Contact, Feedback, Footer, Navigation
 
 
 class NavigationInline(admin.TabularInline):
     model = Navigation
     extra = 1
-    max_num = 4
+    max_num = 2
 
 
 class ContactInline(admin.TabularInline):
     model = Contact
     extra = 1
+    max_num = len(CONTACTS_TYPE)
 
 
 @admin.register(Footer)

@@ -1,11 +1,13 @@
 from django.contrib import admin
-
+from common.admin import AdminLimitMixin
 from .models import SEO, RobotsTXT
 
 
 @admin.register(RobotsTXT)
-class RobotsTXTAdmin(admin.ModelAdmin):
+class RobotsTXTAdmin(AdminLimitMixin, admin.ModelAdmin):
     list_display = ("text",)
+
+    singleton_limit = 1
 
 
 @admin.register(SEO)

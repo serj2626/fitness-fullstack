@@ -1,26 +1,24 @@
 <script lang="ts" setup>
-import { api } from "~/api";
-import type { IFooterResponse } from "~/types";
-const { $api } = useNuxtApp();
+import type { IFooterInfoTransformResponse } from "~/types";
 
-const { data: footerData } = await useAsyncData<IFooterResponse>(
-  "footer-info",
-  () => $api(api.contacts.footer)
-);
-
-function getIcon(title: string) {
-  return `mdi:${title}`;
-}
+const { data: footerData } =
+  useNuxtData<IFooterInfoTransformResponse>("footer-info");
 </script>
 <template>
   <footer class="footer-component container">
     <div class="footer-component__content">
       <div class="footer-component__content-copyright">
-        <span>{{ footerData?.site_name }}{{ footerData?.copyright }}</span>
+        <span>
+          {{ footerData?.site_name || "DV Fitness" }}
+          {{ footerData?.copyright || "© 2025 Все права защищены." }}
+        </span>
       </div>
-      <div class="footer-component__content-links">
+      <div
+        v-if="footerData?.navigations && footerData?.navigations.length"
+        class="footer-component__content-links"
+      >
         <NuxtLink
-          v-for="link in footerData?.links"
+          v-for="link in footerData?.navigations"
           :key="link.title"
           class="footer-component__content-links-policy"
           :to="link.link"
@@ -29,15 +27,11 @@ function getIcon(title: string) {
         </NuxtLink>
       </div>
     </div>
-    <div class="footer-component__social">
-      <Icon
-        v-for="icon in footerData?.icons"
-        :key="icon.title"
-        class="footer-component__social-link"
-        size="30"
-        :name="getIcon(icon.title)"
-      />
-    </div>
+    <FooterSocials
+      :tg="footerData?.tg?.value"
+      :whatsapp="footerData?.whatsapp.value"
+      :mail="footerData?.mail.value"
+    />
   </footer>
 </template>
 <style lang="scss" scoped>

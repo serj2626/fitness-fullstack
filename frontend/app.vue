@@ -1,18 +1,28 @@
 <script setup lang="ts">
 import { api } from "~/api";
-import type { IContactData } from "~/types";
+import type {
+  IContact,
+  IFooterInfo,
+  IFooterInfoTransformResponse,
+} from "~/types";
 const { $api } = useNuxtApp();
 
-await useAsyncData(
-  "all-contants-info",
-  () => $api<IContactData[]>(api.contacts.list),
+await useAsyncData<IFooterInfoTransformResponse>(
+  "footer-info",
+  () => $api(api.contacts.footer),
   {
-    transform: (data) => {
-      const res: Record<string, IContactData> = {};
-      for (const item of data) {
-        res[item.type] = item;
-      }
-      return res;
+    transform: (data: IFooterInfo) => {
+      const contactsMap = data.contacts.reduce((acc, item) => {
+        acc[item.type] = item;
+        return acc;
+      }, {} as Record<string, IContact>);
+
+      const { contacts, ...rest } = data;
+
+      return {
+        ...rest,
+        ...contactsMap,
+      };
     },
   }
 );

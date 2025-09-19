@@ -61,8 +61,10 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 
 @admin.register(Equipment)
-class InlineAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
+class InlineAdmin(AdminLimitMixin, AdminImagePreviewMixin, admin.ModelAdmin):
     '''Admin View for Equipment'''
+
+    singleton_limit = 3
 
     list_display = ('title', "get_image")
 
