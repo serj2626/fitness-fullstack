@@ -1,7 +1,12 @@
 from django.contrib import admin
 from django.utils.html import format_html, mark_safe
 
-from common.admin import AdminImagePreviewMixin, AdminShortDescriptionMixin, AdminLimitMixin
+from common.admin import (
+    AdminImagePreviewMixin,
+    AdminShortDescriptionMixin,
+    AdminLimitMixin,
+)
+from common.types import SERVICES_TYPE
 
 from .models import (
     FAQ,
@@ -63,9 +68,12 @@ class InlineAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
 
 
 @admin.register(Advantage)
-class AdvantageAdmin(AdminShortDescriptionMixin, admin.ModelAdmin):
+class AdvantageAdmin(
+    AdminLimitMixin, AdminShortDescriptionMixin, admin.ModelAdmin
+):
     list_display = ("title", "icon_preview", "alt", "get_description")
     readonly_fields = ("icon_preview",)
+    singleton_limit = 4
 
     def icon_preview(self, obj):
         if obj.icon and obj.icon.name.endswith(".svg"):
@@ -95,7 +103,8 @@ class FAQAdmin(AdminLimitMixin, admin.ModelAdmin):
     """
     Админка вопросов и ответов
     """
-    singleton_limit = 16
+
+    singleton_limit = 15
     list_display = ("question", "answer")
 
 
@@ -119,11 +128,12 @@ class GymReviewsAdmin(admin.ModelAdmin):
 
 
 @admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
+class ServiceAdmin(AdminLimitMixin, admin.ModelAdmin):
     """
     Админка услуг
     """
 
+    singleton_limit = len(SERVICES_TYPE)
     list_display = ("type", "slug", "get_image")
 
     def get_image(self, obj):

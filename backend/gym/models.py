@@ -13,11 +13,13 @@ from common.models import (
     BaseReview,
     BaseTitle,
 )
+from django.db.models.signals import post_delete, pre_save
+from django.dispatch import receiver
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 from common.types import SERVICES_TYPE
 from common.upload import compress_image
-from common.upload_to import dynamic_upload_to
+from common.upload_to import dynamic_path_by_img, dynamic_upload_to
 from common.validators import validate_image_extension_and_format, validate_svg
 
 
@@ -62,6 +64,10 @@ class Post(BaseTitle, BaseDate, BaseContent):
         return self.title
 
 
+def path_by_service_img(instance, filename):
+    return f'services/{instance.slug}/{filename}'
+
+
 class Service(BaseID, BaseContent, BaseDate):
     """
     Услуга
@@ -73,7 +79,7 @@ class Service(BaseID, BaseContent, BaseDate):
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     avatar = models.ImageField(
         "Фото",
-        upload_to=dynamic_upload_to,
+        upload_to=path_by_service_img,
         blank=True,
         null=True,
         validators=[validate_image_extension_and_format],
@@ -311,3 +317,31 @@ class RecordOnSchedule(BaseDate):
         verbose_name = "Запись на групповое занятие"
         verbose_name_plural = "Записи на групповое занятие"
         unique_together = ("schedule", "user")
+
+
+@receiver(post_delete, sender=Service)
+def delete_service_avatar(sender, instance, **kwargs):
+    """
+    Удаляет файл изображения при удалении объекта Service
+    """
+    if instance.avatar:
+        instance.avatar.delete(save=False)
+
+
+@receiver(pre_save, sender=Service)
+def delete_old_service_avatar(sender, instance, **kwargs):
+    """
+    Удаляет старый файл изображения при обновлении объекта Service,
+    если был загружен новый файл
+    """
+    if not instance.pk:
+        # Новый объект, ничего удалять не нужно
+        return
+
+    try:
+        old_instance = Service.objects.get(pk=instance.pk)
+    except Service.DoesNotExist:
+        return
+
+    if old_instance.avatar and old_instance.avatar != instance.avatar:
+        old_instance.avatar.delete(save=False)
