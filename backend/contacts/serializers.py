@@ -1,54 +1,39 @@
 from rest_framework import serializers
 
-from .models import Contact, Feedback, Footer, FooterIcon, FooterLink
+from .models import Contact, Feedback, Footer, Navigation
 
 
-class FooterLinkSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для ссылок футера
-    """
-
-    class Meta:
-        model = FooterLink
-        fields = ("title", "link")
-
-
-class FooterIconSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для иконок футера
-    """
+class ContactSerializer(serializers.ModelSerializer):
+    type_display = serializers.CharField(
+        source="get_type_display", read_only=True
+    )
 
     class Meta:
-        model = FooterIcon
+        model = Contact
+        fields = ("type", "type_display", "value")
+
+
+class NavigationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Navigation
         fields = ("title", "link")
 
 
 class FooterSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для футера
-    """
-
-    links = FooterLinkSerializer(many=True)
-    icons = FooterIconSerializer(many=True)
+    navigations = NavigationSerializer(many=True, read_only=True)
+    contacts = ContactSerializer(many=True, read_only=True)
 
     class Meta:
         model = Footer
-        fields = ("site_name", "copyright", "links", "icons")
-
-
-class ContactSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для контактов
-    """
-
-    second_type = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Contact
-        fields = ("type", "second_type", "value")
-
-    def get_second_type(self, instance):
-        return instance.get_type_display()
+        fields = (
+            "site_name",
+            "subtitle",
+            "copyright",
+            "developer_name",
+            "developer_link",
+            "navigations",
+            "contacts",
+        )
 
 
 class FeedbackSerializer(serializers.ModelSerializer):

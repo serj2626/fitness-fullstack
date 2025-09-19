@@ -1,0 +1,510 @@
+[
+  {
+    "model": "trainers.trainer",
+    "pk": "164ef414-bace-4d3f-84d2-c1be5193a3d2",
+    "fields": {
+      "content": "",
+      "position": "yoga",
+      "first_name": "Лейла",
+      "last_name": "Адамова",
+      "email": "ada@mail.ru",
+      "phone": "+79531605389",
+      "education": "",
+      "keywords": "силовой тренинг,похудение,набор мышечной массы",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/e3f53105efb946cfa024f5185f5e4402.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "1eb3c6c6-1da5-4656-9788-102737fd015e",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Ольга",
+      "last_name": "Зайцева",
+      "email": "zaqq@mail.ru",
+      "phone": "+74111254231",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/2364e36020354086b88fa7cb8843eec2.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "29d8883f-c446-4788-aaf1-3f44855465b1",
+    "fields": {
+      "content": "",
+      "position": "pool",
+      "first_name": "Галина",
+      "last_name": "Петрова",
+      "email": "gal@mail.ru",
+      "phone": "89112147444",
+      "education": "Российский государственный университет физической культуры, спорта, молодежи и туризма",
+      "keywords": "снижение веса,правильное питание",
+      "experience": 5,
+      "avatar": "uploads/trainer/2025/07/4732892badff463991164a3c7c675c14.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "4b63301f-0a5b-4abd-8706-56185c43abf4",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Александра",
+      "last_name": "Пирогова",
+      "email": "a@mail.ru",
+      "phone": "89214568523",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/aec15c2bfb56426a8326ce62be8fe961.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "50e2fb78-2d03-459a-afb9-c3bee53b6ed1",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Ирина",
+      "last_name": "Ракова",
+      "email": "rak@mail.ru",
+      "phone": "89225554477",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/0118eae8bf654cca877981e05c6420f4.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "54b2121d-73b4-4f6d-9fce-094e56e6d275",
+    "fields": {
+      "content": "",
+      "position": "yoga",
+      "first_name": "Виктория",
+      "last_name": "Арышева",
+      "email": "vaasdar@mail.ru",
+      "phone": "89535478562",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/b66c5fc960b241168c2e6350cdd2d50d.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "5ec703eb-25a3-4055-9f08-deaf0f1a3030",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Анастасия",
+      "last_name": "Игорова",
+      "email": "e@mail.ru",
+      "phone": "89111232541",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/d1e53a77ef6c4da5b7a07b3ed5303455.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "629f1026-a032-478f-9eb8-f15262b00890",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Надежда",
+      "last_name": "Кирова",
+      "email": "n@mail.ru",
+      "phone": "+78124569874",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/57511160e2be4129adbe18d49d1f7c25.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "70e69b42-24e6-43ea-b313-46202279fe73",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Виктория",
+      "last_name": "Арышева",
+      "email": "ar@mail.ru",
+      "phone": "89114528273",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/29806e2460f74197ae1cdf8b396e440f.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "760ed862-6adf-41fa-a6b7-9c7ffc9bec94",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Александра",
+      "last_name": "Карпова",
+      "email": "kasdsadas@mail.ru",
+      "phone": "+78889996633",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/89a4cae72c8b4ff7abb15b0043541a1e.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "82a65183-913b-41b0-af10-8b01b4f58579",
+    "fields": {
+      "content": "",
+      "position": "pool",
+      "first_name": "Ольга",
+      "last_name": "Петрова",
+      "email": "ol@mail.ru",
+      "phone": "89561457854",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/320957f01df6425cb8b195d15841994b.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "85e8d180-3d34-4878-ba60-ef105282e111",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Елизавета",
+      "last_name": "Тихонова",
+      "email": "lisat@mail.ru",
+      "phone": "89118122376",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/ab745b7ff21e42f1b232c5b6dfa14a47.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "8e4cccb0-4cf8-43b5-a995-39fa32b9b5dc",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Марина",
+      "last_name": "Богданова",
+      "email": "asdsadsadfsad@mail.ru",
+      "phone": "89224447755",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/846e9042d51a47ea84170ab28e29c981.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "90fb2abd-58ea-4c9e-b74e-3b29afeb9333",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Ирина",
+      "last_name": "Демидова",
+      "email": "irinad@mail.ru",
+      "phone": "89235147229",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/fcfeb0f2645b49e6872c3ee9b7e2af63.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "ae50bb75-7888-491d-94de-5a67772f5a17",
+    "fields": {
+      "content": "",
+      "position": "pool",
+      "first_name": "Галина",
+      "last_name": "Сухова",
+      "email": "fa@mail.ru",
+      "phone": "+79522322456",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/263f4cf34e1a49cc9db145a1c4587b9b.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "ae824706-56d8-4cea-81a8-15a0e6b6cf23",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Александра",
+      "last_name": "Граммова",
+      "email": "gr@mail.ru",
+      "phone": "89112221144",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/b1f6bf8c3d2047d1b43848c0ca3a063e.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "c7e954bd-5f8e-4079-8bb7-f97b64ac3520",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Надежда",
+      "last_name": "Кирова",
+      "email": "nasdaddkir@mail.ru",
+      "phone": "+79235122317",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/a4312cd01ee44adc82f34d0727bb73ad.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "efecf502-d3fc-4fd2-8031-8326e87f37f7",
+    "fields": {
+      "content": "",
+      "position": "fitness",
+      "first_name": "Карина",
+      "last_name": "Вирова",
+      "email": "karina@mail.ru",
+      "phone": "89114442299",
+      "education": "",
+      "keywords": "",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/32a00391b5d04c12a436daa10f56a270.webp",
+      "services": []
+    }
+  },
+  {
+    "model": "trainers.trainer",
+    "pk": "f18d0147-108c-4c31-930c-ec8c370dd34d",
+    "fields": {
+      "content": "",
+      "position": "yoga",
+      "first_name": "Лейла",
+      "last_name": "Камова",
+      "email": "kaaaasas@mail.ru",
+      "phone": "89115555566",
+      "education": "",
+      "keywords": "сила,набор мышечной массы,диета,сила",
+      "experience": 0,
+      "avatar": "uploads/trainer/2025/07/f22fba85b7954a4d96edde4511fba4bc.webp",
+      "services": [
+        "22b3c7f7-2db1-4782-bf55-789a87cf26bc",
+        "353c88e8-d005-41fe-818c-c29d72b67921",
+        "42f16cd7-0f24-4497-bb35-425bcf8abe14",
+        "af0d95a0-1665-496c-b7a3-18224a3caaf9",
+        "afd4b1a5-8405-45d4-8d0b-09d4d898376f",
+        "b761dcbc-8463-4947-b5cf-d25b8244368f",
+        "e958a7bb-31bd-4713-807e-b981b59e7b67",
+        "f77fcf50-750a-4ac1-aa79-117247a9bded"
+      ]
+    }
+  },
+  {
+    "model": "trainers.trainerrate",
+    "pk": 1,
+    "fields": {
+      "title": "basic",
+      "trainer": "f18d0147-108c-4c31-930c-ec8c370dd34d",
+      "count_minutes": 45,
+      "price": 1000,
+      "description": ""
+    }
+  },
+  {
+    "model": "trainers.trainerrate",
+    "pk": 2,
+    "fields": {
+      "title": "vip",
+      "trainer": "f18d0147-108c-4c31-930c-ec8c370dd34d",
+      "count_minutes": 60,
+      "price": 1500,
+      "description": ""
+    }
+  },
+  {
+    "model": "trainers.trainerrate",
+    "pk": 3,
+    "fields": {
+      "title": "premium",
+      "trainer": "f18d0147-108c-4c31-930c-ec8c370dd34d",
+      "count_minutes": 75,
+      "price": 2000,
+      "description": ""
+    }
+  },
+  {
+    "model": "trainers.trainersocialnetwork",
+    "pk": 1,
+    "fields": {
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1",
+      "type": "vk",
+      "link": "https://ya.ru/"
+    }
+  },
+  {
+    "model": "trainers.trainersocialnetwork",
+    "pk": 2,
+    "fields": {
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1",
+      "type": "telegram",
+      "link": "example"
+    }
+  },
+  {
+    "model": "trainers.trainersocialnetwork",
+    "pk": 3,
+    "fields": {
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1",
+      "type": "whatsapp",
+      "link": "example"
+    }
+  },
+  {
+    "model": "trainers.trainerreviews",
+    "pk": "487f20c3-183f-4216-af24-85c6c6849f38",
+    "fields": {
+      "created_at": "2025-07-21T15:01:50.714Z",
+      "updated_at": "2025-07-28T20:02:28.800Z",
+      "first_name": "Сергей",
+      "last_name": "Бойцов",
+      "email": "serj2626@mail.ru",
+      "rating": 5,
+      "text": "goog girl",
+      "verified": true,
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1"
+    }
+  },
+  {
+    "model": "trainers.trainerreviews",
+    "pk": "59cd036c-6584-48bf-a9de-feb1e2e6580e",
+    "fields": {
+      "created_at": "2025-07-28T20:03:17.534Z",
+      "updated_at": "2025-07-28T20:04:11.798Z",
+      "first_name": "Sergey",
+      "last_name": "Boytsov",
+      "email": "serj2626@mail.ru",
+      "rating": 5,
+      "text": "Самая красивая шлюха",
+      "verified": true,
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1"
+    }
+  },
+  {
+    "model": "trainers.trainerreviews",
+    "pk": "7b616615-511c-4967-b56b-1e139add67e8",
+    "fields": {
+      "created_at": "2025-07-30T15:22:08.989Z",
+      "updated_at": "2025-07-30T15:22:08.989Z",
+      "first_name": "Галина",
+      "last_name": "Петрова",
+      "email": "gal@mail.ru",
+      "rating": 5,
+      "text": "офигенная",
+      "verified": true,
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1"
+    }
+  },
+  {
+    "model": "trainers.trainerreviews",
+    "pk": "b579fdc2-666d-48ec-b762-e52ccd3d2110",
+    "fields": {
+      "created_at": "2025-07-30T15:21:32.747Z",
+      "updated_at": "2025-07-30T15:21:32.747Z",
+      "first_name": "Галина",
+      "last_name": "Петрова",
+      "email": "gal@mail.ru",
+      "rating": 5,
+      "text": "классная",
+      "verified": true,
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1"
+    }
+  },
+  {
+    "model": "trainers.trainerreviews",
+    "pk": "f99e0b59-362d-4919-9324-f93f81fb2d89",
+    "fields": {
+      "created_at": "2025-07-30T15:21:54.975Z",
+      "updated_at": "2025-07-30T15:21:54.975Z",
+      "first_name": "Sergey",
+      "last_name": "Boytsov",
+      "email": "serj2626@mail.ru",
+      "rating": 5,
+      "text": "супер",
+      "verified": true,
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1"
+    }
+  },
+  {
+    "model": "trainers.trainerreviews",
+    "pk": "fe0ef248-1d66-4646-a734-5446d8897fa8",
+    "fields": {
+      "created_at": "2025-07-30T15:21:44.462Z",
+      "updated_at": "2025-07-30T15:21:44.462Z",
+      "first_name": "Сергей",
+      "last_name": "Бойцов",
+      "email": "serj2626@mail.ru",
+      "rating": 5,
+      "text": "кайф",
+      "verified": true,
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1"
+    }
+  },
+  {
+    "model": "trainers.slot",
+    "pk": 1,
+    "fields": {
+      "created_at": "2025-07-13T09:26:11.313Z",
+      "updated_at": "2025-07-13T09:35:28.490Z",
+      "date": "2025-07-13",
+      "start": "12:26:09",
+      "end": "13:15:10",
+      "free": true,
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1"
+    }
+  },
+  {
+    "model": "trainers.slot",
+    "pk": 2,
+    "fields": {
+      "created_at": "2025-07-13T09:38:01.348Z",
+      "updated_at": "2025-07-13T09:38:01.348Z",
+      "date": "2025-07-13",
+      "start": "15:37:00",
+      "end": "16:37:00",
+      "free": true,
+      "trainer": "29d8883f-c446-4788-aaf1-3f44855465b1"
+    }
+  }
+]

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html, mark_safe
 
-from common.admin import AdminImagePreviewMixin, AdminShortDescriptionMixin
+from common.admin import AdminImagePreviewMixin, AdminShortDescriptionMixin, AdminLimitMixin
 
 from .models import (
     FAQ,
@@ -91,11 +91,11 @@ class PostAdmin(admin.ModelAdmin):
 
 
 @admin.register(FAQ)
-class FAQAdmin(admin.ModelAdmin):
+class FAQAdmin(AdminLimitMixin, admin.ModelAdmin):
     """
     Админка вопросов и ответов
     """
-
+    singleton_limit = 16
     list_display = ("question", "answer")
 
 

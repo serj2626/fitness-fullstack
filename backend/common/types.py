@@ -26,8 +26,8 @@ SERVICES_TYPE = [
     ("yoga", "Йога"),
     ("spa", "SPA"),
     ("cosmetology", "Косметология"),
-    ("cycle", "Велотренажер"),
-    ("water aerobics", "Водное аэробик"),
+    ("cycle", "Велотренажеры"),
+    ("water aerobics", "Водная аэробика"),
     ("dancing", "Танцы"),
     ("group", "Групповые занятия"),
 ]

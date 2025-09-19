@@ -1,15 +1,16 @@
 from django.contrib import admin
 
-from .models import Contact, Feedback, Footer, FooterIcon, FooterLink
+from .models import Contact, Feedback, Footer, Navigation
 
 
-class FooterLinkInline(admin.TabularInline):
-    model = FooterLink
+class NavigationInline(admin.TabularInline):
+    model = Navigation
     extra = 1
+    max_num = 4
 
 
-class FooterIconInline(admin.TabularInline):
-    model = FooterIcon
+class ContactInline(admin.TabularInline):
+    model = Contact
     extra = 1
 
 
@@ -18,15 +19,10 @@ class FooterAdmin(admin.ModelAdmin):
     """Admin View for Footer)"""
 
     list_display = ("site_name", "copyright")
-    inlines = [FooterLinkInline, FooterIconInline]
-
-
-@admin.register(Contact)
-class ContactAdmin(admin.ModelAdmin):
-    """Admin View for Contact)"""
-
-    list_display = ("type", "value")
-    search_fields = ("type", "value")
+    inlines = [
+        NavigationInline,
+        ContactInline,
+    ]
 
 
 @admin.register(Feedback)

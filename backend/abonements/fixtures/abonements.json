@@ -1,0 +1,129 @@
+[
+  {
+    "model": "abonements.abonement",
+    "pk": 1,
+    "fields": {
+      "title": "basic",
+      "description": "Пиздатый",
+      "price": 12000,
+      "number_of_months": 9,
+      "is_popular": false,
+      "sale": false,
+      "freeze_days": 0,
+      "slug": "basic"
+    }
+  },
+  {
+    "model": "abonements.abonement",
+    "pk": 2,
+    "fields": {
+      "title": "vip",
+      "description": "Охуенный",
+      "price": 18000,
+      "number_of_months": 12,
+      "is_popular": true,
+      "sale": false,
+      "freeze_days": 30,
+      "slug": "vip"
+    }
+  },
+  {
+    "model": "abonements.abonement",
+    "pk": 3,
+    "fields": {
+      "title": "premium",
+      "description": "Мега пиздатый и охуенный",
+      "price": 26000,
+      "number_of_months": 15,
+      "is_popular": false,
+      "sale": false,
+      "freeze_days": 60,
+      "slug": "premium"
+    }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 1,
+    "fields": { "title": "gym", "abonement": 1 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 2,
+    "fields": { "title": "pool", "abonement": 1 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 3,
+    "fields": { "title": "dancing", "abonement": 1 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 4,
+    "fields": { "title": "cycle", "abonement": 1 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 5,
+    "fields": { "title": "gym", "abonement": 2 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 6,
+    "fields": { "title": "pool", "abonement": 2 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 7,
+    "fields": { "title": "yoga", "abonement": 2 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 8,
+    "fields": { "title": "cycle", "abonement": 2 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 9,
+    "fields": { "title": "water aerobics", "abonement": 2 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 10,
+    "fields": { "title": "gym", "abonement": 3 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 11,
+    "fields": { "title": "pool", "abonement": 3 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 12,
+    "fields": { "title": "yoga", "abonement": 3 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 13,
+    "fields": { "title": "spa", "abonement": 3 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 14,
+    "fields": { "title": "cosmetology", "abonement": 3 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 15,
+    "fields": { "title": "cycle", "abonement": 3 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 16,
+    "fields": { "title": "water aerobics", "abonement": 3 }
+  },
+  {
+    "model": "abonements.abonementservice",
+    "pk": 17,
+    "fields": { "title": "dancing", "abonement": 3 }
+  }
+]

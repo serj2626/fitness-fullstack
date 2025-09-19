@@ -62,7 +62,7 @@ class Post(BaseTitle, BaseDate, BaseContent):
         return self.title
 
 
-class Service(BaseID):
+class Service(BaseID, BaseContent, BaseDate):
     """
     Услуга
     """
@@ -82,6 +82,7 @@ class Service(BaseID):
     class Meta:
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
+        unique_together = ("type",)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -138,6 +139,8 @@ class Advantage(BaseTitle, BaseDate):
         "Иконка",
         upload_to="advantages/icons/",
         validators=[validate_svg],
+        blank=True,
+        null=True,
     )
     alt = models.CharField("Описание к иконке", max_length=255)
 

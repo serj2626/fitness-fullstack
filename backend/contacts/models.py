@@ -1,11 +1,12 @@
 from django.db import models
 
 from common.models import BaseDate, BaseTitle
-from common.types import SOCIAL_NETWORKS_TYPE
 
 CONTACTS_TYPE = [
     ("phone", "Телефон"),
     ("mail", "Почта"),
+    ("tg", "Telegram"),
+    ("whatsapp", "WhatsApp"),
     ("address", "Адрес"),
     ("mode", "Режим работы"),
     ("latitude", "Широта"),
@@ -35,10 +36,19 @@ class Footer(models.Model):
     site_name = models.CharField(
         max_length=100, default="AlfaSms", verbose_name="Название сайта"
     )
+    subtitle = models.CharField(
+        max_length=100, default="AlfaSms", verbose_name="Подзаголовок"
+    )
     copyright = models.CharField(
         "Копирайт",
         max_length=255,
-        default="© 2025 DVFitness. All rights reserved.",
+        default="© 2025 ИП Соколов. Все права защищены.",
+    )
+    developer_name = models.CharField(
+        "Разработчик", max_length=100, blank=True, null=True
+    )
+    developer_link = models.URLField(
+        "Ссылка на разработчика", max_length=100, blank=True, null=True
     )
 
     def __str__(self):
@@ -49,18 +59,19 @@ class Footer(models.Model):
         verbose_name_plural = "Футер"
 
 
-class FooterLink(BaseTitle):
+class Navigation(models.Model):
     """
     Модель ссылок для футера
     """
 
-    link = models.CharField("Ссылка", max_length=255)
     footer = models.ForeignKey(
         Footer,
         on_delete=models.CASCADE,
-        related_name="links",
+        related_name="navigations",
         verbose_name="Футер",
     )
+    title = models.CharField("Ссылка", max_length=255, unique=True)
+    link = models.CharField("Значение ссылки", max_length=255)
 
     def __str__(self):
         return f"Ссылка в футере {self.title}"
@@ -69,29 +80,8 @@ class FooterLink(BaseTitle):
         verbose_name = "Ссылка в футере"
         verbose_name_plural = "Ссылки в футере"
 
-
-class FooterIcon(models.Model):
-    """
-    Модель иконок для футера
-    """
-
-    title = models.CharField(
-        "Название", max_length=255, unique=True, choices=SOCIAL_NETWORKS_TYPE
-    )
-    link = models.CharField("Ссылка", max_length=255)
-    footer = models.ForeignKey(
-        Footer,
-        on_delete=models.CASCADE,
-        related_name="icons",
-        verbose_name="Футер",
-    )
-
     def __str__(self):
-        return f"Ссылка в футере {self.title}"
-
-    class Meta:
-        verbose_name = "Иконка в футере"
-        verbose_name_plural = "Иконки в футере"
+        return f"Контакт {self.title}"
 
 
 class Contact(models.Model):
@@ -99,6 +89,12 @@ class Contact(models.Model):
     Модель контактов
     """
 
+    footer = models.ForeignKey(
+        Footer,
+        on_delete=models.CASCADE,
+        related_name="contacts",
+        verbose_name="Футер",
+    )
     type = models.CharField(
         max_length=50,
         choices=CONTACTS_TYPE,
@@ -106,11 +102,12 @@ class Contact(models.Model):
         verbose_name="Тип",
         unique=True,
     )
-    value = models.TextField(max_length=500, verbose_name="Значение")
+    value = models.CharField(max_length=500, verbose_name="Значение")
 
     class Meta:
         verbose_name = "Контакт"
         verbose_name_plural = "Контакты"
+        unique_together = ("type", "value")
 
     def __str__(self):
         return f"Контакт {self.get_type_display()}"
