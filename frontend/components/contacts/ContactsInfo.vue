@@ -15,17 +15,20 @@ defineProps<{
         <div class="contacts-info__list-mail-title">
           {{ mail.type_display || "Почта" }}
         </div>
-        <div class="contacts-info__list-mail-value">
+        <a
+          :href="`mailto:${mail.value}`"
+          class="contacts-info__list-mail-value"
+        >
           {{ mail.value || "bs-dev@bk.ru" }}
-        </div>
+        </a>
       </div>
       <div class="contacts-info__list-phone">
         <div class="contacts-info__list-phone-title">
           {{ phone.type_display || "Телефон" }}
         </div>
-        <div class="contacts-info__list-phone-value">
+        <a :href="`tel:${phone.value}`" class="contacts-info__list-phone-value">
           {{ phone.value || "+7 (999) 999-99-99" }}
-        </div>
+        </a>
       </div>
       <div class="contacts-info__list-mode">
         <div class="contacts-info__list-mode-title">

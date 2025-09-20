@@ -31,6 +31,7 @@ const { data: footerData } =
       :tg="footerData?.tg?.value"
       :whatsapp="footerData?.whatsapp.value"
       :mail="footerData?.mail.value"
+      :phone="footerData?.phone.value"
     />
   </footer>
 </template>

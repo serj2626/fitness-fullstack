@@ -4,22 +4,27 @@ const {
   tg = "",
   whatsapp = "",
   mail = "",
+  phone = "",
 } = defineProps<{
   tg?: string;
   whatsapp?: string;
   mail?: string;
+  phone?: string;
 }>();
 </script>
 <template>
   <div class="footer-socials">
-    <a :href="tg" class="footer-socials__link">
+    <a :href="tg" class="footer-socials__link" title="telegram">
       <Icon :name="SocialIcons.TELEGRAM" class="footer-socials__link-icon" />
     </a>
-    <a :href="whatsapp" class="footer-socials__link">
+    <a :href="whatsapp" class="footer-socials__link" title="whatsapp">
       <Icon :name="SocialIcons.WHATSAPP" class="footer-socials__link-icon" />
     </a>
-    <a :href="`mailto:${mail}`" class="footer-socials__link">
+    <a :href="`mailto:${mail}`" class="footer-socials__link" title="почта">
       <Icon :name="SocialIcons.MAIL" class="footer-socials__link-icon" />
+    </a>
+    <a :href="`phone:${phone}`" class="footer-socials__link" title="телефон">
+      <Icon :name="SocialIcons.PHONE" class="footer-socials__link-icon" />
     </a>
   </div>
 </template>
@@ -27,7 +32,7 @@ const {
 .footer-socials {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 5px;
 
   &__link {
     display: flex;
@@ -38,7 +43,6 @@ const {
     border-radius: 50%;
     background-color: transparent;
     color: #fff;
-    font-size: 20px;
     transition: all 0.3s ease;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 
@@ -46,7 +50,7 @@ const {
       transform: translateY(-3px) scale(1.05);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 
-      .footer-socials__link-icon{
+      .footer-socials__link-icon {
         color: $accent;
       }
     }
@@ -80,5 +84,4 @@ const {
     // }
   }
 }
-
 </style>
