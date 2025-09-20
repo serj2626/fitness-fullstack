@@ -1,11 +1,11 @@
 from datetime import timedelta
-
+from django.core.validators import FileExtensionValidator
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.timesince import timesince
-
+from common.validators import validate_image_size
 from common.models import BaseDate, BaseID, BaseReview
 from common.types import (
     POSITIONS_TYPE,
@@ -22,6 +22,10 @@ from common.validators import (
 from gym.models import Service
 
 User = get_user_model()
+
+
+def get_path_by_coach_avatar(instance, filename):
+    return f'trainers/{instance.position}/{instance.id}/{filename}'
 
 
 class Trainer(BaseID):
@@ -55,10 +59,15 @@ class Trainer(BaseID):
     )
     avatar = models.ImageField(
         "Аватар",
-        upload_to=dynamic_upload_to,
+        upload_to=get_path_by_coach_avatar,
         blank=True,
         null=True,
-        validators=[validate_image_extension_and_format],
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            ),
+            validate_image_size,
+        ],
     )
     services = models.ManyToManyField(
         Service, blank=True, verbose_name="Все услуги"

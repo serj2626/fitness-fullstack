@@ -1,5 +1,5 @@
 import re
-
+from django.template.defaultfilters import filesizeformat
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
@@ -70,3 +70,17 @@ def validate_svg(file):
 
     # Важно: вернем указатель в начало
     file.seek(0)
+
+
+def validate_image_size(value):
+    """
+    Проверка размера изображения
+    """
+
+    filesize = value.size
+    max_size = 2 * 1024 * 1024  # 2MB
+    if filesize > max_size:
+        raise ValidationError(
+            f'Максимальный размер файла {filesizeformat(max_size)}. '
+            f'Ваш файл {filesizeformat(filesize)}'
+        )

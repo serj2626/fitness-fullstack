@@ -2,7 +2,7 @@
 import "swiper/css";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { IServicesResponse } from "~/types";
-
+const modalsStore = useModalsStore();
 defineProps<{ services: IServicesResponse[] }>();
 </script>
 
@@ -23,7 +23,12 @@ defineProps<{ services: IServicesResponse[] }>();
       :tablet-between="0"
       :auto-delay="0"
     >
-      <swiper-slide v-for="slide in services" :key="slide.id" class="slide">
+      <swiper-slide
+        v-for="slide in services"
+        :key="slide.id"
+        class="slide"
+        @click="modalsStore.openModal('service')"
+      >
         <p class="slide__title">{{ slide.alt }}</p>
         <button class="slide__btn">
           <Icon class="slide__btn-icon" :name="HeroIcons.UP" />
