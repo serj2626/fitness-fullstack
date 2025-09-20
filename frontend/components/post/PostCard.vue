@@ -29,9 +29,9 @@ defineProps<{ post: IPost | null }>();
       />
     </div>
     <div class="post-card__content">
-      <h3 class="post-card__content-title">
+      <p class="post-card__content-title">
         {{ post?.title }}
-      </h3>
+      </p>
       <div class="post-card__content-meta">
         <span class="post-card__content-date">
           {{ formatDate(post!.created_at) }}
@@ -42,6 +42,7 @@ defineProps<{ post: IPost | null }>();
 </template>
 <style scoped lang="scss">
 .post-card {
+  height: 100%;
   position: relative;
   background: darken($bg, 3%);
   border-radius: 8px;
@@ -109,15 +110,18 @@ defineProps<{ post: IPost | null }>();
   }
   &__content {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
     &-title {
       font-size: 1.3rem;
       margin-bottom: 10px;
       color: $white;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      flex: 1;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // display: -webkit-box;
+      // -webkit-line-clamp: 2;
+      // -webkit-box-orient: vertical;
     }
     &-excerpt {
       color: $header_link;

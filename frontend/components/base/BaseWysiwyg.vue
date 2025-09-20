@@ -17,6 +17,10 @@ defineProps({
   @include mediaTablet {
     font-size: 16px;
   }
+  :deep(*) {
+    background-color: transparent !important;
+    // color: white !important;
+  }
   :deep(h1) {
     font-weight: 700;
   }

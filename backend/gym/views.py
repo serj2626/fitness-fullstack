@@ -47,14 +47,11 @@ class AdvantageListView(generics.ListAPIView):
     serializer_class = AdvantageSerializer
 
 
+@extend_schema(tags=["Посты"], summary="Детальное отображение новости")
 class PostDetailView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = "slug"
-
-    @extend_schema(tags=["Посты"], summary="Детальное отображение новости")
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
 
 
 @extend_schema(tags=["Посты"], summary="Последние новости")
@@ -82,16 +79,13 @@ class FAQListView(generics.ListAPIView):
 
 
 @extend_schema(tags=[TAG], summary="Услуги")
-@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
+@method_decorator(cache_page(get_cache_ttl(5)), name='dispatch')
 class ServiceListView(generics.ListAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
 
 
+@extend_schema(tags=[TAG], summary="Отзывы", description="Создание отзывов")
 class GymReviewsListView(generics.CreateAPIView):
     queryset = GymReviews.objects.all()
     serializer_class = GymReviewsSerializer
-
-    @extend_schema(tags=[TAG], summary="Отзывы")
-    def post(self, request):
-        return super().create(request)

@@ -4,20 +4,12 @@ from common.admin import AdminLimitMixin, AdminShortDescriptionMixin
 
 from .models import (
     Abonement,
-    AbonementService,
     Discount,
     GymVisit,
     OrderAbonement,
 )
 
 
-class AbonementServiceLineAdmin(admin.TabularInline):
-    """
-    Админка для услуг абонемента
-    """
-
-    model = AbonementService
-    extra = 1
 
 
 @admin.register(Discount)
@@ -51,8 +43,8 @@ class AbonementAdmin(
         "slug",
         "is_popular",
     )
+    filter_horizontal = ("services",)
 
-    inlines = [AbonementServiceLineAdmin]
 
 
 @admin.register(OrderAbonement)

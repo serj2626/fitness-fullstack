@@ -5,7 +5,7 @@ from django.db import models
 from django.forms import ValidationError
 from django.utils import timezone
 from django.utils.text import slugify
-
+from gym.models import Service
 from common.models import BaseDate, BaseID
 from common.types import ABONEMENT_TYPES, SERVICES_TYPE
 
@@ -25,6 +25,12 @@ class Abonement(models.Model):
     sale = models.BooleanField("Акция", default=False)
     freeze_days = models.PositiveSmallIntegerField(
         "Заморозка дней", null=True, blank=True, default=0
+    )
+    services = models.ManyToManyField(
+        Service,
+        related_name="abonements",
+        verbose_name="Услуги",
+        blank=True,
     )
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
 
@@ -53,28 +59,6 @@ class Abonement(models.Model):
 
     def __str__(self):
         return f"{self.get_title_display()} - {self.price}₽"
-
-
-class AbonementService(models.Model):
-    """
-    Услуга абонемента
-    """
-
-    title = models.CharField("Название", max_length=100, choices=SERVICES_TYPE)
-    abonement = models.ForeignKey(
-        Abonement,
-        on_delete=models.CASCADE,
-        related_name="services",
-        verbose_name="Абонемент",
-    )
-
-    class Meta:
-        verbose_name = "Услуга абонемента"
-        verbose_name_plural = "Услуги абонементов"
-        unique_together = ("abonement", "title")
-
-    def __str__(self):
-        return f"{self.get_title_display()}"
 
 
 class Discount(models.Model):

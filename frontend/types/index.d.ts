@@ -75,20 +75,17 @@ interface IFooterResponse {
   }[];
 }
 
-interface IServiceAbonemnet {
-  title: string;
-}
-
 export interface IMainAbonementAPIResponse {
   id: number;
+  services: string[];
   title: string;
-  services: IServiceAbonemnet[];
   description: string;
   price: number;
   number_of_months: number;
   is_popular: boolean;
-  slug: string;
+  sale: boolean;
   freeze_days: number;
+  slug: string;
 }
 
 export interface IMainAbonementResponse {

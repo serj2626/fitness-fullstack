@@ -1,17 +1,6 @@
 from rest_framework import serializers
 
-from .models import Abonement, AbonementService, GymVisit
-
-
-class AbonementServiceSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-
-    class Meta:
-        model = AbonementService
-        fields = ("title",)
-
-    def get_title(self, obj):
-        return obj.get_title_display()
+from .models import Abonement, GymVisit
 
 
 class GymVisitSerializer(serializers.ModelSerializer):
@@ -26,12 +15,14 @@ class GymVisitSerializer(serializers.ModelSerializer):
 
 
 class AbonementSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    services = AbonementServiceSerializer(many=True)
-
+    # title = serializers.SerializerMethodField()
+    services = serializers.SerializerMethodField()
     class Meta:
         model = Abonement
         fields = "__all__"
 
-    def get_title(self, obj):
-        return obj.get_title_display()
+    def get_services(self, obj):
+        return list(map(lambda x: x.get_type_display(), obj.services.all()))
+
+    # def get_title(self, obj):
+    #     return obj.get_title_display()

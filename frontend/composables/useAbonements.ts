@@ -7,14 +7,14 @@ export const useAbonements = () => {
     "main-page-abonements-list-info",
     () => $api<IMainAbonementAPIResponse[]>(api.abonements.list),
     {
-      transform: (data) => {
-        return data.map((abonement) => {
-          return {
-            ...abonement,
-            services: abonement.services.map((service) => service.title),
-          };
-        });
-      },
+      // transform: (data) => {
+      //   return data.map((abonement) => {
+      //     return {
+      //       ...abonement,
+      //       services: abonement.services.map((service) => service.title),
+      //     };
+      //   });
+      // },
       getCachedData: (key) => {
         const cached = useNuxtData(key).data.value;
         return cached || undefined;

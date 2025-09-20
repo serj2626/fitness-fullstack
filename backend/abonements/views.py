@@ -9,13 +9,10 @@ from common.utils import get_cache_ttl
 TAG = "Абонементы"
 
 
+@extend_schema(tags=[TAG], summary="Список визитов в фитнес-клуб")
 class GymVisitListView(generics.ListAPIView):
     queryset = GymVisit.objects.all()
     serializer_class = GymVisitSerializer
-
-    @extend_schema(tags=[TAG], summary="Список визитов в фитнес-клуб")
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
 
 
 @extend_schema(tags=[TAG], summary="Список абонементов")

@@ -108,6 +108,7 @@ class ServiceSerializer(serializers.ModelSerializer):
             "slug",
             "avatar",
             "img_url",
+            "content"
         )
 
     def get_alt(self, obj):

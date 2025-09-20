@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "django_ckeditor_5",
     "rest_framework_simplejwt",
     "drf_spectacular",
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
