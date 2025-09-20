@@ -36,7 +36,6 @@ SOCIAL_NETWORKS_TYPE = [
     ("vk", "Вконтакте"),
     ("telegram", "Телеграм"),
     ("whatsapp", "Ватсап"),
-    ("linkedin", "Linkedin"),
 ]
 
 

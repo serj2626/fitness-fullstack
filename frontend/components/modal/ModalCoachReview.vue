@@ -1,23 +1,15 @@
 <script lang="ts" setup>
 const modalsStore = useModalsStore();
 const isClosing = ref(false);
-const isSubmitted = ref(false);
 
-function closeListReviews() {
+function closeModalReview() {
   isClosing.value = true;
-}
-
-function handleSubmit(e: Event) {
-  e.preventDefault();
-  isSubmitted.value = true;
-  setTimeout(() => closeListReviews(), 1500); // Закрываем после успешной отправки
-}
-
-function handleAnimationEnd() {
-  if (isClosing.value) {
+  setTimeout(() => {
     modalsStore.closeModal("reviewCoachForm");
-  }
+  }, 300);
 }
+
+useEscapeKey(closeModalReview);
 
 interface FormField<T> {
   value: T;
@@ -41,91 +33,112 @@ const formData = reactive<FeedbackForm>({
 </script>
 
 <template>
-  <div class="modal-coach-review__card">
-    <BaseButtonClose
-      top="15px"
-      right="15px"
-      :size="36"
-      @click="modalsStore.closeModal('reviewCoachForm')"
-    />
+  <div class="modal-overlay" @click.self="closeModalReview">
+    <div class="modal-coach-review__card" :class="{ closing: isClosing }">
+      <BaseButtonClose
+        top="15px"
+        right="15px"
+        :size="36"
+        @click="closeModalReview"
+      />
 
-    <div class="modal-coach-review__content">
-      <h2 class="modal-coach-review__title">Оцените тренера</h2>
-      <p class="modal-coach-review__subtitle">
-        Ваше мнение поможет другим сделать правильный выбор
-      </p>
+      <div class="modal-coach-review__content">
+        <h2 class="modal-coach-review__title">Оцените тренера</h2>
+        <p class="modal-coach-review__subtitle">
+          Ваше мнение поможет другим сделать правильный выбор
+        </p>
 
-      <form class="modal-coach-review__form">
-        <RatingComponent class="modal-coach-review__rating" />
+        <form class="modal-coach-review__form" @submit="closeModalReview">
+          <RatingComponent class="modal-coach-review__rating" />
 
-        <div class="modal-coach-review__form-grid">
-          <BaseInput
-            v-model:input-value="formData.name.value"
-            v-model:error="formData.name.error"
-            class="modal-coach-review__input"
-            placeholder="Ваше имя"
+          <div class="modal-coach-review__form-grid">
+            <BaseInput
+              v-model:input-value="formData.name.value"
+              v-model:error="formData.name.error"
+              class="modal-coach-review__input"
+              placeholder="Ваше имя"
+              required
+            />
+            <BaseInput
+              v-model:input-value="formData.email.value"
+              v-model:error="formData.email.error"
+              class="modal-coach-review__input"
+              placeholder="Ваш email"
+              type="email"
+              required
+            />
+          </div>
+
+          <BaseInputTextArea
+            v-model:input-value="formData.message.value"
+            v-model:error-value="formData.message.error"
+            class="modal-coach-review__textarea"
+            placeholder="Расскажите о вашем опыте..."
             required
           />
-          <BaseInput
-            v-model:input-value="formData.email.value"
-            v-model:error="formData.email.error"
-            class="modal-coach-review__input"
-            placeholder="Ваш email"
-            type="email"
-            required
+
+          <BaseRecaptcha
+            v-model:input-value="formData.captcha.value"
+            class="modal-coach-review__recaptcha"
           />
-        </div>
 
-        <BaseInputTextArea
-          v-model:input-value="formData.message.value"
-          v-model:error-value="formData.message.error"
-          class="modal-coach-review__textarea"
-          placeholder="Расскажите о вашем опыте..."
-          required
-        />
-
-        <BaseRecaptcha
-          v-model:input-value="formData.captcha.value"
-          class="modal-coach-review__recaptcha"
-        />
-
-        <BaseButton
-          class="modal-coach-review__submit"
-          type="submit"
-          label="Отправить отзыв"
-          size="lg"
-          style="width: 100%;"
-        />
-      </form>
+          <BaseButton
+            class="modal-coach-review__submit"
+            type="submit"
+            label="Отправить отзыв"
+            size="lg"
+            style="width: 100%"
+          />
+        </form>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1000;
+}
+
 .modal-coach-review {
   &__card {
     position: relative;
     width: 100%;
-    max-width: 600px;
-    height: 100%;
-    // max-height: 700px;
-    margin-inline: auto;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    border-radius: 16px;
+    max-width: 100%;
+    height: 100vh;
+    margin-left: 0;
+    background: $bg;
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 2;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideInLeft 0.3s ease-out forwards;
 
-    @include mediaMobile {
+    &.closing {
+      animation: slideOutLeft 0.3s ease-in forwards;
+    }
+
+    @include mediaTablet {
       padding: 30px 20px;
-      height: 100vh;
-      max-height: 100vh;
-      border-radius: 0;
+      max-width: 30vw;
+    }
+
+    @include mediaLaptop {
+      max-width: 40vw;
     }
   }
+
   &__content {
     height: 100%;
     display: flex;
@@ -217,6 +230,28 @@ const formData = reactive<FeedbackForm>({
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
     }
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
   }
 }
 

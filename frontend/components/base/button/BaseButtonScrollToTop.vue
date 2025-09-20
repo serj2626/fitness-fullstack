@@ -43,7 +43,7 @@ onUnmounted(() => {
   cursor: pointer;
   box-shadow: 0 0 15px $accent;
   transition: all 0.3s ease;
-  z-index: 999;
+  z-index: 150;
   animation: scaleBtn 0.5s linear;
 
   &:hover {

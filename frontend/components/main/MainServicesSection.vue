@@ -27,7 +27,7 @@ defineProps<{ services: IServicesResponse[] }>();
         v-for="slide in services"
         :key="slide.id"
         class="slide"
-        @click="modalsStore.openModal('service')"
+        @click="modalsStore.openModal('service', slide)"
       >
         <p class="slide__title">{{ slide.alt }}</p>
         <button class="slide__btn">

@@ -107,6 +107,7 @@ export interface IServicesResponse {
   slug: string;
   avatar: string;
   img_url: string;
+  content: string;
 }
 
 // СТРАНИЦА КОНТАКТОВ
