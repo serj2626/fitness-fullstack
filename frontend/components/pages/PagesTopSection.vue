@@ -13,7 +13,7 @@ defineProps<{ title: string; description?: string }>();
 .pages-top-section {
   background-color: $txt;
   color: $white;
-  padding: 180px 0;
+  padding: 120px 0;
   text-align: center;
 
   h1 {

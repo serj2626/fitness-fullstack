@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { breadcrumbsCoachDetailPage } from "~/assets/data/breadcrumbs.data";
+import {
+  breadcrumbsCoachDetailPage,
+  breadcrumbsCoachesPage,
+} from "~/assets/data/breadcrumbs.data";
 import { coaches } from "~/assets/data/moke.data";
 
 const trainerStore = useTrainerStore();
@@ -45,7 +48,13 @@ onUnmounted(() => {
 <template>
   <div class="coaches-detail-page">
     <div class="container">
-      <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachDetailPage" />
+      <BaseBreadCrumbs
+        :breadcrumbs="breadcrumbsCoachesPage"
+        :current-page="{
+          title: trainer?.first_name + ' ' + trainer?.last_name,
+          url: `/coaches/${coachID}`,
+        }"
+      />
 
       <div class="coaches-detail-page__layout">
         <CoachDetailProfile

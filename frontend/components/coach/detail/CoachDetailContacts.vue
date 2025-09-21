@@ -16,6 +16,7 @@ function getIcon(title: string) {
 }
 
 const getListKeywords = computed(() => {
+  if(!props.keywords) return [];
   return props.keywords.split(",");
 });
 </script>
@@ -97,7 +98,7 @@ const getListKeywords = computed(() => {
     <div class="coach-detail-contacts__description">
       <h3 class="coach-detail-contacts__description-title">О тренере</h3>
       <ul
-        v-if="getListKeywords.length > 0"
+        v-if="getListKeywords && getListKeywords.length > 0"
         class="coach-detail-contacts__description-keywords"
       >
         <BaseButton

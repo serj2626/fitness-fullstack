@@ -18,5 +18,5 @@ class GymVisitListView(generics.ListAPIView):
 @extend_schema(tags=[TAG], summary="Список абонементов")
 @method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
 class AbonementListView(generics.ListAPIView):
-    queryset = Abonement.objects.all()
+    queryset = Abonement.objects.prefetch_related('services').all()
     serializer_class = AbonementSerializer

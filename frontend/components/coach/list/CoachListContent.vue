@@ -9,7 +9,7 @@ defineProps<{
   <div class="coach-list-content">
     <!-- <CoachFilters class="coach-list-content__filters" /> -->
     <div class="coach-list-content__trainers">
-      <TrainerCard v-for="trainer in coaches" :key="trainer.id" :trainer />
+      <CoachCard v-for="trainer in coaches" :key="trainer.id" :trainer />
     </div>
   </div>
 </template>

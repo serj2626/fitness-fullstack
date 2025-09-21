@@ -4,37 +4,37 @@ import type { ICoach } from "~/types";
 defineProps<{ trainer: ICoach }>();
 </script>
 <template>
-  <div class="card">
-    <div class="card__image-wrapper">
+  <div class="coach-card">
+    <div class="coach-card__image-wrapper">
       <img
-        class="card__image"
+        class="coach-card__image"
         :src="trainer.avatar"
         :alt="trainer.first_name"
       />
-      <span class="card__position">{{ trainer.position }}</span>
+      <span class="coach-card__position">{{ trainer.position }}</span>
     </div>
-    <div class="card__body">
-      <h3 class="card__name">
+    <div class="coach-card__body">
+      <h3 class="coach-card__name">
         {{ trainer.first_name }} {{ trainer.last_name }}
       </h3>
-      <p class="card__experience">
+      <p class="coach-card__experience">
         🏆 Стаж:
         <strong>{{ getExperience(trainer.experience) }} </strong>
       </p>
-      <p class="card__bio">
+      <p class="coach-card__bio">
         {{ trainer.content }}
       </p>
       <BaseButton
         label="Подробнее"
         size="lg"
-        class="card__btn"
+        class="coach-card__btn"
         @click="$router.push(`/coaches/${trainer.id}`)"
       />
     </div>
   </div>
 </template>
 <style scoped lang="scss">
-.card {
+.coach-card {
   background: linear-gradient(145deg, #ffffff, #f3f3f3);
   border-radius: 20px;
   overflow: hidden;
@@ -44,7 +44,7 @@ defineProps<{ trainer: ICoach }>();
   flex-direction: column;
 
   &:hover {
-    transform: translateY(-6px);
+    // transform: translateY(-6px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   }
 
@@ -64,7 +64,7 @@ defineProps<{ trainer: ICoach }>();
     transition: all 0.3s ease-in-out;
   }
 
-  &__image-wrapper:hover .card__image {
+  &__image-wrapper:hover .coach-card__image {
     transform: scale(1.05);
   }
 
@@ -109,7 +109,7 @@ defineProps<{ trainer: ICoach }>();
   &__btn {
     width: 100%;
     margin-top: auto;
-    color: white;
+    color: rgb(1, 1, 1);
     font-weight: 600;
   }
 }

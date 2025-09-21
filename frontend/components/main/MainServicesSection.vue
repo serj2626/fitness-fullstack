@@ -105,7 +105,7 @@ defineProps<{ services: IServicesResponse[] }>();
     height: 100%;
     object-fit: cover;
     filter: brightness(0.8);
-    transition: filter 0.3s ease-in, transform 6s ease-in-out;
+    transition: filter 0.3s ease-in, transform 4s ease-in-out;
   }
 
   &:hover {

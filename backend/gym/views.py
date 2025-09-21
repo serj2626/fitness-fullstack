@@ -25,6 +25,7 @@ from .serializers import (
 )
 
 TAG = "Тренажерный зал"
+TAG_POST = "Новости и Статьи"
 
 
 @extend_schema(tags=[TAG], summary="Расписание занятий зала")
@@ -47,14 +48,14 @@ class AdvantageListView(generics.ListAPIView):
     serializer_class = AdvantageSerializer
 
 
-@extend_schema(tags=["Посты"], summary="Детальное отображение новости")
+@extend_schema(tags=[TAG_POST], summary="Детальное отображение новости")
 class PostDetailView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = "slug"
 
 
-@extend_schema(tags=["Посты"], summary="Последние новости")
+@extend_schema(tags=[TAG_POST], summary="Последние новости")
 @method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
 class PostLastView(generics.ListAPIView):
     serializer_class = PostSerializer
@@ -63,7 +64,7 @@ class PostLastView(generics.ListAPIView):
         return Post.objects.all().order_by("-created_at")[:5]
 
 
-@extend_schema(tags=["Посты"], summary="Список новостей")
+@extend_schema(tags=[TAG_POST], summary="Список новостей")
 @method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
 class PostListView(generics.ListAPIView):
     queryset = Post.objects.all()
@@ -79,7 +80,7 @@ class FAQListView(generics.ListAPIView):
 
 
 @extend_schema(tags=[TAG], summary="Услуги")
-@method_decorator(cache_page(get_cache_ttl(5)), name='dispatch')
+@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
 class ServiceListView(generics.ListAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer

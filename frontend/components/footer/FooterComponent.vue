@@ -20,7 +20,7 @@ const { data: footerData } =
         <NuxtLink
           v-for="link in footerData?.navigations"
           :key="link.title"
-          class="footer-component__content-links-policy"
+          class="footer-component__content-links-item"
           :to="link.link"
         >
           {{ link.title }}
@@ -73,12 +73,10 @@ const { data: footerData } =
         align-items: center;
         gap: 20px;
       }
-
-      &-policy,
-      &-agreement {
+      &-item {
         color: $white;
-        transition: all 0.3s ease-in;
-        &:hover {
+
+        &.router-link-active {
           color: $accent;
         }
       }

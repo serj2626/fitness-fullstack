@@ -31,7 +31,7 @@ export const breadcrumbsCoachesPage = ref([
   },
   {
     title: "Тренеры",
-    url: "/",
+    url: "/coaches",
   },
 ]);
 
