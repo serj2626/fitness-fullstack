@@ -2,12 +2,6 @@
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import { headerLinks } from "~/assets/data/header-links";
 
-const route = useRoute();
-
-const getCurrentRouteName = computed(() => {
-  return route.name;
-});
-
 const modalsStore = useModalsStore();
 const authStore = useAuthStore();
 
@@ -25,6 +19,17 @@ const handleScroll = () => {
 
   lastScrollY.value = currentScroll;
 };
+
+
+const route = useRoute();
+
+const isActive = (link: string) => {
+  if (link === "/") {
+    return route.path === "/"; // главная только на главной
+  }
+  return route.path.startsWith(link); // остальные можно "родительские"
+};
+
 
 const getRoutes = computed(() => {
   return headerLinks.value.filter((item) => {
@@ -60,11 +65,8 @@ onUnmounted(() => {
             v-for="item in getRoutes"
             :key="item.name"
             class="header-component__wraper-list-item"
-            :class="{
-              'header-component__wraper-list-item_active':
-                getCurrentRouteName === item.value,
-            }"
             :to="item.link"
+            :class="{ 'header-component__wraper-list-item_active': isActive(item.link) }"
           >
             {{ item.name }}
           </NuxtLink>
@@ -145,6 +147,10 @@ onUnmounted(() => {
         color: $header_link;
         padding-block: 18px;
         transition: color 0.3s ease-in-out;
+
+        // &.router-link-active {
+        //   color: $accent;
+        // }
         @include mediaDesktop {
           font-size: 16px;
         }
