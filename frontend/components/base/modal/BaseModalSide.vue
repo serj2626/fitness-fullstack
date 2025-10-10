@@ -3,7 +3,7 @@ const {
   isOpen = true,
   maxWidth = "736px",
   position = "right",
-  background = "white",
+  background = "dark",
   duration = ".3s",
 } = defineProps<{
   isOpen?: boolean;
@@ -23,7 +23,7 @@ const {
     | "950px";
 
   position?: "left" | "right" | "center";
-  background?: "white" | "blue";
+  background?: "white" | "black";
   duration?: ".3s" | ".35s" | ".4s" | ".45s" | ".5s";
 }>();
 
@@ -105,16 +105,15 @@ onUnmounted(() => {
     position: relative;
 
     &_white {
-      background-color: $bg-light;
+      background-color: $header_link;
     }
-    &_blue {
-      background: $gradient-menu-mobile;
+    &_black {
+      background: $bg;
 
       .base-modal-side__close {
-        color: $white;
+        color: $white !important;
       }
     }
-
     &_right {
       height: 100%;
       animation: right-in 0.3s ease forwards;

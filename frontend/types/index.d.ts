@@ -7,6 +7,7 @@ export * from "./coach/coach";
 
 export * from "./common/pagination";
 export * from "./common/breadcrumb";
+export * from "./common/form";
 
 export * from "./faq/faq";
 

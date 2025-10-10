@@ -4,12 +4,10 @@ export type ModalItem =
   | "reviewCoachForm"
   | "success"
   | "feedback"
-  | "register"
-  | "login"
+  | "auth"
   | "orderAbonement"
   | "orderTraining"
-  | "service"
-  | "passwordRecovery";
+  | "service";
 
 export const useModalsStore = defineStore("modals-store", () => {
   const activeModals = ref<Map<ModalItem, Record<string, unknown>>>(new Map());

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import BaseCaptchaZ from "../BaseCaptchaZ.vue";
+
 const { tel = "8-999-999-99-99", address = "СПБ, улица Будапештская дом 89" } =
   defineProps<{
     address?: string;
@@ -101,9 +102,11 @@ function submitForm() {
       </p>
       <div class="base-form-feedback__wraper-content">
         <div class="base-form-feedback__wraper-content-info">
-          <a class="base-form-feedback__wraper-content-info-tel">{{ tel }} </a>
+          <a class="base-form-feedback__wraper-content-info-tel">
+            {{ tel || "8-999-999-99-99" }}
+          </a>
           <p class="base-form-feedback__wraper-content-info-address">
-            {{ address }}
+            {{ address || "СПБ, улица Будапештская дом 89" }}
           </p>
         </div>
         <form
@@ -126,14 +129,15 @@ function submitForm() {
               class="base-form-feedback__wraper-content-form-input-phone"
             />
           </div>
-          <BaseCaptchaZ
+          <BaseCaptcha theme="dark" @verified="captchaHandler" />
+          <!-- <BaseCaptchaZ
             ref="captchaInst"
             :error="formData.captcha.error"
             @success="(val) => captchaHandler(val, 'success')"
             @error="(val) => captchaHandler(val, 'error')"
             @expired="(val) => captchaHandler(val, 'expired')"
             @inited="(val) => captchaHandler(val, 'inited')"
-          />
+          /> -->
           <!-- <label class="base-form-feedback__wraper-content-form-check">
             <input
               v-model="formData.agree.value"

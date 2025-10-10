@@ -1,16 +1,10 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { api } from "~/api";
-const modalsStore = useModalsStore();
-const isClosing = ref(false);
-const isSubmitting = ref(false);
+import type { FormField } from "~/types";
 
 const { $api } = useNuxtApp();
 
-interface FormField<T> {
-  value: T;
-  error: string;
-  required: boolean;
-}
+defineEmits(["openLoginForm"]);
 
 interface FeedbackForm {
   email: FormField<string>;
@@ -27,31 +21,6 @@ const formData = reactive<FeedbackForm>({
   password2: { value: "", error: "", required: true },
   agree: { value: false, error: "", required: true },
 });
-
-const handleAnimationEnd = () => {
-  if (isClosing.value) {
-    modalsStore.closeModal("register");
-  }
-};
-
-// const submitForm = async () => {
-//   if (formData.password !== formData.confirmPassword) {
-//     useNotify().error("Пароли не совпадают");
-//     return;
-//   }
-
-//   isSubmitting.value = true;
-//   try {
-//     // Логика регистрации
-//     await new Promise((resolve) => setTimeout(resolve, 1500));
-//     modalsStore.closeModal("register");
-//     useNotify().success("Регистрация прошла успешно!");
-//   } catch (error) {
-//     useNotify().error("Ошибка регистрации");
-//   } finally {
-//     isSubmitting.value = false;
-//   }
-// };
 
 const submitForm = async () => {
   console.log("submitForm", formData);
@@ -71,27 +40,10 @@ const submitForm = async () => {
     console.log(error);
   }
 };
-
-const openLogin = () => {
-  modalsStore.closeModal("register");
-  modalsStore.openModal("login");
-};
 </script>
-
 <template>
-  <div
-    class="modal-register"
-    :class="{ 'modal-register_close': isClosing }"
-    @animationend="handleAnimationEnd"
-  >
+  <div class="modal-register">
     <div class="modal-register__wrapper">
-      <BaseButtonClose
-        top="10px"
-        right="10px"
-        :size="26"
-        @click="modalsStore.closeModal('register')"
-      />
-
       <div class="modal-register__header">
         <h3>Создать аккаунт</h3>
         <p>Заполните форму для регистрации</p>
@@ -131,14 +83,6 @@ const openLogin = () => {
           icon="lock"
           required
         />
-<!-- 
-        <label class="modal-register__agree">
-          <input v-model="formData.agree.value" type="checkbox" />
-          <span
-            >Я согласен с <a href="#">правилами</a> и
-            <NuxtLink to="/policy">политикой конфиденциальности</NuxtLink></span
-          >
-        </label> -->
         <BaseInputCheckbox
           v-model:agree-value="formData.agree.value"
           v-model:agree-error="formData.agree.error"
@@ -158,26 +102,22 @@ const openLogin = () => {
 
         <div class="modal-register__footer">
           <span>Уже есть аккаунт?</span>
-          <button type="button" @click="openLogin">Войти</button>
+          <button type="button" @click="$emit('openLoginForm')">
+            Войти
+        </button>
         </div>
       </form>
     </div>
   </div>
 </template>
-
 <style scoped lang="scss">
 .modal-register {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   &__wrapper {
     position: relative;
     background: $bg;
     border-radius: 12px;
     padding: 40px 30px;
     width: 100%;
-    max-width: 550px;
     box-shadow: 0 0 20px #fff;
   }
 
@@ -250,24 +190,6 @@ const openLogin = () => {
       margin-left: 5px;
       font-weight: 500;
     }
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 }
 </style>

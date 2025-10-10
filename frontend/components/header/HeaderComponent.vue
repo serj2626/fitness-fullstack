@@ -73,8 +73,7 @@ onUnmounted(() => {
           <a
             v-if="!authStore.isAuthenticated"
             class="header-component__wraper-list-item"
-            to="/"
-            @click="modalsStore.openModal('login')"
+            @click="modalsStore.openModal('auth')"
           >
             Войти
           </a>

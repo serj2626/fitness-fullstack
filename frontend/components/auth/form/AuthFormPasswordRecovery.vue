@@ -6,7 +6,6 @@ defineProps({
   },
 });
 
-const modalsStore = useModalsStore();
 const emit = defineEmits(["close"]);
 
 const email = ref("");
@@ -25,33 +24,25 @@ const resetForm = () => {
 };
 
 const handleSubmit = async () => {
-  try {
-    // Здесь API-запрос к Django (например, через useFetch)
-    const { data, error } = await useFetch("/api/auth/password/reset/", {
-      method: "POST",
-      body: { email: email.value },
-    });
-
-    if (error.value) {
-      throw new Error(error.value.data?.detail || "Ошибка сервера");
-    }
-
-    successMessage.value = "Письмо с инструкциями отправлено на ваш email!";
-    setTimeout(closeModal, 3000);
-  } catch (err) {
-    errorMessage.value = err.message || "Произошла ошибка";
-  }
+  //   try {
+  //     // Здесь API-запрос к Django (например, через useFetch)
+  //     const { data, error } = await useFetch("/api/auth/password/reset/", {
+  //       method: "POST",
+  //       body: { email: email.value },
+  //     });
+  //     if (error.value) {
+  //       throw new Error(error.value.data?.detail || "Ошибка сервера");
+  //     }
+  //     successMessage.value = "Письмо с инструкциями отправлено на ваш email!";
+  //     setTimeout(closeModal, 3000);
+  //   } catch (err) {
+  //     errorMessage.value = err.message || "Произошла ошибка";
+  //   }
 };
 </script>
 <template>
   <div class="modal-password-recovery">
     <div class="modal-password-recovery__content">
-      <BaseButtonClose
-        top="10px"
-        right="10px"
-        :size="26"
-        @click="modalsStore.closeModal('passwordRecovery')"
-      />
       <div class="modal-password-recovery__header">
         <h2 class="modal-password-recovery__title">Восстановление пароля</h2>
         <p class="modal-password-recovery__subtitle">
@@ -59,7 +50,10 @@ const handleSubmit = async () => {
         </p>
       </div>
 
-      <form class="modal-password-recovery__form" @submit.prevent="handleSubmit">
+      <form
+        class="modal-password-recovery__form"
+        @submit.prevent="handleSubmit"
+      >
         <BaseInput
           v-model="email"
           type="email"
@@ -87,42 +81,15 @@ const handleSubmit = async () => {
 </template>
 <style scoped lang="scss">
 .modal-password-recovery {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
   &__content {
     position: relative;
     width: 100%;
-    max-width: 500px;
     background: $bg;
     border-radius: 12px;
     padding: 40px;
     box-shadow: 0 0 20px #fff;
     z-index: 2;
     border: 1px solid rgba($accent, 0.3);
-
-    @media (max-width: $tablet) {
-      padding: 30px 20px;
-      margin: 0 15px;
-    }
-  }
-
-  &__close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: $header_link;
-    transition: transform 0.3s;
-
-    &:hover {
-      transform: rotate(90deg);
-      color: $accent;
-    }
   }
 
   &__header {
