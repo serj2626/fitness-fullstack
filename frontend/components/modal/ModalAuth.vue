@@ -23,18 +23,22 @@ const modalMap = {
 </script>
 
 <template>
-  <BaseModalSide
-    max-width="450px"
-    position="center"
-    duration=".35s"
-    :is-open="isOpen"
-    @close="closeModal"
-  >
-    <component
-      :is="modalMap[type]"
-      :open-register-form="(type = 'register')"
-      :open-password-recovery-form="(type = 'passwordRecovery')"
-      :open-login-form="(type = 'login')"
-    />
-  </BaseModalSide>
+  <div class="modal-auth">
+    <BaseModalSide
+      max-width="500px"
+      position="center"
+      duration=".35s"
+      :is-open="isOpen"
+      padding="0px"
+      @close="closeModal"
+    >
+      <component
+        :is="modalMap[type]"
+        @open-register-form="type = 'register'"
+        @open-password-recovery-form="type = 'passwordRecovery'"
+        @open-login-form="type = 'login'"
+      />
+    </BaseModalSide>
+  </div>
 </template>
+<style></style>

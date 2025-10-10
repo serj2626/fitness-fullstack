@@ -4,7 +4,6 @@ import type { FormField } from "~/types";
 defineEmits(["openRegisterForm", "openPasswordRecoveryForm"]);
 
 const { success } = useNotify();
-const modalsStore = useModalsStore();
 const authStore = useAuthStore();
 
 interface FeedbackForm {
@@ -24,7 +23,7 @@ const submitForm = async () => {
 
   try {
     await authStore.login(formData.email.value, formData.password.value);
-    modalsStore.closeModal("login");
+    // modalsStore.closeModal("login");
     setTimeout(() => {
       success("Вы успешно авторизовались", 3000);
     }, 500);
@@ -92,7 +91,7 @@ const submitForm = async () => {
     background: $bg;
     border-radius: 12px;
     padding: 40px 30px;
-    box-shadow: 0 0 20px #fff;
+    box-shadow: 0 0 20px $white;
   }
 
   &__header {

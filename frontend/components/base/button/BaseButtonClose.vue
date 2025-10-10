@@ -1,5 +1,6 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+
 const {
   size = 20,
   top = "0",
@@ -11,13 +12,19 @@ const {
   right?: string;
   color?: string;
 }>();
+
+const emit = defineEmits<{
+  (e: "click"): void;
+}>();
 </script>
+
 <template>
-  <button class="base-button-close">
+  <button class="base-button-close" @click="emit('click')">
     <Icon
       :size="size"
-      class="base-button-close__icon"
       :name="HeroIcons.CLOSE"
+      class="base-button-close__icon"
+      :style="{ color }"
     />
   </button>
 </template>
@@ -29,10 +36,13 @@ const {
   right: v-bind(right);
   cursor: pointer;
   transition: all 0.3s ease-in;
-  color: v-bind(color);
 
   &:hover {
     scale: 1.2;
+  }
+
+  &__icon {
+    display: block;
   }
 }
 </style>

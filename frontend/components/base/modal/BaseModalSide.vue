@@ -5,6 +5,7 @@ const {
   position = "right",
   background = "dark",
   duration = ".3s",
+  padding = "24px 40px 24px 16px",
 } = defineProps<{
   isOpen?: boolean;
   maxWidth?:
@@ -25,6 +26,7 @@ const {
   position?: "left" | "right" | "center";
   background?: "white" | "black";
   duration?: ".3s" | ".35s" | ".4s" | ".45s" | ".5s";
+  padding?: string;
 }>();
 
 const emit = defineEmits<{
@@ -61,7 +63,7 @@ onUnmounted(() => {
     >
       <BaseButtonClose
         :size="36"
-        color="black"
+        color="white"
         top="15px"
         right="15px"
         class="base-modal-side__close"
@@ -99,7 +101,7 @@ onUnmounted(() => {
   }
 
   &__content {
-    padding: 24px 40px 24px 16px;
+    padding: v-bind(padding);
     max-width: v-bind(maxWidth);
     width: 100%;
     position: relative;
@@ -109,10 +111,6 @@ onUnmounted(() => {
     }
     &_black {
       background: $bg;
-
-      .base-modal-side__close {
-        color: $white !important;
-      }
     }
     &_right {
       height: 100%;
