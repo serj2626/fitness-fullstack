@@ -60,15 +60,13 @@ def get_all_comments_by_coach_id(request, coach_id):
         )
 
 
+@extend_schema(tags=[TAG], summary="Добавить отзыв о тренере")
 class TrainerReviewsCreateView(generics.CreateAPIView):
     serializer_class = TrainerReviewsSerializer
     queryset = TrainerReviews.objects.all()
 
-    @extend_schema(tags=[TAG], summary="Добавить отзыв о тренере")
-    def post(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
 
-
+@extend_schema(tags=[TAG], summary="Список тренеров")
 class TrainerListView(generics.ListAPIView):
     serializer_class = TrainerListSerializer
     pagination_class = ListResultsSetPagination
@@ -78,15 +76,8 @@ class TrainerListView(generics.ListAPIView):
             "id", "position", "first_name", "last_name", "experience", "avatar"
         )
 
-    @extend_schema(tags=[TAG], summary="Список тренеров")
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
 
-
+@extend_schema(tags=[TAG], summary="Тренер детальная информация")
 class TrainerDetailView(generics.RetrieveAPIView):
     queryset = Trainer.objects.all()
     serializer_class = TrainerDetailSerializer
-
-    @extend_schema(tags=[TAG], summary="Тренер")
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)

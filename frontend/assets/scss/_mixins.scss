@@ -58,3 +58,28 @@
   letter-spacing: 2px;
   margin-bottom: 30px;
 }
+
+
+@mixin slide-animation($name, $from, $to) {
+  @keyframes #{$name}-in {
+    from {
+      opacity: 0;
+      transform: translateX($from);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes #{$name}-out {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX($from);
+    }
+  }
+}

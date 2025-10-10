@@ -9,6 +9,7 @@ const props = defineProps<{
   keywords: string;
   experience: number;
   education: string;
+  services: string[];
 }>();
 
 function getIcon(title: string) {
@@ -16,8 +17,8 @@ function getIcon(title: string) {
 }
 
 const getListKeywords = computed(() => {
-  if(!props.keywords) return [];
-  return props.keywords.split(",");
+  if (!props.keywords) return [];
+  return [...props.keywords.split(","), ...props.services];
 });
 </script>
 <template>
@@ -70,7 +71,7 @@ const getListKeywords = computed(() => {
           class="coach-detail-contacts__cards-item-icon"
         />
         <div>
-          <div class="coach-detail-contacts__cards-item-label">Email</div>
+          <div class="coach-detail-contacts__cards-item-label">Почта</div>
           <a
             href="mailto:bs-dev@bk.ru"
             class="coach-detail-contacts__cards-item-value"
@@ -220,6 +221,7 @@ const getListKeywords = computed(() => {
         font-size: 12px;
         transition: all 0.3s ease;
         user-select: none;
+        text-transform: lowercase;
 
         &:hover {
           background-color: rgba($accent, 0.8);

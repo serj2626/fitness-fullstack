@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {
-  breadcrumbsCoachDetailPage,
-  breadcrumbsCoachesPage,
-} from "~/assets/data/breadcrumbs.data";
+import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
 import { coaches } from "~/assets/data/moke.data";
 
 const trainerStore = useTrainerStore();
@@ -79,6 +76,7 @@ onUnmounted(() => {
               :keywords="trainer?.keywords || ''"
               :experience="trainer?.experience || 0"
               :education="trainer?.education || ''"
+              :services="trainer?.services || []"
             />
 
             <div v-if="activeTab === 'photos'" class="photo-grid">

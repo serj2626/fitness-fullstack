@@ -6,9 +6,11 @@ defineProps<{ trainer: ICoach }>();
 <template>
   <div class="coach-card">
     <div class="coach-card__image-wrapper">
-      <img
-        class="coach-card__image"
-        :src="trainer.avatar"
+      <NuxtImg
+        format="webp"
+        lazy="loading"
+        lass="coach-card__image"
+        :src="getPhoto(trainer.avatar ?? '')"
         :alt="trainer.first_name"
       />
       <span class="coach-card__position">{{ trainer.position }}</span>

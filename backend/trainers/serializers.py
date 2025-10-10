@@ -1,6 +1,6 @@
 from django.db.models import Avg
 from rest_framework import serializers
-
+from common.utils import RelativeOnlyImageField
 from gym.serializers import ServiceSerializer
 
 from .models import (
@@ -77,6 +77,7 @@ class TrainerReviewsSerializer(serializers.ModelSerializer):
 
 
 class TrainerImageSerializer(serializers.ModelSerializer):
+    image = RelativeOnlyImageField()
     class Meta:
         model = TrainerImage
         fields = ("id", "image")
@@ -88,6 +89,7 @@ class TrainerListSerializer(serializers.ModelSerializer):
     """
 
     position = serializers.SerializerMethodField()
+    avatar = RelativeOnlyImageField()
 
     class Meta:
         model = Trainer
@@ -111,11 +113,16 @@ class TrainerDetailSerializer(serializers.ModelSerializer):
     average_rating = serializers.SerializerMethodField()
     photo = serializers.SerializerMethodField()
     socials = TrainerSocialNetworkSerializer(many=True, read_only=True)
-    services = ServiceSerializer(many=True, read_only=True)
+    # services = ServiceSerializer(many=True, read_only=True)
+    services = serializers.SerializerMethodField()
+    avatar = RelativeOnlyImageField()
 
     class Meta:
         model = Trainer
         fields = "__all__"
+
+    def get_services(self, obj):
+        return list(map(lambda x: x.get_type_display(), obj.services.all()))
 
     def get_position(self, obj):
         return obj.get_position_display()

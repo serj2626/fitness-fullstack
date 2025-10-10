@@ -2,8 +2,9 @@
 import type { IServicesResponse } from "~/types";
 const modalsStore = useModalsStore();
 
-const data: IServicesResponse | undefined =
-  modalsStore.activeModals.get("service");
+const data = modalsStore.activeModals.get("service") as
+  | IServicesResponse
+  | undefined;
 
 const close = ref(false);
 
@@ -124,15 +125,28 @@ const closeModal = () => {
     }
   }
 }
-
 .image-container {
   position: relative;
   width: 100%;
-  height: 450px;
+  min-height: 250px;
+  height: auto;
+  max-height: 60vh;
+  aspect-ratio: 16/9;
   margin-bottom: 2.5rem;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+
+  @include mediaMobile {
+    min-height: 200px;
+    max-height: 40vh;
+  }
+
+  @include mediaTablet {
+    min-height: 300px;
+    max-height: 50vh;
+  }
 }
 
 .modal-data__content-img {
@@ -254,7 +268,8 @@ const closeModal = () => {
 }
 
 .modal-data__content::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
+  // background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
+  background: $accent;
   border-radius: 3px;
 }
 

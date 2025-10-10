@@ -11,6 +11,7 @@ export interface ICoach {
   phone?: string;
   keywords?: null;
   experience: number;
+  services: string[];
   avatar: string;
   education?: string;
   socials?: { type: string; link: string }[];

@@ -76,3 +76,12 @@ export const getExperience = (count: number): string => {
   if (count === 1) return "более года";
   return `более ${count} лет`;
 };
+
+
+export const getPhoto = (photoUrl?: string | null) => {
+  // Функция для получения URL-адреса фотографии
+  if (photoUrl) {
+    return getMedia(photoUrl);
+  }
+  return "/img_not_found.webp";
+};
