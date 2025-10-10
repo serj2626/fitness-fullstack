@@ -26,8 +26,10 @@ export default defineNuxtConfig({
       media_url: process.env.MEDIA_URL,
       recaptchaPublicKey: process.env.GOOGLE_CAPTCHA_PUBLIC_KEY,
       tawkKey: process.env.TAWK_ID,
+      cloudFlarePublicKey: process.env.CLOUDFLARE_PUBLIC_KEY,
     },
     recaptchaSecretKey: process.env.GOOGLE_CAPTCHA_SECRET_KEY,
+    cloudFlareSecretKey: process.env.CLOUDFLARE_SECRET_KEY,
   },
   plugins: ["~/plugins/tawk.client.ts"],
   yandexMaps: {
