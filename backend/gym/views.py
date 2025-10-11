@@ -49,6 +49,7 @@ class AdvantageListView(generics.ListAPIView):
 
 
 @extend_schema(tags=[TAG_POST], summary="Детальное отображение новости")
+@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
 class PostDetailView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer

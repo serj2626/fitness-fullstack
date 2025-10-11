@@ -1,6 +1,7 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from common.pagination import ListResultsSetPagination
 from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q
@@ -11,6 +12,7 @@ from .serializers import (
     TrainerReviewsSerializer,
     TrainerReviewsSerializer,
 )
+from common.utils import get_cache_ttl
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -67,6 +69,7 @@ class TrainerReviewsCreateView(generics.CreateAPIView):
 
 
 @extend_schema(tags=[TAG], summary="Список тренеров")
+@method_decorator(cache_page(get_cache_ttl(20)), name='dispatch')
 class TrainerListView(generics.ListAPIView):
     serializer_class = TrainerListSerializer
     pagination_class = ListResultsSetPagination
@@ -78,6 +81,7 @@ class TrainerListView(generics.ListAPIView):
 
 
 @extend_schema(tags=[TAG], summary="Тренер детальная информация")
+@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
 class TrainerDetailView(generics.RetrieveAPIView):
     queryset = Trainer.objects.all()
     serializer_class = TrainerDetailSerializer

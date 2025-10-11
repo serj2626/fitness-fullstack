@@ -12,7 +12,10 @@ interface FeedbackForm {
   password: FormField<string>;
   password2: FormField<string>;
   agree: FormField<boolean>;
+  captcha: FormField<string>;
 }
+
+const captchaInst = ref(null);
 
 const formData = reactive<FeedbackForm>({
   email: { value: "", error: "", required: true },
@@ -20,7 +23,20 @@ const formData = reactive<FeedbackForm>({
   password: { value: "", error: "", required: true },
   password2: { value: "", error: "", required: true },
   agree: { value: false, error: "", required: true },
+  captcha: { value: "", error: "", required: true },
 });
+
+function captchaHandler(val, eventName) {
+  if (eventName === "success") {
+    formData.captcha.value = val;
+    formData.captcha.error = "";
+  } else if (eventName === "error" || eventName === "expired") {
+    formData.captcha.value = "";
+    formData.captcha.error = "Ошибка проверки капчи";
+  } else if (eventName === "inited" && typeof val === "object") {
+    captchaInst.value = val;
+  }
+}
 
 const submitForm = async () => {
   console.log("submitForm", formData);
@@ -92,6 +108,7 @@ const submitForm = async () => {
             <NuxtLink to="/policy">политикой конфиденциальности</NuxtLink></span
           >
         </BaseInputCheckbox>
+        <BaseCaptcha theme="dark" @verified="captchaHandler" />
 
         <BaseButton
           type="submit"
@@ -102,9 +119,7 @@ const submitForm = async () => {
 
         <div class="modal-register__footer">
           <span>Уже есть аккаунт?</span>
-          <button type="button" @click="$emit('openLoginForm')">
-            Войти
-        </button>
+          <button type="button" @click="$emit('openLoginForm')">Войти</button>
         </div>
       </form>
     </div>

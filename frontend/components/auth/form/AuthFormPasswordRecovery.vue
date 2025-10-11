@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { api } from "~/api";
+import type { FormField } from "~/types";
+
 defineProps({
   isOpen: {
     type: Boolean,
@@ -7,37 +10,47 @@ defineProps({
 });
 
 const emit = defineEmits(["close"]);
+const { $api } = useNuxtApp();
+const captchaInst = ref(null);
 
-const email = ref("");
-const errorMessage = ref("");
-const successMessage = ref("");
+interface FeedbackForm {
+  email: FormField<string>;
+  captcha: FormField<string>;
+}
 
-const closeModal = () => {
-  emit("close");
-  resetForm();
-};
+const formData = reactive<FeedbackForm>({
+  email: { value: "", error: "", required: true },
+  captcha: { value: "", error: "", required: true },
+});
 
-const resetForm = () => {
-  email.value = "";
-  errorMessage.value = "";
-  successMessage.value = "";
-};
+function captchaHandler(val, eventName) {
+  if (eventName === "success") {
+    formData.captcha.value = val;
+    formData.captcha.error = "";
+  } else if (eventName === "error" || eventName === "expired") {
+    formData.captcha.value = "";
+    formData.captcha.error = "Ошибка проверки капчи";
+  } else if (eventName === "inited" && typeof val === "object") {
+    captchaInst.value = val;
+  }
+}
+const submitForm = async () => {
+  console.log("submitForm", formData);
 
-const handleSubmit = async () => {
-  //   try {
-  //     // Здесь API-запрос к Django (например, через useFetch)
-  //     const { data, error } = await useFetch("/api/auth/password/reset/", {
-  //       method: "POST",
-  //       body: { email: email.value },
-  //     });
-  //     if (error.value) {
-  //       throw new Error(error.value.data?.detail || "Ошибка сервера");
-  //     }
-  //     successMessage.value = "Письмо с инструкциями отправлено на ваш email!";
-  //     setTimeout(closeModal, 3000);
-  //   } catch (err) {
-  //     errorMessage.value = err.message || "Произошла ошибка";
-  //   }
+  try {
+    const res = await $api(api.users.register, {
+      method: "POST",
+      body: {
+        email: formData.email.value,
+        phone: formData.phone.value,
+        password: formData.password.value,
+        password2: formData.password2.value,
+      },
+    });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 <template>
@@ -52,29 +65,31 @@ const handleSubmit = async () => {
 
       <form
         class="modal-password-recovery__form"
-        @submit.prevent="handleSubmit"
+        @submit.prevent="submitForm"
       >
         <BaseInput
-          v-model="email"
+          v-model:input-value="formData.email.value"
+          v-model:error="formData.email.error"
           type="email"
           placeholder="Ваш email"
           required
           class="modal-password-recovery__input"
         />
+        <BaseCaptcha theme="dark" @verified="captchaHandler" />
         <BaseButton
           type="submit"
           label="Отправить ссылку"
           size="lg"
           style="width: 100%"
         />
-
+<!-- 
         <p v-if="errorMessage" class="modal-password-recovery__error">
           {{ errorMessage }}
         </p>
 
         <p v-if="successMessage" class="modal-password-recovery__success">
           {{ successMessage }}
-        </p>
+        </p> -->
       </form>
     </div>
   </div>

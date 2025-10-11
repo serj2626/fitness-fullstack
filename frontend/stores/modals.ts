@@ -25,6 +25,8 @@ export const useModalsStore = defineStore("modals-store", () => {
   const openModal = (modal: ModalItem, props?: any) => {
     if (document) {
       document.documentElement.style.overflowY = "hidden";
+      document.body.style.paddingRight = "6px";
+      document.body.style.marginRight = "7px";
       document.addEventListener("keydown", checkKey, { once: true });
     }
     activeModals.value.set(modal, props);
@@ -34,6 +36,8 @@ export const useModalsStore = defineStore("modals-store", () => {
     activeModals.value.delete(modal);
     if (!activeModals.value.size && document) {
       document.documentElement.style.overflowY = "auto";
+      document.body.style.paddingRight = "0";
+      document.body.style.marginRight = "0";
     }
   };
 

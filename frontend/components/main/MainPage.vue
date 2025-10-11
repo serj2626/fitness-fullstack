@@ -10,68 +10,48 @@ const { $api } = useNuxtApp();
 
 const { data: abonementsInfo } = useAbonements();
 
-const { data: servicesInfo } = await useAsyncData<IServicesResponse[]>(
-  "main-page-services-list-info",
-  () => $api(api.gym.services)
-);
-
-const { data: postsLast } = await useAsyncData(
-  "main-page-posts-last-info",
-  () => $api(api.posts.last)
-);
-
-const { data: advantagesInfo } = await useAsyncData<IAdvantageResponse[]>(
-  "main-page-advantages-list-info",
-  () => $api(api.gym.advantages)
-);
-
-const { data: equipmentList } = useAsyncData(
-  "main-page-equipment-list",
-  () => $api<IEequipmentResponse[]>(api.gym.equipment),
-  {
-    transform: (data: IEequipmentResponse[]) => {
-      const res: Record<string, IEequipmentResponse> = {};
-      for (const item of data) {
-        res[item.title] = item;
-      }
-      return res;
-    },
-  }
-);
+const [
+  { data: servicesInfo },
+  { data: postsLast },
+  { data: advantagesInfo },
+  { data: equipmentList },
+] = await Promise.all([
+  useAsyncData("main-page-services-list-info", () =>
+    $api<IServicesResponse[]>(api.gym.services)
+  ),
+  useAsyncData("main-page-posts-last-info", () =>
+    $api<IPost[]>(api.posts.last)
+  ),
+  useAsyncData("main-page-advantages-list-info", () =>
+    $api<IAdvantageResponse[]>(api.gym.advantages)
+  ),
+  useAsyncData("main-page-equipment-list", () => $api(api.gym.equipment), {
+    transform: (data: IEequipmentResponse[]) =>
+      Object.fromEntries(data.map((item) => [item.title, item])),
+  }),
+]);
 </script>
 <template>
   <div>
     <MainVideoSection />
     <MainAboutSection />
     <MainFirstSection />
-    
 
-    <ClientOnly hydrate-on-visible>
-      <MainAdvantagesSection
-        v-if="advantagesInfo"
-        :advantages="advantagesInfo"
-      />
-    </ClientOnly>
+    <MainAdvantagesSection v-if="advantagesInfo" :advantages="advantagesInfo" />
 
-    <ClientOnly hydrate-on-visible>
-      <MainAbonementsSection
-        v-if="abonementsInfo"
-        :abonements="abonementsInfo"
-      />
-    </ClientOnly>
+    <MainAbonementsSection v-if="abonementsInfo" :abonements="abonementsInfo" />
 
-    <ClientOnly hydrate-on-visible>
-      <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
-    </ClientOnly>
-    <ClientOnly hydrate-on-visible>
-      <MainPostSection v-if="postsLast" :posts="postsLast as IPost[]" />
-    </ClientOnly>
+    <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
 
-    <ClientOnly hydrate-on-visible>
-      <MainEquipmentSection v-if="equipmentList" :data="equipmentList" />
-    </ClientOnly>
+    <LazyMainPostSection v-if="postsLast" :posts="postsLast" />
 
-    <MainPoolSection />
-    <BaseFormFeedback />
+    <MainEquipmentSection
+      v-if="equipmentList"
+      :data="equipmentList"
+      client:visible
+    />
+
+    <LazyMainPoolSection />
+    <BaseFormFeedback client:visible />
   </div>
 </template>

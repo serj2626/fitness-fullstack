@@ -3,7 +3,7 @@ const {
   isOpen = true,
   maxWidth = "736px",
   position = "right",
-  background = "dark",
+  background = "black",
   duration = ".3s",
   padding = "24px 40px 24px 16px",
 } = defineProps<{
@@ -21,7 +21,8 @@ const {
     | "800px"
     | "850px"
     | "900px"
-    | "950px";
+    | "950px"
+    | "100vw";
 
   position?: "left" | "right" | "center";
   background?: "white" | "black";
@@ -86,7 +87,7 @@ onUnmounted(() => {
   width: 100vw;
   height: 100vh;
   display: flex;
-  z-index: 9999;
+  z-index: 120;
 
   &_left {
     justify-content: flex-start;
@@ -98,6 +99,10 @@ onUnmounted(() => {
   &_center {
     justify-content: center;
     align-items: center;
+  }
+  &__close{
+    z-index: 130;
+    cursor: pointer;
   }
 
   &__content {

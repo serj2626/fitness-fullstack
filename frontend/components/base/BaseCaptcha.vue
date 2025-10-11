@@ -1,9 +1,17 @@
-<script setup>
-const props = defineProps({
-  theme: { type: String, default: "light" }, // 'dark' | 'light' | 'auto'
-  size: { type: String, default: "normal" }, // 'normal' | 'compact'
-  marginBottom: { type: String, default: "0" },
-});
+<script setup lang="ts">
+interface ICaptchaProps {
+  theme?: "dark" | "light" | "auto";
+  size?: "normal" | "compact";
+  marginBottom?: string;
+  position?: "start" | "center" | "end";
+}
+
+const {
+  theme = "light",
+  size = "normal",
+  marginBottom = "0",
+  position = "start",
+} = defineProps<ICaptchaProps>();
 
 const sitekey = useRuntimeConfig().public.cloudFlarePublicKey;
 
@@ -34,8 +42,8 @@ onMounted(() => {
 function renderCaptcha() {
   widgetId = window.turnstile.render(captchaEl.value, {
     sitekey: sitekey,
-    theme: props.theme,
-    size: props.size,
+    theme: theme,
+    size: size,
     callback: (token) => emit("verified", token),
     "error-callback": () => emit("error"),
     "expired-callback": () => emit("expired"),
@@ -64,7 +72,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .cf-turnstile {
   display: flex;
-  justify-content: start;
+  justify-content: v-bind("position");
   margin-bottom: v-bind("marginBottom");
 }
 </style>
