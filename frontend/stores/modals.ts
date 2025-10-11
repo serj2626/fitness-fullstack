@@ -5,6 +5,7 @@ export type ModalItem =
   | "success"
   | "feedback"
   | "auth"
+  | "order"
   | "orderAbonement"
   | "orderTraining"
   | "service";

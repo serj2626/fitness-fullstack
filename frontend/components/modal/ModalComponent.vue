@@ -13,22 +13,17 @@ const { activeModals, isAnyModalOpen } = storeToRefs(modalsStore);
       v-if="activeModals.has('orderAbonement')"
       key="orderAbonement"
     />
-    <LazyModalService
-      v-if="activeModals.has('service')"
-      key="service"
-    />
+    <LazyBaseFormOrder v-if="activeModals.has('order')" key="order" />
+    <LazyModalService v-if="activeModals.has('service')" key="service" />
     <LazyBaseFormOrderTraining
       v-if="activeModals.has('orderTraining')"
       key="orderTraining"
     />
     <LazyModalAuth v-if="activeModals.has('auth')" key="auth" />
-    <LazyHeaderCatalogMenu
-      v-if="activeModals.has('menu')"
-      key="orderAbonement"
-    />
+    <LazyHeaderCatalogMenu v-if="activeModals.has('menu')" key="menu" />
     <LazyModalCoachReview
       v-if="activeModals.has('reviewCoachForm')"
-      key="orderAbonement"
+      key="reviewCoachForm"
     />
   </div>
 </template>

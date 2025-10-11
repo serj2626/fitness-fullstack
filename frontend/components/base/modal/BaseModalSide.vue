@@ -26,7 +26,7 @@ const {
 
   position?: "left" | "right" | "center";
   background?: "white" | "black";
-  duration?: ".3s" | ".35s" | ".4s" | ".45s" | ".5s";
+  duration?: ".3s" | ".35s" | ".4s" | ".45s" | ".5s" | ".55s" | ".6s";
   padding?: string;
 }>();
 

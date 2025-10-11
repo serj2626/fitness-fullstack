@@ -82,7 +82,7 @@ onUnmounted(() => {
           size="md"
           label="Купить абонемент"
           :outline="true"
-          @click="modalsStore.openModal('orderAbonement')"
+          @click="modalsStore.openModal('order')"
         />
         <button
           class="header-component__wraper-burger"
