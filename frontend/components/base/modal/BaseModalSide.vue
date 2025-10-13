@@ -6,6 +6,8 @@ const {
   background = "black",
   duration = ".3s",
   padding = "24px 40px 24px 16px",
+  colorIcon = "#fff",
+  timing = "ease",
 } = defineProps<{
   isOpen?: boolean;
   maxWidth?:
@@ -27,7 +29,9 @@ const {
   position?: "left" | "right" | "center";
   background?: "white" | "black";
   duration?: ".3s" | ".35s" | ".4s" | ".45s" | ".5s" | ".55s" | ".6s";
+  timing?: "linear" | "ease" | "ease-in" | "ease-out" | "ease-in-out"; 
   padding?: string;
+  colorIcon?: string;
 }>();
 
 const emit = defineEmits<{
@@ -64,7 +68,7 @@ onUnmounted(() => {
     >
       <BaseButtonClose
         :size="36"
-        color="white"
+        :color="colorIcon"
         top="15px"
         right="15px"
         class="base-modal-side__close"
@@ -119,27 +123,27 @@ onUnmounted(() => {
     }
     &_right {
       height: 100%;
-      animation: right-in 0.3s ease forwards;
+      animation: right-in 0.3s v-bind(timing) forwards;
 
       &.base-modal-side__content_close {
-        animation: right-out 0.3s ease forwards;
+        animation: right-out 0.3s v-bind(timing) forwards;
       }
     }
 
     &_left {
       height: 100%;
-      animation: left-in 0.3s ease forwards;
+      animation: left-in 0.3s v-bind(timing) forwards;
 
       &.base-modal-side__content_close {
-        animation: left-out 0.3s ease forwards;
+        animation: left-out 0.3s v-bind(timing) forwards;
       }
     }
 
     &_center {
-      animation: center-in v-bind(duration) ease forwards;
+      animation: center-in v-bind(duration) v-bind(timing) forwards;
 
       &.base-modal-side__content_close {
-        animation: center-out v-bind(duration) ease forwards;
+        animation: center-out v-bind(duration) v-bind(timing) forwards;
       }
     }
   }

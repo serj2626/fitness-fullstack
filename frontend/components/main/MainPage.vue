@@ -1,14 +1,30 @@
 <script lang="ts" setup>
 import { api } from "~/api";
+import { useAbonementsStore } from "~/stores/abonements";
 import type {
   IPost,
   IServicesResponse,
   IAdvantageResponse,
   IEequipmentResponse,
 } from "~/types";
+
+const abonementsStore = useAbonementsStore();
+const {
+  abonements,
+  error: abonementsError,
+  loading: abonementsLoading,
+} = storeToRefs(abonementsStore);
+
+
+if (!abonements.value.length) {
+  await useAsyncData("abonements", () =>
+    abonementsStore.getAllAbonements()
+  );
+}
+
 const { $api } = useNuxtApp();
 
-const { data: abonementsInfo } = useAbonements();
+
 
 const [
   { data: servicesInfo },
@@ -25,7 +41,8 @@ const [
   useAsyncData("main-page-advantages-list-info", () =>
     $api<IAdvantageResponse[]>(api.gym.advantages)
   ),
-  useAsyncData("main-page-equipment-list", () => $api(api.gym.equipment), {
+  useAsyncData("main-page-equipment-list", 
+    () => $api(api.gym.equipment), {
     transform: (data: IEequipmentResponse[]) =>
       Object.fromEntries(data.map((item) => [item.title, item])),
   }),
@@ -34,24 +51,24 @@ const [
 <template>
   <div>
     <MainVideoSection />
-    <MainAboutSection />
-    <MainFirstSection />
+    <MainAboutSection client:visible  />
+    <MainFirstSection client:visible  />
 
     <MainAdvantagesSection v-if="advantagesInfo" :advantages="advantagesInfo" />
 
-    <MainAbonementsSection v-if="abonementsInfo" :abonements="abonementsInfo" />
+    <MainAbonementsSection v-if="abonements" :abonements="abonements" />
 
     <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
 
     <LazyMainPostSection v-if="postsLast" :posts="postsLast" />
 
-    <MainEquipmentSection
+    <LazyMainEquipmentSection
       v-if="equipmentList"
       :data="equipmentList"
       client:visible
     />
 
-    <LazyMainPoolSection />
+    <LazyMainPoolSection client:visible  />
     <BaseFormFeedback client:visible />
   </div>
 </template>

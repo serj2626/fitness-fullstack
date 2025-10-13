@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import type { IMainAbonementResponse } from "~/types";
+import type { IAbonementResponse } from '~/types';
 
-defineProps<{ abonements: IMainAbonementResponse[] }>();
+
+defineProps<{ abonements: IAbonementResponse[] }>();
 </script>
 <template>
   <section id="main-abonements-section" class="main-abonements-section">

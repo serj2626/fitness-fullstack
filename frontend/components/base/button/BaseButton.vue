@@ -49,7 +49,7 @@ const {
     opacity: 0.8;
   }
   &_disabled {
-    opacity: 0.8;
+    opacity: 0.6;
     pointer-events: none;
   }
   &_outline {

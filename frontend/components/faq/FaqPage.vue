@@ -48,7 +48,7 @@ useIntersectionObserver(observerTarget, async ([entry]) => {
       <div
         ref="observerTarget"
         class="observer-trigger"
-        style="height: 1px; margin-top: 40px"
+        style="height: 1px; margin-top: 140px"
       />
     </div>
   </div>

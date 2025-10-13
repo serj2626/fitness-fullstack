@@ -13,7 +13,7 @@ const {
   position = "start",
 } = defineProps<ICaptchaProps>();
 
-const sitekey = useRuntimeConfig().public.cloudFlarePublicKey;
+const siteKey = useRuntimeConfig().public.cloudFlarePublicKey;
 
 const emit = defineEmits(["verified", "expired", "error"]);
 
@@ -41,7 +41,7 @@ onMounted(() => {
 
 function renderCaptcha() {
   widgetId = window.turnstile.render(captchaEl.value, {
-    sitekey: sitekey,
+    sitekey: siteKey,
     theme: theme,
     size: size,
     callback: (token) => emit("verified", token),
