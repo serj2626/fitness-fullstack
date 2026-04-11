@@ -1,0 +1,34 @@
+[
+  {
+    "model": "contacts.social",
+    "pk": 1,
+    "fields": {
+      "type": "vk",
+      "value": "https://vk.com/stories_salon"
+    }
+  },
+  {
+    "model": "contacts.social",
+    "pk": 2,
+    "fields": {
+      "type": "tg",
+      "value": "https://t.me/stories_salon"
+    }
+  },
+  {
+    "model": "contacts.social",
+    "pk": 3,
+    "fields": {
+      "type": "insta",
+      "value": "https://instagram.com/stories_salon"
+    }
+  },
+  {
+    "model": "contacts.social",
+    "pk": 4,
+    "fields": {
+      "type": "youtube",
+      "value": "https://youtube.com/@stories_salon"
+    }
+  }
+]

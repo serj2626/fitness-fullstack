@@ -42,14 +42,8 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_ckeditor_5",
     "django_extensions",
-    # my apps
-    # "users",
     # "seo",
-    # "salon",
     # "contacts",
-    # "products",
-    # "posts",
-    # cleanup
     "django_cleanup.apps.CleanupConfig",
 ]
 

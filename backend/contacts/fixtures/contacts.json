@@ -1,0 +1,34 @@
+[
+  {
+    "model": "contacts.contact",
+    "pk": 1,
+    "fields": {
+      "type": "address",
+      "value": "г. Всеволожск, ул. Примерная, д. 10"
+    }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 2,
+    "fields": {
+      "type": "email",
+      "value": "info@stories.ru"
+    }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 3,
+    "fields": {
+      "type": "phone",
+      "value": "+7 (812) 123-45-67"
+    }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 4,
+    "fields": {
+      "type": "mode",
+      "value": "Ежедневно с 10:00 до 21:00"
+    }
+  }
+]
