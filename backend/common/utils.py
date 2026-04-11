@@ -1,7 +1,78 @@
+import re
 from io import BytesIO
-from rest_framework import serializers
+
 from django.core.files.base import ContentFile
+from django.utils.text import slugify
 from PIL import Image
+from rest_framework import serializers
+from transliterate import translit
+
+
+def ru_slugify(value: str) -> str:
+    translit = {
+        "а": "a",
+        "б": "b",
+        "в": "v",
+        "г": "g",
+        "д": "d",
+        "е": "e",
+        "ё": "e",
+        "ж": "zh",
+        "з": "z",
+        "и": "i",
+        "й": "y",
+        "к": "k",
+        "л": "l",
+        "м": "m",
+        "н": "n",
+        "о": "o",
+        "п": "p",
+        "р": "r",
+        "с": "s",
+        "т": "t",
+        "у": "u",
+        "ф": "f",
+        "х": "h",
+        "ц": "ts",
+        "ч": "ch",
+        "ш": "sh",
+        "щ": "sch",
+        "ь": "",
+        "ы": "y",
+        "ъ": "",
+        "э": "e",
+        "ю": "yu",
+        "я": "ya",
+    }
+    value = "".join(translit.get(c, c) for c in value.lower())
+    return slugify(re.sub(r"[^a-z0-9\s-]", "", value))
+
+
+def make_slug(*args):
+    """
+    Создаёт slug из одного или нескольких полей.
+    Аргументы могут быть строками или числами.
+    """
+
+    # Объединяем все аргументы в одну строку через пробел
+    combined = " ".join(str(arg) for arg in args if arg is not None)
+
+    # Транслитерируем кириллицу в латиницу (переводим русский текст)
+    transliterated = translit(combined, "ru", reversed=True)
+
+    # Переводим в нижний регистр
+    lowered = transliterated.lower()
+
+    # Заменяем все небуквенно-цифровые символы на дефисы
+    replaced = re.sub(r"[^a-z0-9]+", "-", lowered)
+
+    # Убираем начальные и конечные дефисы
+    cleaned = replaced.strip("-")
+
+    # Убираем повторяющиеся дефисы
+    slug = re.sub(r"-{2,}", "-", cleaned)
+
+    return slug
 
 
 def compress_variants(image_field):
@@ -64,3 +135,15 @@ class RelativeOnlyImageField(serializers.ImageField):
 
 def get_cache_ttl(minutes: int = 5):
     return minutes * 60
+
+
+class RelativeOnlyFileField(serializers.FileField):
+    """
+    Поле для файлов, которое возвращает относительный путь (value.name),
+    без абсолютного URL
+    """
+
+    def to_representation(self, value):
+        if not value:
+            return None
+        return value.name

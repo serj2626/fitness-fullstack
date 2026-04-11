@@ -16,7 +16,7 @@ defineProps<{ post: IPost | null }>();
     </button>
     <div class="post-card__image-wrapper">
       <NuxtImg
-        :src="post?.image"
+        :src="post?.image ?? ''"
         :alt="post?.title"
         lazy="loading"
         class="post-card__image"

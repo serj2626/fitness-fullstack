@@ -76,6 +76,10 @@ const onSlideChange = (): void => {
 .swiper {
   width: 100%;
 }
+
+.swiper-slide {
+  height: auto;
+}
 .post-swiper-container {
   width: 100%;
   overflow: visible;

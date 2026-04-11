@@ -29,19 +29,17 @@
           </li>
           <li class="list-item">
             <div class="list-item__label">Статус</div>
-            <div class="list-item__value status-created">Ожидает подтверждения</div>
+            <div class="list-item__value status-created">
+              Ожидает подтверждения
+            </div>
           </li>
         </ul>
       </div>
 
       <!-- Действия -->
       <div class="order-abonement-success__actions">
-        <button class="btn btn-primary">
-          Распечатать квитанцию
-        </button>
-        <button class="btn btn-secondary">
-          Вернуться на главную
-        </button>
+        <BaseButton color="red" label="Отменить" :outline="true" />
+        <BaseButton label="На главную" :outline="true" />
       </div>
 
       <!-- Дополнительная информация -->
@@ -54,7 +52,6 @@
 </template>
 
 <style scoped lang="scss">
-
 .order-abonement-success {
   display: flex;
   flex-direction: column;
@@ -77,45 +74,46 @@
   width: 80px;
   height: 80px;
   margin: 0 auto;
-  
+
   .check-icon {
     width: 80px;
     height: 80px;
     position: relative;
     border-radius: 50%;
     box-sizing: content-box;
-    border: 4px solid #4CAF50;
-    
+    border: 4px solid #4caf50;
+
     &::before {
       top: 3px;
       left: -2px;
       width: 30px;
       transform-origin: 100% 50%;
     }
-    
+
     &::after {
       top: 0;
       left: 30px;
       width: 60px;
       transform-origin: 0 50%;
     }
-    
-    &::before, &::after {
-      content: '';
+
+    &::before,
+    &::after {
+      content: "";
       height: 4px;
-      background: #4CAF50;
+      background: #4caf50;
       position: absolute;
       transform: scaleX(0);
     }
-    
+
     .icon-line {
       height: 4px;
-      background-color: #4CAF50;
+      background-color: #4caf50;
       display: block;
       border-radius: 2px;
       position: absolute;
       z-index: 10;
-      
+
       &.line-tip {
         top: 46px;
         left: 14px;
@@ -123,7 +121,7 @@
         transform: rotate(45deg);
         animation: icon-line-tip 0.75s;
       }
-      
+
       &.line-long {
         top: 38px;
         right: 8px;
@@ -132,7 +130,7 @@
         animation: icon-line-long 0.75s;
       }
     }
-    
+
     .icon-circle {
       top: -4px;
       left: -4px;
@@ -144,7 +142,7 @@
       box-sizing: content-box;
       position: absolute;
     }
-    
+
     .icon-fix {
       top: 8px;
       width: 5px;
@@ -158,18 +156,54 @@
 }
 
 @keyframes icon-line-tip {
-  0% { width: 0; left: 1px; top: 19px; }
-  54% { width: 0; left: 1px; top: 19px; }
-  70% { width: 50px; left: -8px; top: 37px; }
-  84% { width: 17px; left: 21px; top: 48px; }
-  100% { width: 25px; left: 14px; top: 45px; }
+  0% {
+    width: 0;
+    left: 1px;
+    top: 19px;
+  }
+  54% {
+    width: 0;
+    left: 1px;
+    top: 19px;
+  }
+  70% {
+    width: 50px;
+    left: -8px;
+    top: 37px;
+  }
+  84% {
+    width: 17px;
+    left: 21px;
+    top: 48px;
+  }
+  100% {
+    width: 25px;
+    left: 14px;
+    top: 45px;
+  }
 }
 
 @keyframes icon-line-long {
-  0% { width: 0; right: 46px; top: 54px; }
-  65% { width: 0; right: 46px; top: 54px; }
-  84% { width: 55px; right: 0px; top: 35px; }
-  100% { width: 47px; right: 8px; top: 38px; }
+  0% {
+    width: 0;
+    right: 46px;
+    top: 54px;
+  }
+  65% {
+    width: 0;
+    right: 46px;
+    top: 54px;
+  }
+  84% {
+    width: 55px;
+    right: 0px;
+    top: 35px;
+  }
+  100% {
+    width: 47px;
+    right: 8px;
+    top: 38px;
+  }
 }
 
 .order-abonement-success__title {
@@ -354,7 +388,7 @@
   .success-checkmark {
     width: 60px;
     height: 60px;
-    
+
     .check-icon {
       width: 60px;
       height: 60px;

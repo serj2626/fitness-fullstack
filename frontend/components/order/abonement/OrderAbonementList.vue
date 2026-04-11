@@ -8,7 +8,7 @@ defineEmits(["active-abonement", "newStep"]);
 <template>
   <div class="order-abonement-list">
     <div class="order-abonement-list__list">
-      <OrderAbonementCard
+      <AbonementCard
         v-for="plan in abonements"
         :key="plan.id"
         :plan="plan"
@@ -20,6 +20,7 @@ defineEmits(["active-abonement", "newStep"]);
       :outline="true"
       class="order-abonement-list__btn"
       label="Далее"
+      :disabled="!activeAbonement"
       @click="$emit('newStep', 2)"
     />
   </div>

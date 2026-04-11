@@ -16,7 +16,7 @@ defineProps<{ abonements: IAbonementResponse[] }>();
       </h2>
       <div class="main-abonement-section__wraper">
         <ul class="main-abonements-section__wraper-list">
-          <AbonementCardByMainPage
+          <AbonementCard
             v-for="(abon, idx) in abonements"
             :key="abon.title"
             :plan="abon"
