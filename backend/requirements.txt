@@ -1,6 +1,9 @@
 # Django Core
 autoflake==2.3.1
 
+# Django Core
+python-dotenv==1.0.1
+
 # Celery
 celery==5.3.1
 
