@@ -1,153 +1,240 @@
-from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework import generics, status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework import status, generics, views
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
+from django.contrib.auth import login, logout, get_user_model
+from django.core.mail import send_mail
+from django.conf import settings
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+
+from .models import VerificationCode
+from .serializers import (
+    UserSerializer,
+    RegisterRequestSerializer, RegisterVerifySerializer,
+    LoginRequestSerializer, LoginVerifySerializer,
+    PasswordResetRequestSerializer, PasswordResetVerifySerializer,
+    ChangePasswordSerializer,
 )
 
-from .serialziers import (
-    SendCodeSerializer,
-    UserInfoSerializer,
-    UserRegisterSerializer,
-    VerifyCodeSerializer,
-)
-from .utils import create_verification_code
-
-TAG = "Пользователи"
-TAG_AUTH = "Авторизация, аутентификация и регистрация"
+User = get_user_model()
 
 
-@extend_schema_view(
-    post=extend_schema(
-        tags=[TAG_AUTH],
-        summary="Получение JWT-токенов",
-        description="Принимает email и пароль, возвращает access и refresh токены.",
-    )
-)
-class CustomTokenObtainPairView(TokenObtainPairView):
-    pass
-
-
-@extend_schema_view(
-    post=extend_schema(
-        tags=[TAG_AUTH],
-        summary="Обновление access-токена",
-        description="Принимает refresh-токен, возвращает новый access-токен.",
-    )
-)
-class CustomTokenRefreshView(TokenRefreshView):
-    pass
-
-
-@extend_schema_view(
-    post=extend_schema(
-        tags=[TAG_AUTH],
-        summary="Проверка токена",
-        description="Проверяет валидность переданного токена (access или refresh).",
-    )
-)
-class CustomTokenVerifyView(TokenVerifyView):
-    pass
-
-
-@extend_schema(tags=[TAG], summary="Получение информации о текущем пользователе")
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def get_info_user(request):
-    user = request.user
-    serializer = UserInfoSerializer(user)
-    return Response(serializer.data)
-
-
-class RegisterView(generics.CreateAPIView):
-    serializer_class = UserRegisterSerializer
+@extend_schema(tags=['Auth'])
+class RegisterRequestView(APIView):
+    """Запрос на регистрацию - отправка кода на email"""
     permission_classes = [AllowAny]
-
-    @extend_schema(
-        tags=[TAG_AUTH],
-        summary="Регистрация пользователя",
-        request=UserRegisterSerializer,
-    )
+    
+    @extend_schema(request=RegisterRequestSerializer)
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()  # is_active=False
-
-            try:
-                create_verification_code(user)  # ← Вызов утилиты
-            except Exception as e:
-                print(f"Ошибка отправки письма: {e}")
-
-            return Response(
-                {
-                    "msg": "Пользователь зарегистрирован. Проверьте почту.",
-                    "status": "success",
-                },
-                status=status.HTTP_201_CREATED,
-            )
-        return Response(
-            {"errors": serializer.errors, "status": "error"},
-            status=status.HTTP_400_BAD_REQUEST,
+        serializer = RegisterRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        # Создаем пользователя в неактивном состоянии
+        user = User.objects.create(
+            email=serializer.validated_data['email'],
+            phone=serializer.validated_data.get('phone'),
+            is_active=False
         )
+        
+        # Создаем и отправляем код
+        ip_address = self.get_client_ip(request)
+        verification_code = VerificationCode.create_for_user(
+            user, code_type='register', ip_address=ip_address
+        )
+        verification_code.send_email()
+        
+        return Response({
+            'message': 'Код подтверждения отправлен на email',
+            'email': user.email
+        }, status=status.HTTP_200_OK)
+    
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
 
 
-class CreateCodeSendEmailView(APIView):
-    @extend_schema(
-        tags=[TAG_AUTH],
-        summary="Высылает код подтверждения на почту",
-        request=SendCodeSerializer,
-    )
-    def post(self, request):
-        serializer = SendCodeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {
-                    "msg": "На вашу почту отправлен код подтверждения",
-                    "status": "success",
-                },
-                status=status.HTTP_200_OK,
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class VerifyEmailView(APIView):
+@extend_schema(tags=['Auth'])
+class RegisterVerifyView(APIView):
+    """Подтверждение регистрации - ввод кода и пароля"""
     permission_classes = [AllowAny]
-
-    @extend_schema(
-        tags=[TAG_AUTH],
-        summary="Подтверждение email кодом",
-        request=VerifyCodeSerializer,
-    )
+    
+    @extend_schema(request=RegisterVerifySerializer)
     def post(self, request):
-        serializer = VerifyCodeSerializer(data=request.data)
+        serializer = RegisterVerifySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        
+        # Автоматический вход после регистрации
+        login(request, user)
+        
+        return Response({
+            'message': 'Регистрация успешна',
+            'user': UserSerializer(user, context={'request': request}).data
+        }, status=status.HTTP_200_OK)
 
-        if serializer.is_valid():
-            code_obj = serializer.validated_data["code_obj"]
-            user = code_obj.user  # ← Получаем пользователя из кода
 
-            # Активируем пользователя
-            user.is_active = True
-            user.save()
-
-            # Помечаем код как использованный
-            code_obj.is_used = True
-            code_obj.save()
-
-            return Response(
-                {
-                    "msg": "Email подтвержден. Теперь вы можете войти.",
-                    "status": "success",
-                },
-                status=status.HTTP_200_OK,
+@extend_schema(tags=['Auth'])
+class LoginRequestView(APIView):
+    """Запрос на вход - отправка кода на email"""
+    permission_classes = [AllowAny]
+    
+    @extend_schema(request=LoginRequestSerializer)
+    def post(self, request):
+        serializer = LoginRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        try:
+            user = User.objects.get(email=serializer.validated_data['email'])
+            
+            # Создаем и отправляем код
+            ip_address = self.get_client_ip(request)
+            verification_code = VerificationCode.create_for_user(
+                user, code_type='login', ip_address=ip_address
             )
+            verification_code.send_email()
+            
+            return Response({
+                'message': 'Код подтверждения отправлен на email',
+                'email': user.email
+            }, status=status.HTTP_200_OK)
+            
+        except User.DoesNotExist:
+            # Не показываем существует ли пользователь (безопасность)
+            return Response({
+                'message': 'Код подтверждения отправлен на email'
+            }, status=status.HTTP_200_OK)
+    
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
 
-        return Response(
-            {"errors": serializer.errors, "status": "error"},
-            status=status.HTTP_400_BAD_REQUEST,
+
+@extend_schema(tags=['Auth'])
+class LoginVerifyView(APIView):
+    """Подтверждение входа - ввод кода"""
+    permission_classes = [AllowAny]
+    
+    @extend_schema(request=LoginVerifySerializer)
+    def post(self, request):
+        serializer = LoginVerifySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        
+        # Вход через сессию
+        login(request, user)
+        
+        return Response({
+            'message': 'Вход выполнен успешно',
+            'user': UserSerializer(user, context={'request': request}).data
+        }, status=status.HTTP_200_OK)
+
+
+@extend_schema(tags=['Auth'])
+class LogoutView(APIView):
+    """Выход из аккаунта"""
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        logout(request)
+        return Response({'message': 'Выход выполнен успешно'})
+
+
+@extend_schema(tags=['Auth'])
+class MeView(APIView):
+    """Получение данных текущего пользователя"""
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        serializer = UserSerializer(request.user, context={'request': request})
+        return Response(serializer.data)
+    
+    def patch(self, request):
+        serializer = UserSerializer(
+            request.user, 
+            data=request.data, 
+            partial=True,
+            context={'request': request}
         )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
+@extend_schema(tags=['Auth'])
+class PasswordResetRequestView(APIView):
+    """Запрос на сброс пароля"""
+    permission_classes = [AllowAny]
+    
+    @extend_schema(request=PasswordResetRequestSerializer)
+    def post(self, request):
+        serializer = PasswordResetRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        try:
+            user = User.objects.get(email=serializer.validated_data['email'])
+            
+            ip_address = self.get_client_ip(request)
+            verification_code = VerificationCode.create_for_user(
+                user, code_type='reset_password', ip_address=ip_address
+            )
+            verification_code.send_email()
+            
+            return Response({
+                'message': 'Код для сброса пароля отправлен на email'
+            }, status=status.HTTP_200_OK)
+            
+        except User.DoesNotExist:
+            return Response({
+                'message': 'Код для сброса пароля отправлен на email'
+            }, status=status.HTTP_200_OK)
+    
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+
+@extend_schema(tags=['Auth'])
+class PasswordResetVerifyView(APIView):
+    """Подтверждение сброса пароля"""
+    permission_classes = [AllowAny]
+    
+    @extend_schema(request=PasswordResetVerifySerializer)
+    def post(self, request):
+        serializer = PasswordResetVerifySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+        return Response({
+            'message': 'Пароль успешно изменён'
+        }, status=status.HTTP_200_OK)
+
+
+@extend_schema(tags=['Auth'])
+class ChangePasswordView(APIView):
+    """Смена пароля для авторизованного пользователя"""
+    permission_classes = [IsAuthenticated]
+    
+    @extend_schema(request=ChangePasswordSerializer)
+    def post(self, request):
+        serializer = ChangePasswordSerializer(
+            data=request.data, 
+            context={'request': request}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+        return Response({
+            'message': 'Пароль успешно изменён'
+        }, status=status.HTTP_200_OK)
