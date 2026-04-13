@@ -1,0 +1,58 @@
+[
+  {
+    "model": "posts.post",
+    "pk": 1,
+    "fields": {
+      "content": "<p style=\"margin-left:0px;\">Хватит искать клиентов и переживать за запись!&nbsp;</p><p style=\"margin-left:0px;\">Мы приглашаем парикмахера-универсала в команду салона.</p><p style=\"margin-left:0px;\">✅ <strong>Что мы предлагаем:</strong>&nbsp;</p><p style=\"margin-left:0px;\">&nbsp; &nbsp; • Поток клиентов уже есть — не нужно тратить бюджет на рекламу себя.&nbsp;</p><p style=\"margin-left:0px;\">&nbsp; &nbsp; • Прозрачная система выплат: высокий % + чаевые (выплаты 2 раза в месяц).&nbsp;</p><p style=\"margin-left:0px;\">&nbsp; &nbsp; • График 2/2, который позволяет отдыхать.</p><p style=\"margin-left:0px;\">🔥 <strong>От тебя:</strong> опыт от 1 года, любовь к делу и желание зарабатывать.</p>",
+      "created_at": "2026-03-07T09:30:39.186Z",
+      "updated_at": "2026-03-07T09:55:06.476Z",
+      "title": "Акцент на доход и стабильность",
+      "type": "article",
+      "slug": "aktsent-na-dohod-i-stabilnost",
+      "image": "",
+      "is_active": false
+    }
+  },
+  {
+    "model": "posts.post",
+    "pk": 2,
+    "fields": {
+      "content": "<p style=\"margin-left:0px;\">Ты не просто стрижешь волосы, ты создаешь стиль?&nbsp;</p><p style=\"margin-left:0px;\">Тогда тебе к нам! Салон открывает вакансию парикмахера-универсала.</p><p style=\"margin-left:0px;\">&nbsp;</p><p style=\"margin-left:0px;\">🌟 <strong>Почему у нас круто:</strong>&nbsp;</p><p style=\"margin-left:0px;\">&nbsp; &nbsp; • Свобода для творческих экспериментов.&nbsp;</p><p style=\"margin-left:0px;\">&nbsp; &nbsp; • Возможность вести блог и развивать личный бренд за счет салона.&nbsp;</p><p style=\"margin-left:0px;\">&nbsp; &nbsp; • Современные инструменты и комфортное рабочее место.</p><p style=\"margin-left:0px;\">&nbsp;</p><p style=\"margin-left:0px;\">Мы ценим мастеров, которые горят своим делом. Покажи нам свое портфолио, и мы обсудим условия!</p>",
+      "created_at": "2026-03-07T09:31:19.870Z",
+      "updated_at": "2026-03-07T09:31:19.870Z",
+      "title": "Акцент на творчество и портфолио",
+      "type": "article",
+      "slug": "aktsent-na-tvorchestvo-i-portfolio",
+      "image": "",
+      "is_active": true
+    }
+  },
+  {
+    "model": "posts.post",
+    "pk": 3,
+    "fields": {
+      "content": "<p style=\"margin-left:0px;\">Знаешь это чувство, когда коллеги становятся друзьями?&nbsp;</p><p style=\"margin-left:0px;\">В салоне именно такая атмосфера!</p><p style=\"margin-left:0px;\">&nbsp;</p><p style=\"margin-left:0px;\">Мы ищем в свою семью парикмахера-универсала.&nbsp;</p><p style=\"margin-left:0px;\">🤝 <strong>У нас нет:</strong> интриг, штрафов за опоздание на минуту и токсичности.&nbsp;</p><p style=\"margin-left:0px;\">&nbsp;</p><p style=\"margin-left:0px;\">🤝 <strong>У нас есть:</strong> поддержка наставника, совместные обучения и вкусный кофе каждый день.</p><p style=\"margin-left:0px;\">Если ты ценишь уважение и комфорт — откликайся!</p>",
+      "created_at": "2026-03-07T09:32:06.909Z",
+      "updated_at": "2026-03-07T09:32:06.909Z",
+      "title": "Акцент на атмосферу и команду",
+      "type": "article",
+      "slug": "aktsent-na-atmosferu-i-komandu",
+      "image": "",
+      "is_active": true
+    }
+  },
+  {
+    "model": "posts.post",
+    "pk": 4,
+    "fields": {
+      "content": "<p style=\"margin-left:0px;\">Устал от «пустых» дней и нестабильной записи? Мы возьмем это на себя.</p><p style=\"margin-left:0px;\">Салон приглашает парикмахера-универсала.&nbsp;</p><p style=\"margin-left:0px;\">&nbsp;</p><p style=\"margin-left:0px;\">📅 <strong>Полная запись</strong> обеспечивается маркетингом салона. 💈</p><p style=\"margin-left:0px;\">&nbsp;<strong>Твоя задача:</strong> качественно выполнять услуги и радовать гостей.</p><p style=\"margin-left:0px;\">Освободи себя от рекламы и сосредоточься на творчестве.&nbsp;</p><p style=\"margin-left:0px;\">✍️ Пиши «ЗАПИСЬ» в комментариях, и мы вышлем подробности!</p>",
+      "created_at": "2026-03-07T09:32:31.437Z",
+      "updated_at": "2026-03-07T09:32:31.437Z",
+      "title": "Акцент на поток клиентов (Боль мастеров)",
+      "type": "article",
+      "slug": "aktsent-na-potok-klientov-bol-masterov",
+      "image": "",
+      "is_active": true
+    }
+  }
+]

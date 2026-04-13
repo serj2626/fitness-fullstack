@@ -9,7 +9,7 @@ celery==5.3.1
 
 Django==5.0.6
 djangorestframework==3.15.1
-
+transliterate==1.10.2
 # Editor
 django-ckeditor-5==0.2.18
 

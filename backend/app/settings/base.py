@@ -19,7 +19,7 @@ else:
     from .dev import *
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "DV-FITNESS API",
@@ -43,18 +43,21 @@ INSTALLED_APPS = [
     "django_ckeditor_5",
     "django_extensions",
     "users",
-    # "seo",
-    # "contacts",
+    "seo",
+    "posts",
+    "categories",
+    "coaches",
+    "contacts",
     "django_cleanup.apps.CleanupConfig",
 ]
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
 
 # REST Framework
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
     ],
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.IsAuthenticated',
@@ -68,8 +71,8 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True  # ← Разрешить cookie
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",      # Nuxt dev
-    "https://yourdomain.com",     # Production
+    "http://localhost:3000",  # Nuxt dev
+    "https://yourdomain.com",  # Production
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -78,25 +81,25 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # Session & Cookie настройки
-SESSION_COOKIE_SECURE = False      # True для HTTPS в продакшене
+SESSION_COOKIE_SECURE = False  # True для HTTPS в продакшене
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = 'Lax'    # 'None' для кросс-домена
-SESSION_COOKIE_AGE = 1209600       # 2 недели в секундах
+SESSION_COOKIE_SAMESITE = "Lax"  # 'None' для кросс-домена
+SESSION_COOKIE_AGE = 1209600  # 2 недели в секундах
 SESSION_SAVE_EVERY_REQUEST = True  # Обновлять сессию при каждом запросе
 
-CSRF_COOKIE_SECURE = False         # True для HTTPS
-CSRF_COOKIE_HTTPONLY = False       # Должен быть False для JS
-CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SECURE = False  # True для HTTPS
+CSRF_COOKIE_HTTPONLY = False  # Должен быть False для JS
+CSRF_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_AGE = 1209600
 
 # Email настройки (для отправки кодов)
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-app-password'
-DEFAULT_FROM_EMAIL = 'Fitness Club <noreply@fitnessclub.com>'
+EMAIL_HOST_USER = "your-email@gmail.com"
+EMAIL_HOST_PASSWORD = "your-app-password"
+DEFAULT_FROM_EMAIL = "Fitness Club <noreply@fitnessclub.com>"
 
 
 MIDDLEWARE = [

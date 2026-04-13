@@ -52,6 +52,7 @@ format:
 	# Autoflake
 	@find . -type f -name "*.py" \
 	  -not -path "*/venv/*" \
+	  -not -path "*/fitenv/*" \
 	  -not -path "*/env/*" \
 	  -not -path "*/.venv/*" \
 	  -not -path "*/__pycache__/*" \
@@ -66,6 +67,7 @@ format:
 	@find . -type f -name "*.py" \
 	  -not -path "*/venv/*" \
 	  -not -path "*/env/*" \
+	  -not -path "*/fitenv/*" \
 	  -not -path "*/.venv/*" \
 	  -not -path "*/__pycache__/*" \
 	  -not -path "*/migrations/*" \
@@ -77,6 +79,7 @@ format:
 	# Black
 	@find . -type f -name "*.py" \
 	  -not -path "*/venv/*" \
+	  -not -path "*/fitenv/*" \
 	  -not -path "*/env/*" \
 	  -not -path "*/.venv/*" \
 	  -not -path "*/__pycache__/*" \
@@ -93,6 +96,7 @@ lint:
 	@echo "🔍 Проверяем качество кода..."
 	@find . -type f -name "*.py" \
 	  -not -path "*/venv/*" \
+	  -not -path "*/fitenv/*" \
 	  -not -path "*/env/*" \
 	  -not -path "*/.venv/*" \
 	  -not -path "*/__pycache__/*" \

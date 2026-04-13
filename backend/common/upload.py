@@ -13,10 +13,10 @@ class CustomStorage(FileSystemStorage):
     pass
 
 
-def compress_image(image_field):
+def compress_image(image_field, quality=90):
     image = Image.open(image_field)
     buffer = BytesIO()
-    image.save(buffer, format="WEBP", quality=90)
+    image.save(buffer, format="WEBP", quality=quality)
 
     # Генерируем новое имя
     original_name = os.path.basename(image_field.name)
