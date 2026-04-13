@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 MODE = os.getenv("MODE", "DEVELOPMENT")
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = True
 
 
 if MODE == "prod":
@@ -20,6 +20,9 @@ else:
 
 
 ALLOWED_HOSTS = ["*"]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "DV-FITNESS API",
@@ -56,9 +59,9 @@ AUTH_USER_MODEL = "users.User"
 
 # REST Framework
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
-    ],
+    # "DEFAULT_AUTHENTICATION_CLASSES": [
+    #     "rest_framework.authentication.SessionAuthentication",
+    # ],
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.IsAuthenticated',
     # ],

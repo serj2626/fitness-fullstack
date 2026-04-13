@@ -1,5 +1,5 @@
 # 2. Подключаем наше кастомное хранилище для CKEditor
-CKEDITOR_5_FILE_STORAGE = "app.storage.CKEditor5Storage"
+CKEDITOR_5_FILE_STORAGE = "app.settings.storage.CKEditor5Storage"
 
 
 CKEDITOR_5_CUSTOM_COLOR_PALETTE = [

@@ -59,7 +59,7 @@ class Coach(BaseID, BaseEmail, BaseContent, BaseOrder, AutoSlugMixin):
         verbose_name_plural = "Тренеры"
 
     def __str__(self):
-        return f"Тренер {self.name}"
+        return f"Тренер {self.first_name} {self.last_name}"
 
 
 class CoachService(models.Model):

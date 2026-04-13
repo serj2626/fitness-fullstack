@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from common.mixins import AdminImagePreviewMixin
+
 from .models import Coach, CoachService, OrderTraining, Service
 
 
@@ -18,11 +20,11 @@ class CoachServiceInline(admin.TabularInline):
 class OrderTrainingInline(admin.TabularInline):
     model = OrderTraining
     extra = 1
-    fields = ('service', "date_start", "date_end", "is_payed")
+    fields = ("service", "date_start", "date_end", "is_payed")
 
 
 @admin.register(Coach)
-class CoachAdmin(admin.ModelAdmin):
+class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     """Admin View for Coach"""
 
     list_display = (
@@ -31,8 +33,28 @@ class CoachAdmin(admin.ModelAdmin):
         "phone",
         "avatar",
         "experience",
+        "get_image",
     )
     inlines = [CoachServiceInline, OrderTrainingInline]
+    filter_horizontal = ("categories",)
+
+    fieldsets = (
+        (
+            "Даннеые тренера",
+            {
+                "fields": (
+                    ("first_name", "last_name"),
+                    ("phone", "email"),
+                    "avatar",
+                    "experience",
+                )
+            },
+        ),
+        (
+            "Категории",
+            {"fields": ("categories",)},
+        ),
+    )
 
 
 @admin.register(OrderTraining)
