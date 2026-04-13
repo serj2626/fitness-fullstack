@@ -27,6 +27,8 @@ class OrderTrainingInline(admin.TabularInline):
 class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     """Admin View for Coach"""
 
+    image_field_name = "avatar"
+
     list_display = (
         "first_name",
         "last_name",

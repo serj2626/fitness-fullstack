@@ -33,7 +33,7 @@ class Service(AutoSlugMixin, NameMixin):
         return f"Услуга {self.name}"
 
 
-class Coach(BaseID, BaseEmail, BaseContent, BaseOrder, AutoSlugMixin):
+class Coach(BaseID, BaseEmail, BaseContent, BaseOrder):
     """
     Модель тренера
     """
