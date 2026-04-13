@@ -87,10 +87,10 @@ class CoachService(models.Model):
         verbose_name_plural = "Услуги тренеров"
 
     def __str__(self):
-        return f"Связь тренера {self.coach.name} и услуги {self.service.name}"
+        return f"Связь тренера {self.coach.first_name} {self.coach.last_name} и услуги {self.service.name}"
 
 
-class OrderTraining(BaseOrder):
+class OrderTraining(models.Model):
     """
     Модель бронирования тренировки
     """

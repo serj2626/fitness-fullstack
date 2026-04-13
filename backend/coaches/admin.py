@@ -10,6 +10,7 @@ class ServiceAdmin(admin.ModelAdmin):
     """Admin View for Service"""
 
     list_display = ("name", "slug")
+    readonly_fields = ("slug",)
 
 
 class CoachServiceInline(admin.TabularInline):
@@ -30,13 +31,14 @@ class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     image_field_name = "avatar"
 
     list_display = (
-        "first_name",
-        "last_name",
+        "get_fullname",
+        "get_all_categories",
+        "email",
         "phone",
-        "avatar",
         "experience",
         "get_image",
     )
+    save_on_top = True
     inlines = [CoachServiceInline, OrderTrainingInline]
     filter_horizontal = ("categories",)
 
@@ -57,6 +59,15 @@ class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
             {"fields": ("categories",)},
         ),
     )
+
+    def get_fullname(self, obj):
+        return f"{obj.first_name} {obj.last_name}"
+
+    def get_all_categories(self, obj):
+        return ", ".join([cat.name for cat in obj.categories.all()])
+
+    get_all_categories.short_description = "Категории"
+    get_fullname.short_description = "ФИО"
 
 
 @admin.register(OrderTraining)
