@@ -46,7 +46,7 @@ class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
 
     fieldsets = (
         (
-            "Даннеые тренера",
+            "Данные тренера",
             {
                 "fields": (
                     ("first_name", "last_name"),
@@ -86,6 +86,7 @@ class OrderTrainingAdmin(admin.ModelAdmin):
         "date_start",
         "date_end",
         "total_time",
+        "created_at",
     )
     readonly_fields = ("date_end",)
 

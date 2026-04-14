@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from common.mixins import AutoSlugMixin, NameMixin
-from common.models import BaseContent, BaseOrder
+from common.models import BaseContent, BaseDate, BaseOrder
 from users.models import User
 
 
@@ -24,10 +24,10 @@ class Abonement(BaseOrder, BaseContent, NameMixin, AutoSlugMixin):
         verbose_name_plural = "Абонементы"
 
     def __str__(self):
-        return f"Абонемент {self.name}"
+        return f"Абонемент {self.name} от {self.price} руб. / {self.count_months} мес."
 
 
-class OrderAbonement(models.Model):
+class OrderAbonement(BaseDate):
     """
     Модель заказа абонемента
     """

@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_ckeditor_5",
     "django_extensions",
+    # Local
+    'abonements',
     "users",
     "seo",
     "posts",

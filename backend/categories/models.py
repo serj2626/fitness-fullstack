@@ -13,7 +13,7 @@ class Category(NameMixin, BaseOrder, AutoSlugMixin):
 
     def save(self, *args, **kwargs):
         if self.image:
-            self.image = compress_image(self.image)
+            self.image = compress_image(self.image, quality=80)
         super().save(*args, **kwargs)
 
     class Meta:

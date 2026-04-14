@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from categories.models import Category
 from common.mixins import AutoSlugMixin, NameMixin
-from common.models import BaseContent, BaseEmail, BaseID, BaseOrder
+from common.models import BaseContent, BaseDate, BaseEmail, BaseID, BaseOrder
 from common.upload import compress_image
 from users.models import User
 
@@ -90,7 +90,7 @@ class CoachService(models.Model):
         return f"{self.coach.first_name} {self.coach.last_name} / {self.service.name} / {self.time} мин. / {self.price} руб."
 
 
-class OrderTraining(models.Model):
+class OrderTraining(BaseDate):
     """
     Модель бронирования тренировки
     """
