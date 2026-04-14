@@ -87,7 +87,7 @@ class CoachService(models.Model):
         verbose_name_plural = "Услуги тренеров"
 
     def __str__(self):
-        return f"Связь тренера {self.coach.first_name} {self.coach.last_name} и услуги {self.service.name}"
+        return f"{self.coach.first_name} {self.coach.last_name} / {self.service.name} / {self.time} мин. / {self.price} руб."
 
 
 class OrderTraining(models.Model):
@@ -109,14 +109,14 @@ class OrderTraining(models.Model):
         related_name="order_trainings",
     )
     service = models.ForeignKey(
-        Service,
+        CoachService,
         on_delete=models.CASCADE,
         verbose_name="Услуга",
         related_name="order_trainings",
     )
     is_payed = models.BooleanField("Оплачен", default=False)
-    date_start = models.DateField("Дата начала", blank=True, null=True)
-    date_end = models.DateField("Дата окончания", blank=True, null=True)
+    date_start = models.DateTimeField("Дата начала", blank=True, null=True)
+    date_end = models.DateTimeField("Дата окончания", blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.date_start:
@@ -130,4 +130,4 @@ class OrderTraining(models.Model):
         verbose_name_plural = "Бронирования тренировок"
 
     def __str__(self):
-        return f"Бронирование тренировки {self.service.name}"
+        return f"Бронирование тренировки {self.service.service.name}"

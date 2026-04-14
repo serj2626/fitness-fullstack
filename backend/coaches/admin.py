@@ -16,12 +16,14 @@ class ServiceAdmin(admin.ModelAdmin):
 class CoachServiceInline(admin.TabularInline):
     model = CoachService
     extra = 1
+    classes = ("collapse",)
 
 
 class OrderTrainingInline(admin.TabularInline):
     model = OrderTraining
     extra = 1
     fields = ("service", "date_start", "date_end", "is_payed")
+    classes = ("collapse",)
 
 
 @admin.register(Coach)
@@ -56,7 +58,9 @@ class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
         ),
         (
             "Категории",
-            {"fields": ("categories",)},
+            {
+                "fields": ("categories",),
+            },
         ),
     )
 
@@ -81,4 +85,11 @@ class OrderTrainingAdmin(admin.ModelAdmin):
         "is_payed",
         "date_start",
         "date_end",
+        "total_time",
     )
+    readonly_fields = ("date_end",)
+
+    def total_time(self, obj):
+        return f"{obj.service.time} мин."
+
+    total_time.short_description = "Время"
