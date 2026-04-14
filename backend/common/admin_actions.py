@@ -39,9 +39,24 @@ def make_not_new(modeladmin, request, queryset):
     queryset.update(is_new=False)
 
 
-def get_abonement_link(self, obj):
-    if obj.abonement:
-        # Путь: admin:приложение_модель_change
-        url = reverse("admin:abonements_abonement_change", args=[obj.abonement.id])
-        return format_html('<a href="{}">{}</a>', url, obj.abonement)
-    return "-"
+def get_admin_link(obj, field_name: str, admin_url_name: str, display_text: str = None):
+    """
+    Генерирует HTML-ссылку на объект в админке Django.
+
+    :param obj: Экземпляр модели
+    :param field_name: Имя ForeignKey поля (например, 'user' или 'abonement')
+    :param admin_url_name: URL имя админки (например, 'admin:users_user_change')
+    :param display_text: Текст ссылки. По умолчанию берётся str(объекта)
+    :return: HTML-строка или "-"
+    """
+    related = getattr(obj, field_name, None)
+    if not related:
+        return "-"
+
+    try:
+        url = reverse(admin_url_name, args=[related.pk])
+        text = display_text or str(related)
+        return format_html('<a href="{}">{}</a>', url, text)
+    except Exception:
+        # Если URL неверный или объект битый, админка не должна падать
+        return str(related)

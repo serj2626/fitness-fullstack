@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
+from common.admin_actions import get_admin_link
 
 from .models import Abonement, OrderAbonement
 
@@ -53,26 +54,14 @@ class OrderAbonementAdmin(admin.ModelAdmin):
     readonly_fields = ("date_end", "created_at")
 
     # Ссылка на пользователя
+    @admin.display(description="Пользователь", ordering="user")
     def get_user_link(self, obj):
-        if obj.user:
-            # Путь: admin:приложение_модель_change
-            url = reverse("admin:users_user_change", args=[obj.user.id])
-            return format_html('<a href="{}">{}</a>', url, obj.user)
-        return "-"
+        return get_admin_link(obj, "user", "admin:users_user_change")
 
-    get_user_link.short_description = "Пользователь"
-    get_user_link.admin_order_field = "user"
-
-    # Ссылка на абонемент
+    # ✅ Ссылка на абонемент
+    @admin.display(description="Абонемент", ordering="abonement")
     def get_abonement_link(self, obj):
-        if obj.abonement:
-            # Путь: admin:приложение_модель_change
-            url = reverse("admin:abonements_abonement_change", args=[obj.abonement.id])
-            return format_html('<a href="{}">{}</a>', url, obj.abonement)
-        return "-"
-
-    get_abonement_link.short_description = "Абонемент"
-    get_abonement_link.admin_order_field = "abonement"
+        return get_admin_link(obj, "abonement", "admin:abonements_abonement_change")
 
     def order_by_time(self, obj):
         date = obj.created_at.strftime("%d.%m.%Y")
