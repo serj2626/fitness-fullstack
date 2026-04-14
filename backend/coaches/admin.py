@@ -2,7 +2,23 @@ from django.contrib import admin
 
 from common.mixins import AdminImagePreviewMixin
 
-from .models import Coach, CoachService, OrderTraining, Service
+from .models import Coach, CoachReview, CoachService, OrderTraining, Service
+
+
+@admin.register(CoachReview)
+class CoachReviewAdmin(admin.ModelAdmin):
+    """Admin View for CoachReview"""
+
+    list_display = (
+        "user",
+        "coach",
+        "rating",
+        "get_text",
+    )
+
+    def get_text(self, obj):
+        return obj.text[:50] + "..." if len(obj.text) > 0 else 'Отзыв без текста'
+    get_text.short_description = "Текст отзыва"
 
 
 @admin.register(Service)

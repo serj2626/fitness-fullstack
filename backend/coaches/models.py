@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from categories.models import Category
-from common.mixins import AutoSlugMixin, NameMixin
+from common.mixins import AutoSlugMixin, NameMixin, TimeAgoModelMixin
 from common.models import BaseContent, BaseDate, BaseEmail, BaseID, BaseOrder
 from common.upload import compress_image
 from users.models import User
@@ -131,3 +131,35 @@ class OrderTraining(BaseDate):
 
     def __str__(self):
         return f"Бронирование тренировки {self.service.service.name}"
+
+
+class CoachReview(BaseDate, TimeAgoModelMixin):
+    """
+    Модель отзыва о тренере
+    """
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        related_name="coach_reviews",
+    )
+    coach = models.ForeignKey(
+        Coach,
+        on_delete=models.CASCADE,
+        verbose_name="Тренер",
+        related_name="reviews",
+    )
+    rating = models.PositiveSmallIntegerField(
+        "Рейтинг",
+        help_text="От 1 до 5",
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+    )
+    text = models.TextField("Комментарий", max_length=5000, blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Отзыв о тренере"
+        verbose_name_plural = "Отзывы о тренерах"
+
+    def __str__(self):
+        return f"Отзыв о тренере {self.coach.first_name} {self.coach.last_name} / Рейтинг: {self.rating}"

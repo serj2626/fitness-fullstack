@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
 
 
 @admin.action(description="Сделать выбранные записи активными")
@@ -35,3 +37,11 @@ def make_new(modeladmin, request, queryset):
 @admin.action(description="Сделать выбранные товары не новинками")
 def make_not_new(modeladmin, request, queryset):
     queryset.update(is_new=False)
+
+
+def get_abonement_link(self, obj):
+    if obj.abonement:
+        # Путь: admin:приложение_модель_change
+        url = reverse("admin:abonements_abonement_change", args=[obj.abonement.id])
+        return format_html('<a href="{}">{}</a>', url, obj.abonement)
+    return "-"
