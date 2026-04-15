@@ -147,3 +147,15 @@ class RelativeOnlyFileField(serializers.FileField):
         if not value:
             return None
         return value.name
+
+
+def get_review_text(value: str | None = None) -> str:
+    """
+    Генерирует текст отзывв/обратной связи  в админке Django.
+
+    :param value: Текст отзыва
+    :return: текст
+    """
+    if not value:
+        return "Текст отсутствует"
+    return value if len(value) < 26 else str(value)[:26] + "..."

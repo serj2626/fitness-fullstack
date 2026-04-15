@@ -1,6 +1,5 @@
 from django.contrib import admin
-from django.urls import reverse
-from django.utils.html import format_html
+
 from common.admin_actions import get_admin_link
 
 from .models import Abonement, OrderAbonement
@@ -63,14 +62,13 @@ class OrderAbonementAdmin(admin.ModelAdmin):
     def get_abonement_link(self, obj):
         return get_admin_link(obj, "abonement", "admin:abonements_abonement_change")
 
+    @admin.display(description="Заказ от")
     def order_by_time(self, obj):
         date = obj.created_at.strftime("%d.%m.%Y")
         return f"Заказ от {date}"
 
+    @admin.display(description="Кол-во месяцев")
     def total_time(self, obj):
         return obj.abonement.count_months
 
-    order_by_time.short_description = "Заказ от"
-
-    total_time.short_description = "Кол-во месяцев"
     list_display_links = ("order_by_time",)

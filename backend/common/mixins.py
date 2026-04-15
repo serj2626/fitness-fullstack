@@ -1,4 +1,4 @@
-from django.contrib import messages
+from django.contrib import messages, admin
 from django.db import models
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
@@ -199,3 +199,13 @@ class MaxObjectsMixin:
                 return  # Не сохраняем объект
 
         super().save_model(request, obj, form, change)
+
+
+class Admin:
+    description_title = ""
+    returned_title = ""
+
+    @admin.display(description="Заказ от")
+    def order_by_time(self, obj):
+        date = obj.created_at.strftime("%d.%m.%Y")
+        return f"{self.returned_title} от {date}"

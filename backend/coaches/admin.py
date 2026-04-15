@@ -1,6 +1,8 @@
 from django.contrib import admin
 
+from common.admin_actions import get_admin_link
 from common.mixins import AdminImagePreviewMixin
+from common.utils import get_review_text
 
 from .models import Coach, CoachReview, CoachService, OrderTraining, Service
 
@@ -9,16 +11,11 @@ from .models import Coach, CoachReview, CoachService, OrderTraining, Service
 class CoachReviewAdmin(admin.ModelAdmin):
     """Admin View for CoachReview"""
 
-    list_display = (
-        "user",
-        "coach",
-        "rating",
-        "get_text",
-    )
+    list_display = ("user", "coach", "rating", "get_text", "created_at", "is_verified")
 
+    @admin.display(description="Текст отзыва")
     def get_text(self, obj):
-        return obj.text[:50] + "..." if len(obj.text) > 0 else 'Отзыв без текста'
-    get_text.short_description = "Текст отзыва"
+        return get_review_text(obj.text)
 
 
 @admin.register(Service)
@@ -80,14 +77,13 @@ class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
         ),
     )
 
+    @admin.display(description="ФИО")
     def get_fullname(self, obj):
         return f"{obj.first_name} {obj.last_name}"
 
+    @admin.display(description="Категории")
     def get_all_categories(self, obj):
         return ", ".join([cat.name for cat in obj.categories.all()])
-
-    get_all_categories.short_description = "Категории"
-    get_fullname.short_description = "ФИО"
 
 
 @admin.register(OrderTraining)
@@ -95,18 +91,31 @@ class OrderTrainingAdmin(admin.ModelAdmin):
     """Admin View for OrderTraining"""
 
     list_display = (
-        "user",
-        "coach",
+        "get_order",
+        "get_user_link",
+        "get_coach_link",
         "service",
-        "is_payed",
         "date_start",
         "date_end",
         "total_time",
         "created_at",
+        "is_payed",
     )
     readonly_fields = ("date_end",)
 
+    @admin.display(description="№ Заказ")
+    def get_order(self, obj):
+        date = obj.created_at.strftime("%d.%m.%Y")
+        return f"Заказ от {date}"
+
+    @admin.display(description="Время")
     def total_time(self, obj):
         return f"{obj.service.time} мин."
 
-    total_time.short_description = "Время"
+    @admin.display(description="Пользователь", ordering="user")
+    def get_user_link(self, obj):
+        return get_admin_link(obj, "user", "admin:users_user_change")
+
+    @admin.display(description="Тренер", ordering="user")
+    def get_coach_link(self, obj):
+        return get_admin_link(obj, "coach", "admin:coaches_coach_change")

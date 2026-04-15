@@ -7,7 +7,7 @@ from common.admin_actions import (
     make_not_is_verified,
 )
 from common.mixins import MaxObjectsMixin
-
+from common.utils import get_review_text
 from .models import FAQ, Contact, FeedBack, Footer, Policy, Social, Terms, Vacancy
 
 
@@ -66,8 +66,12 @@ class FooterAdmin(admin.ModelAdmin):
 class FeedBackAdmin(admin.ModelAdmin):
     """Admin View for FeedBack"""
 
-    list_display = ("name", "phone", "is_verified", "created_at")
+    list_display = ("name", "phone", "get_text", "is_verified", "created_at")
     actions = [make_is_verified, make_not_is_verified]
+
+    @admin.display(description="Текст отзыва")
+    def get_text(self, obj):
+        return get_review_text(obj.description)
 
 
 @admin.register(FAQ)

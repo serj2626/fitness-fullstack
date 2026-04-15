@@ -13,16 +13,14 @@ urlpatterns = [
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),
-    # path("api/v1/auth/", include("users.urls")),
-    # path("api/v1/seo/", include("seo.urls")),
-    # path("api/v1/contacts/", include("contacts.urls")),
-    # path("api/v1/salon/", include("salon.urls")),
-    # path("api/v1/posts/", include("posts.urls")),
-    # path("api/v1/products/", include("products.urls")),
+    path("api/v1/coaches/", include("coaches.urls")),
+    path("api/v1/seo/", include("seo.urls")),
+    path("api/v1/categories/", include("categories.urls")),
+    path("api/v1/contacts/", include("contacts.urls")),
 ]
+
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 admin.site.site_header = "DV-FITNESS"

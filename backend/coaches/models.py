@@ -156,6 +156,7 @@ class CoachReview(BaseDate, TimeAgoModelMixin):
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
     )
     text = models.TextField("Комментарий", max_length=5000, blank=True, null=True)
+    is_verified = models.BooleanField("Проверен", default=False)
 
     class Meta:
         verbose_name = "Отзыв о тренере"
