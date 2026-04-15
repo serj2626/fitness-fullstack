@@ -109,7 +109,7 @@ class VerificationCode(models.Model):
         return f"Code {self.code} for {self.user.email}"
 
     def is_expired(self):
-        return timezone.now() > self.expires_at
+        return timezone.now() > self.expires_at if self.expires_at else False
 
     def is_valid(self):
         return not self.is_used and not self.is_expired()

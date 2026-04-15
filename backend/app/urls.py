@@ -14,9 +14,11 @@ urlpatterns = [
         name="swagger-ui",
     ),
     path("api/v1/coaches/", include("coaches.urls")),
+    path("api/v1/posts/", include("posts.urls")),
     path("api/v1/seo/", include("seo.urls")),
     path("api/v1/categories/", include("categories.urls")),
     path("api/v1/contacts/", include("contacts.urls")),
+    path("api/v1/abonements/", include("abonements.urls")),
 ]
 
 if settings.DEBUG:
