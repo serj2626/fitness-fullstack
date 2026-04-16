@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { api } from "~/api";
-import { useAbonementsStore } from "~/stores/abonements";
 import type {
   IPost,
   IServicesResponse,
@@ -8,55 +7,44 @@ import type {
   IEequipmentResponse,
 } from "~/types";
 
-const abonementsStore = useAbonementsStore();
-const {
-  abonements,
-  error: abonementsError,
-  loading: abonementsLoading,
-} = storeToRefs(abonementsStore);
-
-
-if (!abonements.value.length) {
-  await useAsyncData("abonements", () =>
-    abonementsStore.getAllAbonements()
-  );
-}
-
 const { $api } = useNuxtApp();
 
+const { data: abonements } = await useAsyncData(
+  "main-page-abonements-info",
+  () => $api(api.abonements.list),
+);
 
-
-const [
-  { data: servicesInfo },
-  { data: postsLast },
-  { data: advantagesInfo },
-  { data: equipmentList },
-] = await Promise.all([
-  useAsyncData("main-page-services-list-info", () =>
-    $api<IServicesResponse[]>(api.gym.services)
-  ),
-  useAsyncData("main-page-posts-last-info", () =>
-    $api<IPost[]>(api.posts.last)
-  ),
-  useAsyncData("main-page-advantages-list-info", () =>
-    $api<IAdvantageResponse[]>(api.gym.advantages)
-  ),
-  useAsyncData("main-page-equipment-list", 
-    () => $api(api.gym.equipment), {
-    transform: (data: IEequipmentResponse[]) =>
-      Object.fromEntries(data.map((item) => [item.title, item])),
-  }),
-]);
+// const [
+//   { data: servicesInfo },
+//   { data: postsLast },
+//   { data: advantagesInfo },
+//   { data: equipmentList },
+// ] = await Promise.all([
+//   useAsyncData("main-page-services-list-info", () =>
+//     $api<IServicesResponse[]>(api.gym.services)
+//   ),
+//   useAsyncData("main-page-posts-last-info", () =>
+//     $api<IPost[]>(api.posts.last)
+//   ),
+//   useAsyncData("main-page-advantages-list-info", () =>
+//     $api<IAdvantageResponse[]>(api.gym.advantages)
+//   ),
+//   useAsyncData("main-page-equipment-list",
+//     () => $api(api.gym.equipment), {
+//     transform: (data: IEequipmentResponse[]) =>
+//       Object.fromEntries(data.map((item) => [item.title, item])),
+//   }),
+// ]);
 </script>
 <template>
   <div>
     <MainVideoSection />
-    <MainAboutSection client:visible  />
-    <MainFirstSection client:visible  />
+    <MainAboutSection client:visible />
+    <MainFirstSection client:visible />
 
-    <MainAdvantagesSection v-if="advantagesInfo" :advantages="advantagesInfo" />
+    <!-- <MainAdvantagesSection v-if="advantagesInfo" :advantages="advantagesInfo" />
 
-    <MainAbonementsSection v-if="abonements" :abonements="abonements" />
+    <MainAbonementsSection v-if="useAbonements" :abonements="abonements" />
 
     <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
 
@@ -66,9 +54,9 @@ const [
       v-if="equipmentList"
       :data="equipmentList"
       client:visible
-    />
+    /> -->
 
-    <LazyMainPoolSection client:visible  />
+    <LazyMainPoolSection client:visible />
     <BaseFormFeedback client:visible />
   </div>
 </template>

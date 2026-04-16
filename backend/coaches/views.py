@@ -1,11 +1,12 @@
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
+    OpenApiExample,
     OpenApiParameter,
     OpenApiResponse,
     extend_schema,
-    OpenApiExample,
 )
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+
 from categories.models import Category
 
 from .models import Coach, CoachReview, OrderTraining

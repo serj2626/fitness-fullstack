@@ -89,6 +89,18 @@ class BaseDate(models.Model):
         abstract = True
 
 
+class BaseDateRange(models.Model):
+    """
+    Базовая модель диапазона дат
+    """
+
+    date_start = models.DateField("Дата начала", blank=True, null=True)
+    date_end = models.DateField("Дата окончания", blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
 class BaseReview(BaseID, BaseDate):
     """
     Базовая модель для всех моделей с отзывами
@@ -125,58 +137,58 @@ class BaseReview(BaseID, BaseDate):
 #         abstract = True
 
 
-import os
+# import os
 
-from django.db import models
-from django.db.models.signals import post_delete, pre_save
-from django.dispatch import receiver
-
-
-class AutoDeleteFileMixin(models.Model):
-    """
-    Миксин для автоматического удаления файлов (ImageField / FileField)
-    при удалении модели или замене файла.
-    """
-
-    class Meta:
-        abstract = True
-
-    @classmethod
-    def _get_file_fields(cls):
-        """Возвращает список всех FileField / ImageField в модели"""
-        return [
-            field
-            for field in cls._meta.fields
-            if isinstance(field, (models.FileField, models.ImageField))
-        ]
+# from django.db import models
+# from django.db.models.signals import post_delete, pre_save
+# from django.dispatch import receiver
 
 
-# 🗑 Удаление файла при удалении модели
-@receiver(post_delete)
-def auto_delete_file_on_delete(sender, instance, **kwargs):
-    if not issubclass(sender, AutoDeleteFileMixin):
-        return
+# class AutoDeleteFileMixin(models.Model):
+#     """
+#     Миксин для автоматического удаления файлов (ImageField / FileField)
+#     при удалении модели или замене файла.
+#     """
 
-    for field in sender._get_file_fields():
-        file = getattr(instance, field.name)
-        if file and os.path.isfile(file.path):
-            os.remove(file.path)
+#     class Meta:
+#         abstract = True
+
+#     @classmethod
+#     def _get_file_fields(cls):
+#         """Возвращает список всех FileField / ImageField в модели"""
+#         return [
+#             field
+#             for field in cls._meta.fields
+#             if isinstance(field, (models.FileField, models.ImageField))
+#         ]
 
 
-# 🔄 Удаление старого файла при обновлении
-@receiver(pre_save)
-def auto_delete_file_on_change(sender, instance, **kwargs):
-    if not issubclass(sender, AutoDeleteFileMixin) or not instance.pk:
-        return
+# # 🗑 Удаление файла при удалении модели
+# @receiver(post_delete)
+# def auto_delete_file_on_delete(sender, instance, **kwargs):
+#     if not issubclass(sender, AutoDeleteFileMixin):
+#         return
 
-    try:
-        old_instance = sender.objects.get(pk=instance.pk)
-    except sender.DoesNotExist:
-        return
+#     for field in sender._get_file_fields():
+#         file = getattr(instance, field.name)
+#         if file and os.path.isfile(file.path):
+#             os.remove(file.path)
 
-    for field in sender._get_file_fields():
-        old_file = getattr(old_instance, field.name)
-        new_file = getattr(instance, field.name)
 
-        if old_file and old_file != new_file and os.path.isfile(old_file.path):
-            os.remove(old_file.path)
+# # 🔄 Удаление старого файла при обновлении
+# @receiver(pre_save)
+# def auto_delete_file_on_change(sender, instance, **kwargs):
+#     if not issubclass(sender, AutoDeleteFileMixin) or not instance.pk:
+#         return
+
+#     try:
+#         old_instance = sender.objects.get(pk=instance.pk)
+#     except sender.DoesNotExist:
+#         return
+
+#     for field in sender._get_file_fields():
+#         old_file = getattr(old_instance, field.name)
+#         new_file = getattr(instance, field.name)
+
+#         if old_file and old_file != new_file and os.path.isfile(old_file.path):
+#             os.remove(old_file.path)

@@ -4,7 +4,8 @@
     <main>
         <slot />
     </main>
-    <FooterComponent v-if="!$route.meta.hideFooter" />
+    <!-- <FooterComponent v-if="!$route.meta.hideFooter" /> -->
+    <FooterComponent />
     <ModalComponent />
   </div>
 </template>

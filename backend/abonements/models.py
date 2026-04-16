@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from common.mixins import AutoSlugMixin, NameMixin
-from common.models import BaseContent, BaseDate, BaseOrder
+from common.models import BaseContent, BaseDate, BaseDateRange, BaseOrder
 from users.models import User
 
 
@@ -36,6 +36,13 @@ class Abonement(BaseOrder, BaseContent, NameMixin, AutoSlugMixin):
         verbose_name = "Абонемент"
         verbose_name_plural = "Абонементы"
 
+
+    @property
+    def total_price(self):
+        if self.sales:
+            return int(self.price * (1 - self.sales / 100))
+        return self.price
+
     def __str__(self):
         return f"Абонемент {self.name} от {self.price} руб. / {self.count_months} мес."
 
@@ -62,7 +69,7 @@ class AbonementServiceAbonement(models.Model):
         return f"Услуга {self.service.name} в абонементе {self.abonement.name}"
 
 
-class OrderAbonement(BaseDate):
+class OrderAbonement(BaseDate, BaseDateRange):
     """
     Модель заказа абонемента
     """
@@ -80,8 +87,6 @@ class OrderAbonement(BaseDate):
         related_name="order_abonements",
     )
     is_payed = models.BooleanField("Оплачен", default=False)
-    date_start = models.DateField("Дата начала", blank=True, null=True)
-    date_end = models.DateField("Дата окончания", blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.date_start:
@@ -98,3 +103,24 @@ class OrderAbonement(BaseDate):
 
     def __str__(self):
         return f"Заказ абонемента {self.abonement.name} от {self.user.email}"
+
+
+class Promotion(BaseDateRange):
+    """
+    Модель скидки на абонемент
+    """
+
+    abonement = models.ForeignKey(
+        Abonement,
+        on_delete=models.CASCADE,
+        verbose_name="Абонемент",
+        related_name="sales",
+    )
+    sale = models.PositiveSmallIntegerField("Скидка", default=0)
+
+    class Meta:
+        verbose_name = "Скидка"
+        verbose_name_plural = "Скидки"
+
+    def __str__(self):
+        return f"Скидка {self.sale}% на {self.abonement.name}"

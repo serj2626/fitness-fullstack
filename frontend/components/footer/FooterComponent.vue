@@ -1,19 +1,47 @@
 <script lang="ts" setup>
+import { api } from "~/api";
 import type { IFooterInfoTransformResponse } from "~/types";
 
-const { data: footerData } =
-  useNuxtData<IFooterInfoTransformResponse>("footer-info");
+const { $api } = useNuxtApp();
+
+// const { data: footerData } =
+//   useNuxtData<IFooterInfoTransformResponse>("footer-info");
+export interface IFooterInfo {
+    id:             number;
+    text:           string;
+    developer_name: string;
+    developer_link: string;
+    copyright:      string;
+}
+
+export interface IFooterSocials {
+    id:    number;
+    title: string;
+    type:  string;
+    value: string;
+}
+
+
+const { data: footerData } = useAsyncData<IFooterInfo>(
+  "footer-info",
+  () => $api(api.contacts.footer),
+);
+
+const { data: socialsData } = useAsyncData<IFooterSocials[]>(
+  "footer-socials",
+  () => $api(api.contacts.socials),
+);
 </script>
 <template>
   <footer class="footer-component container">
     <div class="footer-component__content">
       <div class="footer-component__content-copyright">
         <span>
-          {{ footerData?.site_name || "DV Fitness" }}
+          {{ footerData?.text || "DV Fitness" }}
           {{ footerData?.copyright || "© 2025 Все права защищены." }}
         </span>
       </div>
-      <div
+      <!-- <div
         v-if="footerData?.navigations && footerData?.navigations.length"
         class="footer-component__content-links"
       >
@@ -25,14 +53,15 @@ const { data: footerData } =
         >
           {{ link.title }}
         </NuxtLink>
-      </div>
+      </div> -->
     </div>
-    <FooterSocials
-      :tg="footerData?.tg?.value"
+    {{ socialsData }}
+    <!-- <FooterSocials
+      :tg="socialsData"
       :whatsapp="footerData?.whatsapp.value"
       :mail="footerData?.mail.value"
       :phone="footerData?.phone.value"
-    />
+    /> -->
   </footer>
 </template>
 <style lang="scss" scoped>

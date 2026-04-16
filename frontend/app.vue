@@ -7,25 +7,25 @@ import type {
 } from "~/types";
 const { $api } = useNuxtApp();
 
-await useAsyncData<IFooterInfoTransformResponse>(
-  "footer-info",
-  () => $api(api.contacts.footer),
-  {
-    transform: (data: IFooterInfo) => {
-      const contactsMap = data.contacts.reduce((acc, item) => {
-        acc[item.type] = item;
-        return acc;
-      }, {} as Record<string, IContact>);
+// await useAsyncData<IFooterInfoTransformResponse>(
+//   "footer-info",
+//   () => $api(api.contacts.footer),
+//   {
+//     transform: (data: IFooterInfo) => {
+//       const contactsMap = data.contacts.reduce((acc, item) => {
+//         acc[item.type] = item;
+//         return acc;
+//       }, {} as Record<string, IContact>);
 
-      const { contacts, ...rest } = data;
+//       const { contacts, ...rest } = data;
 
-      return {
-        ...rest,
-        ...contactsMap,
-      };
-    },
-  }
-);
+//       return {
+//         ...rest,
+//         ...contactsMap,
+//       };
+//     },
+//   }
+// );
 </script>
 
 <template>
@@ -37,7 +37,7 @@ await useAsyncData<IFooterInfoTransformResponse>(
     </NuxtLayout>
     <LazyBaseAlertCookie />
     <LazyBaseNotifications />
-    <BaseSeoMeta />
+    <!-- <BaseSeoMeta /> -->
   </div>
 </template>
 <style lang="scss">

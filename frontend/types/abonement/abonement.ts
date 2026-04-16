@@ -1,12 +1,10 @@
-export interface IAbonementResponse {
+export interface IAbonement {
   id: number;
-  services: string[];
-  title: string;
-  description: string;
-  price: number;
-  number_of_months: number;
-  is_popular: boolean;
-  sale: boolean;
-  freeze_days: number;
+  name: string;
   slug: string;
+  content: string;
+  count_months: number;
+  days_freezing: number;
+  price: number;
+  services: string[];
 }
