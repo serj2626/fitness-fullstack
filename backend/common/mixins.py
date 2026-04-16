@@ -1,4 +1,4 @@
-from django.contrib import messages, admin
+from django.contrib import admin, messages
 from django.db import models
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe

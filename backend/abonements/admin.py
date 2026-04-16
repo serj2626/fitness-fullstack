@@ -2,7 +2,26 @@ from django.contrib import admin
 
 from common.admin_actions import get_admin_link
 
-from .models import Abonement, OrderAbonement
+from .models import (
+    Abonement,
+    OrderAbonement,
+    AbonementService,
+    AbonementServiceAbonement,
+)
+
+
+@admin.register(AbonementService)
+class AbonementServiceAdmin(admin.ModelAdmin):
+    """Admin View for AbonementService"""
+
+    list_display = (
+        "name",
+        "slug",
+    )
+
+
+class AbonementServiceAbonementInline(admin.TabularInline):
+    model = AbonementServiceAbonement
 
 
 @admin.register(Abonement)
@@ -34,6 +53,8 @@ class AbonementAdmin(admin.ModelAdmin):
     )
     list_editable = ("order",)
     readonly_fields = ("slug",)
+
+    inlines = (AbonementServiceAbonementInline,)
 
 
 @admin.register(OrderAbonement)

@@ -8,6 +8,7 @@ from common.admin_actions import (
 )
 from common.mixins import MaxObjectsMixin
 from common.utils import get_review_text
+
 from .models import FAQ, Contact, FeedBack, Footer, Policy, Social, Terms, Vacancy
 
 

@@ -8,6 +8,18 @@ from common.models import BaseContent, BaseDate, BaseOrder
 from users.models import User
 
 
+class AbonementService(NameMixin, AutoSlugMixin):
+    """
+    Модель услуги абонемента
+    """
+
+    class Meta:
+        verbose_name = "Услуга абонемента"
+        verbose_name_plural = "Услуги абонемента"
+
+    def __str__(self):
+        return f"Услуга {self.name}"
+
 class Abonement(BaseOrder, BaseContent, NameMixin, AutoSlugMixin):
     """
     Модель абонемента
@@ -25,6 +37,28 @@ class Abonement(BaseOrder, BaseContent, NameMixin, AutoSlugMixin):
 
     def __str__(self):
         return f"Абонемент {self.name} от {self.price} руб. / {self.count_months} мес."
+
+
+class AbonementServiceAbonement(models.Model):
+    abonement = models.ForeignKey(
+        Abonement,
+        on_delete=models.CASCADE,
+        verbose_name="Абонемент",
+        related_name="services",
+    )
+    service = models.ForeignKey(
+        AbonementService,
+        on_delete=models.CASCADE,
+        verbose_name="Услуга",
+        related_name="abonements",
+    )
+
+    class Meta:
+        verbose_name = "Услуга абонемента"
+        verbose_name_plural = "Услуги абонемента"
+
+    def __str__(self):
+        return f"Услуга {self.service.name} в абонементе {self.abonement.name}"
 
 
 class OrderAbonement(BaseDate):

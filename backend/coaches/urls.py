@@ -1,10 +1,11 @@
-from .views import (
-    CoachListView,
-    CoachDetailView,
-    CreateOrderTrainingView,
-    CoachListReviewView,
-)
 from django.urls import path
+
+from .views import (
+    CoachDetailView,
+    CoachListReviewView,
+    CoachListView,
+    CreateOrderTrainingView,
+)
 
 urlpatterns = [
     path("coaches/", CoachListView.as_view(), name="coach-list"),

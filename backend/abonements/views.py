@@ -1,7 +1,8 @@
-from .serializers import AbonementSerializer, CreateOrderAbonementSerializer
-from .models import Abonement
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from drf_spectacular.utils import extend_schema
+from rest_framework.generics import CreateAPIView, ListAPIView
+
+from .models import Abonement
+from .serializers import AbonementSerializer, CreateOrderAbonementSerializer
 
 TAG = "Абонементы"
 

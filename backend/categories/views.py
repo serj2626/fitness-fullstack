@@ -1,10 +1,10 @@
-from .serializers import CategorySerializer
-from .models import Category
-from rest_framework import generics
 from drf_spectacular.utils import extend_schema
+from rest_framework import generics
 
+from .models import Category
+from .serializers import CategorySerializer
 
-TAG = 'Категории'
+TAG = "Категории"
 
 
 @extend_schema(tags=[TAG], responses=CategorySerializer)

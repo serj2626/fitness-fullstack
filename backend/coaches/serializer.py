@@ -1,8 +1,9 @@
 from rest_framework import serializers
 
-from common.utils import RelativeOnlyImageField
-from .models import Coach, CoachService, CoachReview, OrderTraining
 from categories.serializers import CategorySerializer
+from common.utils import RelativeOnlyImageField
+
+from .models import Coach, CoachReview, CoachService, OrderTraining
 
 
 class CreateOrderTrainingSerializer(serializers.ModelSerializer):

@@ -1,13 +1,15 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+
+from categories.models import Category
+
+from .models import Coach, CoachReview, OrderTraining
 from .serializer import (
+    CoachReviewListSerializer,
     CoachSerializer,
     CreateOrderTrainingSerializer,
-    CoachReviewListSerializer,
 )
-from .models import Coach, CoachService, CoachReview, OrderTraining
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiParameter
-from categories.models import Category
 
 TAG = "Тренеры"
 TAG_REVIEW = "Отзывы о тренерах"
