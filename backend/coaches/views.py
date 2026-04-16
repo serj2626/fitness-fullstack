@@ -1,7 +1,11 @@
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
+from drf_spectacular.utils import (
+    OpenApiParameter,
+    OpenApiResponse,
+    extend_schema,
+    OpenApiExample,
+)
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
-
 from categories.models import Category
 
 from .models import Coach, CoachReview, OrderTraining
@@ -9,10 +13,51 @@ from .serializer import (
     CoachReviewListSerializer,
     CoachSerializer,
     CreateOrderTrainingSerializer,
+    CreateReviewByCoachSerializer,
 )
 
 TAG = "Тренеры"
 TAG_REVIEW = "Отзывы о тренерах"
+
+
+@extend_schema(
+    tags=[TAG_REVIEW],
+    summary="Создать отзыв о тренере",
+    description="Этот эндпоинт позволяет создать отзыв о тренере."
+    "coach d64cbfbc-9331-4ea7-9e3b-aa115d5f87bb \n"
+    "user 	daf2a854-62ff-404c-aa29-c6b29b8eb073",
+    request=CreateReviewByCoachSerializer,
+    responses={
+        200: CreateReviewByCoachSerializer,
+        400: OpenApiResponse(description="Невалидные данные"),
+        500: OpenApiResponse(description="Внутренняя ошибка сервера"),
+    },
+    examples=[
+        OpenApiExample(
+            name="✅ Успешный отзыв",
+            value={
+                "user": "daf2a854-62ff-404c-aa29-c6b29b8eb073",
+                "coach": "d64cbfbc-9331-4ea7-9e3b-aa115d5f87bb",
+                "rating": 5,
+                "text": "Профессионал своего дела!",
+            },
+            request_only=True,
+        ),
+        OpenApiExample(
+            name="⚠️ Отзыв с минимальным рейтингом",
+            value={
+                "user": "daf2a854-62ff-404c-aa29-c6b29b8eb073",
+                "coach": "d64cbfbc-9331-4ea7-9e3b-aa115d5f87bb",
+                "rating": 1,
+                "text": "Не оправдал ожиданий.",
+            },
+            request_only=True,
+        ),
+    ],
+)
+class CreateReviewByCoachView(CreateAPIView):
+    serializer_class = CreateReviewByCoachSerializer
+    queryset = CoachReview.objects.all()
 
 
 @extend_schema(

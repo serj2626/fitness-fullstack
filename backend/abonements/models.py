@@ -20,6 +20,7 @@ class AbonementService(NameMixin, AutoSlugMixin):
     def __str__(self):
         return f"Услуга {self.name}"
 
+
 class Abonement(BaseOrder, BaseContent, NameMixin, AutoSlugMixin):
     """
     Модель абонемента

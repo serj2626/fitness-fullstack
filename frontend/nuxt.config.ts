@@ -24,9 +24,9 @@ export default defineNuxtConfig({
     public: {
       api_url: process.env.API_URL,
       media_url: process.env.MEDIA_URL,
-      recaptchaPublicKey: process.env.GOOGLE_CAPTCHA_PUBLIC_KEY,
-      tawkKey: process.env.TAWK_ID,
-      cloudFlarePublicKey: process.env.CLOUDFLARE_PUBLIC_KEY,
+      recaptchaPublicKey: process.env.GOOGLE_CAPTCHA_PUBLIC_KEY || "",
+      tawkKey: process.env.TAWK_ID || "",
+      cloudFlarePublicKey: process.env.CLOUDFLARE_PUBLIC_KEY || "",
     },
     recaptchaSecretKey: process.env.GOOGLE_CAPTCHA_SECRET_KEY,
     cloudFlareSecretKey: process.env.CLOUDFLARE_SECRET_KEY,

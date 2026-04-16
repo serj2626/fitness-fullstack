@@ -17,6 +17,17 @@ class CreateOrderTrainingSerializer(serializers.ModelSerializer):
         )
 
 
+class CreateReviewByCoachSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CoachReview
+        fields = (
+            "user",
+            "coach",
+            "rating",
+            "text",
+        )
+
+
 class CoachReviewListSerializer(serializers.ModelSerializer):
     time_ago = serializers.CharField(source="time", read_only=True)
     user = serializers.CharField(source="user.email", read_only=True)

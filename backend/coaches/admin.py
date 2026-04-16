@@ -46,6 +46,7 @@ class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     image_field_name = "avatar"
 
     list_display = (
+        "id",
         "get_fullname",
         "get_all_categories",
         "email",

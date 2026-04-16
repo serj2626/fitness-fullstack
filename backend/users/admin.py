@@ -7,6 +7,7 @@ from .models import User, VerificationCode
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     list_display = [
+        "id",
         "email",
         "phone",
         "first_name",

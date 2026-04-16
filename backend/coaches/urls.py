@@ -5,11 +5,13 @@ from .views import (
     CoachListReviewView,
     CoachListView,
     CreateOrderTrainingView,
+    CreateReviewByCoachView,
 )
 
 urlpatterns = [
-    path("coaches/", CoachListView.as_view(), name="coach-list"),
-    path("coaches/<str:id>/", CoachDetailView.as_view(), name="coach-detail"),
+    path("", CoachListView.as_view(), name="coach-list"),
+    path("<str:id>/", CoachDetailView.as_view(), name="coach-detail"),
     path("reviews/", CoachListReviewView.as_view(), name="reviews-list"),
+    path("reviews/create/", CreateReviewByCoachView.as_view(), name="create-review"),
     path("order/", CreateOrderTrainingView.as_view(), name="create-order"),
 ]

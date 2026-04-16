@@ -4,36 +4,32 @@ export const api = {
     Accept: "application/json",
   },
   coaches: {
-    list: "/trainings/trainers/",
-    detail: (id: string) => `/trainings/trainers/${id}`,
-    reviews: (id: string) => `/trainings/trainers/${id}/reviews/`,
-    reviewsCreate: (id: string) => `/trainings/trainers/${id}/reviews/create/`,
+    list: "/coaches/", //Получает список тренеров
+    order: "/coaches/order/", //Запрос на бронирование тренировки
+    detail: (id: string) => `/coaches/${id}`, //Получает детальную информацию о тренере
   },
   abonements: {
-    list: "/abonements/",
+    list: "/abonements/", //Получает список абонементов
+    order: "/abonements/order/", //Запрос на бронирование абонемента
   },
   posts: {
     list: "/gym/posts/", //Получает посты
     last: "/gym/posts/last/", //Получает последние посты
     detail: (slug: string) => `/gym/posts/${slug}/`, //Получает детальную информацию о посте
   },
-  gym: {
-    services: "/gym/services/", //Получает информацию о услугах
-    advantages: "/gym/advantages/", //Получает преимущества
-    equipment: "/gym/equipments/", //Получает информацию об оборудовании
-    faq: "/gym/faq/", //Получает вопросы и ответы
-  },
-  legal: {
-    policy: "/legal/policy/", //Получает политику
-    oferta: "/legal/offerta/", //Получает оферту
-    aboutcompany: "/legal/about-company/", //Получает информацию о компании
-    cookie: "/legal/cookie-policy/", //Получает политику cookie
-    services: "/legal/services/", //Получает информацию о услугах
-  },
   contacts: {
     list: "/contacts/", //Получает контактную информацию
     feedback: "/contacts/feedback/", //Запрос на создание обратной связи
     footer: "/contacts/footer/", //Запрос на получение данных для футера
+    faq: "/contacts/faq-list/", //Получает вопросы и ответы
+    policy: "/contacts/policy/", //Получает политику конфиденциальности
+    socials: "/contacts/socials/", //Получает социальные сети
+    terms: "/contacts/terms/", //Получает пользовательское соглашение
+    vacancies: "/contacts/vacancies/", //Получает вакансии
+  },
+  reviews: {
+    list: "/coaches/reviews/", //Получает список отзывов
+    create: "/coaches/reviews/create/", //Запрос на создание отзыва
   },
   users: {
     login: "/users/login/", //Запрос на авторизацию
