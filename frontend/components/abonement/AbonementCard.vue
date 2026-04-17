@@ -32,7 +32,7 @@ const countFreeze = computed(() => {
       </template>
       <template #main>
         <ul class="order-abonement-card__features">
-          <li v-for="feature in plan.services.services" :key="feature">
+          <li v-for="feature in plan.services.services" :key="feature" class="order-abonement-card__feature">
             {{ feature }}
           </li>
         </ul>
@@ -159,6 +159,8 @@ const countFreeze = computed(() => {
       margin-bottom: 12px;
       position: relative;
       padding-left: 8px;
+      display: flex;
+      align-items: center;
 
       &::before {
         content: "•";

@@ -16,15 +16,15 @@ defineProps<{ post: IPost | null }>();
     </button>
     <div class="post-card__image-wrapper">
       <NuxtImg
-        :src="post?.image ?? ''"
+        :src="getPhoto(post?.image)"
         :alt="post?.title"
         lazy="loading"
         class="post-card__image"
       />
       <BaseButton
-        v-if="post?.category"
+        v-if="post?.type"
         class="post-card__category"
-        :label="post?.category"
+        :label="post?.type === 'article' ? 'Статья' : 'Новость'"
         :disabled="true"
       />
     </div>
@@ -34,7 +34,7 @@ defineProps<{ post: IPost | null }>();
       </p>
       <div class="post-card__content-meta">
         <span class="post-card__content-date">
-          {{ formatDate(post!.created_at) }}
+          {{ formatDate(String(post!.created_at)) }}
         </span>
       </div>
     </div>
@@ -49,7 +49,9 @@ defineProps<{ post: IPost | null }>();
   overflow: hidden;
   cursor: pointer;
   height: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease,
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
     background 0.3s ease-in-out;
 
   &:hover {

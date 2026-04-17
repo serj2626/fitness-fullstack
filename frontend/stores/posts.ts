@@ -9,10 +9,8 @@ export const usePostsStore = defineStore("posts", () => {
   const activeCategory = ref<string | null>(null);
 
   const categories = reactive([
-    { value: "workout", label: "Тренировки" },
-    { value: "nutrition", label: "Питание" },
-    { value: "news", label: "Новости клуба" },
-    { value: "promo", label: "Акции" },
+    { value: "article", label: "Статья" },
+    { value: "news", label: "Новость" },
   ]);
 
   const selectCategory = (cat: string) => {

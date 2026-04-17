@@ -41,13 +41,7 @@ export const getPhoto = (photoUrl?: string | null): string => {
     return "/img_not_found.webp";
   }
 
-  const mediaUrl = useRuntimeConfig().public.mediaUrl as string;
-
-  // Экранируем URL
-  const encodedPhotoUrl = encodeURI(photoUrl);
-  const cleanMediaUrl = mediaUrl.replace(/\/+$/, "");
-
-  return `${cleanMediaUrl}/${encodedPhotoUrl}`;
+  return getMedia(photoUrl);
 };
 
 export const formatNumber = (num: number): string => {
@@ -93,7 +87,6 @@ export const getExperience = (count: number): string => {
   return `более ${count} лет`;
 };
 
-
-export const getCategories = (categories: ICoachCategory[]) : string =>  {
-  return (categories.map((item) => item.name)).join(', ');
+export const getCategories = (categories: ICoachCategory[]): string => {
+  return categories.map((item) => item.name).join(", ");
 };
