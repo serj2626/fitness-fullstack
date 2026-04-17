@@ -42,7 +42,7 @@ onUnmounted(() => {
       <BaseBreadCrumbs
         :breadcrumbs="breadcrumbsCoachesPage"
         :current-page="{
-          title: trainer?.first_name + ' ' + trainer?.last_name,
+          title: coachData?.first_name + ' ' + coachData?.last_name,
           url: `/coaches/${coachID}`,
         }"
       />
@@ -61,11 +61,15 @@ onUnmounted(() => {
           <div class="tab-content">
             <CoachDetailContacts
               v-if="activeTab === 'contacts'"
-              :name="coachData?.first_name + ' ' + trainer?.last_name"
+              :name="coachData?.first_name + ' ' + coachData?.last_name"
               :categories="coachData?.categories || []"
               :email="coachData?.email || 'Email тренера'"
               :phone="coachData?.phone || 'Телефон тренера'"
               :experience="coachData?.experience || 0"
+            />
+            <LazyCoachDetailServices
+              v-if="activeTab === 'services'"
+              :services="coachData?.services || []"
             />
             <LazyCoachDetailReviews
               v-if="activeTab === 'reviews'"

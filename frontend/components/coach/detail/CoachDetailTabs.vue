@@ -2,6 +2,7 @@
 defineProps<{ activeTab: string }>();
 const tabs: { id: string; label: string }[] = [
   { id: "contacts", label: "Контакты" },
+  { id: "services", label: "Услуги" },
   { id: "reviews", label: "Отзывы" },
 ];
 
