@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const modalsStore = useModalsStore();
 defineProps<{
-  avatar: string | undefined;
+  avatar: string | null;
 }>();
 </script>
 <template>
@@ -10,7 +10,7 @@ defineProps<{
       format="webp"
       lazy="loading"
       class="coaches-detail-profile__img"
-      :src="getPhoto(avatar ?? '')"
+      :src="getMedia(avatar as string)"
       alt="Аватар"
     />
 

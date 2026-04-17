@@ -22,8 +22,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      api_url: process.env.API_URL,
-      media_url: process.env.MEDIA_URL,
+      api_url: process.env.API_URL || "http://localhost:8000/api/v1",
+      media_url: process.env.MEDIA_URL || "http://localhost:8000/media",
       recaptchaPublicKey: process.env.GOOGLE_CAPTCHA_PUBLIC_KEY || "",
       tawkKey: process.env.TAWK_ID || "",
       cloudFlarePublicKey: process.env.CLOUDFLARE_PUBLIC_KEY || "",

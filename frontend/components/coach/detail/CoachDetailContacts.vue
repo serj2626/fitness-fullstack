@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { SocialIcons } from "~/assets/icons/types/social-icons";
+import type { ICoachCategory } from "~/types";
 const props = defineProps<{
   name: string;
-  position: string;
+  categories: ICoachCategory[] | [];
   email: string;
   phone: string;
   socials: { type: string; link: string }[];
   keywords: string;
   experience: number;
-  education: string;
   services: string[];
 }>();
 
@@ -45,7 +45,7 @@ const getListKeywords = computed(() => {
             Специализация
           </div>
           <div class="coach-detail-contacts__cards-item-value">
-            {{ position }}
+            {{ getCategories(categories) }}
           </div>
         </div>
       </div>
@@ -112,14 +112,6 @@ const getListKeywords = computed(() => {
         />
       </ul>
       <div class="coach-detail-contacts__description-content">
-        <p>
-          <strong>Образование: </strong>
-          {{ education.length > 0 ? education : "Не указано" }}
-        </p>
-        <p>
-          <strong>Сертификаты: </strong> Дипломы по нутрициологии и фитнесу
-          международного класса
-        </p>
         <p>
           <strong>Опыт работы: </strong>
           {{ getExperience(experience) }}

@@ -1,3 +1,5 @@
+import type { ICoachCategory } from "~/types";
+
 interface FormField {
   value: string | boolean;
   error: string;
@@ -32,6 +34,20 @@ export const getMedia = (mediaContentUrl: string) => {
   // Функция для получения URL-адреса медиа-контента
 
   return [useRuntimeConfig().public.media_url, mediaContentUrl].join("");
+};
+
+export const getPhoto = (photoUrl?: string | null): string => {
+  if (!photoUrl) {
+    return "/img_not_found.webp";
+  }
+
+  const mediaUrl = useRuntimeConfig().public.mediaUrl as string;
+
+  // Экранируем URL
+  const encodedPhotoUrl = encodeURI(photoUrl);
+  const cleanMediaUrl = mediaUrl.replace(/\/+$/, "");
+
+  return `${cleanMediaUrl}/${encodedPhotoUrl}`;
 };
 
 export const formatNumber = (num: number): string => {
@@ -78,10 +94,6 @@ export const getExperience = (count: number): string => {
 };
 
 
-export const getPhoto = (photoUrl?: string | null) => {
-  // Функция для получения URL-адреса фотографии
-  if (photoUrl) {
-    return getMedia(photoUrl);
-  }
-  return "/img_not_found.webp";
+export const getCategories = (categories: ICoachCategory[]) : string =>  {
+  return (categories.map((item) => item.name)).join(', ');
 };

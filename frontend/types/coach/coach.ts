@@ -1,24 +1,25 @@
+
 export interface ICoach {
-  id: string;
-  first_name: string;
-  avatar: string;
-  last_name: string;
-  experience: number;
-  email: string;
-  phone: string;
-  categories: ICategory[];
-  services: IService[];
+    id:         string;
+    first_name: string;
+    avatar:     string | null;
+    last_name:  string;
+    experience: number;
+    email:      string;
+    phone:      string;
+    categories: ICoachCategory[];
+    services:   ICoachService[];
 }
 
-export interface ICategory {
-  id: number;
-  name: string;
-  slug: string;
+export interface ICoachCategory {
+    id:   number;
+    name: string;
+    slug: string;
 }
 
-export interface IService {
-  id: number;
-  title: string;
-  price: number | null;
-  time: number;
+export interface ICoachService {
+    id:    number;
+    title: string;
+    price: number | null;
+    time:  number;
 }

@@ -7,24 +7,22 @@ const { $api } = useNuxtApp();
 // const { data: footerData } =
 //   useNuxtData<IFooterInfoTransformResponse>("footer-info");
 export interface IFooterInfo {
-    id:             number;
-    text:           string;
-    developer_name: string;
-    developer_link: string;
-    copyright:      string;
+  id: number;
+  text: string;
+  developer_name: string;
+  developer_link: string;
+  copyright: string;
 }
 
 export interface IFooterSocials {
-    id:    number;
-    title: string;
-    type:  string;
-    value: string;
+  id: number;
+  title: string;
+  type: string;
+  value: string;
 }
 
-
-const { data: footerData } = useAsyncData<IFooterInfo>(
-  "footer-info",
-  () => $api(api.contacts.footer),
+const { data: footerData } = useAsyncData<IFooterInfo>("footer-info", () =>
+  $api(api.contacts.footer),
 );
 
 const { data: socialsData } = useAsyncData<IFooterSocials[]>(
@@ -55,13 +53,8 @@ const { data: socialsData } = useAsyncData<IFooterSocials[]>(
         </NuxtLink>
       </div> -->
     </div>
-    {{ socialsData }}
-    <!-- <FooterSocials
-      :tg="socialsData"
-      :whatsapp="footerData?.whatsapp.value"
-      :mail="footerData?.mail.value"
-      :phone="footerData?.phone.value"
-    /> -->
+    <!-- {{ socialsData }} -->
+    <FooterSocials :values="socialsData || []" />
   </footer>
 </template>
 <style lang="scss" scoped>

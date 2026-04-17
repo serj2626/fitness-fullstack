@@ -2,11 +2,10 @@
 defineProps<{ activeTab: string }>();
 const tabs: { id: string; label: string }[] = [
   { id: "contacts", label: "Контакты" },
-  { id: "photos", label: "Фотографии" },
   { id: "reviews", label: "Отзывы" },
 ];
 
-defineEmits(["update:activeTab"]);
+defineEmits<{ (e: "update:activeTab", id: string): void }>();
 </script>
 <template>
   <div class="coach-detail-tabs">

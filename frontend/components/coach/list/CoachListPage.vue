@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import { useCoachesStore } from "~/stores/coaches";
-import { useIntersectionObserver } from "@vueuse/core";
 import { api } from "~/api";
+import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
+import type { ICoach } from "~/types";
+// import { useCoachesStore } from "~/stores/coaches";
+// import { useIntersectionObserver } from "@vueuse/core";
+// import { api } from "~/api";
+// import { ICoach } from "~/types";
 
 const { $api } = useNuxtApp();
 // const coachesStore = useCoachesStore();
@@ -20,7 +23,7 @@ const { $api } = useNuxtApp();
 //   }
 // });
 
-const { data: coaches, pending } = useAsyncData("coaches", () => $api(api.coaches.list));
+const { data: coaches, pending } = useAsyncData<ICoach[]>("coaches-list-page", () => $api(api.coaches.list));
 </script>
 <template>
   <div class="trainers-page">
@@ -31,9 +34,9 @@ const { data: coaches, pending } = useAsyncData("coaches", () => $api(api.coache
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachesPage" />
       <BaseLoader v-if="pending" />
-      {{ coaches }}
-      <!-- <CoachListContent v-if="coaches" :coaches="coaches" />
-      <div
+      <!-- {{ coaches }} -->
+      <CoachListContent v-if="coaches" :coaches="coaches" />
+      <!-- <div
         ref="observerTarget"
         class="observer-trigger"
         style="height: 1px; margin-top: 140px"

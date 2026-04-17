@@ -10,10 +10,12 @@ defineProps<{ trainer: ICoach }>();
         format="webp"
         lazy="loading"
         lass="coach-card__image"
-        :src="getPhoto(trainer.avatar ?? '')"
-        :alt="trainer.first_name"
+        :src="getMedia(trainer?.avatar as string)"
+        :alt="`${trainer.first_name} ${trainer.last_name}`"
       />
-      <span class="coach-card__position">{{ trainer.position }}</span>
+      <span class="coach-card__position">{{
+        getCategories(trainer.categories)
+      }}</span>
     </div>
     <div class="coach-card__body">
       <h3 class="coach-card__name">
@@ -22,9 +24,6 @@ defineProps<{ trainer: ICoach }>();
       <p class="coach-card__experience">
         🏆 Стаж:
         <strong>{{ getExperience(trainer.experience) }} </strong>
-      </p>
-      <p class="coach-card__bio">
-        {{ trainer.content }}
       </p>
       <BaseButton
         label="Подробнее"

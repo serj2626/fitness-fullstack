@@ -1,29 +1,23 @@
 <script setup lang="ts">
+import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import { coaches } from "~/assets/data/moke.data";
+import type { ICoach } from "~/types";
 
 const trainerStore = useTrainerStore();
 const { trainer } = storeToRefs(trainerStore);
 const activeTab = ref((useRoute().query.tab as string) || "contacts");
 
+const { $api } = useNuxtApp();
+
 const { id } = useRoute().params;
 const coachID = Array.isArray(id) ? id[0] : id;
 
-const isOpen = ref(false);
-const startIndex = ref(0);
-
-const openViewer = (index: number) => {
-  startIndex.value = index;
-  isOpen.value = true;
-};
-
-const images = computed(() => {
-  const listImages = coaches.slice(0, 8).map((item) => item.img);
-  return listImages;
-});
-
-await useAsyncData(`trainer-${coachID}`, () =>
-  trainerStore.fetchTrainer(coachID)
+const { data: coachData } = await useAsyncData<ICoach>(
+  `coach-${coachID}`,
+  () => $api(api.coaches.detail(id as string)),
+  {
+    watch: [() => id],
+  },
 );
 
 const loadReviews = () => {
@@ -52,10 +46,9 @@ onUnmounted(() => {
           url: `/coaches/${coachID}`,
         }"
       />
-
       <div class="coaches-detail-page__layout">
         <CoachDetailProfile
-          :avatar="trainer?.avatar"
+          :avatar="coachData?.avatar as string"
           class="coaches-detail-page__sidebar"
         />
 
@@ -68,32 +61,11 @@ onUnmounted(() => {
           <div class="tab-content">
             <CoachDetailContacts
               v-if="activeTab === 'contacts'"
-              :name="trainer?.first_name + ' ' + trainer?.last_name"
-              :position="trainer?.position || 'Должность тренера'"
-              :email="trainer?.email || 'Email тренера'"
-              :phone="trainer?.phone || 'Телефон тренера'"
-              :socials="trainer?.socials || []"
-              :keywords="trainer?.keywords || ''"
-              :experience="trainer?.experience || 0"
-              :education="trainer?.education || ''"
-              :services="trainer?.services || []"
-            />
-
-            <div v-if="activeTab === 'photos'" class="photo-grid">
-              <div
-                v-for="(photo, index) in images"
-                :key="index"
-                class="photo-item"
-                @click="openViewer(index)"
-              >
-                <NuxtImg :src="photo" class="photo-img" alt="Фото тренера" />
-              </div>
-            </div>
-            <CoachDetailImages
-              v-if="isOpen"
-              :images
-              :start-index
-              @close="isOpen = false"
+              :name="coachData?.first_name + ' ' + trainer?.last_name"
+              :categories="coachData?.categories || []"
+              :email="coachData?.email || 'Email тренера'"
+              :phone="coachData?.phone || 'Телефон тренера'"
+              :experience="coachData?.experience || 0"
             />
             <LazyCoachDetailReviews
               v-if="activeTab === 'reviews'"

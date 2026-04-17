@@ -36,7 +36,6 @@ class Abonement(BaseOrder, BaseContent, NameMixin, AutoSlugMixin):
         verbose_name = "Абонемент"
         verbose_name_plural = "Абонементы"
 
-
     @property
     def total_price(self):
         if self.sales:

@@ -1,30 +1,25 @@
 <script setup lang="ts">
 import { SocialIcons } from "~/assets/icons/types/social-icons";
-const {
-  tg = "",
-  whatsapp = "",
-  mail = "",
-  phone = "",
-} = defineProps<{
-  tg?: string;
-  whatsapp?: string;
-  mail?: string;
-  phone?: string;
+import type { IFooterSocials } from "./FooterComponent.vue";
+defineProps<{
+  values: IFooterSocials[];
 }>();
+
 </script>
 <template>
   <div class="footer-socials">
-    <a :href="tg" class="footer-socials__link" title="telegram">
-      <Icon :name="SocialIcons.TELEGRAM" class="footer-socials__link-icon" />
-    </a>
-    <a :href="whatsapp" class="footer-socials__link" title="whatsapp">
-      <Icon :name="SocialIcons.WHATSAPP" class="footer-socials__link-icon" />
-    </a>
-    <a :href="`mailto:${mail}`" class="footer-socials__link" title="почта">
-      <Icon :name="SocialIcons.MAIL" class="footer-socials__link-icon" />
-    </a>
-    <a :href="`phone:${phone}`" class="footer-socials__link" title="телефон">
-      <Icon :name="SocialIcons.PHONE" class="footer-socials__link-icon" />
+    <a
+      v-for="value in values"
+      :key="value.id"
+      :href="value.value"
+      class="footer-socials__link"
+      :title="value.title"
+      :aria-label="value.title"
+    >
+      <Icon
+        :name="`${SocialIcons[value.title]}`"
+        class="footer-socials__link-icon"
+      />
     </a>
   </div>
 </template>
