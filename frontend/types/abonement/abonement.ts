@@ -6,5 +6,9 @@ export interface IAbonement {
   count_months: number;
   days_freezing: number;
   price: number;
+  services: IAbonementService;
+}
+
+export interface IAbonementService {
   services: string[];
 }

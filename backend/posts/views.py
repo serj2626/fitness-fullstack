@@ -17,7 +17,7 @@ TAG_POST = "Посты"
     tags=[TAG_POST], summary="Последние посты", description="Последние посты"
 )
 class PostLastListView(ListAPIView):
-    queryset = Post.objects.filter(is_active=True).order_by("-created_at")[:3]
+    queryset = Post.objects.filter(is_active=True).order_by("-created_at")[:5]
     serializer_class = PostLastListSerializer
 
 

@@ -1,40 +1,38 @@
 <script setup lang="ts">
-import type { IAbonementResponse } from "~/types";
+import type { IAbonement } from "~/types";
 
-const { isActive = false } = defineProps<{
-  plan: IAbonementResponse;
-  isActive?: boolean;
-}>();
+const { plan } = defineProps<{ plan: IAbonement }>();
 
 defineEmits(["activeAbonement"]);
+
+const countFreeze = computed(() => {
+  return plan.days_freezing > 0
+    ? `${plan.days_freezing} дней заморозки`
+    : "Без заморозки";
+});
 </script>
 
 <template>
-  <div
-    class="order-abonement-card"
-    :class="{ 'order-abonement-card_active': isActive }"
-  >
+  <div class="order-abonement-card">
     <BaseGridComponent>
       <template #header>
         <h3 class="order-abonement-card__title">
-          {{ plan.title }}
+          {{ plan.name }}
         </h3>
         <div class="order-abonement-card__price-section">
           <p class="order-abonement-card__price">
             {{ formatNumberCustom(plan.price) }} ₽
           </p>
           <p class="order-abonement-card__mounts">
-            {{ plan.number_of_months }}
+            {{ plan.count_months }}
           </p>
         </div>
         <div v-if="1 > 0" class="order-abonement-card__sale">-4%</div>
-        <div v-if="plan.is_popular" class="order-abonement-card__popular">
-          Популярный
-        </div>
+        <div class="order-abonement-card__popular">Популярный</div>
       </template>
       <template #main>
         <ul class="order-abonement-card__features">
-          <li v-for="feature in plan.services" :key="feature">
+          <li v-for="feature in plan.services.services" :key="feature">
             {{ feature }}
           </li>
         </ul>
@@ -58,7 +56,7 @@ defineEmits(["activeAbonement"]);
               stroke-linejoin="round"
             />
           </svg>
-          <span>{{ plan.freeze_days }} заморозки</span>
+          <span>{{ countFreeze }}</span>
         </div>
         <BaseButton
           style="width: 100%"
@@ -108,7 +106,9 @@ defineEmits(["activeAbonement"]);
 
   &_active {
     border-color: $accent;
-    box-shadow: 0 0 0 2px $accent, 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0 0 0 2px $accent,
+      0 10px 25px rgba(0, 0, 0, 0.2);
 
     &::before {
       opacity: 1;

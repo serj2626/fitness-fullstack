@@ -1,19 +1,17 @@
 <script lang="ts" setup>
 import { api } from "~/api";
-import type {
-  IPost,
-  IServicesResponse,
-  IAdvantageResponse,
-  IEequipmentResponse,
-} from "~/types";
+import type { IPost, IAbonement } from "~/types";
 
 const { $api } = useNuxtApp();
 
-const { data: abonements } = await useAsyncData(
+const { data: abonements } = await useAsyncData<IAbonement[]>(
   "main-page-abonements-info",
   () => $api(api.abonements.list),
 );
-
+const { data: lastPosts } = await useAsyncData<IPost[]>(
+  "main-page-last-posts-info",
+  () => $api(api.posts.last),
+);
 // const [
 //   { data: servicesInfo },
 //   { data: postsLast },
@@ -41,10 +39,10 @@ const { data: abonements } = await useAsyncData(
     <MainVideoSection />
     <MainAboutSection client:visible />
     <MainFirstSection client:visible />
+    <MainAbonementsSection  :abonements="abonements" />
+    <MainAdvantagesSection />
 
-    <!-- <MainAdvantagesSection v-if="advantagesInfo" :advantages="advantagesInfo" />
-
-    <MainAbonementsSection v-if="useAbonements" :abonements="abonements" />
+    <!--  
 
     <MainServicesSection v-if="servicesInfo" :services="servicesInfo" />
 

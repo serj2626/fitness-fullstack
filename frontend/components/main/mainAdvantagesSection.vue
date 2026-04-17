@@ -1,10 +1,50 @@
 <script setup lang="ts">
-import type { IAdvantageResponse } from "~/types";
+// Убираем зависимость от серверных данных и defineProps
+// Определяем моковые данные прямо в компоненте
+interface IAdvantageResponse {
+  id: number;
+  icon: string;
+  alt: string;
+  title: string;
+  description: string;
+}
 
-defineProps<{
-  advantages: IAdvantageResponse[];
-}>();
+const advantages: IAdvantageResponse[] = [
+  {
+    id: 1,
+    icon: "i-heroicons:rocket-launch",
+    alt: "Быстрая разработка",
+    title: "Высокая скорость",
+    description:
+      "Сокращаем время выхода продукта на рынок за счёт современных технологий и гибких методологий.",
+  },
+  {
+    id: 2,
+    icon: "i-heroicons:check-circle",
+    alt: "Качество кода",
+    title: "Надёжность",
+    description:
+      "Пишем чистый, тестируемый код с соблюдением лучших практик и стандартов.",
+  },
+  {
+    id: 3,
+    icon: "i-heroicons:phone",
+    alt: "Поддержка 24/7",
+    title: "Круглосуточная поддержка",
+    description:
+      "Всегда на связи, быстро решаем любые вопросы и проблемы клиентов.",
+  },
+  {
+    id: 4,
+    icon: "i-heroicons:user",
+    alt: "Индивидуальный подход",
+    title: "Персональные решения",
+    description:
+      "Учитываем все бизнес-требования и предлагаем оптимальную архитектуру под ваши задачи.",
+  },
+];
 </script>
+
 <template>
   <section class="main-advantages-section">
     <div class="container">
@@ -24,10 +64,9 @@ defineProps<{
           :data-aos-delay="idx * 200"
           data-aos-once="true"
         >
-          <img
+          <Icon
+            :name="advantage.icon"
             class="main-advantages-section__list-card-icon"
-            :src="advantage.icon"
-            :alt="advantage.alt"
           />
 
           <h3 class="main-advantages-section__list-card-title">
@@ -41,6 +80,7 @@ defineProps<{
     </div>
   </section>
 </template>
+
 <style scoped lang="scss">
 .main-advantages-section {
   padding: 100px 0;
@@ -67,6 +107,7 @@ defineProps<{
         margin-bottom: 1.5rem;
         width: 40px;
         height: 40px;
+        color: $accent;
       }
 
       &-title {

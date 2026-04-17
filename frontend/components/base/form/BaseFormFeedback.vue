@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import BaseCaptchaZ from "../BaseCaptchaZ.vue";
 
 const { tel = "8-999-999-99-99", address = "СПБ, улица Будапештская дом 89" } =
   defineProps<{
@@ -39,17 +38,17 @@ const formData = reactive<FeedbackForm>({
 //   formData.captcha.error = "Ошибка проверки капчи";
 // }
 
-function captchaHandler(val, eventName) {
-  if (eventName === "success") {
-    formData.captcha.value = val;
-    formData.captcha.error = "";
-  } else if (eventName === "error" || eventName === "expired") {
-    formData.captcha.value = "";
-    formData.captcha.error = "Ошибка проверки капчи";
-  } else if (eventName === "inited" && typeof val === "object") {
-    captchaInst.value = val;
-  }
-}
+// function captchaHandler(val, eventName) {
+//   if (eventName === "success") {
+//     formData.captcha.value = val;
+//     formData.captcha.error = "";
+//   } else if (eventName === "error" || eventName === "expired") {
+//     formData.captcha.value = "";
+//     formData.captcha.error = "Ошибка проверки капчи";
+//   } else if (eventName === "inited" && typeof val === "object") {
+//     captchaInst.value = val;
+//   }
+// }
 
 function validateForm(): boolean {
   let valid = true;
@@ -129,7 +128,7 @@ function submitForm() {
               class="base-form-feedback__wraper-content-form-input-phone"
             />
           </div>
-          <BaseCaptcha theme="dark" @verified="captchaHandler" />
+          <!-- <BaseCaptcha theme="dark" @verified="captchaHandler" /> -->
           <!-- <BaseCaptchaZ
             ref="captchaInst"
             :error="formData.captcha.error"

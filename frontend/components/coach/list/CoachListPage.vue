@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import type { ICoach } from "~/types";
+import type { ICoach, ICoachCategory } from "~/types";
 // import { useCoachesStore } from "~/stores/coaches";
 // import { useIntersectionObserver } from "@vueuse/core";
 // import { api } from "~/api";
@@ -22,8 +22,23 @@ const { $api } = useNuxtApp();
 //     await coachesStore.fetchAllCoaches(next.value);
 //   }
 // });
-
-const { data: coaches, pending } = useAsyncData<ICoach[]>("coaches-list-page", () => $api(api.coaches.list));
+const currentCategory = ref<string | null>(null);
+const { data: coaches, pending } = useAsyncData<ICoach[]>(
+  "coaches-list-page",
+  () =>
+    $api(api.coaches.list, {
+      query: {
+        category: currentCategory.value || undefined,
+      },
+    }),
+  {
+    watch: [currentCategory],
+  },
+);
+const { data: categories } = useAsyncData<ICoachCategory[]>(
+  "coaches-list-page-categories",
+  () => $api(api.categories.list),
+);
 </script>
 <template>
   <div class="trainers-page">
@@ -34,7 +49,12 @@ const { data: coaches, pending } = useAsyncData<ICoach[]>("coaches-list-page", (
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachesPage" />
       <BaseLoader v-if="pending" />
-      <!-- {{ coaches }} -->
+      <CoachListCategories
+        v-if="categories"
+        v-model="currentCategory"
+        :categories="categories"
+        style="margin-top: 15px"
+      />
       <CoachListContent v-if="coaches" :coaches="coaches" />
       <!-- <div
         ref="observerTarget"

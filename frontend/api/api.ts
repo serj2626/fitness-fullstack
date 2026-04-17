@@ -8,14 +8,17 @@ export const api = {
     order: "/coaches/order/", //Запрос на бронирование тренировки
     detail: (id: string) => `/coaches/${id}`, //Получает детальную информацию о тренере
   },
+  categories: {
+    list: "/categories/", //Получает список категорий
+  },
   abonements: {
     list: "/abonements/", //Получает список абонементов
     order: "/abonements/order/", //Запрос на бронирование абонемента
   },
   posts: {
-    list: "/gym/posts/", //Получает посты
-    last: "/gym/posts/last/", //Получает последние посты
-    detail: (slug: string) => `/gym/posts/${slug}/`, //Получает детальную информацию о посте
+    list: "/posts/", //Получает посты
+    last: "/posts/last/", //Получает последние посты
+    detail: (slug: string) => `/posts/${slug}/`, //Получает детальную информацию о посте
   },
   contacts: {
     list: "/contacts/", //Получает контактную информацию

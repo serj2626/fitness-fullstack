@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import type { IAbonementResponse } from '~/types';
+import type { IAbonement } from "~/types";
 
-
-defineProps<{ abonements: IAbonementResponse[] }>();
+defineProps<{ abonements: IAbonement[] }>();
 </script>
 <template>
   <section id="main-abonements-section" class="main-abonements-section">
@@ -18,7 +17,7 @@ defineProps<{ abonements: IAbonementResponse[] }>();
         <ul class="main-abonements-section__wraper-list">
           <AbonementCard
             v-for="(abon, idx) in abonements"
-            :key="abon.title"
+            :key="abon.id"
             :plan="abon"
             data-aos="fade-up"
             :data-aos-delay="idx * 200"
