@@ -35,6 +35,7 @@ class AbonementAdmin(admin.ModelAdmin):
         "count_months",
         "price",
         "days_freezing",
+        "is_popular",
     )
 
     fieldsets = (
@@ -51,7 +52,7 @@ class AbonementAdmin(admin.ModelAdmin):
             },
         ),
     )
-    list_editable = ("order",)
+    list_editable = ("order", "is_popular")
     readonly_fields = ("slug",)
 
     inlines = (AbonementServiceAbonementInline,)

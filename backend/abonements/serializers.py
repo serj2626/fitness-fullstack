@@ -28,6 +28,7 @@ class AbonementSerializer(serializers.ModelSerializer):
             "days_freezing",
             "price",
             "services",
+            "is_popular",
         )
 
     def get_services(self, obj):

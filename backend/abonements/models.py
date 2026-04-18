@@ -31,6 +31,7 @@ class Abonement(BaseOrder, BaseContent, NameMixin, AutoSlugMixin):
         "Цена", blank=True, null=True, help_text="Цена в рублях от ..."
     )
     days_freezing = models.PositiveSmallIntegerField("Дни заморозки", default=0)
+    is_popular = models.BooleanField("Популярный", default=False)
 
     class Meta:
         verbose_name = "Абонемент"
