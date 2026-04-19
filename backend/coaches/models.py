@@ -1,13 +1,42 @@
 from datetime import timedelta
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
 from categories.models import Category
 from common.mixins import AutoSlugMixin, NameMixin, TimeAgoModelMixin
-from common.models import BaseContent, BaseDate, BaseEmail, BaseID, BaseOrder
+from common.models import (
+    BaseContent,
+    BaseDate,
+    BaseDateRange,
+    BaseEmail,
+    BaseID,
+    BaseOrder,
+)
 from common.upload import compress_image
 from users.models import User
+
+
+class OrderStatus(models.TextChoices):
+    PENDING_PAYMENT = "pending_payment", "Ожидает оплаты"
+    PAID = "paid", "Оплата подтверждена"
+    PENDING = "pending", "Ожидает подтверждения"
+    CONFIRMED = "confirmed", "Подтверждено"
+    CANCELLED = "cancelled", "Отменено"
+    COMPLETED = "completed", "Завершено"
+
+
+class WorkoutStatus(models.TextChoices):
+    SCHEDULED = "scheduled", "Запланирована"
+    COMPLETED = "completed", "Проведена"
+    CANCELLED = "cancelled", "Отменена"
+    NO_SHOW = "no_show", "Клиент не пришёл"
+
+
+class WorkoutType(models.TextChoices):
+    PERSONAL = "personal", "Персональная тренировка"
+    NO_TRAINER = "no_trainer", "Тренировка без тренера"
 
 
 class Service(AutoSlugMixin, NameMixin):
@@ -90,7 +119,7 @@ class CoachService(models.Model):
         return f"{self.coach.first_name} {self.coach.last_name} / {self.service.name} / {self.time} мин. / {self.price} руб."
 
 
-class OrderTraining(BaseDate):
+class OrderTraining(BaseDate, BaseDateRange):
     """
     Модель бронирования тренировки
     """
@@ -114,20 +143,32 @@ class OrderTraining(BaseDate):
         verbose_name="Услуга",
         related_name="order_trainings",
     )
-    is_payed = models.BooleanField("Оплачен", default=False)
-    date_start = models.DateTimeField("Дата начала", blank=True, null=True)
-    date_end = models.DateTimeField("Дата окончания", blank=True, null=True)
+    is_paid = models.BooleanField("Оплачен", default=False)
+    status = models.CharField(
+        max_length=20,
+        choices=OrderStatus.choices,
+        default=OrderStatus.PENDING,
+        verbose_name="Статус",
+    )
 
     def save(self, *args, **kwargs):
-        if not self.date_start:
-            self.date_start = timezone.now().date()
-        if not self.date_end:
+        if self.date_start and not self.date_end:
             self.date_end = self.date_start + timedelta(minutes=self.service.time)
         super().save(*args, **kwargs)
+
+    def clean(self):
+        """Валидация: время не может быть в прошлом при создании"""
+        if self.date_start and self.date_start < timezone.now():
+            raise ValidationError("Нельзя записаться на прошедшее время")
 
     class Meta:
         verbose_name = "Бронирование тренировки"
         verbose_name_plural = "Бронирования тренировок"
+        ordering = ["-date_start"]
+        indexes = [
+            models.Index(fields=["user", "status"]),
+            models.Index(fields=["coach", "date_start"]),
+        ]
 
     def __str__(self):
         return f"Бронирование тренировки {self.service.service.name}"
@@ -164,3 +205,64 @@ class CoachReview(BaseDate, TimeAgoModelMixin):
 
     def __str__(self):
         return f"Отзыв о тренере {self.coach.first_name} {self.coach.last_name} / Рейтинг: {self.rating}"
+
+
+class Workout(BaseDate, TimeAgoModelMixin, BaseDateRange):
+    """
+    Факт проведённой тренировки (история)
+    """
+
+    type = models.CharField(
+        max_length=20,
+        choices=WorkoutType.choices,
+        default=WorkoutType.PERSONAL,
+        verbose_name="Тип",
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Клиент",
+        related_name="workouts",
+    )
+    coach = models.ForeignKey(
+        Coach,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Тренер",
+        related_name="workouts",
+    )
+    service = models.ForeignKey(
+        CoachService,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Услуга",
+        related_name="workouts",
+    )
+
+    # Статус
+    status = models.CharField(
+        max_length=20,
+        choices=WorkoutStatus.choices,
+        default=WorkoutStatus.SCHEDULED,
+        verbose_name="Статус",
+    )
+
+    class Meta:
+        verbose_name = "Тренировка"
+        verbose_name_plural = "Тренировки"
+        ordering = ["-date_start"]
+        indexes = [
+            models.Index(fields=["user", "date_start"]),
+            models.Index(fields=["coach", "date_start"]),
+            models.Index(fields=["status", "date_start"]),
+        ]
+
+    def __str__(self):
+        return f"{self.user.get_full_name()} — {self.coach} ({self.date_start.date()})"
+
+    # def duration_minutes(self):
+    #     """Длительность в минутах"""
+    #     if self.date_start and self.date_end:
+    #         return int((self.date_end - self.date_start).total_seconds() / 60)
+    #     return self.service.time if self.service else 60

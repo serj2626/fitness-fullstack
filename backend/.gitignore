@@ -129,7 +129,10 @@ celerybeat-schedule
 celerybeat.pid
 
 # SageMath parsed files
-*.sage.py
+*.sage.py\
+.vscode/
+.vscode/*
+.vscode/settings.json
 
 # Environments
 .env

@@ -35,7 +35,7 @@ class CoachServiceInline(admin.TabularInline):
 class OrderTrainingInline(admin.TabularInline):
     model = OrderTraining
     extra = 1
-    fields = ("service", "date_start", "date_end", "is_payed")
+    fields = ("service", "date_start", "date_end", "is_paid")
     classes = ("collapse",)
 
 
@@ -100,7 +100,7 @@ class OrderTrainingAdmin(admin.ModelAdmin):
         "date_end",
         "total_time",
         "created_at",
-        "is_payed",
+        "is_paid",
     )
     readonly_fields = ("date_end",)
 
