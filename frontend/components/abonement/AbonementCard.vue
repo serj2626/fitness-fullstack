@@ -24,15 +24,21 @@ const countFreeze = computed(() => {
             {{ formatNumberCustom(plan.price) }} ₽
           </p>
           <p class="order-abonement-card__mounts">
-            {{ plan.count_months }}
+            {{ plan.count_months }} мес.
           </p>
         </div>
-        <div v-if="1 > 0" class="order-abonement-card__sale">-4%</div>
-        <div class="order-abonement-card__popular">Популярный</div>
+        <!-- <div v-if="1 > 0" class="order-abonement-card__sale">-4%</div> -->
+        <div v-if="plan.is_popular" class="order-abonement-card__popular">
+          Популярный
+        </div>
       </template>
       <template #main>
         <ul class="order-abonement-card__features">
-          <li v-for="feature in plan.services.services" :key="feature" class="order-abonement-card__feature">
+          <li
+            v-for="feature in plan.services.services"
+            :key="feature"
+            class="order-abonement-card__feature"
+          >
             {{ feature }}
           </li>
         </ul>

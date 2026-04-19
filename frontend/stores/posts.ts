@@ -1,52 +1,91 @@
-import type { IPost } from "~/types";
-import { api } from "~/api";
 import { defineStore } from "pinia";
+import { api } from "~/api";
+import type { IPost, IPostsResponse } from "~/types";
+import { useDebounceFn } from "@vueuse/core";
 
 export const usePostsStore = defineStore("posts", () => {
+  const current = ref<number>(1);
+  const next = ref<number | null>(null);
+  const previous = ref<number | null>(null);
+  const count = ref<number>(0);
+  const total_pages = ref<number>(0);
+  const type = ref<"article" | "news" | null>(null);
   const posts = ref<IPost[]>([]);
-  const error = ref<string | null>(null);
-  const loading = ref(false);
-  const activeCategory = ref<string | null>(null);
+  const loadingPosts = ref<boolean>(false);
+  const errorPosts = ref<string | null>(null);
 
-  const categories = reactive([
-    { value: "article", label: "Статья" },
-    { value: "news", label: "Новость" },
-  ]);
+  async function getAllPosts(page: number = 1, page_size: number = 6) {
+    const { $api } = useNuxtApp();
+    loadingPosts.value = true;
+    errorPosts.value = null;
 
-  const selectCategory = (cat: string) => {
-    activeCategory.value = activeCategory.value !== cat ? cat : null;
-  };
-
-  const filterPosts = computed(() => {
-    if (!activeCategory.value) return posts.value;
-    return posts.value.filter((post) => post.category === activeCategory.value);
-  });
-
-  async function getAllPosts() {
-    loading.value = true;
     try {
-      const { $api } = useNuxtApp();
-      const response = await $api<IPost[]>(api.posts.last);
-      posts.value = response;
-      error.value = null;
-    } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : "Неизвестная ошибка";
+      const query: { page: number; page_size: number; type?: string } = {
+        page,
+        page_size,
+      };
+      
+      if (type.value) {
+        query.type = type.value;
+      }
+      
+      const res = await $api<IPostsResponse>(api.posts.list, { query });
+
+      if (res.results) {
+        if (page === 1) {
+          posts.value = res.results;
+        } else {
+          posts.value = [...posts.value, ...res.results];
+        }
+      }
+
+      current.value = res.current;
+      next.value = res.next;
+      previous.value = res.previous;
+      count.value = res.count ?? 0;
+      total_pages.value = res.total_pages;
+
+      return res;
+    } catch {
+      errorPosts.value = "Произошла ошибка при загрузке постов";
     } finally {
-      loading.value = false;
+      loadingPosts.value = false;
     }
   }
 
+  const changeType = (newType: "article" | "news") => {
+    type.value = type.value === newType ? null : newType;
+  };
+
+  const resetPosts = () => {
+    posts.value = [];
+    current.value = 1;
+    next.value = null;
+    previous.value = null;
+    count.value = 0;
+    total_pages.value = 0;
+    type.value = null;
+  };
+
+  watch(
+    () => type.value,
+    useDebounceFn(async () => {
+      await getAllPosts(1, 6);
+    }, 500),
+  );
+
   return {
-    //state
     posts,
-    error,
-    loading,
-    categories,
-    activeCategory,
-    //actions
-    selectCategory,
+    current,
+    next,
+    previous,
+    count,
+    type,
+    total_pages,
+    loadingPosts,
+    errorPosts,
     getAllPosts,
-    //getter
-    filterPosts,
+    changeType,
+    resetPosts,
   };
 });

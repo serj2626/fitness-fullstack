@@ -2,12 +2,16 @@
 import { breadcrumbsPostsPage } from "~/assets/data/breadcrumbs.data";
 
 const postsStore = usePostsStore();
-const { loading, filterPosts } = storeToRefs(postsStore);
+const { loadingPosts, posts, next } = storeToRefs(postsStore);
 
 await useAsyncData("posts", async () => {
   await postsStore.getAllPosts();
   return postsStore.posts;
 });
+
+const loadMorePosts = async () => {
+  await postsStore.getAllPosts(next.value as number, 6);
+};
 </script>
 <template>
   <section class="post-list-page">
@@ -15,11 +19,11 @@ await useAsyncData("posts", async () => {
     <div class="container post-list-page__content">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsPostsPage" />
       <PostListFilter />
-      <BaseLoader v-if="loading" />
+      <BaseLoader v-if="loadingPosts" />
 
-      <div v-else-if="filterPosts.length > 0" class="post-list-page__articles">
+      <div v-else-if="posts.length > 0" class="post-list-page__articles">
         <PostCard
-          v-for="post in filterPosts"
+          v-for="post in posts"
           :key="post.id"
           :post="post"
           class="apost-list-page__article-card"
@@ -30,6 +34,14 @@ await useAsyncData("posts", async () => {
         <Icon name="heroicons:book-open" size="60" />
         <p>Статьи не найдены</p>
       </div>
+      <BaseButton
+        v-show="next"
+        size="xs"
+        label="Показать еще"
+        outline
+        style="display: block; margin-inline: auto; margin-block: 10px 25px"
+        @click="loadMorePosts"
+      />
     </div>
   </section>
 </template>

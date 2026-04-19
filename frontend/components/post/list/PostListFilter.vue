@@ -1,18 +1,23 @@
 <script setup lang="ts">
 const postsStore = usePostsStore();
-const { categories, activeCategory } = storeToRefs(postsStore);
-const { selectCategory } = postsStore;
+const { type } = storeToRefs(postsStore);
+const { changeType } = postsStore;
+
+const categories = [
+  { label: "article", title: "Статьи" },
+  { label: "news", title: "Новости" },
+];
 </script>
 <template>
   <div class="post-list-filter">
     <BaseButton
       v-for="category in categories"
       :key="category.label"
-      :label="category.label"
-      :outline="activeCategory !== category.label"
+      :label="category.title"
+      :outline="type !== category.label"
       class="post-list-filter__btn"
-      :class="{ active: activeCategory === category.label }"
-      @click="selectCategory(category.label)"
+      :class="{ active: type === category.label }"
+      @click="changeType(category.label as 'article' | 'news')"
     />
   </div>
 </template>
