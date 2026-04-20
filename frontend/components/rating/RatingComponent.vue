@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+defineProps<{ rating: number }>();
 </script>
 <template>
   <div class="rating">
     <svg
       class="rating__star rating__star--active"
       xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
+      :fill="rating >= 1 ? 'currentColor' : 'white'"
       viewBox="0 0 24 24"
       width="20"
       height="20"
@@ -19,7 +20,7 @@
     <svg
       class="rating__star rating__star--active"
       xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
+      :fill="rating >= 2 ? 'currentColor' : 'white'"
       viewBox="0 0 24 24"
       width="20"
       height="20"
@@ -33,7 +34,7 @@
     <svg
       class="rating__star rating__star--active"
       xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
+      :fill="rating >= 3 ? 'currentColor' : 'white'"
       viewBox="0 0 24 24"
       width="20"
       height="20"
@@ -47,7 +48,7 @@
     <svg
       class="rating__star rating__star--active"
       xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
+      :fill="rating >= 4 ? 'currentColor' : 'white'"
       viewBox="0 0 24 24"
       width="20"
       height="20"
@@ -61,7 +62,7 @@
     <svg
       class="rating__star"
       xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
+      :fill="rating >= 5 ? 'currentColor' : 'white'"
       viewBox="0 0 24 24"
       width="20"
       height="20"

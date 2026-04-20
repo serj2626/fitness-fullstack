@@ -81,11 +81,6 @@ const shownReviews = ref(3);
       <div v-for="review in reviews" :key="review.id" class="review-card">
         <div class="review-header">
           <div class="review-author">
-            <!-- <NuxtImg :src="review.avatar" class="review-avatar" alt="Аватар" /> -->
-            <!-- <AvatarComponent
-              :first-name="review.first_name"
-              :last-name="review.last_name"
-            /> -->
             <div class="author-info">
               <h3 class="author-name">
                 {{ review?.user || "Аноним" }}
@@ -244,6 +239,7 @@ const shownReviews = ref(3);
 .review-header {
   display: flex;
   justify-content: space-between;
+  align-items: start;
   margin-bottom: 15px;
 }
 
@@ -279,7 +275,7 @@ const shownReviews = ref(3);
 }
 
 .review-content {
-  padding-left: 65px;
+  padding-left: 5px;
 }
 
 .review-text {

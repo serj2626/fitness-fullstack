@@ -5,8 +5,9 @@ from drf_spectacular.utils import (
     OpenApiResponse,
     extend_schema,
 )
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
-
+from rest_framework import filters
 from categories.models import Category
 from common.pagination import ListResultsSetPagination
 
@@ -79,14 +80,31 @@ class CreateReviewByCoachView(CreateAPIView):
             required=False,
             description="ID тренера",
             enum=Coach.objects.values_list("id", flat=True),
-        )
+        ),
+        OpenApiParameter(
+            name="ordering",
+            location=OpenApiParameter.QUERY,
+            type=OpenApiTypes.STR,
+            description="ЗАНЧЕНИЕ СОРТИРОВКИ",
+            enum=["created_at", "-created_at", "rating", "-rating"],
+        ),
     ],
 )
 class CoachListReviewView(ListAPIView):
     serializer_class = CoachReviewListSerializer
     queryset = CoachReview.objects.all()
 
-    filterset_class = CoachReviewFilter
+    # 🔥 Включаем фильтры и сортировку
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+    ]
+
+    ordering_fields = [
+        "created_at",
+        "rating",
+    ]
+    ordering = ["-created_at"]
 
     def get_queryset(self):
         queryset = super().get_queryset()
