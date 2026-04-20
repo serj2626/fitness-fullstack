@@ -9,10 +9,10 @@ const { activeModals, isAnyModalOpen } = storeToRefs(modalsStore);
     role="dialog"
     @click.self="modalsStore.closeAllModals()"
   >
-    <LazyBaseFormOrderAbonement
+    <!-- <LazyBaseFormOrderAbonement
       v-if="activeModals.has('orderAbonement')"
       key="orderAbonement"
-    />
+    /> -->
     <LazyBaseFormOrder v-if="activeModals.has('order')" key="order" />
     <LazyModalService v-if="activeModals.has('service')" key="service" />
     <LazyBaseFormOrderTraining

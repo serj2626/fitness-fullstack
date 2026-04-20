@@ -1,33 +1,9 @@
 <script setup lang="ts">
-import { api } from "~/api";
-import type {
-  IContact,
-  IFooterInfo,
-  IFooterInfoTransformResponse,
-} from "~/types";
-const { $api } = useNuxtApp();
+import { useContactsStore } from "./stores/contacts";
 
-// await useAsyncData<IFooterInfoTransformResponse>(
-//   "footer-info",
-//   () => $api(api.contacts.footer),
-//   {
-//     transform: (data: IFooterInfo) => {
-//       const contactsMap = data.contacts.reduce((acc, item) => {
-//         acc[item.type] = item;
-//         return acc;
-//       }, {} as Record<string, IContact>);
-
-//       const { contacts, ...rest } = data;
-
-//       return {
-//         ...rest,
-//         ...contactsMap,
-//       };
-//     },
-//   }
-// );
+const contactsStore = useContactsStore();
+await contactsStore.loadAll();
 </script>
-
 <template>
   <div>
     <BaseButtonScrollToTop />

@@ -13,7 +13,7 @@ export * from "./faq/faq";
 
 export * from "./header/header";
 
-export * from "./footer/footer";
+export * from "./contacts/contacts";
 
 export * from "./home/advantages";
 export * from "./home/eequipment";

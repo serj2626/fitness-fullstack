@@ -45,11 +45,13 @@ defineProps<{ trainer: ICoach }>();
   flex-direction: column;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    // transform: translateY(-2px);
 
     .coach-card__position {
       opacity: 1;
+    }
+    .coach-card__image-wrapper-img {
+      transform: scale(1.05);
     }
   }
 
@@ -66,19 +68,25 @@ defineProps<{ trainer: ICoach }>();
       height: 100%;
       object-fit: cover; 
       object-position: center top; 
+      transition: all 0.3s ease-in-out;
     }
   }
 
   &__position {
     position: absolute;
-    bottom: 10px;
-    background: rgba(255, 255, 255, 0.568);
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // bottom: 10px;
+    background: rgba(39, 38, 38, 0.678);
     transition: all 0.3s ease-in-out;
     opacity: 0;
     padding: 6px 14px;
-    border-radius: 20px;
+  
     font-weight: 600;
-    color: #333;
+    color: #fff;
     font-size: 0.9rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 definePageMeta({
-  hideFooter: true
+  layout: "second",
 });
 </script>
 <template>
- <ContactsPage />
+  <ContactsPage />
 </template>
