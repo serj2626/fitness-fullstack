@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ICoachCategory } from "~/types";
+const store = useCoachesStore();
 
 defineProps<{
   categories: ICoachCategory[] | [];
@@ -8,18 +9,35 @@ defineProps<{
 const model = defineModel<string | null>();
 </script>
 <template>
-  <select v-model="model" class="coach-category-select">
-    <option :value="null">Выберите категорию</option>
-    <option
-      v-for="category in categories"
-      :key="category.id"
-      :value="category.slug"
-    >
-      {{ category.name }}
-    </option>
-  </select>
+  <div class="coach-list-categories">
+    <select v-model="model" class="coach-category-select">
+      <option :value="null">Выберите категорию</option>
+      <option
+        v-for="category in categories"
+        :key="category.id"
+        :value="category.slug"
+      >
+        {{ category.name }}
+      </option>
+    </select>
+    <BaseButton
+      v-if="store.activeCategory"
+      size="xs"
+      label="Сбросить фильтр"
+      outline
+      style="margin-left: 10px"
+      color="#fff"
+      @click="store.activeCategory = null"
+    />
+  </div>
 </template>
 <style scoped lang="scss">
+.coach-list-categories {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block: 20px;
+}
 .coach-category-select {
   padding: 10px 15px;
   border: 1px solid GRAY;

@@ -51,7 +51,6 @@ onUnmounted(() => {
         v-if="categories"
         v-model="activeCategory"
         :categories="categories"
-        style="margin-top: 15px"
       />
       <CoachListContent :coaches="coaches" />
       <div

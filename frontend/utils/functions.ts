@@ -80,7 +80,8 @@ export const extractError = (err: unknown): string => {
   return "Неизвестная ошибка";
 };
 
-export const getExperience = (count: number): string => {
+export const getExperience = (count: number | null): string => {
+  if (count === null) return "не указан";
   // Функция для получения стажа
   if (count === 0) return "не указан";
   if (count === 1) return "более года";

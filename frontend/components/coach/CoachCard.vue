@@ -9,7 +9,7 @@ defineProps<{ trainer: ICoach }>();
       <NuxtImg
         format="webp"
         lazy="loading"
-        lass="coach-card__image"
+        class="coach-card__image-wrapper-img"
         :src="getMedia(trainer?.avatar as string)"
         :alt="`${trainer.first_name} ${trainer.last_name}`"
       />
@@ -45,8 +45,12 @@ defineProps<{ trainer: ICoach }>();
   flex-direction: column;
 
   &:hover {
-    // transform: translateY(-6px);
+    transform: translateY(-2px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+    .coach-card__position {
+      opacity: 1;
+    }
   }
 
   &__image-wrapper {
@@ -55,25 +59,22 @@ defineProps<{ trainer: ICoach }>();
     overflow: hidden;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-  }
 
-  &__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    transition: all 0.3s ease-in-out;
-  }
-
-  &__image-wrapper:hover .coach-card__image {
-    transform: scale(1.05);
+    &-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; 
+      object-position: center top; 
+    }
   }
 
   &__position {
     position: absolute;
-    bottom: 16px;
-    left: 16px;
-    background: rgba(255, 255, 255, 0.85);
+    bottom: 10px;
+    background: rgba(255, 255, 255, 0.568);
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
     padding: 6px 14px;
     border-radius: 20px;
     font-weight: 600;
