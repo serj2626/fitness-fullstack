@@ -1,44 +1,43 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import type { ICoach, ICoachCategory } from "~/types";
-// import { useCoachesStore } from "~/stores/coaches";
-// import { useIntersectionObserver } from "@vueuse/core";
-// import { api } from "~/api";
-// import { ICoach } from "~/types";
+import type { ICoachCategory } from "~/types";
+import { useIntersectionObserver } from "@vueuse/core";
+
+const coachesStore = useCoachesStore();
+const { next, coaches, activeCategory, loading } = storeToRefs(coachesStore);
 
 const { $api } = useNuxtApp();
-// const coachesStore = useCoachesStore();
-// const { coaches, loading, next } = storeToRefs(coachesStore);
 
-// const { pending } = await useAsyncData("coaches", () =>
-//   coachesStore.fetchAllCoaches(),
-// );
+const observerTarget = ref<HTMLElement | null>(null);
 
-// const observerTarget = ref<HTMLElement | null>(null);
-
-// useIntersectionObserver(observerTarget, async ([entry]) => {
-//   if (entry.isIntersecting && next.value && !loading.value) {
-//     await coachesStore.fetchAllCoaches(next.value);
-//   }
-// });
-const currentCategory = ref<string | null>(null);
-const { data: coaches, pending } = useAsyncData<ICoach[]>(
-  "coaches-list-page",
-  () =>
-    $api(api.coaches.list, {
-      query: {
-        category: currentCategory.value || undefined,
-      },
-    }),
-  {
-    watch: [currentCategory],
-  },
-);
 const { data: categories } = useAsyncData<ICoachCategory[]>(
   "coaches-list-page-categories",
   () => $api(api.categories.list),
 );
+
+await useAsyncData("coaches-list-page", async () => {
+  await coachesStore.fetchAllCoaches();
+  return coachesStore.coaches;
+});
+
+onMounted(() => {
+  useIntersectionObserver(
+    observerTarget,
+    async ([entry]) => {
+      if (entry.isIntersecting && next.value && !loading.value) {
+        await coachesStore.fetchAllCoaches(next.value as number, 6);
+      }
+    },
+    {
+      threshold: 0.5, // при 50% видимости
+      rootMargin: "300px", // дополнительный отступ
+    },
+  );
+});
+onUnmounted(() => {
+  coachesStore.reset();
+})
 </script>
 <template>
   <div class="trainers-page">
@@ -48,19 +47,18 @@ const { data: categories } = useAsyncData<ICoachCategory[]>(
     />
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachesPage" />
-      <BaseLoader v-if="pending" />
       <CoachListCategories
         v-if="categories"
-        v-model="currentCategory"
+        v-model="activeCategory"
         :categories="categories"
         style="margin-top: 15px"
       />
-      <CoachListContent v-if="coaches" :coaches="coaches" />
-      <!-- <div
+      <CoachListContent :coaches="coaches" />
+      <div
         ref="observerTarget"
         class="observer-trigger"
         style="height: 1px; margin-top: 140px"
-      /> -->
+      />
     </div>
   </div>
 </template>

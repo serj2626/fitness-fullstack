@@ -1,5 +1,5 @@
 import type { ICoach, ICoachesListResponse } from "~/types";
-
+import { useDebounceFn } from "@vueuse/core";
 import { api } from "~/api";
 import { defineStore } from "pinia";
 
@@ -10,20 +10,24 @@ export const useCoachesStore = defineStore("coaches-store", () => {
   const activeCategory = ref<string | null>(null);
 
   const current = ref<number>(1);
-  const next = ref<number | null>(2);
+  const next = ref<number | null>(null);
   const previous = ref<number | null>(null);
-  const count = ref<number>(19);
-  const total_pages = ref<number>(4);
+  const count = ref<number>(0);
+  const total_pages = ref<number>(0);
 
   async function fetchAllCoaches(page: number = 1, page_size: number = 6) {
     const { $api } = useNuxtApp();
     loading.value = true;
     try {
+      const query: { page: number; page_size: number; category?: string } = {
+        page,
+        page_size,
+      };
+      if (activeCategory.value) {
+        query.category = activeCategory.value;
+      }
       const res = await $api<ICoachesListResponse>(api.coaches.list, {
-        query: {
-          page,
-          page_size,
-        },
+        query,
       });
 
       if (res.results) {
@@ -48,13 +52,22 @@ export const useCoachesStore = defineStore("coaches-store", () => {
       loading.value = false;
     }
   }
+  watch(
+    () => activeCategory.value,
+    useDebounceFn(async () => {
+      await fetchAllCoaches(1, 6);
+    }, 300),
+  );
 
-  const filterCoaches = computed(() => {
-    if (!activeCategory.value) return coaches.value;
-    return coaches.value.filter(
-      (coach) => coach.position === activeCategory.value
-    );
-  });
+  function reset() {
+    coaches.value = [];
+    current.value = 1;
+    next.value = null;
+    previous.value = null;
+    count.value = 0;
+    total_pages.value = 0;
+    activeCategory.value = null;
+  }
 
   return {
     loading,
@@ -67,7 +80,7 @@ export const useCoachesStore = defineStore("coaches-store", () => {
     total_pages,
 
     activeCategory,
-    filterCoaches,
+    reset,
     fetchAllCoaches, // <- Убедитесь, что метод возвращается!
   };
 });

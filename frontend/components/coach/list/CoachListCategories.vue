@@ -9,7 +9,7 @@ const model = defineModel<string | null>();
 </script>
 <template>
   <select v-model="model" class="coach-category-select">
-    <option value="">Выберите категорию</option>
+    <option :value="null">Выберите категорию</option>
     <option
       v-for="category in categories"
       :key="category.id"

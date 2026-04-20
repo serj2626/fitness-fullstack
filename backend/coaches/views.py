@@ -6,7 +6,7 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
-
+from common.pagination import ListResultsSetPagination
 from categories.models import Category
 
 from .models import Coach, CoachReview, OrderTraining
@@ -113,6 +113,7 @@ class CoachListReviewView(ListAPIView):
 class CoachListView(ListAPIView):
     serializer_class = CoachSerializer
     queryset = Coach.objects.all()
+    pagination_class = ListResultsSetPagination
 
     def get_queryset(self):
         queryset = super().get_queryset()
