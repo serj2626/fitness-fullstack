@@ -9,8 +9,24 @@ const getPrice = (price: number | null) => {
 };
 
 const sortedServices = computed(() => {
-  return [...props.services].sort((a, b) => a.title - b.title);
-})
+  const serviceListSorted: Record<string, ICoachService[]> = {};
+  props.services.forEach((service) => {
+    if (serviceListSorted[service.title]) {
+      serviceListSorted[service.title].push(service);
+    } else {
+      serviceListSorted[service.title] = [service];
+    }
+  });
+
+  const sortedServicesByPrice: Record<string, ICoachService[]> = {};
+  for (const title in serviceListSorted) {
+    sortedServicesByPrice[title] = serviceListSorted[title].sort(
+      (a, b) => a.price - b.price,
+    );
+  }
+
+  return sortedServicesByPrice;
+});
 </script>
 <template>
   <div class="coach-detail-services">
@@ -19,7 +35,9 @@ const sortedServices = computed(() => {
         <span>Услуга</span>
         <span>Цена</span>
       </div>
-      {{ sortedServices }}
+      <!-- {{
+        sortedServices
+      }} -->
       <li
         v-for="service in services"
         :key="service.id"
@@ -49,6 +67,11 @@ const sortedServices = computed(() => {
   background: rgba(255, 255, 255, 0.05);
   padding: 15px 25px;
   color: white;
+
+  &__duration {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+  }
 
   &__info {
     display: flex;

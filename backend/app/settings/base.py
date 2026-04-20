@@ -78,11 +78,13 @@ CORS_ALLOW_CREDENTIALS = True  # ← Разрешить cookie
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Nuxt dev
+    "http://localhost:3001",  # Nuxt dev
     "https://yourdomain.com",  # Production
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:3001",
     "https://yourdomain.com",
 ]
 

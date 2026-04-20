@@ -46,13 +46,14 @@ function toggleAccordion(id: number): void {
         </BaseAccordionComponent>
       </li>
     </ul>
+    <p v-else>Вопросов нет</p>
   </div>
 </template>
 <style scoped lang="scss">
 .faq-content {
-  padding-block: 100px;
+  padding-block: 50px;
   &__list {
-    max-width: 800px;
+    max-width: 90%;
     margin-inline: auto;
     color: $white;
     display: flex;

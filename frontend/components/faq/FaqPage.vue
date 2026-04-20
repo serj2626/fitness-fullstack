@@ -1,42 +1,47 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { breadcrumbsFAQDetailPage } from "~/assets/data/breadcrumbs.data";
-import type { IFAQResponse } from "~/types";
-import { useIntersectionObserver } from "@vueuse/core";
+import type { IFAQResponse, IQuestion } from "~/types";
+// import { useIntersectionObserver } from "@vueuse/core";
 
 const { $api } = useNuxtApp();
-const currentPage = ref(1);
-const faqItems = ref<IFAQResponse["results"]>([]);
-const hasMore = ref(true);
+// const currentPage = ref(1);
+// const faqItems = ref<IFAQResponse["results"]>([]);
+// const hasMore = ref(true);
 
 // Первоначальная загрузка
-const { data: initialData } = await useAsyncData<IFAQResponse>(
+// const { data: initialData } = await useAsyncData<IFAQResponse>(
+//   "faq-page-info",
+//   () => $api(api.contacts.faq, { params: { page: currentPage.value } })
+// );
+
+const { data: faqData } = await useAsyncData<IQuestion[]>(
   "faq-page-info",
-  () => $api(api.gym.faq, { params: { page: currentPage.value } })
+  () => $api(api.contacts.faq),
 );
 
-if (initialData.value) {
-  faqItems.value = initialData.value.results;
-  hasMore.value = !!initialData.value.next;
-}
+// if (initialData.value) {
+//   faqItems.value = initialData.value.results;
+//   hasMore.value = !!initialData.value.next;
+// }
 
-const observerTarget = ref<HTMLElement | null>(null);
+// const observerTarget = ref<HTMLElement | null>(null);
 
-useIntersectionObserver(observerTarget, async ([entry]) => {
-  if (entry.isIntersecting && hasMore.value) {
-    currentPage.value += 1;
-    
-    const { data: newData } = await useAsyncData<IFAQResponse>(
-      `faq-page-info-${currentPage.value}`,
-      () => $api(api.gym.faq, { params: { page: currentPage.value } })
-    );
-    
-    if (newData.value) {
-      faqItems.value = [...faqItems.value, ...newData.value.results];
-      hasMore.value = !!newData.value.next;
-    }
-  }
-});
+// useIntersectionObserver(observerTarget, async ([entry]) => {
+//   if (entry.isIntersecting && hasMore.value) {
+//     currentPage.value += 1;
+
+//     const { data: newData } = await useAsyncData<IFAQResponse>(
+//       `faq-page-info-${currentPage.value}`,
+//       () => $api(api.gym.faq, { params: { page: currentPage.value } })
+//     );
+
+//     if (newData.value) {
+//       faqItems.value = [...faqItems.value, ...newData.value.results];
+//       hasMore.value = !!newData.value.next;
+//     }
+//   }
+// });
 </script>
 
 <template>
@@ -44,12 +49,12 @@ useIntersectionObserver(observerTarget, async ([entry]) => {
     <PagesTopSection title="Вопросы и ответы" />
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsFAQDetailPage" />
-      <FaqContent :faq-info="faqItems" />
-      <div
+      <FaqContent :faq-info="faqData" />
+      <!-- <div
         ref="observerTarget"
         class="observer-trigger"
         style="height: 1px; margin-top: 140px"
-      />
+      /> -->
     </div>
   </div>
 </template>

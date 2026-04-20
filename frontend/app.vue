@@ -19,7 +19,7 @@ await contactsStore.loadAll();
 <style lang="scss">
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.3s ease-in;
+  transition: all 0.4s ease-in;
   transition-duration: 0.4s;
 }
 
