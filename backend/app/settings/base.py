@@ -45,8 +45,9 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_ckeditor_5",
     "django_extensions",
+    "django_filters",
     # Local
-    'abonements',
+    "abonements",
     "users",
     "seo",
     "posts",
@@ -61,7 +62,11 @@ AUTH_USER_MODEL = "users.User"
 
 # REST Framework
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+    ],
     # "DEFAULT_AUTHENTICATION_CLASSES": [
     #     "rest_framework.authentication.SessionAuthentication",
     # ],

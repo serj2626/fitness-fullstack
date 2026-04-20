@@ -1,39 +1,50 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import type { ICoach } from "~/types";
+import type { ICoach, IReview } from "~/types";
 
-const trainerStore = useTrainerStore();
-const { trainer } = storeToRefs(trainerStore);
 const activeTab = ref((useRoute().query.tab as string) || "contacts");
 
 const { $api } = useNuxtApp();
 
 const { id } = useRoute().params;
-const coachID = Array.isArray(id) ? id[0] : id;
+const coachID = computed(() => (Array.isArray(id) ? id[0] : id));
 
 const { data: coachData } = await useAsyncData<ICoach>(
-  `coach-${coachID}`,
+  `coach-${coachID.value}`,
   () => $api(api.coaches.detail(id as string)),
   {
     watch: [() => id],
   },
 );
 
-const loadReviews = () => {
-  if (!trainerStore.reviews.length) {
-    trainerStore.fetchReviews(coachID);
-  }
-};
+// const loadReviews = () => {
+//   if (!trainerStore.reviews.length) {
+//     trainerStore.fetchReviews(coachID);
+//   }
+// };
 
-watch(activeTab, (newTab) => {
-  if (newTab === "reviews") loadReviews();
-  useRouter().replace({ query: { ...useRoute().query, tab: newTab } });
-});
+const { data: reviewsData } = useAsyncData<IReview[]>(
+  "coaches-list-page-reviews-list",
+  () =>
+    $api(api.reviews.list, {
+      query: {
+        id: id as string,
+      },
+    }),
+  {
+    lazy: false,
+  },
+);
 
-onUnmounted(() => {
-  trainerStore.reset();
-});
+// watch(activeTab, (newTab) => {
+//   if (newTab === "reviews") loadReviews();
+//   useRouter().replace({ query: { ...useRoute().query, tab: newTab } });
+// });
+
+// onUnmounted(() => {
+//   trainerStore.reset();
+// });
 </script>
 
 <template>
@@ -73,7 +84,7 @@ onUnmounted(() => {
             />
             <LazyCoachDetailReviews
               v-if="activeTab === 'reviews'"
-              :reviews="trainerStore?.reviews"
+              :reviews="reviewsData || []"
             />
           </div>
         </div>

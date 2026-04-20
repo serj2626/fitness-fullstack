@@ -10,6 +10,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from categories.models import Category
 from common.pagination import ListResultsSetPagination
 
+from .filters import CoachReviewFilter
 from .models import Coach, CoachReview, OrderTraining
 from .serializer import (
     CoachReviewListSerializer,
@@ -36,7 +37,7 @@ TAG_REVIEW = "Отзывы о тренерах"
     },
     examples=[
         OpenApiExample(
-            name="✅ Успешный отзыв",
+            name="Успешный отзыв",
             value={
                 "user": "daf2a854-62ff-404c-aa29-c6b29b8eb073",
                 "coach": "d64cbfbc-9331-4ea7-9e3b-aa115d5f87bb",
@@ -46,7 +47,7 @@ TAG_REVIEW = "Отзывы о тренерах"
             request_only=True,
         ),
         OpenApiExample(
-            name="⚠️ Отзыв с минимальным рейтингом",
+            name="Отзыв с минимальным рейтингом",
             value={
                 "user": "daf2a854-62ff-404c-aa29-c6b29b8eb073",
                 "coach": "d64cbfbc-9331-4ea7-9e3b-aa115d5f87bb",
@@ -84,6 +85,8 @@ class CreateReviewByCoachView(CreateAPIView):
 class CoachListReviewView(ListAPIView):
     serializer_class = CoachReviewListSerializer
     queryset = CoachReview.objects.all()
+
+    filterset_class = CoachReviewFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()

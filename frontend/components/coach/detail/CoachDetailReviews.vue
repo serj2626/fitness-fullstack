@@ -35,28 +35,9 @@ const sortOptions = [
   { value: "lowest", label: "Низкий рейтинг" },
 ];
 
-// const sortedReviews = computed(() => {
-//   const sorted = [...reviews.value];
-//   switch (sortBy.value) {
-//     case "newest":
-//       return reviews.value;
-//     case "highest":
-//       return sorted.sort((a, b) => b.rating - a.rating);
-//     case "lowest":
-//       return sorted.sort((a, b) => a.rating - b.rating);
-//     default:
-//       return sorted;
-//   }
-// });
 
-// Пагинация
 const shownReviews = ref(3);
 
-// Просмотр фото
-// const openPhotoViewer = (photos: string[], index: number) => {
-//   // Здесь можно реализовать открытие полноэкранного просмотрщика
-//   console.log("Открыть фото:", photos[index]);
-// };
 </script>
 <template>
   <div class="coach-detail-reviews">
@@ -101,22 +82,22 @@ const shownReviews = ref(3);
         <div class="review-header">
           <div class="review-author">
             <!-- <NuxtImg :src="review.avatar" class="review-avatar" alt="Аватар" /> -->
-            <AvatarComponent
+            <!-- <AvatarComponent
               :first-name="review.first_name"
               :last-name="review.last_name"
-            />
+            /> -->
             <div class="author-info">
               <h3 class="author-name">
-                {{ review.first_name }} {{ review.last_name }}
+                {{ review?.user || "Аноним" }}
               </h3>
-              <div class="review-date">{{ review.time_age }}</div>
+              <div class="review-date">{{ review.time_ago || "" }}</div>
             </div>
           </div>
-          <RatingComponent :rating="review.rating" :size="20" readonly />
+          <RatingComponent :rating="review?.rating" :size="20" readonly />
         </div>
 
         <div class="review-content">
-          <p class="review-text">{{ review.text }}</p>
+          <p class="review-text">{{ review?.text || "" }}</p>
         </div>
       </div>
     </div>
