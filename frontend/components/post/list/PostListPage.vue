@@ -2,7 +2,7 @@
 import { breadcrumbsPostsPage } from "~/assets/data/breadcrumbs.data";
 
 const postsStore = usePostsStore();
-const { loadingPosts, posts, next } = storeToRefs(postsStore);
+const { posts, next } = storeToRefs(postsStore);
 
 await useAsyncData("posts", async () => {
   await postsStore.getAllPosts();
@@ -12,6 +12,10 @@ await useAsyncData("posts", async () => {
 const loadMorePosts = async () => {
   await postsStore.getAllPosts(next.value as number, 6);
 };
+
+onUnmounted(() => {
+  postsStore.reset();
+});
 </script>
 <template>
   <section class="post-list-page">
@@ -19,9 +23,8 @@ const loadMorePosts = async () => {
     <div class="container post-list-page__content">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsPostsPage" />
       <PostListFilter />
-      <BaseLoader v-if="loadingPosts" />
 
-      <div v-else-if="posts.length > 0" class="post-list-page__articles">
+      <div v-if="posts.length > 0" class="post-list-page__articles">
         <PostCard
           v-for="post in posts"
           :key="post.id"

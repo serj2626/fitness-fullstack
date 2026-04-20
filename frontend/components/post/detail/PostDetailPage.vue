@@ -8,7 +8,7 @@ const route = useRoute();
 
 const { data: post } = await useAsyncData<IPost>(
   `post-${route.params.slug}`,
-  () => $api(api.posts.detail(route.params.slug as string))
+  () => $api(api.posts.detail(route.params.slug as string)),
 );
 
 const currentPage: ILinkBreadcrumb = {
@@ -26,13 +26,21 @@ const currentPage: ILinkBreadcrumb = {
       />
       <div class="post-header">
         <div class="post-meta">
-          <span class="post-date">{{ formatDate(post.created_at) }}</span>
-          <span class="post-category">{{ post.category }}</span>
+          <span class="post-date">{{
+            formatDate(String(post.created_at))
+          }}</span>
+          <span class="post-category">{{
+            post.type === "article" ? "Статья" : "Новость"
+          }}</span>
         </div>
       </div>
 
       <!-- Изображение -->
-      <NuxtImg :src="post.image" :alt="post.title" class="post-image" />
+      <NuxtImg
+        :src="getPhoto(post.image)"
+        :alt="post.title"
+        class="post-image"
+      />
       <BaseWysiwyg v-if="post.content" :html="post.content" />
     </div>
   </div>

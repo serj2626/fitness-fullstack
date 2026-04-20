@@ -2,13 +2,13 @@ import type { IPagination } from "../common/pagination";
 
 export interface IPost {
   id: number;
-  title: string;
+  image: string;
   slug: string;
-  type: string;
-  image: null;
+  content: string;
   created_at: Date;
+  title: string;
+  type: string;
 }
-
 
 export interface IPostsResponse extends IPagination {
   results: IPost[];

@@ -24,11 +24,11 @@ export const usePostsStore = defineStore("posts", () => {
         page,
         page_size,
       };
-      
+
       if (type.value) {
         query.type = type.value;
       }
-      
+
       const res = await $api<IPostsResponse>(api.posts.list, { query });
 
       if (res.results) {
@@ -57,15 +57,6 @@ export const usePostsStore = defineStore("posts", () => {
     type.value = type.value === newType ? null : newType;
   };
 
-  const resetPosts = () => {
-    posts.value = [];
-    current.value = 1;
-    next.value = null;
-    previous.value = null;
-    count.value = 0;
-    total_pages.value = 0;
-    type.value = null;
-  };
 
   watch(
     () => type.value,
@@ -73,6 +64,16 @@ export const usePostsStore = defineStore("posts", () => {
       await getAllPosts(1, 6);
     }, 500),
   );
+
+  function reset() {
+    posts.value = [];
+    current.value = 1;
+    next.value = null;
+    previous.value = null;
+    count.value = 0;
+    total_pages.value = 0;
+    type.value = null;
+  }
 
   return {
     posts,
@@ -86,6 +87,6 @@ export const usePostsStore = defineStore("posts", () => {
     errorPosts,
     getAllPosts,
     changeType,
-    resetPosts,
+    reset,
   };
 });
