@@ -80,7 +80,7 @@ defineProps<{ trainer: ICoach }>();
     justify-content: center;
     align-items: center;
     // bottom: 10px;
-    background: rgba(39, 38, 38, 0.678);
+    background: rgba(0, 0, 0, 0.336);
     transition: all 0.3s ease-in-out;
     opacity: 0;
     padding: 6px 14px;

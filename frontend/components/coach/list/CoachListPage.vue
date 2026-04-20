@@ -14,11 +14,13 @@ const observerTarget = ref<HTMLElement | null>(null);
 const { data: categories } = useAsyncData<ICoachCategory[]>(
   "coaches-list-page-categories",
   () => $api(api.categories.list),
+  {
+    server: true,
+  },
 );
 
-await useAsyncData("coaches-list-page", async () => {
+callOnce(async () => {
   await coachesStore.fetchAllCoaches();
-  return coachesStore.coaches;
 });
 
 onMounted(() => {
@@ -30,14 +32,14 @@ onMounted(() => {
       }
     },
     {
-      threshold: 0.5, // при 50% видимости
+      threshold: 0.1, // при 10% видимости
       rootMargin: "300px", // дополнительный отступ
     },
   );
 });
 onUnmounted(() => {
   coachesStore.reset();
-})
+});
 </script>
 <template>
   <div class="trainers-page">
