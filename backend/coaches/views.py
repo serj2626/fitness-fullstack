@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
@@ -5,13 +6,12 @@ from drf_spectacular.utils import (
     OpenApiResponse,
     extend_schema,
 )
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework import filters
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+
 from categories.models import Category
 from common.pagination import ListResultsSetPagination
 
-from .filters import CoachReviewFilter
 from .models import Coach, CoachReview, OrderTraining
 from .serializer import (
     CoachReviewListSerializer,
@@ -93,6 +93,7 @@ class CreateReviewByCoachView(CreateAPIView):
 class CoachListReviewView(ListAPIView):
     serializer_class = CoachReviewListSerializer
     queryset = CoachReview.objects.all()
+    pagination_class = ListResultsSetPagination
 
     # 🔥 Включаем фильтры и сортировку
     filter_backends = [

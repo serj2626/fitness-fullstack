@@ -10,7 +10,7 @@ interface FormData {
   [key: string]: FormField;
 }
 
-export const clearFormAuth = (formData: FormData) => {
+export const clearForm = (formData: FormData) => {
   // Функция для очистки формы
 
   for (const key in formData) {

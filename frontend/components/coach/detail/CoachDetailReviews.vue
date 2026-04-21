@@ -5,6 +5,7 @@ import type { IReview } from "~/types";
 
 defineProps<{
   reviews: IReview[];
+  loading: boolean;
 }>();
 
 const modalsStore = useModalsStore();
@@ -31,13 +32,10 @@ onUnmounted(() => {
 const sortBy = ref("newest");
 const sortOptions = [
   { value: "newest", label: "Сначала новые" },
+  { value: "oldest", label: "Сначала старые" },
   { value: "highest", label: "Высокий рейтинг" },
   { value: "lowest", label: "Низкий рейтинг" },
 ];
-
-
-const shownReviews = ref(3);
-
 </script>
 <template>
   <div class="coach-detail-reviews">
@@ -76,37 +74,29 @@ const shownReviews = ref(3);
         </button>
       </div>
     </div>
-    <!-- Список отзывов -->
-    <div v-if="reviews.length > 0" class="coach-detail-reviews__list">
-      <div v-for="review in reviews" :key="review.id" class="review-card">
-        <div class="review-header">
-          <div class="review-author">
-            <div class="author-info">
-              <h3 class="author-name">
-                {{ review?.user || "Аноним" }}
-              </h3>
-              <div class="review-date">{{ review.time_ago || "" }}</div>
+    <BaseLoader v-if="loading" />
+    <template v-else>
+      <div v-if="reviews.length > 0" class="coach-detail-reviews__list">
+        <div v-for="review in reviews" :key="review.id" class="review-card">
+          <div class="review-header">
+            <div class="review-author">
+              <div class="author-info">
+                <h3 class="author-name">
+                  {{ review?.user || "Аноним" }}
+                </h3>
+                <div class="review-date">{{ review.time_ago || "" }}</div>
+              </div>
             </div>
+            <RatingComponent :rating="review?.rating" :size="20" readonly />
           </div>
-          <RatingComponent :rating="review?.rating" :size="20" readonly />
-        </div>
 
-        <div class="review-content">
-          <p class="review-text">{{ review?.text || "" }}</p>
+          <div class="review-content">
+            <p class="review-text">{{ review?.text || "" }}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <BaseEmpty v-else text="Отзывов нет" />
-
-    <!-- Кнопка "Показать еще" -->
-    <BaseButton
-      v-if="reviews.length > shownReviews"
-      label="Показать еще"
-      variant="outline"
-      size="md"
-      class="load-more"
-      @click="shownReviews += 3"
-    />
+      <BaseEmpty v-else text="Отзывов нет" />
+    </template>
   </div>
 </template>
 <style lang="scss">

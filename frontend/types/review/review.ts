@@ -1,4 +1,10 @@
 import type { IPagination } from "../common/pagination";
+
+export type TOrderingReview =
+  | "rating"
+  | "-rating"
+  | "created_at"
+  | "-created_at";
 export interface IReview {
   id: string;
   coach: string | null;
@@ -8,7 +14,13 @@ export interface IReview {
   user: string;
 }
 
-export interface IReviewResponse {
-  data: IReview[];
-  pagination: IPagination;
+export interface ICreateReview {
+  user: string;
+  coach: string;
+  rating: number;
+  text: string;
+}
+
+export interface IReviewResponse extends IPagination {
+  results: IReview[];
 }

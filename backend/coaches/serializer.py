@@ -3,7 +3,7 @@ from rest_framework import serializers
 from categories.serializers import CategorySerializer
 from common.utils import RelativeOnlyImageField
 
-from .models import Coach, CoachReview, CoachService, OrderTraining
+from .models import Coach, CoachReview, CoachService, OrderTraining, CoachSocial
 
 
 class CreateOrderTrainingSerializer(serializers.ModelSerializer):
@@ -54,10 +54,19 @@ class CoachServiceSerializer(serializers.ModelSerializer):
         fields = ("id", "title", "price", "time")
 
 
+class CoachSocialSerializer(serializers.ModelSerializer):
+    title = serializers.CharField(source="get_social_display", read_only=True)
+
+    class Meta:
+        model = CoachSocial
+        fields = ("id", "title", "social", "link")
+
+
 class CoachSerializer(serializers.ModelSerializer):
     services = CoachServiceSerializer(many=True, read_only=True)
     categories = CategorySerializer(many=True, read_only=True)
     avatar = RelativeOnlyImageField(read_only=True)
+    socials = CoachSocialSerializer(many=True, read_only=True)
 
     class Meta:
         model = Coach
@@ -71,4 +80,5 @@ class CoachSerializer(serializers.ModelSerializer):
             "phone",
             "categories",
             "services",
+            "socials",
         )

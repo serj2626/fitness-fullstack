@@ -4,7 +4,20 @@ from common.admin_actions import get_admin_link
 from common.mixins import AdminImagePreviewMixin
 from common.utils import get_review_text
 
-from .models import Coach, CoachReview, CoachService, OrderTraining, Service
+from .models import (
+    Coach,
+    CoachReview,
+    CoachService,
+    OrderTraining,
+    Service,
+    CoachSocial,
+)
+
+
+class CoachSocialInline(admin.TabularInline):
+    model = CoachSocial
+    extra = 1
+    classes = ("collapse",)
 
 
 @admin.register(CoachReview)
@@ -55,7 +68,7 @@ class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
         "get_image",
     )
     save_on_top = True
-    inlines = [CoachServiceInline, OrderTrainingInline]
+    inlines = [CoachSocialInline, CoachServiceInline, OrderTrainingInline]
     filter_horizontal = ("categories",)
 
     fieldsets = (

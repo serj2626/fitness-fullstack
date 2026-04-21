@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import type { ICoach, IReview } from "~/types";
+import type { ICoach, IReview, IReviewResponse } from "~/types";
+
+const reviewsStore = useReviewsStore();
 
 const activeTab = ref((useRoute().query.tab as string) || "contacts");
 
 const { $api } = useNuxtApp();
 
 const { id } = useRoute().params;
-const coachID = computed(() => (Array.isArray(id) ? id[0] : id));
+const coachID = computed<string>(() => (Array.isArray(id) ? id[0] : id));
 
 const { data: coachData } = await useAsyncData<ICoach>(
   `coach-${coachID.value}`,
@@ -18,33 +20,9 @@ const { data: coachData } = await useAsyncData<ICoach>(
   },
 );
 
-// const loadReviews = () => {
-//   if (!trainerStore.reviews.length) {
-//     trainerStore.fetchReviews(coachID);
-//   }
-// };
-
-const { data: reviewsData } = useAsyncData<IReview[]>(
-  "coaches-list-page-reviews-list",
-  () =>
-    $api(api.reviews.list, {
-      query: {
-        id: id as string,
-      },
-    }),
-  {
-    lazy: false,
-  },
-);
-
-// watch(activeTab, (newTab) => {
-//   if (newTab === "reviews") loadReviews();
-//   useRouter().replace({ query: { ...useRoute().query, tab: newTab } });
-// });
-
-// onUnmounted(() => {
-//   trainerStore.reset();
-// });
+useLazyAsyncData("reviews-list", async () => {
+  await reviewsStore.getAllReviews(1, 6, coachID.value);
+});
 </script>
 
 <template>
@@ -77,6 +55,7 @@ const { data: reviewsData } = useAsyncData<IReview[]>(
               :email="coachData?.email || 'Email тренера'"
               :phone="coachData?.phone || 'Телефон тренера'"
               :experience="coachData?.experience || 0"
+              :socials="coachData?.socials || []"
             />
             <LazyCoachDetailServices
               v-if="activeTab === 'services'"
@@ -84,7 +63,8 @@ const { data: reviewsData } = useAsyncData<IReview[]>(
             />
             <LazyCoachDetailReviews
               v-if="activeTab === 'reviews'"
-              :reviews="reviewsData || []"
+              :reviews="reviewsStore.reviews"
+              :loading="reviewsStore.loading"
             />
           </div>
         </div>

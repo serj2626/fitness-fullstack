@@ -11,6 +11,11 @@ const { $api } = useNuxtApp();
 
 const observerTarget = ref<HTMLElement | null>(null);
 
+const { pending } = useAsyncData("coaches-list-page", async () => {
+  await coachesStore.fetchAllCoaches();
+  return coachesStore.coaches;
+});
+
 const { data: categories } = useAsyncData<ICoachCategory[]>(
   "coaches-list-page-categories",
   () => $api(api.categories.list),
@@ -19,9 +24,9 @@ const { data: categories } = useAsyncData<ICoachCategory[]>(
   },
 );
 
-callOnce(async () => {
-  await coachesStore.fetchAllCoaches();
-});
+// callOnce(async () => {
+//   await coachesStore.fetchAllCoaches();
+// });
 
 onMounted(() => {
   useIntersectionObserver(

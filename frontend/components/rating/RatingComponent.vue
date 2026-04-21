@@ -1,71 +1,21 @@
 <script lang="ts" setup>
 defineProps<{ rating: number }>();
+
+const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 </script>
+
 <template>
   <div class="rating">
     <svg
-      class="rating__star rating__star--active"
-      xmlns="http://www.w3.org/2000/svg"
-      :fill="rating >= 1 ? 'currentColor' : 'white'"
-      viewBox="0 0 24 24"
-      width="20"
-      height="20"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-        clip-rule="evenodd"
-      />
-    </svg>
-    <svg
-      class="rating__star rating__star--active"
-      xmlns="http://www.w3.org/2000/svg"
-      :fill="rating >= 2 ? 'currentColor' : 'white'"
-      viewBox="0 0 24 24"
-      width="20"
-      height="20"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-        clip-rule="evenodd"
-      />
-    </svg>
-    <svg
-      class="rating__star rating__star--active"
-      xmlns="http://www.w3.org/2000/svg"
-      :fill="rating >= 3 ? 'currentColor' : 'white'"
-      viewBox="0 0 24 24"
-      width="20"
-      height="20"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-        clip-rule="evenodd"
-      />
-    </svg>
-    <svg
-      class="rating__star rating__star--active"
-      xmlns="http://www.w3.org/2000/svg"
-      :fill="rating >= 4 ? 'currentColor' : 'white'"
-      viewBox="0 0 24 24"
-      width="20"
-      height="20"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-        clip-rule="evenodd"
-      />
-    </svg>
-    <svg
+      v-for="star in stars"
+      :key="star"
       class="rating__star"
+      :class="{ 'rating__star--active': rating >= star }"
       xmlns="http://www.w3.org/2000/svg"
-      :fill="rating >= 5 ? 'currentColor' : 'white'"
       viewBox="0 0 24 24"
       width="20"
       height="20"
+      fill="currentColor"
     >
       <path
         fill-rule="evenodd"
@@ -84,11 +34,10 @@ defineProps<{ rating: number }>();
   gap: 4px;
 
   &__star {
-    font-size: 20px;
-    color: #d1d5db; // серый цвет для неактивной звезды
+    color: #d1d5db; // серый для неактивных
 
     &--active {
-      color: #facc15; // желтый цвет для активной звезды
+      color: #facc15; // жёлтый для активных
     }
   }
 }

@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-
+from contacts.models import SOCIALS_TYPE
 from categories.models import Category
 from common.mixins import AutoSlugMixin, NameMixin, TimeAgoModelMixin
 from common.models import (
@@ -89,6 +89,25 @@ class Coach(BaseID, BaseEmail, BaseContent, BaseOrder):
 
     def __str__(self):
         return f"Тренер {self.first_name} {self.last_name}"
+
+
+class CoachSocial(models.Model):
+    """
+    Модель социальных сетей тренера
+    """
+
+    coach = models.ForeignKey(
+        Coach, on_delete=models.CASCADE, verbose_name="Тренер", related_name="socials"
+    )
+    social = models.CharField("Социальная сеть", max_length=255, choices=SOCIALS_TYPE)
+    link = models.URLField("Ссылка", max_length=255)
+
+    class Meta:
+        verbose_name = "Социальная сеть тренера"
+        verbose_name_plural = "Социальные сети тренеров"
+
+    def __str__(self):
+        return f"{self.coach.first_name} {self.coach.last_name} / {self.social}"
 
 
 class CoachService(models.Model):

@@ -13,7 +13,8 @@ export interface ICoach {
   email: string;
   phone: string;
   categories: ICoachCategory[];
-  services: ICoachService[];
+  services?: ICoachService[];
+  socials?: ICoachSocial[];
 }
 
 export interface ICoachCategory {
@@ -27,4 +28,11 @@ export interface ICoachService {
   title: string;
   price: number | null;
   time: number;
+}
+
+export interface ICoachSocial {
+  id: number;
+  title: string;
+  social: string;
+  link: string;
 }
