@@ -59,7 +59,7 @@ const sortedServices = computed(() => {
         </div>
       </li>
     </ul>
-    <BaseEmpty v-else text="Услуг нет" />
+    <BaseEmpty v-else text="Услуги отсутствуют" />
   </div>
 </template>
 <style scoped lang="scss">

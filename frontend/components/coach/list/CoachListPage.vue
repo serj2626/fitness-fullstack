@@ -59,7 +59,9 @@ onUnmounted(() => {
         v-model="activeCategory"
         :categories="categories"
       />
+
       <CoachListContent :coaches="coaches" />
+
       <div
         ref="observerTarget"
         class="observer-trigger"

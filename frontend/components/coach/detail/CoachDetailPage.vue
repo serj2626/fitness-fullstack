@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
-import type { ICoach, IReview, IReviewResponse } from "~/types";
+import type { ICoach } from "~/types";
 
 const reviewsStore = useReviewsStore();
 
-const activeTab = ref((useRoute().query.tab as string) || "contacts");
+const route = useRoute();
+const router = useRouter();
+
+const activeTab = ref((route.query.tab as string) || "contacts");
+
+const setActiveTab = (tab: string) => {
+  activeTab.value = tab;
+  router.replace({ query: { ...route.query, tab } });
+};
 
 const { $api } = useNuxtApp();
 
@@ -22,6 +30,11 @@ const { data: coachData } = await useAsyncData<ICoach>(
 
 useLazyAsyncData("reviews-list", async () => {
   await reviewsStore.getAllReviews(1, 6, coachID.value);
+  return reviewsStore.reviews;
+});
+
+onUnmounted(() => {
+  reviewsStore.reset();
 });
 </script>
 
@@ -44,7 +57,7 @@ useLazyAsyncData("reviews-list", async () => {
         <div class="coach-layout__main">
           <CoachDetailTabs
             :active-tab="activeTab"
-            @update:active-tab="activeTab = $event"
+            @update:active-tab="setActiveTab"
           />
 
           <div class="tab-content">

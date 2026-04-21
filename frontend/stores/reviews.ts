@@ -9,6 +9,8 @@ import { useDebounceFn } from "@vueuse/core";
 import { api } from "~/api";
 
 export const useReviewsStore = defineStore("reviews", () => {
+  const router = useRouter();
+  const route = useRoute();
   const reviews = ref<IReview[]>([]);
   const orderingValue = ref<TOrderingReview | null>(null);
 
@@ -91,7 +93,9 @@ export const useReviewsStore = defineStore("reviews", () => {
   }
 
   const setOrder = (newType: TOrderingReview) => {
-    orderingValue.value = orderingValue.value === newType ? null : newType;
+    const value = orderingValue.value === newType ? null : newType;
+    orderingValue.value = value;
+    router.replace({ query: { ...route.query, ordering: value } });
   };
   const reset = () => {
     reviews.value = [];
@@ -103,12 +107,12 @@ export const useReviewsStore = defineStore("reviews", () => {
     orderingValue.value = null;
   };
 
-  watch(
-    () => orderingValue.value,
-    useDebounceFn(async () => {
-      await getAllReviews(1, 6);
-    }, 500),
-  );
+   watch(
+     () => orderingValue.value,
+     useDebounceFn(async () => {
+       await getAllReviews(1, 6, route.params.id as string);
+     }, 300),
+   );
 
   return {
     reviews,

@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useModalsStore } from "~/stores/modals";
-import type { IReview } from "~/types";
+import type { IReview, TOrderingReview } from "~/types";
+import { useIntersectionObserver } from "@vueuse/core";
 
 defineProps<{
   reviews: IReview[];
   loading: boolean;
 }>();
 
+const { id } = useRoute().params;
+
 const modalsStore = useModalsStore();
+const reviewsStore = useReviewsStore();
+
+const { next, orderingValue } = storeToRefs(reviewsStore);
 
 const scroll = ref(0);
 
@@ -19,6 +25,29 @@ function handleScroll() {
 const getScrollClass = computed(() => {
   return scroll.value > 70 ? true : false;
 });
+const observerTarget = ref<HTMLElement | null>(null);
+
+onMounted(() => {
+  useIntersectionObserver(
+    observerTarget,
+    async ([entry]) => {
+      if (entry.isIntersecting && next.value && !reviewsStore.loading) {
+        await reviewsStore.getAllReviews(next.value as number, 6, id as string);
+      }
+    },
+    {
+      threshold: 0.1, // при 10% видимости
+      rootMargin: "300px", // дополнительный отступ
+    },
+  );
+});
+
+const sortOptions = [
+  { value: "-created_at", label: "Сначала новые" },
+  { value: "created_at", label: "Сначала старые" },
+  { value: "-rating", label: "Высокий рейтинг" },
+  { value: "rating", label: "Низкий рейтинг" },
+];
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
@@ -27,15 +56,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
-
-// Сортировка
-const sortBy = ref("newest");
-const sortOptions = [
-  { value: "newest", label: "Сначала новые" },
-  { value: "oldest", label: "Сначала старые" },
-  { value: "highest", label: "Высокий рейтинг" },
-  { value: "lowest", label: "Низкий рейтинг" },
-];
 </script>
 <template>
   <div class="coach-detail-reviews">
@@ -58,8 +78,6 @@ const sortOptions = [
           @click="modalsStore.openModal('reviewCoachForm')"
         />
       </div>
-
-      <!-- Сортировка -->
       <div
         class="coach-detail-reviews__sorting"
         :class="{ 'coach-detail-reviews__sorting_border': getScrollClass }"
@@ -67,36 +85,41 @@ const sortOptions = [
         <button
           v-for="sort in sortOptions"
           :key="sort.value"
-          :class="{ active: sortBy === sort.value }"
-          @click="sortBy = sort.value"
+          :class="{ active: orderingValue === sort.value }"
+          @click="reviewsStore.setOrder(sort.value as TOrderingReview)"
         >
           {{ sort.label }}
         </button>
       </div>
     </div>
     <BaseLoader v-if="loading" />
-    <template v-else>
-      <div v-if="reviews.length > 0" class="coach-detail-reviews__list">
-        <div v-for="review in reviews" :key="review.id" class="review-card">
-          <div class="review-header">
-            <div class="review-author">
-              <div class="author-info">
-                <h3 class="author-name">
-                  {{ review?.user || "Аноним" }}
-                </h3>
-                <div class="review-date">{{ review.time_ago || "" }}</div>
-              </div>
-            </div>
-            <RatingComponent :rating="review?.rating" :size="20" readonly />
-          </div>
 
-          <div class="review-content">
-            <p class="review-text">{{ review?.text || "" }}</p>
+    <div v-if="reviews.length > 0" class="coach-detail-reviews__list">
+      <div v-for="review in reviews" :key="review.id" class="review-card">
+        <div class="review-header">
+          <div class="review-author">
+            <div class="author-info">
+              <h3 class="author-name">
+                {{ review?.user || "Аноним" }}
+              </h3>
+              <div class="review-date">{{ review.time_ago || "" }}</div>
+            </div>
           </div>
+          <RatingComponent :rating="review?.rating" :size="20" readonly />
+        </div>
+
+        <div class="review-content">
+          <p class="review-text">{{ review?.text || "" }}</p>
         </div>
       </div>
-      <BaseEmpty v-else text="Отзывов нет" />
-    </template>
+    </div>
+    <BaseEmpty v-else text="Отзывов нет" subtitle="Будьте перым кто оставит отзыв" />
+    <div
+      v-show="next"
+      ref="observerTarget"
+      class="observer-trigger"
+      style="height: 1px; margin-top: 140px"
+    />
   </div>
 </template>
 <style lang="scss">

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   text?: string;
+  subtitle?: string;
   icon?: string;
 }>();
 </script>
@@ -10,7 +11,9 @@ defineProps<{
     <div class="empty-content">
       <Icon name="icon:anti-smile" class="empty-icon" />
       <h3 class="empty-title">{{ text || "Здесь пока ничего нет" }}</h3>
-      <p class="empty-subtitle">Будьте первым, кто оставит отзыв</p>
+      <p class="empty-subtitle">
+        {{ subtitle }}
+      </p>
     </div>
   </div>
 </template>
