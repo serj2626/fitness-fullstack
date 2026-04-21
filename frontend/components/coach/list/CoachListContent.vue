@@ -19,9 +19,14 @@ defineProps<{
         z-index: 100;
       "
     />
-    <!-- <CoachFilters class="coach-list-content__filters" /> -->
     <div class="coach-list-content__trainers">
-      <CoachCard v-for="trainer in coaches" :key="trainer.id" :trainer />
+      <CoachCard
+        v-for="(trainer, index) in coaches"
+        :key="trainer.id"
+        :trainer
+        class="coach-list-content__trainers-card"
+        :style="{ animationDuration: `${(index + 0.5) * 0.2}s` }"
+      />
     </div>
   </div>
 </template>
@@ -43,6 +48,22 @@ defineProps<{
     @media (max-width: $mobile) {
       grid-template-columns: 1fr;
     }
+    &-card {
+      width: 100%;
+      animation-name: zal;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: 1;
+    }
+  }
+}
+@keyframes zal {
+  0% {
+    opacity: 0;
+    scale: 0.9;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
   }
 }
 </style>

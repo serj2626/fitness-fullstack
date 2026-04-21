@@ -113,7 +113,11 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-    <BaseEmpty v-else text="Отзывов нет" subtitle="Будьте перым кто оставит отзыв" />
+    <BaseEmpty
+      v-else
+      text="Отзывов нет"
+      subtitle="Будьте перым кто оставит отзыв"
+    />
     <div
       v-show="next"
       ref="observerTarget"
@@ -292,10 +296,20 @@ onUnmounted(() => {
 }
 
 .review-text {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
   color: rgba($white, 0.9);
   margin-bottom: 15px;
+  text-indent: 20px;
+  letter-spacing: .8px;
+
+  &:first-letter {
+    text-transform: uppercase;
+    color: $accent;
+    font-size: 22px;
+    font-weight: 600;
+    margin-right: 1px;
+  }
 }
 
 .review-photo {
