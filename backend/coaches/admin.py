@@ -25,6 +25,9 @@ class CoachReviewAdmin(admin.ModelAdmin):
     """Admin View for CoachReview"""
 
     list_display = ("user", "coach", "rating", "get_text", "created_at", "is_verified")
+    list_filter = ("coach",)
+    search_fields = ("user__email", "coach__first_name", "rating")
+    list_per_page = 15
 
     @admin.display(description="Текст отзыва")
     def get_text(self, obj):
@@ -67,6 +70,7 @@ class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
         "experience",
         "get_image",
     )
+
     save_on_top = True
     inlines = [CoachSocialInline, CoachServiceInline, OrderTrainingInline]
     filter_horizontal = ("categories",)
