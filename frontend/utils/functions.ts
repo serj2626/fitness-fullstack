@@ -80,14 +80,19 @@ export const extractError = (err: unknown): string => {
   return "Неизвестная ошибка";
 };
 
-export const getExperience = (count: number | null): string => {
-  if (count === null) return "не указан";
+export const getExperience = (count: number | null | undefined): string => {
+  if (count === null || count === undefined) return "не указан";
   // Функция для получения стажа
-  if (count === 0) return "не указан";
+  if (count === 0) return "без опыта";
   if (count === 1) return "более года";
   return `более ${count} лет`;
 };
 
 export const getCategories = (categories: ICoachCategory[]): string => {
   return categories.map((item) => item.name).join(", ");
+};
+
+export const getFullName = (firstName: string, lastName: string): string => {
+  if (!lastName) return firstName;
+  return `${firstName} ${lastName}`;
 };

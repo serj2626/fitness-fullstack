@@ -5,6 +5,7 @@ export const api = {
   },
   coaches: {
     list: "/coaches/", //Получает список тренеров
+    last: "/coaches/last/", //Получает последних тренеров
     order: "/coaches/order/", //Запрос на бронирование тренировки
     detail: (id: string) => `/coaches/${id}`, //Получает детальную информацию о тренере
   },

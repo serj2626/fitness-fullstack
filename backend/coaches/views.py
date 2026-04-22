@@ -14,6 +14,7 @@ from common.pagination import ListResultsSetPagination
 
 from .models import Coach, CoachReview, OrderTraining
 from .serializer import (
+    CoachLastSerializer,
     CoachReviewListSerializer,
     CoachSerializer,
     CreateOrderTrainingSerializer,
@@ -144,6 +145,20 @@ class CoachListView(ListAPIView):
         if category_slug:
             queryset = queryset.filter(categories__slug=category_slug)
         return queryset
+
+
+@extend_schema(
+    tags=[TAG],
+    summary="Получить список последних тренеров",
+    description="Этот эндпоинт возвращает список последних тренеров.",
+    responses={
+        200: CoachLastSerializer(many=True),
+        500: OpenApiResponse(description="Внутренняя ошибка сервера"),
+    },
+)
+class CoachListLastView(ListAPIView):
+    serializer_class = CoachLastSerializer
+    queryset = Coach.objects.all()[:5]
 
 
 @extend_schema(

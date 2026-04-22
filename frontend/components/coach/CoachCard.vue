@@ -19,7 +19,7 @@ defineProps<{ trainer: ICoach }>();
     </div>
     <div class="coach-card__body">
       <h3 class="coach-card__name">
-        {{ trainer.first_name }} {{ trainer.last_name }}
+        {{ getFullName(trainer.first_name, trainer.last_name) }}
       </h3>
       <p class="coach-card__experience">
         🏆 Стаж:
@@ -66,8 +66,8 @@ defineProps<{ trainer: ICoach }>();
       display: block;
       width: 100%;
       height: 100%;
-      object-fit: cover; 
-      object-position: center top; 
+      object-fit: cover;
+      object-position: center top;
       transition: all 0.3s ease-in-out;
     }
   }
@@ -84,7 +84,7 @@ defineProps<{ trainer: ICoach }>();
     transition: all 0.3s ease-in-out;
     opacity: 0;
     padding: 6px 14px;
-  
+
     font-weight: 600;
     color: #fff;
     font-size: 0.9rem;

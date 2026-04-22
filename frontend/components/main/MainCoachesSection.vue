@@ -1,26 +1,74 @@
 <script lang="ts" setup>
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-import { coaches } from "~/assets/data/moke.data";
 import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import type { ICoach } from "~/types";
+
+defineProps<{ coaches: ICoach[] }>();
 </script>
 <template>
   <section id="main-coaches-section" class="main-coaches-section">
+    <div class="main-coaches-section__header">
+      <h2 class="main-coaches-section__header-title">Последние статьи</h2>
+      <p class="main-coaches-section__header-subtitle">
+        Полезные материалы от наших тренеров
+      </p>
+    </div>
     <div class="main-coaches-section__wraper">
       <BaseSwiper :desctop-count="5" :mobile-count="2" :auto-delay="4000">
-        <swiper-slide v-for="(slide, idx) in coaches" :key="idx" class="slide">
-          <p class="slide__title">{{ slide.name }}</p>
-          <button class="slide__btn">
+        <swiper-slide v-for="(coach, idx) in coaches" :key="idx" class="slide">
+          <p class="slide__title">
+            {{ getFullName(coach.first_name, coach.last_name) }}
+          </p>
+          <button
+            class="slide__btn"
+            @click="$router.push(`/coaches/${coach.id}`)"
+          >
             <Icon class="slide__btn-icon" :name="HeroIcons.UP" />
           </button>
-          <NuxtImg :src="slide.img" :alt="slide.name" class="slide__img" />
+          <NuxtImg
+            :src="getPhoto(coach.avatar)"
+            :alt="getFullName(coach.first_name, coach.last_name)"
+            class="slide__img"
+          />
         </swiper-slide>
       </BaseSwiper>
+      <BaseButtonWithIcon
+        label="Наша команда"
+        :icon="HeroIcons.ARROW_RIGHT"
+        size="lg"
+        class="main-coaches-section__wraper__show-all"
+        @click="$router.push('/coaches')"
+      />
     </div>
   </section>
 </template>
 <style scoped lang="scss">
 .main-coaches-section {
   padding-block: 100px;
+
+  &__header {
+    margin-bottom: 50px;
+    text-align: center;
+    &-title {
+      font-size: 2.5rem;
+      color: $accent;
+      margin-bottom: 10px;
+    }
+    &-subtitle {
+      font-size: 1.5rem;
+      color: $white;
+    }
+  }
+  &__wraper {
+    width: 100%;
+
+    &__show-all {
+      margin-top: 50px;
+      margin-inline: auto;
+    }
+  }
 }
 
 .slide {

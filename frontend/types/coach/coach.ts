@@ -9,9 +9,9 @@ export interface ICoach {
   first_name: string;
   avatar: string | null;
   last_name: string;
-  experience: number | null;
-  email: string;
-  phone: string;
+  experience?: number | null;
+  email?: string;
+  phone?: string;
   categories: ICoachCategory[];
   services?: ICoachService[];
   socials?: ICoachSocial[];

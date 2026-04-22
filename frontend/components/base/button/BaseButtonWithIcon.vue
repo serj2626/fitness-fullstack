@@ -60,8 +60,8 @@ const {
   }
 
   &__icon {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     transition: all 0.2s ease-in-out;
   }
 

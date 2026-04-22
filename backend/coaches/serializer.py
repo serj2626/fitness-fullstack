@@ -82,3 +82,12 @@ class CoachSerializer(serializers.ModelSerializer):
             "services",
             "socials",
         )
+
+
+class CoachLastSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True, read_only=True)
+    avatar = RelativeOnlyImageField(read_only=True)
+
+    class Meta:
+        model = Coach
+        fields = ("id", "first_name", "avatar", "last_name", "categories")

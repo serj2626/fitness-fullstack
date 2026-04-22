@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { api } from "~/api";
-import type { IPost, IAbonement } from "~/types";
+import type { IPost, IAbonement, ICoach } from "~/types";
 
 const { $api } = useNuxtApp();
 
@@ -8,31 +8,14 @@ const { data: abonements } = await useAsyncData<IAbonement[]>(
   "main-page-abonements-info",
   () => $api(api.abonements.list),
 );
-const { data: lastPosts } = await useAsyncData<IPost[]>(
+const { data: lastPosts } = await useLazyAsyncData<IPost[]>(
   "main-page-last-posts-info",
   () => $api(api.posts.last),
 );
-// const [
-//   { data: servicesInfo },
-//   { data: postsLast },
-//   { data: advantagesInfo },
-//   { data: equipmentList },
-// ] = await Promise.all([
-//   useAsyncData("main-page-services-list-info", () =>
-//     $api<IServicesResponse[]>(api.gym.services)
-//   ),
-//   useAsyncData("main-page-posts-last-info", () =>
-//     $api<IPost[]>(api.posts.last)
-//   ),
-//   useAsyncData("main-page-advantages-list-info", () =>
-//     $api<IAdvantageResponse[]>(api.gym.advantages)
-//   ),
-//   useAsyncData("main-page-equipment-list",
-//     () => $api(api.gym.equipment), {
-//     transform: (data: IEequipmentResponse[]) =>
-//       Object.fromEntries(data.map((item) => [item.title, item])),
-//   }),
-// ]);
+const { data: lastCoaches } = await useLazyAsyncData<ICoach[]>(
+  "main-page-last-coaches-info",
+  () => $api(api.coaches.last),
+);
 </script>
 <template>
   <div>
@@ -42,16 +25,8 @@ const { data: lastPosts } = await useAsyncData<IPost[]>(
     <MainAbonementsSection v-if="abonements" :abonements="abonements" />
     <MainAdvantagesSection />
     <LazyMainPostSection v-if="lastPosts" :posts="lastPosts" />
-    <!--  
-    
-
-    <LazyMainEquipmentSection
-      v-if="equipmentList"
-      :data="equipmentList"
-      client:visible
-    /> -->
-
+    <LazyMainCoachesSection v-if="lastCoaches" :coaches="lastCoaches" />
     <LazyMainPoolSection client:visible />
-    <BaseFormFeedback client:visible />
+    <LazyBaseFormFeedback client:visible />
   </div>
 </template>
