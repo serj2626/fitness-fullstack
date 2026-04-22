@@ -1,32 +1,38 @@
 <script lang="ts" setup>
-
 const { tel = "8-999-999-99-99", address = "СПБ, улица Будапештская дом 89" } =
   defineProps<{
     address?: string;
     tel?: string;
   }>();
 
-const captchaInst = ref<InstanceType<typeof BaseCaptchaZ> | null>(null);
+// const captchaInst = ref<InstanceType<typeof BaseCaptchaZ> | null>(null);
 
-interface FormField<T> {
-  value: T;
-  error: string;
-  required: boolean;
-}
-
-interface FeedbackForm {
-  name: FormField<string>;
-  phone: FormField<string>;
-  captcha: FormField<string>;
-  agree: FormField<boolean>;
-}
-
-const formData = reactive<FeedbackForm>({
+const { formData } = useForm({
   name: { value: "", error: "", required: true },
   phone: { value: "", error: "", required: true },
   captcha: { value: "", error: "", required: true },
   agree: { value: false, error: "", required: true },
 });
+
+// interface FormField<T> {
+//   value: T;
+//   error: string;
+//   required: boolean;
+// }
+
+// interface FeedbackForm {
+//   name: FormField<string>;
+//   phone: FormField<string>;
+//   captcha: FormField<string>;
+//   agree: FormField<boolean>;
+// }
+
+// const formData = reactive<FeedbackForm>({
+//   name: { value: "", error: "", required: true },
+//   phone: { value: "", error: "", required: true },
+//   captcha: { value: "", error: "", required: true },
+//   agree: { value: false, error: "", required: true },
+// });
 
 // function onCaptchaSuccess(token: string) {
 //   formData.captcha.value = token;
@@ -88,8 +94,8 @@ function submitForm() {
   };
 
   console.log("Данные к отправке:", payload);
-  clearFormAuth(formData);
-  captchaInst.value?.reset();
+  clearForm(formData);
+  // captchaInst.value?.reset();
 }
 </script>
 <template>

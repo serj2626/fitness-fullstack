@@ -92,7 +92,16 @@ onUnmounted(() => {
         </button>
       </div>
     </div>
-    <BaseLoader v-if="loading" />
+    <BaseLoader
+      v-if="loading"
+      style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
+      "
+    />
 
     <div v-if="reviews.length > 0" class="coach-detail-reviews__list">
       <div v-for="review in reviews" :key="review.id" class="review-card">
@@ -301,7 +310,7 @@ onUnmounted(() => {
   color: rgba($white, 0.9);
   margin-bottom: 15px;
   text-indent: 20px;
-  letter-spacing: .8px;
+  letter-spacing: 0.8px;
 
   &:first-letter {
     text-transform: uppercase;

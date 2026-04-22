@@ -39,7 +39,7 @@ defineProps<{
     background-color: transparent;
     color: #fff;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 6px rgba(252, 246, 246, 0.25);
 
     &:hover {
       transform: translateY(-3px) scale(1.05);

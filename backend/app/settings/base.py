@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "categories",
     "coaches",
     "contacts",
+    'notifications',
     "django_cleanup.apps.CleanupConfig",
 ]
 

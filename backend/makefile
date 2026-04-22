@@ -6,6 +6,9 @@ migrate:
 
 make:
 	python manage.py makemigrations
+	
+app-%:
+	python manage.py startapp $*
 
 redis:
 	docker start my-redis
