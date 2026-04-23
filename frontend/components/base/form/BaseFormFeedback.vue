@@ -6,49 +6,22 @@ const { formData } = useForm({
   name: { value: "", error: "", required: true },
   phone: { value: "", error: "", required: true },
   captcha: { value: "", error: "", required: true },
-  agree: { value: false, error: "", required: true },
 });
 
-function validateForm(): boolean {
-  let valid = true;
-
-  if (!formData.name.value.trim()) {
-    formData.name.error = "Введите имя";
-    valid = false;
-  }
-
-  if (!formData.phone.value.trim()) {
-    formData.phone.error = "Введите телефон";
-    valid = false;
-  }
-
-  if (!formData.agree.value) {
-    formData.agree.error = "Необходимо согласие";
-    valid = false;
-  }
-
-  if (!formData.captcha.value) {
-    formData.captcha.error = "Подтвердите, что вы не робот";
-    valid = false;
-  }
-  console.log(formData);
-  return valid;
-}
+const agree = reactive({
+  value: false,
+  error: "",
+});
 
 function submitForm() {
-  if (!validateForm()) {
-    return;
-  }
-
   const payload = {
     name: formData.name.value,
     phone: formData.phone.value,
-    captcha: formData.captcha.value,
   };
 
   console.log("Данные к отправке:", payload);
+  alert(payload);
   clearForm(formData);
-  // captchaInst.value?.reset();
 }
 </script>
 <template>
@@ -96,8 +69,8 @@ function submitForm() {
             />
           </div>
           <BaseInputCheckbox
-            v-model:agree-value="formData.agree.value"
-            :error="formData.agree.error"
+            v-model="agree.value"
+            :error="agree.error"
             class="base-form-feedback__wraper-content-form-check"
           />
           <BaseButton label="Отправить заявку" size="lg" style="width: 100%" />

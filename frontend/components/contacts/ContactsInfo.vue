@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   email: string;
-  phone: string;
+  phone: string[];
   mode: string;
   address: string;
 }>();
