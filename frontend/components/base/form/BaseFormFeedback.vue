@@ -1,13 +1,6 @@
 <script lang="ts" setup>
-const { tel = "8-999-999-99-99", address = "СПБ, улица Будапештская дом 89" } =
-  defineProps<{
-    address?: string;
-    tel?: string;
-  }>();
-
-
 const store = useContactsStore();
-
+const { contactsList } = storeToRefs(store);
 
 const { formData } = useForm({
   name: { value: "", error: "", required: true },
@@ -15,7 +8,6 @@ const { formData } = useForm({
   captcha: { value: "", error: "", required: true },
   agree: { value: false, error: "", required: true },
 });
-
 
 function validateForm(): boolean {
   let valid = true;
@@ -68,11 +60,19 @@ function submitForm() {
       </p>
       <div class="base-form-feedback__wraper-content">
         <div class="base-form-feedback__wraper-content-info">
-          <a class="base-form-feedback__wraper-content-info-tel">
-            {{ tel || "8-999-999-99-99" }}
-          </a>
+          <div style="display: flex; align-items: center; gap: 10px">
+            <a
+              v-for="phone in contactsList?.phone"
+              :key="phone"
+              :href="`tel:${phone}`"
+              class="base-form-feedback__wraper-content-info-tel"
+            >
+              {{ phone || "8-999-999-99-99" }}
+            </a>
+          </div>
+
           <p class="base-form-feedback__wraper-content-info-address">
-            {{ address || "СПБ, улица Будапештская дом 89" }}
+            {{ contactsList?.address || "СПБ, улица Будапештская дом 89" }}
           </p>
         </div>
         <form

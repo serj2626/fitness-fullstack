@@ -1,49 +1,41 @@
 <script setup lang="ts">
-import type { IContact } from "~/types";
-
 defineProps<{
-  mail: IContact;
-  phone: IContact;
-  mode: IContact;
-  address: IContact;
+  email: string;
+  phone: string;
+  mode: string;
+  address: string;
 }>();
 </script>
 <template>
   <div class="contacts-info">
     <div class="contacts-info__list">
-      <div class="contacts-info__list-mail">
-        <div class="contacts-info__list-mail-title">
-          {{ mail.type_display || "Почта" }}
-        </div>
+      <div v-if="email" class="contacts-info__list-mail">
+        <div class="contacts-info__list-mail-title">Почта</div>
+        <a :href="`mailto:${email}`" class="contacts-info__list-mail-value">
+          {{ email || "bs-dev@bk.ru" }}
+        </a>
+      </div>
+      <div v-if="phone" class="contacts-info__list-phone">
+        <div class="contacts-info__list-phone-title">Телефон</div>
         <a
-          :href="`mailto:${mail.value}`"
-          class="contacts-info__list-mail-value"
+          v-for="(value, index) in phone"
+          :key="index"
+          :href="`tel:${value}`"
+          class="contacts-info__list-phone-value"
         >
-          {{ mail.value || "bs-dev@bk.ru" }}
+          {{ value || "+7 (999) 999-99-99" }}
         </a>
       </div>
-      <div class="contacts-info__list-phone">
-        <div class="contacts-info__list-phone-title">
-          {{ phone.type_display || "Телефон" }}
-        </div>
-        <a :href="`tel:${phone.value}`" class="contacts-info__list-phone-value">
-          {{ phone.value || "+7 (999) 999-99-99" }}
-        </a>
-      </div>
-      <div class="contacts-info__list-mode">
-        <div class="contacts-info__list-mode-title">
-          {{ mode.type_display || "Режим работы" }}
-        </div>
+      <div v-if="mode" class="contacts-info__list-mode">
+        <div class="contacts-info__list-mode-title">Режим работы</div>
         <div class="contacts-info__list-mode-value">
-          {{ mode.value || "Пн-Пт: 9:00 - 18:00" }}
+          {{ mode || "Пн-Пт: 9:00 - 18:00" }}
         </div>
       </div>
-      <div class="contacts-info__list-address">
-        <div class="contacts-info__list-address-title">
-          {{ address.type_display || "Адрес" }}
-        </div>
+      <div v-if="address" class="contacts-info__list-address">
+        <div class="contacts-info__list-address-title">Адрес</div>
         <div class="contacts-info__list-address-value">
-          {{ address.value || "СПБ, улица Будапештская дом 89" }}
+          {{ address || "СПБ, улица Будапештская дом 89" }}
         </div>
       </div>
     </div>

@@ -5,41 +5,42 @@ import type {
   IContactsSocials,
 } from "~/types";
 
-type ContactsType = 
-  | "city" 
-  | "address" 
-  | "email" 
-  | "phone" 
-  | "other_phone" 
-  | "mode" 
-  | "map" 
+type ContactsType =
+  | "address"
+  | "email"
+  | "phone"
+  | "mode"
+  | "map"
   | "longitude";
 
 // Для SOCIALS_TYPE
-type SocialsType = 
-  | "vk" 
-  | "tg" 
-  | "max" 
-  | "insta" 
-  | "youtube";
+type SocialsType = "vk" | "tg" | "max" | "insta" | "youtube";
 
-function parseContacts(data: IContactsList[]) {
-  const res: Record<string,  string[]> = {};
+function parseContacts(data: IContactsList[]): Partial<Record<ContactsType, string | string[]>> {
+  const res: Record<string, string | string[]> = {};
   data.forEach((item: IContactsList) => {
-    if (res[item.type]) {
-      res[item.type].push(item.value);
+    // Предполагаем, что у item есть поля type и value
+    const key = item.type === "other_phone" ? "phone" : item.type;
+    const value = item.value; // или само item, если это строка
+    if (key === "phone") {
+      if (!res[key]) {
+        res[key] = [value];
+      } else {
+        (res[key] as string[]).push(value);
+      }
+    } else {
+      if (!res[key]) {
+        res[key] = value;
+      }
     }
-    res[item.type] = [item.value];
   });
-
   return res;
 }
-
 // stores/contacts.ts
 export const useContactsStore = defineStore("contacts", () => {
   const footerInfo = ref<IContactsFooterInfo | null>(null);
   const socials = ref<IContactsSocials | null>(null);
-  const contactsList = ref<Record<string, string[]> | null>(null);
+  const contactsList = ref<Record<string, string[] | string> | null>(null);
   const loaded = ref(false);
 
   async function loadAll(force = false) {
