@@ -55,11 +55,11 @@ export default defineNuxtConfig({
         {
           rel: "icon",
           type: "image/png",
-          href: "/fav/logo.png",
+          href: "/logo.png",
           sizes: "96x96",
         },
         { rel: "icon", type: "image/svg+xml", href: "/logo.png" },
-        { rel: "shortcut icon", href: "/logo.pngo" },
+        { rel: "shortcut icon", href: "/logo.png" },
         // { rel: 'apple-touch-icon', sizes: '180x180', href: '/public/fav/apple-touch-icon.png' },
         // { rel: 'manifest', href: '/public/fav/site.webmanifest' },
       ],

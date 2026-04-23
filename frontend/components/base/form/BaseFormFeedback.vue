@@ -1,6 +1,10 @@
 <script lang="ts" setup>
+import { api } from "~/api";
+
 const store = useContactsStore();
 const { contactsList } = storeToRefs(store);
+
+const { $api } = useNuxtApp();
 
 const { formData } = useForm({
   name: { value: "", error: "", required: true },
@@ -13,7 +17,10 @@ const agree = reactive({
   error: "",
 });
 
-function submitForm() {
+const loading = ref(false);
+const error = ref<string | null>(null);
+
+async function submitForm() {
   const payload = {
     name: formData.name.value,
     phone: formData.phone.value,
@@ -22,6 +29,19 @@ function submitForm() {
   console.log("Данные к отправке:", payload);
   alert(payload);
   clearForm(formData);
+
+  loading.value = true;
+
+  try {
+    const res = await $api(api.contacts.feedback, {
+      method: "POST",
+      body: payload,
+    });
+  } catch {
+    error.value = "Что-то пошло не так";
+  } finally {
+    loading.value = false;
+  }
 }
 </script>
 <template>
@@ -73,7 +93,12 @@ function submitForm() {
             :error="agree.error"
             class="base-form-feedback__wraper-content-form-check"
           />
-          <BaseButton label="Отправить заявку" size="lg" style="width: 100%" />
+          <BaseButton
+            :disabled="loading"
+            label="Отправить заявку"
+            size="lg"
+            style="width: 100%"
+          />
         </form>
       </div>
     </div>
