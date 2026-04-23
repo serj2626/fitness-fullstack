@@ -8,9 +8,9 @@ from .models import (
     Coach,
     CoachReview,
     CoachService,
+    CoachSocial,
     OrderTraining,
     Service,
-    CoachSocial,
 )
 
 

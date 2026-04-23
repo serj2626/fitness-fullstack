@@ -3,7 +3,7 @@ from rest_framework import serializers
 from categories.serializers import CategorySerializer
 from common.utils import RelativeOnlyImageField
 
-from .models import Coach, CoachReview, CoachService, OrderTraining, CoachSocial
+from .models import Coach, CoachReview, CoachService, CoachSocial, OrderTraining
 
 
 class CreateOrderTrainingSerializer(serializers.ModelSerializer):

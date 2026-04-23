@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from contacts.models import SOCIALS_TYPE
+
 from categories.models import Category
 from common.mixins import AutoSlugMixin, NameMixin, TimeAgoModelMixin
 from common.models import (
@@ -15,6 +15,7 @@ from common.models import (
     BaseOrder,
 )
 from common.upload import compress_image
+from contacts.models import SOCIALS_TYPE
 from users.models import User
 
 

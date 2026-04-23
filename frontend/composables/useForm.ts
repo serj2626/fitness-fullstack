@@ -1,21 +1,22 @@
-import { clearForm } from "~/utils/functions";
-
 export interface IField<T> {
   value: T;
   error: string;
   required: boolean;
 }
 
-export const useForm = (data: Record<string, IField<string>>) => {
+// 🔥 Generic-версия: T — это точная форма { name: IField<string>, agree: IField<boolean>, ... }
+export const useForm = <T extends Record<string, IField<any>>>(data: T) => {
   const { $api } = useNuxtApp();
-  const loading = ref<boolean>(false);
-  const errorForm = ref<string>("");
-  const formData = reactive(data);
+  const loadingForm = ref(false);
+  const errorForm = ref("");
+  
+  // 🔥 reactive сохраняет точные типы полей
+  const formData = reactive(data) as { [K in keyof T]: IField<T[K]['value']> };
 
-  const validateForm = (data: Record<string, IField<string>>): boolean => {
+  const validateForm = (): boolean => {
     let isValid = true;
-    Object.keys(data).forEach((key) => {
-      const field = data[key];
+    Object.keys(formData).forEach((key) => {
+      const field = formData[key as keyof typeof formData];
       if (field.required && !field.value) {
         field.error = "Поле обязательно";
         isValid = false;
@@ -25,29 +26,29 @@ export const useForm = (data: Record<string, IField<string>>) => {
   };
 
   const submit = async (url: string) => {
-    if (!validateForm(formData)) return;
-
+    if (!validateForm()) return;
     try {
-      loading.value = true;
+      loadingForm.value = true;
       errorForm.value = "";
-
-      await $api(url, {
-        method: "POST",
-        body: formData,
-      });
-
+      
+      // 🔥 Собираем только значения для отправки
+      const payload = Object.fromEntries(
+        Object.entries(formData).map(([key, field]) => [key, field.value])
+      );
+      
+      await $api(url, { method: "POST", body: payload });
       clearForm(formData);
     } catch (e) {
       errorForm.value = extractError(e) || "Неизвестная ошибка";
     } finally {
-      loading.value = false;
+      loadingForm.value = false;
     }
   };
 
   return {
-    loading,
+    loadingForm,
     errorForm,
-    formData,
+    formData, // 🔥 Теперь имеет точные типы!
     submit,
   };
 };

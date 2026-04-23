@@ -5,7 +5,9 @@ const { tel = "8-999-999-99-99", address = "СПБ, улица Будапешт�
     tel?: string;
   }>();
 
-// const captchaInst = ref<InstanceType<typeof BaseCaptchaZ> | null>(null);
+
+const store = useContactsStore();
+
 
 const { formData } = useForm({
   name: { value: "", error: "", required: true },
@@ -14,47 +16,6 @@ const { formData } = useForm({
   agree: { value: false, error: "", required: true },
 });
 
-// interface FormField<T> {
-//   value: T;
-//   error: string;
-//   required: boolean;
-// }
-
-// interface FeedbackForm {
-//   name: FormField<string>;
-//   phone: FormField<string>;
-//   captcha: FormField<string>;
-//   agree: FormField<boolean>;
-// }
-
-// const formData = reactive<FeedbackForm>({
-//   name: { value: "", error: "", required: true },
-//   phone: { value: "", error: "", required: true },
-//   captcha: { value: "", error: "", required: true },
-//   agree: { value: false, error: "", required: true },
-// });
-
-// function onCaptchaSuccess(token: string) {
-//   formData.captcha.value = token;
-//   formData.captcha.error = "";
-// }
-
-// function onCaptchaError(err: any) {
-//   formData.captcha.value = "";
-//   formData.captcha.error = "Ошибка проверки капчи";
-// }
-
-// function captchaHandler(val, eventName) {
-//   if (eventName === "success") {
-//     formData.captcha.value = val;
-//     formData.captcha.error = "";
-//   } else if (eventName === "error" || eventName === "expired") {
-//     formData.captcha.value = "";
-//     formData.captcha.error = "Ошибка проверки капчи";
-//   } else if (eventName === "inited" && typeof val === "object") {
-//     captchaInst.value = val;
-//   }
-// }
 
 function validateForm(): boolean {
   let valid = true;
@@ -134,29 +95,6 @@ function submitForm() {
               class="base-form-feedback__wraper-content-form-input-phone"
             />
           </div>
-          <!-- <BaseCaptcha theme="dark" @verified="captchaHandler" /> -->
-          <!-- <BaseCaptchaZ
-            ref="captchaInst"
-            :error="formData.captcha.error"
-            @success="(val) => captchaHandler(val, 'success')"
-            @error="(val) => captchaHandler(val, 'error')"
-            @expired="(val) => captchaHandler(val, 'expired')"
-            @inited="(val) => captchaHandler(val, 'inited')"
-          /> -->
-          <!-- <label class="base-form-feedback__wraper-content-form-check">
-            <input
-              v-model="formData.agree.value"
-              type="checkbox"
-              class="base-form-feedback__wraper-content-form-check-input"
-            />
-            <p class="base-form-feedback__wraper-content-form-check-text">
-              Согласен на
-              <NuxtLink
-                class="base-form-feedback__wraper-content-form-check-text-link"
-                >обработку своих персональных данных</NuxtLink
-              >
-            </p>
-          </label> -->
           <BaseInputCheckbox
             v-model:agree-value="formData.agree.value"
             :error="formData.agree.error"

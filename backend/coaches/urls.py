@@ -2,8 +2,8 @@ from django.urls import path
 
 from .views import (
     CoachDetailView,
-    CoachListReviewView,
     CoachListLastView,
+    CoachListReviewView,
     CoachListView,
     CreateOrderTrainingView,
     CreateReviewByCoachView,
