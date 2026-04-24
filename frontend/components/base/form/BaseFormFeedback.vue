@@ -37,11 +37,12 @@ async function submitForm() {
       method: "POST",
       body: payload,
     });
-
+    console.log(res);
     successNotify("Заявка отправлена");
-  } catch(e) {
-    error.value = e || "Что-то пошло не так";
-    errorNotify(error.value);
+  } catch (e) {
+    errorNotify(
+      e.statusCode == 429 ? "Превышен лимит запросов" : "Произошла ошибка",
+    );
   } finally {
     loading.value = false;
   }

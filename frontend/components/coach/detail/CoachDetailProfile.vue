@@ -4,6 +4,8 @@ defineProps<{
   avatar: string | null;
   rating: number;
 }>();
+
+const rat = ref(0);
 </script>
 <template>
   <div class="coaches-detail-profile" v-bind="$attrs">
@@ -14,14 +16,15 @@ defineProps<{
       :src="getPhoto(avatar as string)"
       alt="Аватар"
     />
-
     <RatingComponent
       class="coaches-detail-profile__rating"
-      :rating="rating"
+      :model-value="rating"
       :count="5"
+      size="md"
+      @update:rating="rat = $event"
     />
     <p style="text-align: center; margin-top: 10px; color: sandybrown">
-      {{ Math.floor(rating) }}  из 5
+      {{ Math.floor(rating) }} из 5
     </p>
     <BaseButton
       size="lg"

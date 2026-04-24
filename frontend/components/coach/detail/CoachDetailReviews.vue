@@ -93,16 +93,7 @@ onUnmounted(() => {
         </button>
       </div>
     </div>
-    <BaseLoader
-      v-if="loading"
-      style="
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 100;
-      "
-    />
+    <BaseLoader v-if="loading" />
 
     <div v-if="reviews.length > 0" class="coach-detail-reviews__list">
       <div v-for="review in reviews" :key="review.id" class="review-card">
@@ -115,7 +106,7 @@ onUnmounted(() => {
               <div class="review-date">{{ review.time_ago || "" }}</div>
             </div>
           </div>
-          <RatingComponent :rating="review?.rating" :size="20" readonly />
+          <RatingComponent :model-value="review?.rating" />
         </div>
 
         <div class="review-content">

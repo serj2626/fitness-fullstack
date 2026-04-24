@@ -1,9 +1,9 @@
 <script setup lang="ts">
 defineProps<{
-  email: string;
-  phone: string[];
-  mode: string;
-  address: string;
+  email?: string;
+  phone?: string[];
+  mode?: string;
+  address?: string;
 }>();
 </script>
 <template>

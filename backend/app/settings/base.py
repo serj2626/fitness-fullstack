@@ -68,14 +68,15 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
         # "rest_framework.filters.OrderingFilter",
     ],
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle',
-    ],
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle',
+    # ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '100/day',      # Для неавторизованных
         'user': '1000/day',     # Для авторизованных
-        'feedback': '2/minute', # Кастомный лимит для фидбека
+        'feedback': '2/minute',  # Кастомный лимит для фидбека
+        'register': '5/hour',  # Для защиты от брутфорса
         'login': '5/hour',      # Для защиты от брутфорса
     }
     # "DEFAULT_AUTHENTICATION_CLASSES": [
