@@ -6,6 +6,7 @@ from drf_spectacular.utils import (
     OpenApiResponse,
     extend_schema,
 )
+from django.db.models import Avg, Count, Q
 from rest_framework import filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 
@@ -184,6 +185,18 @@ class CoachDetailView(RetrieveAPIView):
     queryset = Coach.objects.all()
     serializer_class = CoachSerializer
     lookup_field = "id"
+
+    def get_queryset(self):
+        return Coach.objects.annotate(
+            average_rating=Avg(
+                'reviews__rating',
+                filter=Q(reviews__is_verified=False)
+            ),
+            reviews_count=Count(
+                'reviews',
+                filter=Q(reviews__is_verified=False)
+            )
+        )
 
 
 @extend_schema(

@@ -12,9 +12,11 @@ export interface ICoach {
   experience?: number | null;
   email?: string;
   phone?: string;
-  categories: ICoachCategory[];
+  categories: string[];
   services?: ICoachService[];
   socials?: ICoachSocial[];
+  average_rating: number;
+  reviews_count: number;
 }
 
 export interface ICoachCategory {

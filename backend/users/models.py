@@ -170,84 +170,101 @@ class VerificationCode(models.Model):
         )
 
 
-
 class BodyMetricSnapshot(models.Model):
     """
     Снимок параметров тела пользователя на определенную дату.
     Используется для истории прогресса и обучения ML.
     """
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="body_metrics",
-        verbose_name="Пользователь"
+        verbose_name="Пользователь",
     )
     recorded_date = models.DateField(
         verbose_name="Дата замера",
-        help_text="Дата, когда были зафиксированы показатели"
+        help_text="Дата, когда были зафиксированы показатели",
     )
-    
+
     # Основные показатели состава тела
     weight_kg = models.DecimalField(
-        max_digits=5, decimal_places=2,
+        max_digits=5,
+        decimal_places=2,
         verbose_name="Вес (кг)",
-        help_text="Вес тела в килограммах (например, 75.50)"
+        help_text="Вес тела в килограммах (например, 75.50)",
     )
     body_fat_percent = models.DecimalField(
-        max_digits=4, decimal_places=1, null=True, blank=True,
+        max_digits=4,
+        decimal_places=1,
+        null=True,
+        blank=True,
         verbose_name="Процент жира (%)",
-        help_text="Содержание жировой ткани в процентах"
+        help_text="Содержание жировой ткани в процентах",
     )
     muscle_mass_kg = models.DecimalField(
-        max_digits=5, decimal_places=2, null=True, blank=True,
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
         verbose_name="Мышечная масса (кг)",
-        help_text="Масса скелетных мышц в килограммах"
+        help_text="Масса скелетных мышц в килограммах",
     )
-    
+
     # Антропометрия (объемы) — критично для фитнеса
     waist_cm = models.DecimalField(
-        max_digits=5, decimal_places=1, null=True, blank=True,
-        verbose_name="Обхват талии (см)"
+        max_digits=5,
+        decimal_places=1,
+        null=True,
+        blank=True,
+        verbose_name="Обхват талии (см)",
     )
     chest_cm = models.DecimalField(
-        max_digits=5, decimal_places=1, null=True, blank=True,
-        verbose_name="Обхват груди (см)"
+        max_digits=5,
+        decimal_places=1,
+        null=True,
+        blank=True,
+        verbose_name="Обхват груди (см)",
     )
     hips_cm = models.DecimalField(
-        max_digits=5, decimal_places=1, null=True, blank=True,
-        verbose_name="Обхват бедер (см)"
+        max_digits=5,
+        decimal_places=1,
+        null=True,
+        blank=True,
+        verbose_name="Обхват бедер (см)",
     )
-    
+
     # Мета-данные
     source = models.CharField(
         max_length=20,
         choices=[
-            ('manual', 'Ручной ввод'),
-            ('smart_scale', 'Умные весы'),
-            ('trainer', 'Запись тренера')
+            ("manual", "Ручной ввод"),
+            ("smart_scale", "Умные весы"),
+            ("trainer", "Запись тренера"),
         ],
-        default='manual',
-        verbose_name="Источник данных"
+        default="manual",
+        verbose_name="Источник данных",
     )
     notes = models.TextField(
         blank=True,
         verbose_name="Примечания",
-        help_text="Комментарии пользователя или тренера к замеру"
+        help_text="Комментарии пользователя или тренера к замеру",
     )
 
     class Meta:
         verbose_name = "Снимок прогресса"
         verbose_name_plural = "История прогресса"
-        ordering = ["-recorded_date"] # Сортировка: свежие сверху
+        ordering = ["-recorded_date"]  # Сортировка: свежие сверху
         # Запрещаем два замера в один день для одного юзера (можно изменить под себя)
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'recorded_date'],
-                name='unique_user_daily_metric'
+                fields=["user", "recorded_date"], name="unique_user_daily_metric"
             )
         ]
         indexes = [
-            models.Index(fields=['user', 'recorded_date'], name='idx_user_date_metrics'),
+            models.Index(
+                fields=["user", "recorded_date"], name="idx_user_date_metrics"
+            ),
         ]
 
     def __str__(self):

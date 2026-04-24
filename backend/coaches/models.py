@@ -201,7 +201,9 @@ class CoachReview(BaseDate, TimeAgoModelMixin):
 
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
         verbose_name="Пользователь",
         related_name="coach_reviews",
     )

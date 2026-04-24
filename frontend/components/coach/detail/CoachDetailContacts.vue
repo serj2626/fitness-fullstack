@@ -3,20 +3,17 @@ import {
   getSocialIcon,
   type TSocialIcon,
 } from "~/assets/icons/types/social-icons";
-import type { ICoachCategory, ICoachSocial } from "~/types";
+import type {  ICoachSocial } from "~/types";
 
 defineProps<{
   name: string;
-  categories: ICoachCategory[] | [];
+  categories: string[];
   email: string;
   phone: string;
   socials?: ICoachSocial[];
   experience: number;
 }>();
 
-function getCategories(cats: ICoachCategory[]) {
-  return cats.map((c) => c.name).join(", ");
-}
 
 </script>
 

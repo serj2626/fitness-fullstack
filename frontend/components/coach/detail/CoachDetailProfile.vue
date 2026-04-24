@@ -10,7 +10,7 @@ defineProps<{
       format="webp"
       lazy="loading"
       class="coaches-detail-profile__img"
-      :src="getMedia(avatar as string)"
+      :src="getPhoto(avatar as string)"
       alt="Аватар"
     />
 

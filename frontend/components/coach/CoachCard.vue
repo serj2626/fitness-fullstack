@@ -10,12 +10,12 @@ defineProps<{ trainer: ICoach }>();
         format="webp"
         lazy="loading"
         class="coach-card__image-wrapper-img"
-        :src="getMedia(trainer?.avatar as string)"
+        :src="getPhoto(trainer?.avatar as string)"
         :alt="`${trainer.first_name} ${trainer.last_name}`"
       />
-      <span class="coach-card__position">{{
-        getCategories(trainer.categories)
-      }}</span>
+      <span class="coach-card__position">
+        {{ getCategories(trainer.categories)  }}
+      </span>
     </div>
     <div class="coach-card__body">
       <h3 class="coach-card__name">

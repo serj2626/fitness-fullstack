@@ -76,6 +76,7 @@ onUnmounted(() => {
             />
             <LazyCoachDetailReviews
               v-if="activeTab === 'reviews'"
+              :reviews-count="reviewsStore.count"
               :reviews="reviewsStore.reviews"
               :loading="reviewsStore.loading"
             />

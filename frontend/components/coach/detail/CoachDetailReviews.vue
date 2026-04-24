@@ -7,6 +7,7 @@ import { useIntersectionObserver } from "@vueuse/core";
 defineProps<{
   reviews: IReview[];
   loading: boolean;
+  reviewsCount: number;
 }>();
 
 const { id } = useRoute().params;
@@ -66,9 +67,9 @@ onUnmounted(() => {
       <div class="coach-detail-reviews__header">
         <h2 class="coach-detail-reviews__header-title">
           Отзывы
-          <span class="coach-detail-reviews__header-count">{{
-            reviews.length
-          }}</span>
+          <span class="coach-detail-reviews__header-count">
+            {{ reviewsCount }}
+          </span>
         </h2>
         <BaseButton
           label="Оставить отзыв"

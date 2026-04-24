@@ -37,9 +37,9 @@ export const getMedia = (mediaContentUrl: string) => {
 };
 
 export const getPhoto = (photoUrl?: string | null): string => {
-  if (!photoUrl) {
-    return "/img_not_found.webp";
-  }
+  if (!photoUrl || photoUrl === null) {
+  return "/img_not_found.webp";
+}
 
   return getMedia(photoUrl);
 };
@@ -88,8 +88,8 @@ export const getExperience = (count: number | null | undefined): string => {
   return `более ${count} лет`;
 };
 
-export const getCategories = (categories: ICoachCategory[]): string => {
-  return categories.map((item) => item.name).join(", ");
+export const getCategories = (categories: string[]): string => {
+  return categories.join(",  ");
 };
 
 export const getFullName = (firstName: string, lastName: string): string => {
