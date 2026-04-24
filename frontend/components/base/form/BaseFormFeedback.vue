@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { api } from "~/api";
 
+const { error: errorNotify, success: successNotify } = useNotify();
+
 const store = useContactsStore();
 const { contactsList } = storeToRefs(store);
 
@@ -21,24 +23,25 @@ const loading = ref(false);
 const error = ref<string | null>(null);
 
 async function submitForm() {
+  loading.value = true;
   const payload = {
     name: formData.name.value,
     phone: formData.phone.value,
   };
 
   console.log("Данные к отправке:", payload);
-  alert(payload);
   clearForm(formData);
-
-  loading.value = true;
 
   try {
     const res = await $api(api.contacts.feedback, {
       method: "POST",
       body: payload,
     });
-  } catch {
-    error.value = "Что-то пошло не так";
+
+    successNotify("Заявка отправлена");
+  } catch(e) {
+    error.value = e || "Что-то пошло не так";
+    errorNotify(error.value);
   } finally {
     loading.value = false;
   }

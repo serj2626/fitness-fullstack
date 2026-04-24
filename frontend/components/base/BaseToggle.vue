@@ -119,7 +119,7 @@ const toggle = () => {
       position: absolute;
       top: 2px;
       left: 2px;
-      background-color: white;
+      background-color: rgb(255, 255, 255);
       border-radius: 50%;
       transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }

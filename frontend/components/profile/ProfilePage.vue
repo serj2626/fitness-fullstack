@@ -232,7 +232,7 @@ const check = ref(false);
   <div class="user-profile">
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsProfilePage" />
-      <BaseCheckbox :model-value="check" @update:model-value="check = $event" />
+      <BaseToggle :model-value="check" @update:model-value="check = $event" />
       <!-- Шапка профиля -->
       <header class="user-profile__header">
         <h1 class="user-profile__title">Личный кабинет</h1>

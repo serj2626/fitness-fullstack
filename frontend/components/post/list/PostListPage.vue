@@ -2,7 +2,7 @@
 import { breadcrumbsPostsPage } from "~/assets/data/breadcrumbs.data";
 
 const postsStore = usePostsStore();
-const { posts, next } = storeToRefs(postsStore);
+const { posts, next, loadingPosts } = storeToRefs(postsStore);
 
 await useAsyncData("posts", async () => {
   await postsStore.getAllPosts();
@@ -22,29 +22,31 @@ onUnmounted(() => {
     <PagesTopSection title="Новости и статьи" />
     <div class="container post-list-page__content">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsPostsPage" />
-      <PostListFilter />
+      <div style="position: relative">
+        <BaseLoader v-if="loadingPosts" size="xl" bg-color="red" />
+        <PostListFilter />
+        <div v-if="posts.length > 0" class="post-list-page__articles">
+          <PostCard
+            v-for="post in posts"
+            :key="post.id"
+            :post="post"
+            class="apost-list-page__article-card"
+          />
+        </div>
 
-      <div v-if="posts.length > 0" class="post-list-page__articles">
-        <PostCard
-          v-for="post in posts"
-          :key="post.id"
-          :post="post"
-          class="apost-list-page__article-card"
+        <div v-else class="post-list-page__empty-state">
+          <Icon name="heroicons:book-open" size="60" />
+          <p>Статьи не найдены</p>
+        </div>
+        <BaseButton
+          v-show="next"
+          size="xs"
+          label="Показать еще"
+          outline
+          style="display: block; margin-inline: auto; margin-block: 10px 25px"
+          @click="loadMorePosts"
         />
       </div>
-
-      <div v-else class="post-list-page__empty-state">
-        <Icon name="heroicons:book-open" size="60" />
-        <p>Статьи не найдены</p>
-      </div>
-      <BaseButton
-        v-show="next"
-        size="xs"
-        label="Показать еще"
-        outline
-        style="display: block; margin-inline: auto; margin-block: 10px 25px"
-        @click="loadMorePosts"
-      />
     </div>
   </section>
 </template>
