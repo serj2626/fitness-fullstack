@@ -2,6 +2,7 @@
 const modalsStore = useModalsStore();
 defineProps<{
   avatar: string | null;
+  rating: number;
 }>();
 </script>
 <template>
@@ -16,11 +17,11 @@ defineProps<{
 
     <RatingComponent
       class="coaches-detail-profile__rating"
-      :rating="4.5"
+      :rating="rating"
       :count="5"
     />
     <p style="text-align: center; margin-top: 10px; color: sandybrown">
-      4 из 5
+      {{ Math.floor(rating) }}  из 5
     </p>
     <BaseButton
       size="lg"

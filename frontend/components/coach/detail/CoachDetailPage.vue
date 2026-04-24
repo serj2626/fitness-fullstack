@@ -51,6 +51,7 @@ onUnmounted(() => {
       <div class="coaches-detail-page__layout">
         <CoachDetailProfile
           :avatar="coachData?.avatar as string"
+          :rating="coachData?.average_rating || 0"
           class="coaches-detail-page__sidebar"
         />
 
