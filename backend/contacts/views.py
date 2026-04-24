@@ -3,10 +3,10 @@ import logging
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.exceptions import Throttled
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
 from common.mail import send_feedback_email
@@ -22,7 +22,6 @@ from .serializers import (
     TermsSerializer,
     VacancySerializer,
 )
-from .throttles import FeedbackThrottle
 
 # Кэширование (раскомментировать когда Redis подключен):
 # from django.utils.decorators import method_decorator
@@ -63,19 +62,8 @@ class TermsApiView(APIView):
 
 class FeedbackCreateView(APIView):
     permission_classes = [AllowAny]
-    throttle_classes = [FeedbackThrottle]
-
-    def handle_exception(self, exc):
-        if isinstance(exc, Throttled):
-            wait = int(exc.wait or 60)
-            return Response(
-                {
-                    "status": "error",
-                    "msg": f"Слишком много запросов. Повторите через {wait} сек.",
-                },
-                status=status.HTTP_429_TOO_MANY_REQUESTS,
-            )
-        return super().handle_exception(exc)
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "feedback"
 
     @extend_schema(
         tags=[TAG],

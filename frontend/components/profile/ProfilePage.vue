@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { breadcrumbsProfilePage } from '~/assets/data/breadcrumbs.data';
+import { breadcrumbsProfilePage } from "~/assets/data/breadcrumbs.data";
 // Состояние активной вкладки
 const activeTab = ref("visits");
 
@@ -142,7 +142,7 @@ const freezeData = ref({
 const membershipStatus = computed(() => {
   return user.value.membership.status === "active"
     ? `Абонемент "${user.value.membership.type}" (до ${formatDate(
-        user.value.membership.expires
+        user.value.membership.expires,
       )})`
     : "Абонемент неактивен";
 });
@@ -225,11 +225,14 @@ const logout = () => {
 onMounted(() => {
   // Здесь может быть запрос к API для получения данных
 });
+
+const check = ref(false);
 </script>
 <template>
   <div class="user-profile">
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsProfilePage" />
+      <BaseCheckbox :model-value="check" @update:model-value="check = $event" />
       <!-- Шапка профиля -->
       <header class="user-profile__header">
         <h1 class="user-profile__title">Личный кабинет</h1>

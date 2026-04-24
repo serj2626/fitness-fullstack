@@ -64,7 +64,8 @@ class CoachSocialSerializer(serializers.ModelSerializer):
 
 class CoachSerializer(serializers.ModelSerializer):
     average_rating = serializers.DecimalField(
-        max_digits=3, decimal_places=2, read_only=True)
+        max_digits=3, decimal_places=2, read_only=True
+    )
     reviews_count = serializers.IntegerField(read_only=True)
     services = CoachServiceSerializer(many=True, read_only=True)
     categories = serializers.StringRelatedField(many=True, read_only=True)

@@ -1,3 +1,4 @@
+from django.db.models import Avg, Count, Q
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
@@ -6,7 +7,6 @@ from drf_spectacular.utils import (
     OpenApiResponse,
     extend_schema,
 )
-from django.db.models import Avg, Count, Q
 from rest_framework import filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 
@@ -188,14 +188,8 @@ class CoachDetailView(RetrieveAPIView):
 
     def get_queryset(self):
         return Coach.objects.annotate(
-            average_rating=Avg(
-                'reviews__rating',
-                filter=Q(reviews__is_verified=False)
-            ),
-            reviews_count=Count(
-                'reviews',
-                filter=Q(reviews__is_verified=False)
-            )
+            average_rating=Avg("reviews__rating", filter=Q(reviews__is_verified=False)),
+            reviews_count=Count("reviews", filter=Q(reviews__is_verified=False)),
         )
 
 
