@@ -11,6 +11,8 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.utils import timezone
 
+from common.models import BaseDate
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, phone=None, password=None, **extra_fields):
@@ -269,3 +271,72 @@ class BodyMetricSnapshot(models.Model):
 
     def __str__(self):
         return f"{self.user.username} — {self.recorded_date} ({self.weight_kg} кг)"
+
+
+class UserProfileQuestionnaire(BaseDate):
+    """
+    Анкета пользователя с фиксированными вопросами (Да/Нет).
+    Связь OneToOne с моделью пользователя.
+    """
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="questionnaire",
+        verbose_name="Пользователь",
+    )
+
+    weight_loss = models.BooleanField(default=False, verbose_name="Цель — похудение")
+    muscle_gain = models.BooleanField(
+        default=False, verbose_name="Хочу нарастить мышечную массу"
+    )
+    cardio = models.BooleanField(
+        default=False, verbose_name="Предпочитаю кардиотренировки"
+    )
+    trainer_help = models.BooleanField(
+        default=False, verbose_name="Нужна помощь тренера"
+    )
+    injuries = models.BooleanField(
+        default=False, verbose_name="Были травмы или ограничения по здоровью"
+    )
+    has_membership = models.BooleanField(
+        default=False, verbose_name="Уже есть абонемент в клуб"
+    )
+    group_lessons = models.BooleanField(
+        default=False, verbose_name="Интересуют групповые занятия"
+    )
+    morning_workouts = models.BooleanField(
+        default=False, verbose_name="Предпочитаю утренние тренировки"
+    )
+
+    class Meta:
+        verbose_name = "Анкета пользователя"
+        verbose_name_plural = "Анкеты пользователей"
+
+    def __str__(self):
+        return f"Анкета {self.user}"
+
+    def get_completion_percentage(self):
+        """
+        Возвращает процент заполнения анкеты (все вопросы — обязательные).
+        Так как все поля BooleanField имеют значение по умолчанию,
+        процент всегда 100% при создании. Но можно переопределить,
+        если нужно считать только отвеченные вручную.
+        """
+        total_fields = 9  # количество вопросов
+        # Если хотите считать только те, которые пользователь явно установил в True,
+        # используйте другой подход. Сейчас все поля всегда имеют значение.
+        return 100
+
+    def get_answers_dict(self):
+        """Возвращает словарь ответов {slug: value} для сериализации."""
+        return {
+            "weight_loss": self.weight_loss,
+            "muscle_gain": self.muscle_gain,
+            "cardio": self.cardio,
+            "trainer_help": self.trainer_help,
+            "injuries": self.injuries,
+            "has_membership": self.has_membership,
+            "group_lessons": self.group_lessons,
+            "morning_workouts": self.morning_workouts,
+        }

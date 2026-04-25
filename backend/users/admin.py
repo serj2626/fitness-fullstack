@@ -1,7 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User, VerificationCode
+from .models import User, UserProfileQuestionnaire, VerificationCode
+
+
+@admin.register(UserProfileQuestionnaire)
+class UserProfileQuestionnaireAdmin(admin.ModelAdmin):
+    """Admin View for UserProfileQuestionnaire"""
+
+    list_display = ("id", "user")
 
 
 @admin.register(User)

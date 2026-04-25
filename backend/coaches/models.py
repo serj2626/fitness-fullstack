@@ -10,6 +10,7 @@ from common.models import (
     BaseContent,
     BaseDate,
     BaseDateRange,
+    BaseDateRangeWithTime,
     BaseEmail,
     BaseID,
     BaseOrder,
@@ -229,7 +230,7 @@ class CoachReview(BaseDate, TimeAgoModelMixin):
         return f"Отзыв о тренере {self.coach.first_name} {self.coach.last_name} / Рейтинг: {self.rating}"
 
 
-class Workout(BaseDate, TimeAgoModelMixin, BaseDateRange):
+class Workout(BaseDateRangeWithTime):
     """
     Факт проведённой тренировки (история)
     """
@@ -262,7 +263,6 @@ class Workout(BaseDate, TimeAgoModelMixin, BaseDateRange):
         related_name="workouts",
     )
 
-    # Статус
     status = models.CharField(
         max_length=20,
         choices=WorkoutStatus.choices,
@@ -283,8 +283,52 @@ class Workout(BaseDate, TimeAgoModelMixin, BaseDateRange):
     def __str__(self):
         return f"{self.user.get_full_name()} — {self.coach} ({self.date_start.date()})"
 
-    # def duration_minutes(self):
-    #     """Длительность в минутах"""
-    #     if self.date_start and self.date_end:
-    #         return int((self.date_end - self.date_start).total_seconds() / 60)
-    #     return self.service.time if self.service else 60
+
+MUSCLE_GROUPS = [
+    ("chest", "Грудь"),
+    ("back", "Спина"),
+    ("shoulders", "Плечи"),
+    ("arms", "Руки"),
+    ("legs", "Ноги"),
+    ("abs", "Талия"),
+]
+
+
+class Exercise(models.Model):
+    """Справочник упражнений"""
+
+    name = models.CharField(max_length=100, unique=True)
+    muscle_group = models.CharField(max_length=50, blank=True, choices=MUSCLE_GROUPS)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ExerciseSet(models.Model):
+    """Один подход в упражнении в рамках конкретной тренировки"""
+
+    workout = models.ForeignKey(
+        Workout,
+        on_delete=models.CASCADE,
+        related_name="sets",
+        verbose_name="Тренировка",
+    )
+    exercise = models.ForeignKey(
+        Exercise, on_delete=models.CASCADE, verbose_name="Упражнение"
+    )
+    order = models.PositiveSmallIntegerField(
+        default=1, verbose_name="Порядковый номер упражнения в тренировке"
+    )
+    set_number = models.PositiveSmallIntegerField("номер подхода (1,2,3...)")
+    weight_kg = models.DecimalField(
+        max_digits=6, decimal_places=2, null=True, blank=True, verbose_name="Вес (кг)"
+    )
+    reps = models.PositiveSmallIntegerField("количество повторений")
+    rpe = models.PositiveSmallIntegerField(
+        "RPE", null=True, blank=True
+    )  # perceived exertion 1-10
+    completed = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["workout", "order", "set_number"]

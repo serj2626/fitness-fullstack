@@ -101,6 +101,18 @@ class BaseDateRange(models.Model):
         abstract = True
 
 
+class BaseDateRangeWithTime(models.Model):
+    """
+    Базовая модель диапазона дат
+    """
+
+    date_start = models.DateTimeField("Начало", blank=True, null=True)
+    date_end = models.DateTimeField("Конец", blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
 class BaseReview(BaseID, BaseDate):
     """
     Базовая модель для всех моделей с отзывами
