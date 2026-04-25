@@ -12,6 +12,7 @@ from django.db import models
 from django.utils import timezone
 
 from common.models import BaseDate
+from common.upload import compress_image
 
 
 class CustomUserManager(BaseUserManager):
@@ -38,8 +39,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(
         max_length=15, blank=True, null=True, unique=True, verbose_name="Телефон"
     )
-    first_name = models.CharField(max_length=50, blank=True, verbose_name="Имя")
-    last_name = models.CharField(max_length=50, blank=True, verbose_name="Фамилия")
+    first_name = models.CharField(
+        max_length=50, blank=True, verbose_name="Имя")
+    last_name = models.CharField(
+        max_length=50, blank=True, verbose_name="Фамилия")
     avatar = models.ImageField(
         upload_to="avatars/", blank=True, null=True, verbose_name="Аватар"
     )
@@ -48,7 +51,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата регистрации"
     )
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Дата обновления")
 
     objects = CustomUserManager()
 
@@ -62,6 +66,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    def save(self, *args, **kwargs):
+        if self.avatar:
+            self.avatar = compress_image(self.avatar)
+        super().save(*args, **kwargs)
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}".strip() or self.email
@@ -91,7 +100,8 @@ class VerificationCode(models.Model):
         default="register",
         verbose_name="Тип кода",
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания")
     expires_at = models.DateTimeField(verbose_name="Действителен до")
     is_used = models.BooleanField(default=False, verbose_name="Использован")
     ip_address = models.GenericIPAddressField(
@@ -172,108 +182,36 @@ class VerificationCode(models.Model):
         )
 
 
-class BodyMetricSnapshot(models.Model):
+class UserProgress(BaseDate):
     """
-    Снимок параметров тела пользователя на определенную дату.
-    Используется для истории прогресса и обучения ML.
+    Прогресс пользователя.
     """
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
-        related_name="body_metrics",
         verbose_name="Пользователь",
+        related_name="progress",
     )
-    recorded_date = models.DateField(
-        verbose_name="Дата замера",
-        help_text="Дата, когда были зафиксированы показатели",
-    )
+    weight = models.PositiveIntegerField("Вес", default=0)
+    photo = models.ImageField(
+        "Фото", upload_to="user_progress/", blank=True, null=True)
 
-    # Основные показатели состава тела
-    weight_kg = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        verbose_name="Вес (кг)",
-        help_text="Вес тела в килограммах (например, 75.50)",
-    )
-    body_fat_percent = models.DecimalField(
-        max_digits=4,
-        decimal_places=1,
-        null=True,
-        blank=True,
-        verbose_name="Процент жира (%)",
-        help_text="Содержание жировой ткани в процентах",
-    )
-    muscle_mass_kg = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        null=True,
-        blank=True,
-        verbose_name="Мышечная масса (кг)",
-        help_text="Масса скелетных мышц в килограммах",
-    )
-
-    # Антропометрия (объемы) — критично для фитнеса
-    waist_cm = models.DecimalField(
-        max_digits=5,
-        decimal_places=1,
-        null=True,
-        blank=True,
-        verbose_name="Обхват талии (см)",
-    )
-    chest_cm = models.DecimalField(
-        max_digits=5,
-        decimal_places=1,
-        null=True,
-        blank=True,
-        verbose_name="Обхват груди (см)",
-    )
-    hips_cm = models.DecimalField(
-        max_digits=5,
-        decimal_places=1,
-        null=True,
-        blank=True,
-        verbose_name="Обхват бедер (см)",
-    )
-
-    # Мета-данные
-    source = models.CharField(
-        max_length=20,
-        choices=[
-            ("manual", "Ручной ввод"),
-            ("smart_scale", "Умные весы"),
-            ("trainer", "Запись тренера"),
-        ],
-        default="manual",
-        verbose_name="Источник данных",
-    )
-    notes = models.TextField(
-        blank=True,
-        verbose_name="Примечания",
-        help_text="Комментарии пользователя или тренера к замеру",
-    )
-
-    class Meta:
-        verbose_name = "Снимок прогресса"
-        verbose_name_plural = "История прогресса"
-        ordering = ["-recorded_date"]  # Сортировка: свежие сверху
-        # Запрещаем два замера в один день для одного юзера (можно изменить под себя)
-        constraints = [
-            models.UniqueConstraint(
-                fields=["user", "recorded_date"], name="unique_user_daily_metric"
-            )
-        ]
-        indexes = [
-            models.Index(
-                fields=["user", "recorded_date"], name="idx_user_date_metrics"
-            ),
-        ]
+    def save(self, *args, **kwargs):
+        if self.photo:
+            self.photo = compress_image(self.photo, quality=80)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user.username} — {self.recorded_date} ({self.weight_kg} кг)"
+        return f"Прогресс пользователя {self.user.email}"
+
+    class Meta:
+        verbose_name = "Прогресс пользователя"
+        verbose_name_plural = "Прогресс пользователей"
+        ordering = ["-created_at"]
 
 
-class UserProfileQuestionnaire(BaseDate):
+class Questionnaire(BaseDate):
     """
     Анкета пользователя с фиксированными вопросами (Да/Нет).
     Связь OneToOne с моделью пользователя.
@@ -286,7 +224,8 @@ class UserProfileQuestionnaire(BaseDate):
         verbose_name="Пользователь",
     )
 
-    weight_loss = models.BooleanField(default=False, verbose_name="Цель — похудение")
+    weight_loss = models.BooleanField(
+        default=False, verbose_name="Цель — похудение")
     muscle_gain = models.BooleanField(
         default=False, verbose_name="Хочу нарастить мышечную массу"
     )

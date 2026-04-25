@@ -22,6 +22,7 @@ SOCIALS_TYPE = [
     ("max", "MAX"),
     ("insta", "INSTAGRAM"),
     ("youtube", "YOUTUBE"),
+    ("whatsapp", "WHATSAPP"),
 ]
 
 

@@ -1,12 +1,17 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User, UserProfileQuestionnaire, VerificationCode
+from .models import Questionnaire, User, UserProgress, VerificationCode
 
 
-@admin.register(UserProfileQuestionnaire)
-class UserProfileQuestionnaireAdmin(admin.ModelAdmin):
-    """Admin View for UserProfileQuestionnaire"""
+class UserProgressInline(admin.TabularInline):
+    model = UserProgress
+    extra = 1
+
+
+@admin.register(Questionnaire)
+class QuestionnaireAdmin(admin.ModelAdmin):
+    """Admin View for Questionnaire"""
 
     list_display = ("id", "user")
 
@@ -27,6 +32,8 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ["email", "phone", "first_name", "last_name"]
     ordering = ["-created_at"]
     readonly_fields = ("created_at", "updated_at")
+
+    inlines = [UserProgressInline]
 
     fieldsets = (
         (None, {"fields": ("email", "phone", "password")}),
