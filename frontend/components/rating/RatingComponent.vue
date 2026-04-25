@@ -4,7 +4,7 @@ const {
   editable,
   size = "sm",
 } = defineProps<{
-  modelValue: number;
+  modelValue: number | string;
   editable?: boolean;
   size?: "sm" | "md" | "lg" | "xl";
 }>();
@@ -12,7 +12,6 @@ const {
 const emit = defineEmits<{
   (e: "update:modelValue", value: number): void;
 }>();
-
 
 function setRating(value: number) {
   if (!editable) return;
@@ -39,7 +38,7 @@ const currentWidthHeight = computed(() => {
       :key="star"
       class="rating__star"
       :class="{
-        'rating__star--active': modelValue >= star,
+        'rating__star--active': Number(modelValue) >= Number(star),
         'rating__star--hover': editable && hoverValue >= star,
       }"
       xmlns="http://www.w3.org/2000/svg"

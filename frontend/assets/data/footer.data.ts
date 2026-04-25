@@ -7,12 +7,12 @@ export const footerLinksOne: { id: number; title: string; link: string }[] = [
   {
     id: 2,
     title: "Политика конфиденциальности",
-    link: "/privacy-policy",
+    link: "/policy",
   },
   {
     id: 3,
     title: "Пользовательское соглашение",
-    link: "/user-agreement",
+    link: "/terms",
   },
 ];
 

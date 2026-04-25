@@ -5,6 +5,7 @@ interface Props {
   inactiveColor?: string; // цвет неактивного состояния (фон)
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
+  showText?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -13,6 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
   inactiveColor: "#bdc3c7",
   size: "lg",
   disabled: false,
+  showText: true,
 });
 
 const emit = defineEmits<{
@@ -45,7 +47,7 @@ const toggle = () => {
       @change="toggle"
     />
     <span class="base-toggle__slider"></span>
-    <span class="base-toggle__label">
+    <span v-if="showText" class="base-toggle__label">
       <slot>{{ modelValue ? "Вкл" : "Выкл" }}</slot>
     </span>
   </label>

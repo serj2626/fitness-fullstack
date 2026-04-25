@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { api } from "~/api";
-import type { IFooterInfoTransformResponse } from "~/types";
+import { footerLinksOne } from "~/assets/data/footer.data";
 
 const { $api } = useNuxtApp();
 
@@ -39,21 +39,20 @@ const { data: socialsData } = useAsyncData<IFooterSocials[]>(
           {{ footerData?.copyright || "© 2025 Все права защищены." }}
         </span>
       </div>
-      <!-- <div
-        v-if="footerData?.navigations && footerData?.navigations.length"
+      <div
+        v-if="footerLinksOne && footerLinksOne.length"
         class="footer-component__content-links"
       >
         <NuxtLink
-          v-for="link in footerData?.navigations"
+          v-for="link in footerLinksOne"
           :key="link.title"
           class="footer-component__content-links-item"
           :to="link.link"
         >
           {{ link.title }}
         </NuxtLink>
-      </div> -->
+      </div>
     </div>
-    <!-- {{ socialsData }} -->
     <FooterSocials :values="socialsData || []" />
   </footer>
 </template>

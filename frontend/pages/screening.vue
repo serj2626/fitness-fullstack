@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import {
+  breadcrumbsScreeningPage,
+} from "~/assets/data/breadcrumbs.data";
+
 // Тип вопроса
 interface QuestionnaireItem {
   id: string;
@@ -105,12 +109,13 @@ onMounted(async () => {
 </script>
 <template>
   <div class="questionnaire-page">
-    <div class="questionnaire-container">
-      <h1 class="questionnaire-title">Анкета пользователя</h1>
-      <p class="questionnaire-subtitle">
-        Расскажите о своих предпочтениях и целях, чтобы мы могли подобрать
-        лучшие тренировки
-      </p>
+    <PagesTopSection
+      title="Анкета пользователя"
+      description="Расскажите о своих предпочтениях и целях, чтобы мы могли подобрать
+        лучшие тренировки"
+    />
+    <div class="container">
+      <BaseBreadCrumbs :breadcrumbs="breadcrumbsScreeningPage" />
 
       <form class="questionnaire-form" @submit.prevent="saveQuestionnaire">
         <div
@@ -119,8 +124,10 @@ onMounted(async () => {
           class="question-item"
         >
           <label class="question-label">{{ question.text }}</label>
-          <BaseToggle v-model="answers[question.id]" :disabled="isSaving">
-            <span class="toggle-text">{{ answers[question.id] ? "Да" : "Нет" }}</span>
+          <BaseToggle v-model="answers[question.id]" :disabled="isSaving" :show-text="false">
+            <span class="toggle-text">{{
+              answers[question.id] ? "Да" : "Нет"
+            }}</span>
           </BaseToggle>
         </div>
 
@@ -145,48 +152,24 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-.questionnaire-page {
-  padding: 150px 200px 100px;
+.toggle-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: $white;
 }
-
-.questionnaire-container {
-  max-width: 800px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 24px;
-  box-shadow:
-    0 10px 25px -5px rgba(0, 0, 0, 0.05),
-    0 8px 10px -6px rgba(0, 0, 0, 0.02);
-  padding: 2rem;
-}
-
-.questionnaire-title {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-
-.questionnaire-subtitle {
-  text-align: center;
-  color: #475569;
-  margin-bottom: 2rem;
-  font-size: 0.95rem;
-}
-
 .questionnaire-form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  margin-block: 50px;
 }
 
 .question-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0;
-  border-bottom: 1px solid #e2e8f0;
+  padding: .5rem 0;
+  border-bottom: 1px solid #e2e8f07e;
 
   &:last-of-type {
     border-bottom: none;
@@ -196,7 +179,7 @@ onMounted(async () => {
 .question-label {
   font-size: 1rem;
   font-weight: 500;
-  color: #0f172a;
+  color: $white;
   flex: 1;
   padding-right: 1rem;
 }

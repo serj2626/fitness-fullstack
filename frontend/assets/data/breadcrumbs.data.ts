@@ -24,6 +24,18 @@ export const breadcrumbsFAQDetailPage = ref([
   },
 ]);
 
+export const breadcrumbsScreeningPage = ref([
+  {
+    title: "Главная",
+    url: "/",
+  },
+  {
+    title: "Анкета пользователя",
+    url: "/screening",
+  },
+]);
+
+
 export const breadcrumbsCoachesPage = ref([
   {
     title: "Главная",

@@ -96,23 +96,11 @@ onUnmounted(() => {
     <BaseLoader v-if="loading" />
 
     <div v-if="reviews.length > 0" class="coach-detail-reviews__list">
-      <div v-for="review in reviews" :key="review.id" class="review-card">
-        <div class="review-header">
-          <div class="review-author">
-            <div class="author-info">
-              <h3 class="author-name">
-                {{ review?.user || "Аноним" }}
-              </h3>
-              <div class="review-date">{{ review.time_ago || "" }}</div>
-            </div>
-          </div>
-          <RatingComponent :model-value="review?.rating" />
-        </div>
-
-        <div class="review-content">
-          <p class="review-text">{{ review?.text || "" }}</p>
-        </div>
-      </div>
+      <ReviewCard
+        v-for="review in reviews"
+        :key="review.id"
+        :review="review"
+      />
     </div>
     <BaseEmpty
       v-else
@@ -242,90 +230,6 @@ onUnmounted(() => {
     gap: 25px;
   }
 }
-
-.review-card {
-  background: rgba($white, 0.05);
-  border-radius: 12px;
-  padding: 20px;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: translateY(-3px);
-  }
-}
-
-.review-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  margin-bottom: 15px;
-}
-
-.review-author {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.review-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid $accent;
-}
-
-.author-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.author-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: $white;
-  margin-bottom: 3px;
-}
-
-.review-date {
-  font-size: 14px;
-  color: rgba($white, 0.6);
-}
-
-.review-content {
-  padding-left: 5px;
-}
-
-.review-text {
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgba($white, 0.9);
-  margin-bottom: 15px;
-  text-indent: 20px;
-  letter-spacing: 0.8px;
-
-  &:first-letter {
-    text-transform: uppercase;
-    color: $accent;
-    font-size: 22px;
-    font-weight: 600;
-    margin-right: 1px;
-  }
-}
-
-.review-photo {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
-  object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-}
-
 .load-more {
   margin-top: 30px;
   width: 100%;
