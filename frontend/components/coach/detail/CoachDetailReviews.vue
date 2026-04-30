@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useModalsStore } from "~/stores/modals";
 import type { IReview, TOrderingReview } from "~/types";
 import { useIntersectionObserver } from "@vueuse/core";
 
@@ -12,7 +11,6 @@ defineProps<{
 
 const { id } = useRoute().params;
 
-const modalsStore = useModalsStore();
 const reviewsStore = useReviewsStore();
 
 const { next, orderingValue } = storeToRefs(reviewsStore);
@@ -64,22 +62,9 @@ onUnmounted(() => {
       class="coach-detail-reviews__top"
       :class="{ 'coach-detail-reviews__top_scrolled': getScrollClass }"
     >
-      <div class="coach-detail-reviews__header">
-        <h2 class="coach-detail-reviews__header-title">
-          Отзывы
-          <span class="coach-detail-reviews__header-count">
-            {{ reviewsCount }}
-          </span>
-        </h2>
-        <BaseButton
-          label="Оставить отзыв"
-          size="md"
-          color="#1a8f1a"
-          style="color: white"
-          @click="modalsStore.openModal('reviewCoachForm')"
-        />
-      </div>
+      <CoachDetailReviewForm />
       <div
+        v-if="reviewsCount > 0"
         class="coach-detail-reviews__sorting"
         :class="{ 'coach-detail-reviews__sorting_border': getScrollClass }"
       >
@@ -96,11 +81,7 @@ onUnmounted(() => {
     <BaseLoader v-if="loading" />
 
     <div v-if="reviews.length > 0" class="coach-detail-reviews__list">
-      <ReviewCard
-        v-for="review in reviews"
-        :key="review.id"
-        :review="review"
-      />
+      <ReviewCard v-for="review in reviews" :key="review.id" :review="review" />
     </div>
     <BaseEmpty
       v-else
@@ -121,46 +102,6 @@ onUnmounted(() => {
   background-color: $bg_block;
   border-radius: 12px;
   position: relative;
-
-  &:deep(.p-editor-container) {
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: rgba(255, 255, 255, 0.03);
-    overflow: hidden;
-
-    .p-editor-toolbar {
-      background-color: rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-      button {
-        color: white;
-        &:hover {
-          background-color: rgba(
-            26,
-            143,
-            26,
-            0.2
-          ); // можно заменить на переменную
-        }
-      }
-    }
-
-    .p-editor-content {
-      background-color: transparent;
-      color: white;
-      min-height: 200px;
-      padding: 16px;
-
-      p {
-        margin: 0 0 10px;
-      }
-
-      strong {
-        color: #1a8f1a;
-      }
-    }
-  }
-
   &__top {
     position: sticky;
     top: 75px;
@@ -170,25 +111,6 @@ onUnmounted(() => {
       background-color: $bg;
       padding: 10px 15px;
       border-radius: 12px;
-    }
-  }
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    &-title {
-      font-size: 24px;
-      font-weight: 700;
-      color: $white;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    &-count {
-      font-size: 16px;
-      font-weight: 400;
-      color: rgba($white, 0.7);
     }
   }
   &__sorting {

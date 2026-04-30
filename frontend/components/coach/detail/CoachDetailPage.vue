@@ -51,13 +51,14 @@ onUnmounted(() => {
       <div class="coaches-detail-page__layout">
         <CoachDetailProfile
           :avatar="coachData?.avatar as string"
-          :rating="coachData?.average_rating || 0"
+          :rating="Number(coachData?.average_rating) || 0"
           class="coaches-detail-page__sidebar"
         />
 
         <div class="coach-layout__main">
           <CoachDetailTabs
             :active-tab="activeTab"
+            :reviews-count="reviewsStore.count"
             @update:active-tab="setActiveTab"
           />
 

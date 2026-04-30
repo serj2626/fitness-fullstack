@@ -2,9 +2,10 @@
 interface IInputProps {
   placeholder?: string;
   maxLength?: number;
+  height?: "100px" | "150px" | "200px";
 }
 
-const props = defineProps<IInputProps>();
+const { height = "100px" } = defineProps<IInputProps>();
 
 const inputValue = defineModel<string | number>("inputValue");
 const error = defineModel("errorValue");
@@ -44,7 +45,8 @@ const error = defineModel("errorValue");
     position: absolute;
     left: 20px;
     top: 20px;
-    color: $white;
+    color: $header_link;
+    font-size: 14px;
   }
 
   &__input {
@@ -53,7 +55,7 @@ const error = defineModel("errorValue");
     background-color: transparent;
     padding: 16px 20px;
     width: 100%;
-    height: 200px;
+    height: v-bind(height);
     color: $white;
 
     box-shadow: 10px 14px 20px rgba(252, 252, 252, 0.469);

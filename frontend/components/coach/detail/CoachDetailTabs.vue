@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ activeTab: string }>();
+defineProps<{ activeTab: string,reviewsCount: number; }>();
 const tabs: { id: string; label: string }[] = [
   { id: "contacts", label: "Контакты" },
   { id: "services", label: "Услуги" },
@@ -16,7 +16,7 @@ defineEmits<{ (e: "update:activeTab", id: string): void }>();
       :class="{ active: activeTab === tab.id }"
       @click="$emit('update:activeTab', tab.id)"
     >
-      {{ tab.label }}
+      {{ tab.label }}{{ tab.id === "reviews" ? ` (${reviewsCount})` : "" }}
     </button>
   </div>
 </template>
