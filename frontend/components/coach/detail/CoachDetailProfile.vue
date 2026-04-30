@@ -42,8 +42,6 @@ const rat = ref(0);
     border-radius: 10px;
     margin-bottom: 30px;
   }
-  &__rating {
-  }
   &__button {
     display: block;
     width: 100%;

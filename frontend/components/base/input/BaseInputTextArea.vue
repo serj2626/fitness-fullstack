@@ -57,8 +57,7 @@ const error = defineModel("errorValue");
     width: 100%;
     height: v-bind(height);
     color: $white;
-
-    box-shadow: 10px 14px 20px rgba(252, 252, 252, 0.469);
+    // box-shadow: 10px 14px 20px rgba(252, 252, 252, 0.469);
     border-radius: 5px;
 
     &:focus {

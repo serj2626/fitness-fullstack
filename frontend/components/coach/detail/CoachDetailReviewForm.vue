@@ -6,7 +6,7 @@ const { formData } = useForm({
 });
 
 const submit = async () => {
-  if (formData.text.value && formData.rating.value) {
+  if (formData.text.value && formData.rating.value  && formData.text.value.length > 5) {
     success("Отзыв отправлен", 3000);
     formData.text.value = "";
     formData.rating.value = "";
@@ -80,11 +80,12 @@ const submit = async () => {
 
       color: $white;
       font-size: 0.95rem;
-      transition: border 0.2s;
+      transition: border 0.2s ease-in, box-shadow 0.4s ease-in;
 
       &:focus {
         border-color: $accent;
         outline: none;
+        box-shadow: 5px 5px 20px rgba(252, 252, 252, 0.469);
       }
     }
   }

@@ -105,9 +105,11 @@ onUnmounted(() => {
   }
 
   &__sidebar {
-    position: sticky;
-    top: 50px;
-    align-self: start;
+    @include mediaDesktop {
+      position: sticky;
+      top: 90px;
+      align-self: start;
+    }
   }
 }
 
