@@ -22,9 +22,15 @@ const { data: lastCoaches } = await useLazyAsyncData<ICoach[]>(
     <MainVideoSection />
     <MainAboutSection client:visible />
     <MainFirstSection client:visible />
-    <MainAbonementsSection v-if="abonements" :abonements="abonements" />
+    <MainAbonementsSection
+      v-if="abonements && abonements.length > 0"
+      :abonements="abonements"
+    />
     <MainAdvantagesSection />
-    <LazyMainPostSection v-if="lastPosts" :posts="lastPosts" />
+    <LazyMainPostSection
+      v-if="lastPosts && lastPosts.length > 0"
+      :posts="lastPosts"
+    />
     <LazyMainCoachesSection v-if="lastCoaches" :coaches="lastCoaches" />
     <LazyMainPoolSection client:visible />
     <LazyBaseFormFeedback client:visible />

@@ -22,8 +22,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      api_url: process.env.API_URL || "http://localhost:8000/api/v1",
-      media_url: process.env.MEDIA_URL || "http://localhost:8000/media",
+      api_url: process.env.API_URL || "http://0.0.0.0:8000/api/v1",
+      media_url: process.env.MEDIA_URL || "http://0.0.0.0:8000/media",
       recaptchaPublicKey: process.env.GOOGLE_CAPTCHA_PUBLIC_KEY || "",
       tawkKey: process.env.TAWK_ID || "",
       cloudFlarePublicKey: process.env.CLOUDFLARE_PUBLIC_KEY || "",
@@ -33,7 +33,7 @@ export default defineNuxtConfig({
   },
   plugins: ["~/plugins/tawk.client.ts"],
   yandexMaps: {
-    apikey: process.env.YANDEX_MAP_API_KEY,
+    apikey: process.env.YANDEX_MAP_API_KEY || "ceba5d82-28bf-4451-8e3d-f7fd39d6ba5b",
     initializeOn: "onComponentMount",
     strictMode: true,
     lang: "ru_RU",

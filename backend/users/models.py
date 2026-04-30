@@ -39,10 +39,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(
         max_length=15, blank=True, null=True, unique=True, verbose_name="Телефон"
     )
-    first_name = models.CharField(
-        max_length=50, blank=True, verbose_name="Имя")
-    last_name = models.CharField(
-        max_length=50, blank=True, verbose_name="Фамилия")
+    first_name = models.CharField(max_length=50, blank=True, verbose_name="Имя")
+    last_name = models.CharField(max_length=50, blank=True, verbose_name="Фамилия")
     avatar = models.ImageField(
         upload_to="avatars/", blank=True, null=True, verbose_name="Аватар"
     )
@@ -51,8 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата регистрации"
     )
-    updated_at = models.DateTimeField(
-        auto_now=True, verbose_name="Дата обновления")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     objects = CustomUserManager()
 
@@ -100,8 +97,7 @@ class VerificationCode(models.Model):
         default="register",
         verbose_name="Тип кода",
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name="Дата создания")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     expires_at = models.DateTimeField(verbose_name="Действителен до")
     is_used = models.BooleanField(default=False, verbose_name="Использован")
     ip_address = models.GenericIPAddressField(
@@ -194,8 +190,7 @@ class UserProgress(BaseDate):
         related_name="progress",
     )
     weight = models.PositiveIntegerField("Вес", default=0)
-    photo = models.ImageField(
-        "Фото", upload_to="user_progress/", blank=True, null=True)
+    photo = models.ImageField("Фото", upload_to="user_progress/", blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if self.photo:
@@ -224,8 +219,7 @@ class Questionnaire(BaseDate):
         verbose_name="Пользователь",
     )
 
-    weight_loss = models.BooleanField(
-        default=False, verbose_name="Цель — похудение")
+    weight_loss = models.BooleanField(default=False, verbose_name="Цель — похудение")
     muscle_gain = models.BooleanField(
         default=False, verbose_name="Хочу нарастить мышечную массу"
     )

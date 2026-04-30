@@ -4,8 +4,6 @@ import { footerLinksOne } from "~/assets/data/footer.data";
 
 const { $api } = useNuxtApp();
 
-// const { data: footerData } =
-//   useNuxtData<IFooterInfoTransformResponse>("footer-info");
 export interface IFooterInfo {
   id: number;
   text: string;
@@ -21,18 +19,33 @@ export interface IFooterSocials {
   value: string;
 }
 
-const { data: footerData } = useAsyncData<IFooterInfo>("footer-info", () =>
-  $api(api.contacts.footer),
+const { data: footerData, error: footerError } = useAsyncData<IFooterInfo>(
+  "footer-info",
+  () => $api(api.contacts.footer),
+  {
+    lazy: true,
+    default: () => ({
+      id: 0,
+      text: "DV Fitness",
+      developer_name: "",
+      developer_link: "",
+      copyright: "© 2025 Все права защищены.",
+    }),
+  },
 );
 
 const { data: socialsData } = useAsyncData<IFooterSocials[]>(
   "footer-socials",
   () => $api(api.contacts.socials),
+  {
+    lazy: true,
+    default: () => [],
+  },
 );
 </script>
 <template>
   <footer class="footer-component container">
-    <div class="footer-component__content">
+    <div v-if="footerData" class="footer-component__content">
       <div class="footer-component__content-copyright">
         <span>
           {{ footerData?.text || "DV Fitness" }}

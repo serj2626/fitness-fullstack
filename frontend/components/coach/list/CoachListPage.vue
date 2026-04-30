@@ -11,7 +11,7 @@ const { $api } = useNuxtApp();
 
 const observerTarget = ref<HTMLElement | null>(null);
 
-const { pending } = useAsyncData("coaches-list-page", async () => {
+useAsyncData("coaches-list-page", async () => {
   await coachesStore.fetchAllCoaches();
   return coachesStore.coaches;
 });
@@ -54,19 +54,21 @@ onUnmounted(() => {
     />
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachesPage" />
-      <CoachListCategories
-        v-if="categories"
-        v-model="activeCategory"
-        :categories="categories"
-      />
+      <template v-if="coaches && coaches.length > 0">
+        <CoachListCategories
+          v-model="activeCategory"
+          :categories="categories || []"
+        />
 
-      <CoachListContent :coaches="coaches" />
+        <CoachListContent :coaches="coaches" />
 
-      <div
-        ref="observerTarget"
-        class="observer-trigger"
-        style="height: 1px; margin-top: 140px"
-      />
+        <div
+          ref="observerTarget"
+          class="observer-trigger"
+          style="height: 1px; margin-top: 140px"
+        />
+      </template>
+      <BaseEmpty v-else text="Тренеры не найдены" />
     </div>
   </div>
 </template>

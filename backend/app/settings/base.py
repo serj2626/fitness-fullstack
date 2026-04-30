@@ -13,7 +13,7 @@ MODE = os.getenv("MODE", "DEVELOPMENT")
 DEBUG = True
 
 
-if MODE == "prod":
+if MODE == "PRODUCTION":
     from .prod import *
 else:
     from .dev import *

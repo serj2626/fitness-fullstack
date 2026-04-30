@@ -1,0 +1,102 @@
+[
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-446655440001",
+    "fields": {
+      "email": "ivan.petrov@fitnescoach.ru",
+      "first_name": "Иван",
+      "last_name": "Петров",
+      "phone": "+7 (901) 123-45-67"
+    }
+  },
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-446655440002",
+    "fields": {
+      "email": "elena.smirnova@fitnescoach.ru",
+      "first_name": "Елена",
+      "last_name": "Смирнова",
+      "phone": "+7 (902) 234-56-78"
+    }
+  },
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-446655440003",
+    "fields": {
+      "email": "alexey.ivanov@fitnescoach.ru",
+      "first_name": "Алексей",
+      "last_name": "Иванов",
+      "phone": "+7 (903) 345-67-89"
+    }
+  },
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-446655440004",
+    "fields": {
+      "email": "olga.kuznetsova@fitnescoach.ru",
+      "first_name": "Ольга",
+      "last_name": "Кузнецова",
+      "phone": "+7 (904) 456-78-90"
+    }
+  },
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-446655440005",
+    "fields": {
+      "email": "dmitry.sokolov@fitnescoach.ru",
+      "first_name": "Дмитрий",
+      "last_name": "Соколов",
+      "phone": "+7 (905) 567-89-01"
+    }
+  },
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-446655440006",
+    "fields": {
+      "email": "anna.popova@fitnescoach.ru",
+      "first_name": "Анна",
+      "last_name": "Попова",
+      "phone": "+7 (906) 678-90-12"
+    }
+  },
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-446655440007",
+    "fields": {
+      "email": "sergey.volkov@fitnescoach.ru",
+      "first_name": "Сергей",
+      "last_name": "Волков",
+      "phone": "+7 (907) 789-01-23"
+    }
+  },
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-446655440008",
+    "fields": {
+      "email": "mariya.zaytseva@fitnescoach.ru",
+      "first_name": "Мария",
+      "last_name": "Зайцева",
+      "phone": "+7 (908) 890-12-34"
+    }
+  },
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-446655440009",
+    "fields": {
+      "email": "pavel.morozov@fitnescoach.ru",
+      "first_name": "Павел",
+      "last_name": "Морозов",
+      "phone": "+7 (909) 901-23-45"
+    }
+  },
+  {
+    "model": "coaches.coach",
+    "pk": "550e8400-e29b-41d4-a716-44665544000a",
+    "fields": {
+      "email": "ekaterina.nikolaeva@fitnescoach.ru",
+      "first_name": "Екатерина",
+      "last_name": "Николаева",
+      "phone": "+7 (910) 012-34-56"
+    }
+  }
+]

@@ -65,8 +65,6 @@ class CoachAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
         "id",
         "get_fullname",
         "get_all_categories",
-        "email",
-        "phone",
         "experience",
         "get_image",
     )

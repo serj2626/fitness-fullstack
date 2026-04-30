@@ -33,7 +33,7 @@ export const getVideo = (videoUrl: string | undefined) => {
 export const getMedia = (mediaContentUrl: string) => {
   // Функция для получения URL-адреса медиа-контента
 
-  return [useRuntimeConfig().public.media_url, mediaContentUrl].join("");
+  return [useRuntimeConfig().public.media_url, mediaContentUrl].join("/");
 };
 
 export const getPhoto = (photoUrl?: string | null): string => {
