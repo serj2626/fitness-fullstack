@@ -1,62 +1,55 @@
 <script setup lang="ts">
-defineProps<{
-  error?: string;
-  text?: string;
-}>();
-
-const agree = defineModel<boolean>("agreeValue");
-
-// const emit = defineEmits(["update:modelValue"]);
+const value = defineModel<boolean>();
 </script>
-
 <template>
-  <label class="base-input-checkbox">
-    <input
-      type="checkbox"
-      class="base-input-checkbox__input"
-      :checked="agree"
-      @change="agree = $event.target.checked"
-    />
-
-    <p  class="base-input-checkbox__text">
-      Согласен на
-      <NuxtLink class="base-input-checkbox__link">
-        обработку своих персональных данных
-      </NuxtLink>
-    </p>
-
-    <div v-if="error && !agree" class="base-input-checkbox__error">
-      {{ error }}
-    </div>
-  </label>
+  <span class="base-input-checkbox">
+    <input v-model="value" type="checkbox" class="base-input-checkbox__input" />
+    <span class="base-input-checkbox__label">
+      <slot> Отправить анонимно </slot>
+    </span>
+  </span>
 </template>
-
 <style scoped lang="scss">
 .base-input-checkbox {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  color: $white;
+  font-size: 0.9rem;
 
   &__input {
-    flex-shrink: 0;
-  }
+    appearance: none;
+    -webkit-appearance: none; /* для Safari */
 
-  &__text {
-    color: white;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background: $white;
+    cursor: pointer;
+    transition: 0.1s ease;
 
-    & .base-input-checkbox__link {
-      color: #ffc551c4;
-      cursor: pointer;
-      text-decoration: underline;
+    /* выравнивание с текстом, если нужно */
+    vertical-align: middle;
+    margin: 0;
+
+    &:checked {
+      background-color: $accent;
+      border-color: $accent;
+      position: relative;
     }
-  }
 
-  &__error {
-    color: red;
-    font-size: 14px;
-    font-weight: 600;
-    display: block;
+    /* Рисуем галочку через псевдоэлемент */
+    &:checked::before {
+      content: "✓";
+      display: block;
+      text-align: center;
+      color: $txt;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 }
 </style>

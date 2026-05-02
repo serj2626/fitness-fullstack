@@ -3,10 +3,15 @@ const { success, error: errorNotify } = useNotify();
 const { formData } = useForm({
   text: { value: "", error: "", required: true },
   rating: { value: "", error: "", required: true },
+  anonymous: { value: false, error: "", required: false },
 });
 
 const submit = async () => {
-  if (formData.text.value && formData.rating.value  && formData.text.value.length > 5) {
+  if (
+    formData.text.value &&
+    formData.rating.value &&
+    formData.text.value.length > 5
+  ) {
     success("Отзыв отправлен", 3000);
     formData.text.value = "";
     formData.rating.value = "";
@@ -23,6 +28,7 @@ const submit = async () => {
       <RatingComponent
         v-model="formData.rating.value"
         editable
+        size="md"
         class="review-form__rating"
       />
     </div>
@@ -32,14 +38,20 @@ const submit = async () => {
       placeholder="Расскажите о своём опыте..."
       class="review-form__textarea"
     />
-
-    <BaseButton
-      label="Оставить отзыв"
-      size="md"
-      color="#1a8f1a"
-      class="review-form__button"
-      :disabled="!formData.text.value || !formData.rating.value"
-    />
+    <div class="review-form__footer">
+      <BaseInputCheckbox>
+        <span class="review-form__footer-checkbox-label">
+          Отправить анонимно
+        </span>
+      </BaseInputCheckbox>
+      <BaseButton
+        label="Оставить отзыв"
+        size="md"
+        color="#1a8f1a"
+        class="review-form__footer-button"
+        :disabled="!formData.text.value || !formData.rating.value"
+      />
+    </div>
   </form>
 </template>
 
@@ -80,7 +92,9 @@ const submit = async () => {
 
       color: $white;
       font-size: 0.95rem;
-      transition: border 0.2s ease-in, box-shadow 0.4s ease-in;
+      transition:
+        border 0.2s ease-in,
+        box-shadow 0.4s ease-in;
 
       &:focus {
         border-color: $accent;
@@ -89,15 +103,14 @@ const submit = async () => {
       }
     }
   }
-
-  &__button {
-    width: 100%;
-    color: $white;
-
-    @include mediaMobile {
-      width: auto;
-      min-width: 180px;
-      margin-left: auto;
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    &-button {
+      color: $white;
     }
   }
 }

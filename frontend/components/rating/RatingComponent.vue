@@ -23,11 +23,11 @@ const currentWidthHeight = computed(() => {
   if (size === "sm") {
     return 20;
   } else if (size === "md") {
-    return 30;
+    return 25;
   } else if (size === "lg") {
-    return 40;
+    return 30;
   }
-  return 45;
+  return 35;
 });
 </script>
 

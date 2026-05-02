@@ -4,7 +4,7 @@ export interface IField<T> {
   required: boolean;
 }
 
-export const useForm = (data: Record<string, IField<string>>) => {
+export const useForm = (data: Record<string, IField<string | boolean>>) => {
   const { $api } = useNuxtApp();
   const loadingForm = ref(false);
   const errorForm = ref("");

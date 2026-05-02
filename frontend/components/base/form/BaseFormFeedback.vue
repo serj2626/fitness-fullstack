@@ -8,38 +8,40 @@ const { contactsList } = storeToRefs(store);
 
 const { $api } = useNuxtApp();
 
+interface IFeedbackFormResult {
+  msg: string;
+  status: "success" | "error";
+}
+
 const { formData } = useForm({
   name: { value: "", error: "", required: true },
   phone: { value: "", error: "", required: true },
-  captcha: { value: "", error: "", required: true },
-});
-
-const agree = reactive({
-  value: false,
-  error: "",
+  agree: { value: false, error: "", required: true },
 });
 
 const loading = ref(false);
-const error = ref<string | null>(null);
 
 async function submitForm() {
+  if(checkForm(formData)) return;
+  // if (!formData.agree.value) {
+  //   errorNotify("Вы не согласились с условиями");
+  //   return;
+  // }
+
   loading.value = true;
   const payload = {
     name: formData.name.value,
     phone: formData.phone.value,
   };
 
-  console.log("Данные к отправке:", payload);
-  clearForm(formData);
-
   try {
-    const res = await $api(api.contacts.feedback, {
+    const res = await $api<IFeedbackFormResult>(api.contacts.feedback, {
       method: "POST",
       body: payload,
     });
-    console.log(res);
-    successNotify("Заявка отправлена");
-  } catch (e) {
+    successNotify(res.msg || "Заявка отправлена");
+    clearForm(formData);
+  } catch (e: unknown) {
     errorNotify(
       e.statusCode == 429 ? "Превышен лимит запросов" : "Произошла ошибка",
     );
@@ -93,10 +95,11 @@ async function submitForm() {
             />
           </div>
           <BaseInputCheckbox
-            v-model="agree.value"
-            :error="agree.error"
+            v-model="formData.agree.value"
             class="base-form-feedback__wraper-content-form-check"
-          />
+          >
+            <span>Я даю согласие на обработку персональных данных</span>
+          </BaseInputCheckbox>
           <BaseButton
             :disabled="loading"
             label="Отправить заявку"

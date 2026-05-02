@@ -66,7 +66,18 @@ const { data: socialsData } = useAsyncData<IFooterSocials[]>(
         </NuxtLink>
       </div>
     </div>
-    <FooterSocials :values="socialsData || []" />
+    <div class="footer-component__socials">
+      <FooterSocials :values="socialsData || []" />
+      <p class="footer-component__socials-developer">
+        Made by
+        <a
+          href="https://t.me/dv_fitness"
+          target="_blank"
+          class="footer-component__socials-developer-link"
+          >{{ footerData?.developer_name || "DV Fitness" }}</a
+        >
+      </p>
+    </div>
   </footer>
 </template>
 <style lang="scss" scoped>
@@ -82,6 +93,22 @@ const { data: socialsData } = useAsyncData<IFooterSocials[]>(
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+  &__socials {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    &-developer {
+      font-size: 15px;
+      font-weight: 500;
+      opacity: 0.8;
+      &-link {
+        color: $accent;
+        transition: all 0.3s ease-in;
+      }
+    }
   }
 
   &__content {

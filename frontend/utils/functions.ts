@@ -14,7 +14,7 @@ export const clearForm = (formData: FormData) => {
   // Функция для очистки формы
 
   for (const key in formData) {
-    if (key === "remember") {
+    if (key === "agree") {
       formData[key].value = false;
       formData[key].error = "";
     } else {
