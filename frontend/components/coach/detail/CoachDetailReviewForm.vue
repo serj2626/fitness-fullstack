@@ -1,4 +1,10 @@
 <script setup lang="ts">
+const store = useReviewsStore();
+
+const { id } = useRoute().params;
+
+const coachId = computed<string>(() => (Array.isArray(id) ? id[0] : id));
+
 const { success, error: errorNotify } = useNotify();
 const { formData } = useForm({
   text: { value: "", error: "", required: true },
@@ -7,16 +13,32 @@ const { formData } = useForm({
 });
 
 const submit = async () => {
-  if (
-    formData.text.value &&
-    formData.rating.value &&
-    formData.text.value.length > 5
-  ) {
+  const text = formData.text.value.trim();
+  const rating = Number(formData.rating.value);
+
+  // 🔥 Жёсткая валидация
+  if (!text || !rating || text.length <= 5 || rating < 1 || rating > 5) {
+    errorNotify("Заполните все поля и выберите рейтинг");
+    return;
+  }
+
+  const payload = {
+    coach: coachId.value,
+    rating,
+    text,
+    anonymous: formData.anonymous.value, // 🔥 Передаём чекбокс!
+    user: null,
+  };
+
+  try {
+    await store.createNewReview(payload);
     success("Отзыв отправлен", 3000);
+
     formData.text.value = "";
     formData.rating.value = "";
-  } else {
-    errorNotify("Заполните все поля");
+    formData.anonymous.value = false;
+  } catch {
+    errorNotify("Произошла ошибка при отправке. Попробуйте позже.");
   }
 };
 </script>

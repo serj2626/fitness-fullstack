@@ -1,35 +1,54 @@
-import type { ITokenResponse, IUser } from "~/types";
-
+// stores/auth.ts
+import type { IUser } from "~/types";
 import { api } from "~/api";
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<IUser | null>(null);
-  const isLoading = ref<boolean>(false);
+  const isLoading = ref(false);
   const error = ref<string | null>(null);
 
-  const accessToken = useCookie("access_fitness_token");
-  const refreshToken = useCookie("refresh_fitness_token");
-
   const isAuthenticated = computed(() => !!user.value);
-  const currentToken = computed(() => accessToken.value);
 
+  const register = async (payload: {
+    email: string;
+    password: string;
+    first_name?: string;
+    last_name?: string;
+    phone?: string;
+  }) => {
+    isLoading.value = true;
+    error.value = null;
+
+    try {
+      const { $api } = useNuxtApp();
+      // 🔥 $api сам отправит credentials: 'include' и CSRF
+      user.value = await $api(api.users.register, {
+        method: "POST",
+        body: payload,
+      });
+      return true;
+    } catch (err: any) {
+      error.value = err.message || "Ошибка регистрации";
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  // 🔐 ЛОГИН
   const login = async (email: string, password: string) => {
     isLoading.value = true;
     error.value = null;
 
     try {
       const { $api } = useNuxtApp();
-      const tokens = await $api<ITokenResponse>(api.users.login, {
+      user.value = await $api(api.users.login, {
         method: "POST",
         body: { email, password },
       });
-
-      setTokens(tokens);
-      await fetchUser();
-
       return true;
-    } catch (err) {
-      error.value = extractError(err);
+    } catch (err: any) {
+      error.value = err.message || "Неверные данные";
       return false;
     } finally {
       isLoading.value = false;
@@ -39,37 +58,43 @@ export const useAuthStore = defineStore("auth", () => {
   const fetchUser = async () => {
     try {
       const { $api } = useNuxtApp();
-      user.value = await $api<IUser>(api.users.me, {
-        headers: {
-          Authorization: `Bearer ${accessToken.value}`,
-        },
+      user.value = await $api(api.users.me, {
+        method: "GET",
+        // 🔥 credentials: 'include' уже в $api, не нужно дублировать
       });
+      return true;
     } catch (err) {
       console.error("Ошибка загрузки пользователя", err);
       user.value = null;
-      throw err;
+      return false;
     }
   };
 
-  const logout = () => {
-    accessToken.value = null;
-    refreshToken.value = null;
-    user.value = null;
+  const logout = async () => {
+    try {
+      const { $api } = useNuxtApp();
+      await $api(api.users.logout, { method: "POST" });
+    } catch (err) {
+      console.error("Ошибка при логауте", err);
+    } finally {
+      user.value = null; // 🔥 очищаем стор, сессию удалил бэк
+    }
   };
 
-  const setTokens = (tokens: ITokenResponse) => {
-    accessToken.value = tokens.access;
-    refreshToken.value = tokens.refresh;
+  // 🔥 Инициализация: проверяем сессию при загрузке приложения
+  const init = async () => {
+    await fetchUser();
   };
 
   return {
     user,
     isAuthenticated,
-    currentToken,
     isLoading,
     error,
+    register,
     login,
-    fetchUser,
     logout,
+    fetchUser,
+    init, // 🔥 вызови в app.vue или плагине
   };
 });

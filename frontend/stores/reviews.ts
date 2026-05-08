@@ -1,5 +1,6 @@
 import type {
   ICreateReview,
+  ICreateReviewResponse,
   IReview,
   IReviewResponse,
   TOrderingReview,
@@ -71,27 +72,28 @@ export const useReviewsStore = defineStore("reviews", () => {
     }
   }
 
-  async function createNewReview(review: ICreateReview) {
-    const { $api } = useNuxtApp();
-    loading.value = true;
-    error.value = null;
+ async function createNewReview(review: ICreateReview) {
+  const { $api } = useNuxtApp();
+  loading.value = true;
+  error.value = null;
 
-    try {
-      const res = await $api<ICreateReview>(api.reviews.create, {
-        method: "POST",
-        body: review,
-      });
+  try {
+    // 🔥 Тип должен быть IReview (или совместим с ним), чтобы не упал рендер
+    const newReview = await $api<IReview>(api.reviews.create, {
+      method: "POST",
+      body: review,
+    });
 
-      return res;
-    } catch (e: unknown) {
-      console.log("e", e);
-      error.value = "Произошла ошибка при создании отзыва";
-    } finally {
-      console.log("asdasd");
-      loading.value = false;
-    }
+    reviews.value = [newReview, ...reviews.value];
+    count.value += 1; // Обновляем счётчик
+    return newReview;
+  } catch (e) {
+    error.value = "Не удалось отправить отзыв";
+    throw e; // 🔥 КРИТИЧНО: чтобы catch в компоненте сработал
+  } finally {
+    loading.value = false;
   }
-
+}
   const setOrder = (newType: TOrderingReview) => {
     const value = orderingValue.value === newType ? null : newType;
     orderingValue.value = value;
@@ -107,12 +109,12 @@ export const useReviewsStore = defineStore("reviews", () => {
     orderingValue.value = null;
   };
 
-   watch(
-     () => orderingValue.value,
-     useDebounceFn(async () => {
-       await getAllReviews(1, 6, route.params.id as string);
-     }, 300),
-   );
+  watch(
+    () => orderingValue.value,
+    useDebounceFn(async () => {
+      await getAllReviews(1, 6, route.params.id as string);
+    }, 300),
+  );
 
   return {
     reviews,

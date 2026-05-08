@@ -1,5 +1,6 @@
 from pathlib import Path
 from .ckeditor import *
+from .auth import *
 from dotenv import load_dotenv
 import os
 
@@ -58,7 +59,6 @@ INSTALLED_APPS = [
     "django_cleanup.apps.CleanupConfig",
 ]
 
-AUTH_USER_MODEL = "users.User"
 
 
 # REST Framework
@@ -67,6 +67,9 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
         # "rest_framework.filters.OrderingFilter",
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',  # 🔥 сессии вместо JWT
     ],
     # 'DEFAULT_THROTTLE_CLASSES': [
     #     'rest_framework.throttling.AnonRateThrottle',
@@ -90,32 +93,32 @@ REST_FRAMEWORK = {
     # ],
 }
 
-# CORS (Критично для cookie сессий!)
-CORS_ALLOW_CREDENTIALS = True  # ← Разрешить cookie
+# # CORS (Критично для cookie сессий!)
+# CORS_ALLOW_CREDENTIALS = True  # ← Разрешить cookie
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Nuxt dev
-    "http://localhost:3001",  # Nuxt dev
-    "https://yourdomain.com",  # Production
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",  # Nuxt dev
+#     "http://localhost:3001",  # Nuxt dev
+#     "https://yourdomain.com",  # Production
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "https://yourdomain.com",
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://localhost:3001",
+#     "https://yourdomain.com",
+# ]
 
-# Session & Cookie настройки
-SESSION_COOKIE_SECURE = False  # True для HTTPS в продакшене
-SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = "Lax"  # 'None' для кросс-домена
-SESSION_COOKIE_AGE = 1209600  # 2 недели в секундах
-SESSION_SAVE_EVERY_REQUEST = True  # Обновлять сессию при каждом запросе
+# # Session & Cookie настройки
+# SESSION_COOKIE_SECURE = False  # True для HTTPS в продакшене
+# SESSION_COOKIE_HTTPONLY = True
+# SESSION_COOKIE_SAMESITE = "Lax"  # 'None' для кросс-домена
+# SESSION_COOKIE_AGE = 1209600  # 2 недели в секундах
+# SESSION_SAVE_EVERY_REQUEST = True  # Обновлять сессию при каждом запросе
 
-CSRF_COOKIE_SECURE = False  # True для HTTPS
-CSRF_COOKIE_HTTPONLY = False  # Должен быть False для JS
-CSRF_COOKIE_SAMESITE = "Lax"
-CSRF_COOKIE_AGE = 1209600
+# CSRF_COOKIE_SECURE = False  # True для HTTPS
+# CSRF_COOKIE_HTTPONLY = False  # Должен быть False для JS
+# CSRF_COOKIE_SAMESITE = "Lax"
+# CSRF_COOKIE_AGE = 1209600
 
 # Email настройки (для отправки кодов)
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
