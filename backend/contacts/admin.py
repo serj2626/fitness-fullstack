@@ -132,12 +132,16 @@ class VacancyAdmin(admin.ModelAdmin):
 
     list_display = (
         "title",
+        "get_description",
         "slug",
         "created_at",
-        "updated_at",
         "order",
         "is_active",
     )
+
+    @admin.display(description="Короткое описание")
+    def get_description(self, obj):
+        return str(obj.description)[:30] + "..." if obj.description else "Нет описания"
 
     actions = [make_active, make_not_active]
 
@@ -145,6 +149,7 @@ class VacancyAdmin(admin.ModelAdmin):
     save_on_top = True
     fields = (
         "title",
+        "description",
         "content",
         "is_active",
         "order",

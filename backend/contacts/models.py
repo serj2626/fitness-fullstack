@@ -132,7 +132,9 @@ class Social(models.Model):
         return f"Социальная сеть {self.get_type_display()}"
 
 
-class Vacancy(TimeAgoModelMixin, BaseContent, BaseDate, BaseOrder, AutoSlugMixin):
+class Vacancy(
+    TimeAgoModelMixin, BaseContent, BaseDate, BaseDescription, BaseOrder, AutoSlugMixin
+):
     """
     Модель вакансий
     """

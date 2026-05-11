@@ -38,6 +38,11 @@ defineProps<{
           {{ address || "СПБ, улица Будапештская дом 89" }}
         </div>
       </div>
+      <div class="contacts-info__list-vacancies">
+        <NuxtLink to="/vacancies" class="contacts-info__list-vacancies-value"
+          >Вакансии</NuxtLink
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -48,6 +53,17 @@ defineProps<{
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-bottom: 50px;
+    &-vacancies-value {
+      color: $white;
+      font-weight: 600;
+      transition: color 0.2s ease;
+      &:hover {
+        color: $accent;
+      }
+    }
+    &-mode-value {
+      color: $white;
+    }
     &-mail,
     &-phone,
     &-address,
@@ -60,15 +76,18 @@ defineProps<{
     &-mail-title,
     &-phone-title,
     &-address-title {
-      color: aliceblue;
+      color: $white;
       font-size: 20px;
       font-weight: 600;
+      transition: color 0.2s ease;
     }
     &-mail-value,
     &-phone-value,
-    &-address-value,
-    &-mode-value {
+    &-address-value {
       color: aliceblue;
+      &:hover {
+        color: $accent;
+      }
     }
   }
 }

@@ -7,6 +7,7 @@ export interface IVacanciesListPage {
   title: string;
   slug: string;
   content: string;
+  description: string;
   time: string;
   created_at: Date;
   // Добавим опционально, если бек отдаёт
@@ -14,7 +15,7 @@ export interface IVacanciesListPage {
   location?: string;
 }
 
-const { data: vacanciesData } = await useAsyncData<IVacitiesListPage[]>(
+const { data: vacanciesData } = await useAsyncData<IVacanciesListPage[]>(
   "vacancies-list-page",
   () => $api(api.contacts.vacancies),
 );
@@ -29,7 +30,6 @@ const breadcrumbs = ref([
     url: "/vacancies",
   },
 ]);
-
 </script>
 
 <template>
@@ -37,11 +37,15 @@ const breadcrumbs = ref([
     <PagesTopSection title="Наши вакансии" />
     <div class="container">
       <BaseBreadCrumbs class="vacancies-page__breadcrumbs" :breadcrumbs />
-      
+
       <div class="vacancies-page__content">
         <!-- Скелетон загрузки (опционально) -->
         <div v-if="!vacanciesData" class="vacancies-page__skeleton">
-          <div v-for="n in 3" :key="n" class="vacancies-page__skeleton-item"></div>
+          <div
+            v-for="n in 3"
+            :key="n"
+            class="vacancies-page__skeleton-item"
+          ></div>
         </div>
 
         <!-- Список вакансий -->
@@ -53,25 +57,31 @@ const breadcrumbs = ref([
           >
             <div class="vacancy-card">
               <h3 class="vacancy-card__title">{{ vacancy?.title }}</h3>
-              
+
               <div class="vacancy-card__meta">
-                <time class="vacancy-card__date" :datetime="vacancy.created_at.toString()">
-                  {{ formatDate(vacancy?.created_at) }}
+                <time
+                  class="vacancy-card__date"
+                  :datetime="vacancy.created_at.toString()"
+                >
+                  {{ formatDate(String(vacancy?.created_at)) }}
                 </time>
                 <span v-if="vacancy.location" class="vacancy-card__location">
                   {{ vacancy?.location }}
                 </span>
               </div>
-              
+
               <p class="vacancy-card__description">
-                <BaseWysiwyg v-if="vacancy?.content" :html="vacancy?.content" />
+                {{ vacancy?.description }}
               </p>
-              
+
               <div class="vacancy-card__footer">
                 <span v-if="vacancy.salary" class="vacancy-card__salary">
                   {{ vacancy?.salary }}
                 </span>
-                <NuxtLink :to="`/vacancies/${vacancy.slug}`" class="vacancy-card__link">
+                <NuxtLink
+                  :to="`/vacancies/${vacancy.slug}`"
+                  class="vacancy-card__link"
+                >
                   Подробнее
                   <span class="vacancy-card__arrow">→</span>
                 </NuxtLink>
@@ -134,7 +144,9 @@ const breadcrumbs = ref([
   }
 
   &__list-item {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
 
     &:hover {
       transform: translateY(-6px);
@@ -171,7 +183,7 @@ const breadcrumbs = ref([
     margin: 0 0 16px 0;
     color: $white;
     letter-spacing: -0.02em;
-    
+
     @media (max-width: $tablet) {
       font-size: 1.3rem;
     }
@@ -190,7 +202,7 @@ const breadcrumbs = ref([
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    
+
     &::before {
       content: "📅";
       font-size: 0.9rem;
@@ -202,7 +214,7 @@ const breadcrumbs = ref([
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    
+
     &::before {
       content: "📍";
       font-size: 0.9rem;
@@ -248,7 +260,7 @@ const breadcrumbs = ref([
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    
+
     &:hover {
       color: $accent;
     }
