@@ -24,8 +24,8 @@ onUnmounted(() => {
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsPostsPage" />
       <div style="position: relative">
         <BaseLoader v-if="loadingPosts" size="xl" bg-color="red" />
-        <PostListFilter v-if="posts.length > 0" />
-        <div v-if="posts.length > 0" class="post-list-page__articles">
+        <PostListFilter />
+        <div class="post-list-page__articles">
           <PostCard
             v-for="post in posts"
             :key="post.id"
@@ -34,7 +34,7 @@ onUnmounted(() => {
           />
         </div>
 
-        <BaseEmpty v-else text="Новости и статьи не найдены" />
+        <!-- <BaseEmpty text="Новости и статьи не найдены" /> -->
         <BaseButton
           v-show="next"
           size="xs"

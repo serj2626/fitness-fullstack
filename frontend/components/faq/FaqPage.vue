@@ -1,47 +1,13 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { breadcrumbsFAQDetailPage } from "~/assets/data/breadcrumbs.data";
-import type { IFAQResponse, IQuestion } from "~/types";
-// import { useIntersectionObserver } from "@vueuse/core";
+import type { IQuestion } from "~/types";
 
 const { $api } = useNuxtApp();
-// const currentPage = ref(1);
-// const faqItems = ref<IFAQResponse["results"]>([]);
-// const hasMore = ref(true);
 
-// Первоначальная загрузка
-// const { data: initialData } = await useAsyncData<IFAQResponse>(
-//   "faq-page-info",
-//   () => $api(api.contacts.faq, { params: { page: currentPage.value } })
-// );
-
-const { data: faqData } = await useAsyncData<IQuestion[]>(
-  "faq-page-info",
-  () => $api(api.contacts.faq),
+const { data: faqData } = await useAsyncData<IQuestion[]>("faq-page-info", () =>
+  $api(api.contacts.faq),
 );
-
-// if (initialData.value) {
-//   faqItems.value = initialData.value.results;
-//   hasMore.value = !!initialData.value.next;
-// }
-
-// const observerTarget = ref<HTMLElement | null>(null);
-
-// useIntersectionObserver(observerTarget, async ([entry]) => {
-//   if (entry.isIntersecting && hasMore.value) {
-//     currentPage.value += 1;
-
-//     const { data: newData } = await useAsyncData<IFAQResponse>(
-//       `faq-page-info-${currentPage.value}`,
-//       () => $api(api.gym.faq, { params: { page: currentPage.value } })
-//     );
-
-//     if (newData.value) {
-//       faqItems.value = [...faqItems.value, ...newData.value.results];
-//       hasMore.value = !!newData.value.next;
-//     }
-//   }
-// });
 </script>
 
 <template>
@@ -50,11 +16,6 @@ const { data: faqData } = await useAsyncData<IQuestion[]>(
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsFAQDetailPage" />
       <FaqContent :faq-info="faqData" />
-      <!-- <div
-        ref="observerTarget"
-        class="observer-trigger"
-        style="height: 1px; margin-top: 140px"
-      /> -->
     </div>
   </div>
 </template>

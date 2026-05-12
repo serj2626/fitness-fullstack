@@ -26,8 +26,9 @@ function toggleAccordion(id: number): void {
             <div class="accordion__header">
               <p class="accordion__header-question">
                 <span class="accordion__header-question-number">
-                  {{ index < 9 ? `0${index + 1}` : `${index + 1}` }} </span
-                >{{ faq.question }}
+                  {{ index < 9 ? `0${index + 1}` : `${index + 1}` }}
+                </span>
+                {{ faq.question }}
               </p>
               <button class="accordion__header-btn">
                 <Icon

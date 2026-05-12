@@ -19,3 +19,16 @@ export interface IContactsSocials {
   type: string;
   value: string;
 }
+
+
+export interface IVacancy {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  description: string;
+  time: string;
+  created_at: Date;
+  salary?: string;
+  location?: string;
+}
