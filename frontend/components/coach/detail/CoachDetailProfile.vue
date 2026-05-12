@@ -16,16 +16,19 @@ const rat = ref(0);
       :src="getPhoto(avatar as string)"
       alt="Аватар"
     />
-    <RatingComponent
-      class="coaches-detail-profile__rating"
-      :model-value="rating"
-      :count="5"
-      size="md"
-      @update:rating="rat = $event"
-    />
-    <p style="text-align: center; margin-top: 10px; color: sandybrown">
-      {{ Math.floor(rating) }} из 5
-    </p>
+    <template v-if="rating">
+      <RatingComponent
+        class="coaches-detail-profile__rating"
+        :model-value="rating"
+        :count="5"
+        size="md"
+        @update:rating="rat = $event"
+      />
+      <p style="text-align: center; margin-top: 10px; color: sandybrown">
+        {{ Math.floor(rating) }} из 5
+      </p>
+    </template>
+
     <BaseButton
       size="lg"
       label="Записаться"

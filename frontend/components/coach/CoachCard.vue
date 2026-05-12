@@ -14,16 +14,16 @@ defineProps<{ trainer: ICoach }>();
         :alt="`${trainer.first_name} ${trainer.last_name}`"
       />
       <span class="coach-card__position">
-        {{ getCategories(trainer.categories)  }}
+        {{ getCategories(trainer?.categories)  }}
       </span>
     </div>
     <div class="coach-card__body">
       <h3 class="coach-card__name">
-        {{ getFullName(trainer.first_name, trainer.last_name) }}
+        {{ getFullName(trainer?.first_name, trainer?.last_name) }}
       </h3>
       <p class="coach-card__experience">
         🏆 Стаж:
-        <strong>{{ getExperience(trainer.experience) }} </strong>
+        <strong>{{ getExperience(trainer?.experience) }} </strong>
       </p>
       <BaseButton
         label="Подробнее"

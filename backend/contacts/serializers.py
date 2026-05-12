@@ -63,8 +63,7 @@ class ContactSerializer(serializers.ModelSerializer):
 class VacancySerializer(serializers.ModelSerializer):
     class Meta:
         model = Vacancy
-        fields = ("id", "title", 'description', "slug",
-                  "content", "time", "created_at")
+        fields = ("id", "title", "description", "slug", "content", "time", "created_at")
 
 
 class FAQSerializer(serializers.ModelSerializer):
