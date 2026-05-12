@@ -9,6 +9,7 @@ from .views import (
     SocialListView,
     TermsApiView,
     VacancyListView,
+    VacancyDetailView,
 )
 
 urlpatterns = [
@@ -16,6 +17,7 @@ urlpatterns = [
     path("socials/", SocialListView.as_view(), name="social"),
     path("faq-list/", FAQListView.as_view(), name="faq"),
     path("vacancies/", VacancyListView.as_view(), name="vacancy"),
+    path("vacancies/<int:pk>/", VacancyDetailView.as_view(), name="vacancy-detail"),
     path("footer/", FooterApiView.as_view(), name="footer"),
     path("feedback/", FeedbackCreateView.as_view(), name="feedback"),
     path("policy/", PolicyApiView.as_view(), name="policy"),

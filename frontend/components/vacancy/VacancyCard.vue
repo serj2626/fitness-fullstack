@@ -27,7 +27,7 @@ defineProps<{ vacancy: IVacancy }>();
       <span v-if="vacancy.salary" class="vacancy-card__salary">
         {{ vacancy?.salary }}
       </span>
-      <NuxtLink :to="`/vacancies/${vacancy.slug}`" class="vacancy-card__link">
+      <NuxtLink :to="`/vacancies/${vacancy.id}`" class="vacancy-card__link">
         Подробнее
         <span class="vacancy-card__arrow">→</span>
       </NuxtLink>

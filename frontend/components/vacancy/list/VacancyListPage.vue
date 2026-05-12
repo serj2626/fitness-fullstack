@@ -29,15 +29,18 @@ const breadcrumbs = ref([
       <div class="vacancies-page__content">
         <BaseLoader v-if="pending" />
         <BaseEmpty v-else-if="!vacanciesData" text="Вакансии не найдены" />
-        <ul v-else class="vacancies-page__list">
-          <li
-            v-for="vacancy in vacanciesData"
-            :key="vacancy.id"
-            class="vacancies-page__list-item"
-          >
-            <VacancyCard :vacancy="vacancy" />
-          </li>
-        </ul>
+        <template v-else>
+          <ul class="vacancies-page__list">
+            <li
+              v-for="vacancy in vacanciesData"
+              :key="vacancy.id"
+              class="vacancies-page__list-item"
+            >
+              <VacancyCard :vacancy="vacancy" />
+            </li>
+          </ul>
+          <NuxtPage />
+        </template>
       </div>
     </div>
   </div>
@@ -79,7 +82,7 @@ const breadcrumbs = ref([
       box-shadow 0.25s ease;
 
     &:hover {
-      transform: translateY(-6px);
+      transform: translateY(-2px);
 
       .vacancy-card {
         border-color: $accent;

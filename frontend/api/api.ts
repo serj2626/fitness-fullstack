@@ -30,6 +30,7 @@ export const api = {
     socials: "/contacts/socials/", //Получает социальные сети
     terms: "/contacts/terms/", //Получает пользовательское соглашение
     vacancies: "/contacts/vacancies/", //Получает вакансии
+    vacancyDetail: (id: string) => `/contacts/vacancies/${id}/`, //Получает детальную информацию о вакансии
   },
   reviews: {
     list: "/coaches/reviews/", //Получает список отзывов

@@ -3,7 +3,7 @@ import logging
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
@@ -165,3 +165,14 @@ class VacancyListView(ListAPIView):
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
+
+
+@extend_schema(
+    tags=[TAG],
+    summary="Детальная информация о вакансии",
+    description="Детальная информация о вакансии",
+)
+class VacancyDetailView(RetrieveAPIView):
+    queryset = Vacancy.objects.all()
+    serializer_class = VacancySerializer
+    permission_classes = [AllowAny]
