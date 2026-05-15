@@ -10,6 +10,7 @@ const model = defineModel<string | null>();
 </script>
 <template>
   <div class="coach-list-categories">
+    {{ model }}
     <select v-model="model" class="coach-category-select">
       <option :value="null">Выберите категорию</option>
       <option

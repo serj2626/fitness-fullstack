@@ -2,7 +2,7 @@
 import { api } from "~/api";
 import { breadcrumbsCoachesPage } from "~/assets/data/breadcrumbs.data";
 import type { ICoachCategory } from "~/types";
-import { useIntersectionObserver } from "@vueuse/core";
+import { useIntersectionObserver, useDebounceFn } from "@vueuse/core";
 
 const coachesStore = useCoachesStore();
 const { next, coaches, activeCategory, loading } = storeToRefs(coachesStore);
@@ -24,9 +24,12 @@ const { data: categories } = useAsyncData<ICoachCategory[]>(
   },
 );
 
-// callOnce(async () => {
-//   await coachesStore.fetchAllCoaches();
-// });
+watch(
+  activeCategory,
+  useDebounceFn(async () => {
+    await coachesStore.fetchAllCoaches(1, 6);
+  }, 300),
+);
 
 onMounted(() => {
   useIntersectionObserver(
@@ -54,6 +57,10 @@ onUnmounted(() => {
     />
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="breadcrumbsCoachesPage" />
+      <div style="color: wheat">
+        {{ activeCategory }}
+      </div>
+
       <template v-if="coaches && coaches.length > 0">
         <CoachListCategories
           v-model="activeCategory"

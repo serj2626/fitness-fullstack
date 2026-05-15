@@ -28,3 +28,82 @@
     transform: translateY(0);
   }
 }
+
+/* Начальное состояние элементов с data-animated */
+[data-animated="true"] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+  will-change: opacity, transform; /* оптимизация производительности */
+}
+
+/* Класс, который добавляется при появлении в viewport */
+[data-animated="true"].is-animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Варианты анимаций (опционально) */
+
+/* Снизу вверх (по умолчанию) */
+[data-animated="fade-up"] {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+[data-animated="fade-up"].is-animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Справа */
+[data-animated="fade-right"] {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+[data-animated="fade-right"].is-animated {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Слева */
+[data-animated="fade-left"] {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+[data-animated="fade-left"].is-animated {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Масштабирование */
+[data-animated="zoom"] {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+[data-animated="zoom"].is-animated {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Задержка для каскадной анимации */
+[data-animated-delay="100"] {
+  transition-delay: 0.1s;
+}
+[data-animated-delay="200"] {
+  transition-delay: 0.2s;
+}
+[data-animated-delay="300"] {
+  transition-delay: 0.3s;
+}
+[data-animated-delay="400"] {
+  transition-delay: 0.4s;
+}
+[data-animated-delay="500"] {
+  transition-delay: 0.5s;
+}

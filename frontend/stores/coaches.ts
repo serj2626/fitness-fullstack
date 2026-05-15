@@ -52,12 +52,12 @@ export const useCoachesStore = defineStore("coaches-store", () => {
       loading.value = false;
     }
   }
-  watch(
-    () => activeCategory.value,
-    useDebounceFn(async () => {
-      await fetchAllCoaches(1, 6);
-    }, 300),
-  );
+  // watch(
+  //   () => activeCategory.value,
+  //   useDebounceFn(async () => {
+  //     await fetchAllCoaches(1, 6);
+  //   }, 300),
+  // );
 
   function reset() {
     coaches.value = [];

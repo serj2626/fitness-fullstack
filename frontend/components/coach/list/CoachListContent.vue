@@ -25,7 +25,7 @@ defineProps<{
         :key="trainer.id"
         :trainer
         class="coach-list-content__trainers-card"
-        :style="{ animationDuration: `${(index + 0.5) * 0.2}s` }"
+        :style="{ animationDuration: `${(index + 0.1) * 0.2}s` }"
       />
     </div>
   </div>

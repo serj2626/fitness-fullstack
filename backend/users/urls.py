@@ -1,40 +1,11 @@
 from django.urls import path
 
-from .views import (
-    ChangePasswordView,
-    LoginRequestView,
-    LoginVerifyView,
-    LogoutView,
-    MeView,
-    PasswordResetRequestView,
-    PasswordResetVerifyView,
-    RegisterRequestView,
-    RegisterVerifyView,
-)
+from . import views
 
 urlpatterns = [
-    # Регистрация
-    path(
-        "auth/register/request/", RegisterRequestView.as_view(), name="register-request"
-    ),
-    path("auth/register/verify/", RegisterVerifyView.as_view(), name="register-verify"),
-    # Вход
-    path("auth/login/request/", LoginRequestView.as_view(), name="login-request"),
-    path("auth/login/verify/", LoginVerifyView.as_view(), name="login-verify"),
-    # Выход
-    path("auth/logout/", LogoutView.as_view(), name="logout"),
-    # Профиль
-    path("auth/me/", MeView.as_view(), name="me"),
-    # Пароль
-    path(
-        "auth/password/reset/request/",
-        PasswordResetRequestView.as_view(),
-        name="password-reset-request",
-    ),
-    path(
-        "auth/password/reset/verify/",
-        PasswordResetVerifyView.as_view(),
-        name="password-reset-verify",
-    ),
-    path("auth/password/change/", ChangePasswordView.as_view(), name="password-change"),
+    path("register/", views.register_view, name="register"),
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
+    path("me/", views.me_view, name="me"),
+    path("profile/", views.update_profile_view, name="profile_update"),
 ]

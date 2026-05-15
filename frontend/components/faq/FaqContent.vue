@@ -54,7 +54,6 @@ function toggleAccordion(id: number): void {
 .faq-content {
   padding-block: 50px;
   &__list {
-    max-width: 90%;
     margin-inline: auto;
     color: $white;
     display: flex;

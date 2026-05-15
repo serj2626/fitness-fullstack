@@ -8,8 +8,8 @@ from .views import (
     PolicyApiView,
     SocialListView,
     TermsApiView,
-    VacancyListView,
     VacancyDetailView,
+    VacancyListView,
 )
 
 urlpatterns = [
